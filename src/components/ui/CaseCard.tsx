@@ -5,14 +5,15 @@ interface CaseCardProps {
   id: string;
   title: string;
   imgSrc: string;
+  aiHint?: string;
   onClick: () => void;
   category: string;
 }
 
-export function CaseCard({ title, imgSrc, onClick, category }: CaseCardProps) {
+export function CaseCard({ title, imgSrc, aiHint, onClick, category }: CaseCardProps) {
   return (
     <Card
-      className="overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer rounded-lg w-full"
+      className="overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer rounded-lg w-full bg-card text-card-foreground border-border"
       onClick={onClick}
       role="button"
       tabIndex={0}
@@ -25,11 +26,12 @@ export function CaseCard({ title, imgSrc, onClick, category }: CaseCardProps) {
           layout="fill"
           objectFit="cover"
           className="rounded-md"
+          data-ai-hint={aiHint}
         />
       </CardContent>
-      <CardFooter className="p-3 pt-2 flex flex-col items-start">
-        <p className="text-xs text-muted-foreground">{category}</p>
-        <CardTitle className="text-md font-semibold text-foreground">{title}</CardTitle>
+      <CardFooter className="p-4 pt-3 flex flex-col items-start">
+        <p className="text-xs text-muted-foreground uppercase tracking-wider">{category}</p>
+        <CardTitle className="text-lg font-semibold text-foreground mt-1">{title}</CardTitle>
       </CardFooter>
     </Card>
   );

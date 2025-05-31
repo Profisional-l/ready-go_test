@@ -3,7 +3,7 @@ export interface Case {
   title: string;
   category: string;
   imgSrc: string;
-  description: string; // Short description for card (not used in current card design)
-  fullDescription: string; // Detailed description for modal
+  description: string;
+  fullDescription: string;
   aiHint?: string;
 }
