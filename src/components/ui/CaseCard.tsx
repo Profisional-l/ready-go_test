@@ -5,13 +5,14 @@ import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
 interface CaseCardProps {
   id: string;
   title: string;
-  imgSrc: string;
-  aiHint?: string;
+  imageUrls: string[]; // Changed from imgSrc
   onClick: () => void;
   category: string;
 }
 
-export function CaseCard({ title, imgSrc, aiHint, onClick, category }: CaseCardProps) {
+export function CaseCard({ title, imageUrls, onClick, category }: CaseCardProps) {
+  const displayImage = imageUrls && imageUrls.length > 0 ? imageUrls[0] : 'https://placehold.co/360x220.png';
+  
   return (
     <Card
       className="group overflow-hidden transition-all duration-300 cursor-pointer rounded-lg w-full bg-card text-card-foreground border-0"
@@ -22,12 +23,12 @@ export function CaseCard({ title, imgSrc, aiHint, onClick, category }: CaseCardP
     >
       <CardContent className="p-3 aspect-[360/220] relative">
         <Image
-          src={imgSrc}
+          src={displayImage}
           alt={title}
           layout="fill"
           objectFit="cover"
           className="rounded-md group-hover:rounded-3xl transition-all duration-300 ease-in-out"
-          data-ai-hint={aiHint}
+          // data-ai-hint can be added if a specific hint is needed for the card's primary image
         />
       </CardContent>
       <CardFooter className="p-4 pt-3 flex flex-col items-start">

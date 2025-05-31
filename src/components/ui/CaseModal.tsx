@@ -6,10 +6,9 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
-  DialogFooter,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import type { Case } from '@/types';
 
 interface CaseModalProps {
@@ -23,31 +22,40 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[900px] p-0 rounded-2xl">
-        <div className="grid md:grid-cols-2">
-          <div className="relative aspect-video md:aspect-auto h-64 md:h-auto md:min-h-[600px]">
-            <Image
-              src={caseData.imgSrc}
-              alt={caseData.title}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-l-2xl md:rounded-bl-2xl md:rounded-tr-none rounded-t-2xl"
-              data-ai-hint={`${caseData.title} project image`}
-            />
-          </div>
-          <div className="p-6 md:p-8 flex flex-col">
-            <DialogHeader>
-              <DialogTitle className="text-2xl md:text-3xl font-bold mb-2">{caseData.title}</DialogTitle>
-              <DialogDescription className="text-sm text-muted-foreground mb-4">
-                {caseData.category}
-              </DialogDescription>
-            </DialogHeader>
-            <p className="flex-grow text-base text-foreground mb-6">{caseData.fullDescription}</p>
-            <DialogFooter>
-              <Button onClick={onClose} variant="outline" className="w-full md:w-auto">Закрыть</Button>
-            </DialogFooter>
-          </div>
+      <DialogContent className="sm:max-w-6xl max-h-[90vh] flex flex-col p-0 rounded-lg">
+        <div className="p-6 md:p-8">
+          <DialogHeader>
+            <DialogTitle className="text-3xl md:text-4xl font-bold mb-2">{caseData.title}</DialogTitle>
+          </DialogHeader>
+          <p className="text-base text-foreground mb-4">{caseData.fullDescription}</p>
+          {caseData.tags && caseData.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-6">
+              {caseData.tags.map((tag, index) => (
+                <Badge key={index} variant="secondary" className="text-sm">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          )}
         </div>
+
+        <ScrollArea className="flex-grow overflow-y-auto">
+          <div className="px-6 md:px-8 pb-6 md:pb-8 grid grid-cols-1 gap-4">
+            {caseData.imageUrls && caseData.imageUrls.map((url, index) => (
+              <div key={index} className="relative w-full aspect-[16/10] rounded-lg overflow-hidden shadow-md">
+                <Image
+                  src={url}
+                  alt={`${caseData.title} - Image ${index + 1}`}
+                  layout="fill"
+                  objectFit="cover" 
+                  className="rounded-lg"
+                  data-ai-hint={`${caseData.title} project image ${index + 1}`} 
+                />
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
+        {/* Close button is part of DialogContent by default (X icon) */}
       </DialogContent>
     </Dialog>
   );

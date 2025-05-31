@@ -1,4 +1,4 @@
-'use server'; // For the entire file if actions are defined here, or move action to actions.ts
+'use server'; 
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,8 +16,8 @@ async function readCasesFile(): Promise<Case[]> {
     const jsonData = await fs.readFile(casesFilePath, 'utf-8');
     return JSON.parse(jsonData) as Case[];
   } catch (error) {
-    // If file doesn't exist or is empty, return empty array
     if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
+      await writeCasesFile([]); // Create the file if it doesn't exist
       return [];
     }
     console.error('Error reading cases.json:', error);
@@ -27,11 +27,12 @@ async function readCasesFile(): Promise<Case[]> {
 
 async function writeCasesFile(cases: Case[]): Promise<void> {
   try {
+    await fs.mkdir(path.dirname(casesFilePath), { recursive: true });
     const jsonData = JSON.stringify(cases, null, 2);
     await fs.writeFile(casesFilePath, jsonData, 'utf-8');
   } catch (error) {
     console.error('Error writing cases.json:', error);
-    throw error; // Re-throw to handle it in the action
+    throw error; 
   }
 }
 
@@ -39,39 +40,39 @@ async function addCaseAction(formData: FormData) {
   'use server';
   const title = formData.get('title') as string;
   const category = formData.get('category') as string;
-  const imgSrc = formData.get('imgSrc') as string;
+  const imageUrlsString = formData.get('imageUrls') as string;
   const description = formData.get('description') as string;
   const fullDescription = formData.get('fullDescription') as string;
-  const aiHint = formData.get('aiHint') as string | undefined;
+  const tagsString = formData.get('tags') as string;
 
-  if (!title || !category || !imgSrc || !description || !fullDescription) {
-    // Basic validation
+  const imageUrls = imageUrlsString.split('\n').map(url => url.trim()).filter(url => url);
+  const tags = tagsString.split(',').map(tag => tag.trim()).filter(tag => tag);
+
+  if (!title || !category || imageUrls.length === 0 || !description || !fullDescription) {
     console.error('Missing required fields');
     // Ideally, return an error message to the client
     return;
   }
 
   const newCase: Case = {
-    id: Date.now().toString(), // Simple unique ID
+    id: Date.now().toString(), 
     title,
     category,
-    imgSrc,
+    imageUrls,
     description,
     fullDescription,
-    aiHint,
+    tags,
   };
 
   try {
     const existingCases = await readCasesFile();
     const updatedCases = [...existingCases, newCase];
     await writeCasesFile(updatedCases);
-    revalidatePath('/'); // Revalidate the homepage to show the new case
-    // revalidatePath('/admin/cases'); // Optionally revalidate admin page if displaying cases there
+    revalidatePath('/'); 
+    revalidatePath('/admin/cases'); 
     console.log('Case added successfully:', newCase.title);
-    // For client-side feedback, you might redirect or use a toast
   } catch (error) {
     console.error('Failed to add case:', error);
-    // Handle error, maybe return a message to the client
   }
 }
 
@@ -93,8 +94,8 @@ export default async function AdminCasesPage() {
         </div>
         
         <div>
-          <Label htmlFor="imgSrc" className="text-card-foreground">URL изображения</Label>
-          <Input id="imgSrc" name="imgSrc" type="url" required placeholder="https://placehold.co/360x220.png" className="mt-1 bg-background border-input text-foreground" />
+          <Label htmlFor="imageUrls" className="text-card-foreground">URL изображений (каждый URL с новой строки)</Label>
+          <Textarea id="imageUrls" name="imageUrls" required rows={5} placeholder="https://placehold.co/800x500.png\nhttps://placehold.co/400x300.png" className="mt-1 bg-background border-input text-foreground" />
         </div>
         
         <div>
@@ -108,8 +109,8 @@ export default async function AdminCasesPage() {
         </div>
 
         <div>
-          <Label htmlFor="aiHint" className="text-card-foreground">AI Hint (для генерации изображения, 1-2 слова)</Label>
-          <Input id="aiHint" name="aiHint" type="text" className="mt-1 bg-background border-input text-foreground" />
+          <Label htmlFor="tags" className="text-card-foreground">Теги (через запятую)</Label>
+          <Input id="tags" name="tags" type="text" placeholder="tag1, tag2, tag3" className="mt-1 bg-background border-input text-foreground" />
         </div>
         
         <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90">Добавить кейс</Button>
