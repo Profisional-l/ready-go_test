@@ -38,7 +38,7 @@ export default async function HomePage() {
           <HeroSection />
           <CasesSection casesDataFromProps={casesData} />
         </div>
-        <ServiceBanner />
+        <ServiceBanner /> 
         <div className="max-w-[1440px] mx-auto px-8">
           <AboutSection />
           <PhotoGallery />
