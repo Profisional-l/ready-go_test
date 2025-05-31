@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
 
@@ -13,7 +14,7 @@ interface CaseCardProps {
 export function CaseCard({ title, imgSrc, aiHint, onClick, category }: CaseCardProps) {
   return (
     <Card
-      className="overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer rounded-lg w-full bg-card text-card-foreground border-border"
+      className="overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer rounded-lg w-full bg-card text-card-foreground border border-border"
       onClick={onClick}
       role="button"
       tabIndex={0}
