@@ -54,47 +54,37 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
       return { success: false, error: 'Missing required text fields. Title, category, description, and full description are required.' };
     }
 
-    // Ensure uploads directory exists
     try {
         await fs.mkdir(UPLOADS_DIR_ABSOLUTE, { recursive: true });
         console.log('addCaseAction: Uploads directory ensured/created at', UPLOADS_DIR_ABSOLUTE);
     } catch (mkdirError) {
         console.error('addCaseAction: Failed to create uploads directory:', mkdirError);
-        // This specific error might be useful for debugging server setup.
         const specificErrorMessage = mkdirError instanceof Error ? mkdirError.message : String(mkdirError);
         return { success: false, error: `Server setup error: Failed to create image upload directory. ${specificErrorMessage}` };
     }
 
     const imageFileObjects = formData.getAll('caseImages') as File[];
     const uploadedImageUrls: string[] = [];
-    let validFilesProcessed = 0;
-
-    // Check if any files were actually provided (getAll can return empty array if input is empty)
-    // The client-side 'required' on input type=file handles "no files selected".
-    // This server-side check is a fallback or if 'required' is bypassed.
-    if (imageFileObjects.length === 0 || imageFileObjects.every(f => !(f instanceof File) || f.size === 0)) {
-        // If the input is marked as required and no valid files are present.
-        // This might be redundant if client-side validation (HTML required attribute) works as expected.
-        // For now, let's assume if files are required, they must be present and valid.
-        // If they *can* be optional, this logic would need adjustment.
-        // console.log('addCaseAction: No valid image files provided, though input might have been submitted.');
-        // Potentially return error if images are strictly required:
-        // return { success: false, error: 'At least one valid image file is required.' };
-    }
+    
+    // Log total number of files received and their sizes
+    let totalSize = 0;
+    imageFileObjects.forEach(file => {
+      if (file instanceof File) totalSize += file.size;
+    });
+    console.log(`addCaseAction: Received ${imageFileObjects.length} file objects. Total size: ${(totalSize / (1024*1024)).toFixed(2)} MB`);
 
 
     for (const file of imageFileObjects) {
-      if (!(file instanceof File) || file.size === 0) {
-        console.log(`addCaseAction: Skipped invalid or empty file: ${file.name || 'unknown file'}`);
+      if (!(file instanceof File) || file.name === '' || file.size === 0) {
+        console.log(`addCaseAction: Skipped invalid or empty file: ${file.name || 'empty File object'}`);
         continue;
       }
-      validFilesProcessed++;
-      console.log(`addCaseAction: Processing file: ${file.name}, size: ${file.size}`);
+      
+      console.log(`addCaseAction: Processing file: ${file.name}, size: ${file.size} bytes`);
 
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
-      // Sanitize filename (replace potentially problematic characters)
       const originalFilename = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
       const uniqueFilename = `${Date.now()}_${originalFilename}`;
       const filePath = path.join(UPLOADS_DIR_ABSOLUTE, uniqueFilename);
@@ -104,22 +94,12 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
       uploadedImageUrls.push(`/${UPLOADS_DIR_RELATIVE_TO_PUBLIC}/${uniqueFilename}`);
     }
 
-    // If files were expected (based on 'required' or if some files were in the list but all invalid)
-    // and none were processed successfully.
-    // The client side already checks if selectedFiles is empty.
-    // This check is for the case where selectedFiles is not empty, but all files in it are invalid.
-    if (imageFileObjects.some(f => f instanceof File && f.size > 0) && validFilesProcessed === 0) {
-        console.log('addCaseAction: Files were provided, but none were valid or could be processed.');
-        return { success: false, error: 'Valid image files were selected, but an error occurred during processing. No images saved.' };
+    // The file input on client-side is 'required'.
+    // So, we expect at least one image to be successfully uploaded.
+    if (uploadedImageUrls.length === 0) {
+        console.log('addCaseAction: No images were successfully processed. At least one valid image is required.');
+        return { success: false, error: 'At least one valid image is required, but none were successfully processed or saved.' };
     }
-    // A simpler check: if the input was supposed to have files, but we ended up with no URLs.
-    // (Assuming here that if `imageFileObjects` has items, we expect `uploadedImageUrls` to also have items if processing is successful)
-    // This check is somewhat covered by the one above, but can be a final safeguard.
-    if (imageFileObjects.filter(f => f instanceof File && f.size > 0).length > 0 && uploadedImageUrls.length === 0) {
-        console.log('addCaseAction: Image upload process resulted in no saved images, though valid files were initially present.');
-        return { success: false, error: 'Image upload failed. No images were saved.' };
-    }
-
 
     const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
 
@@ -127,7 +107,7 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
       id: Date.now().toString(),
       title,
       category,
-      imageUrls: uploadedImageUrls, // Use the URLs of locally saved files
+      imageUrls: uploadedImageUrls,
       description,
       fullDescription,
       tags,
@@ -147,7 +127,7 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
 
   } catch (error: unknown) {
     console.error('<<<<< CRITICAL ERROR IN addCaseAction >>>>>');
-    let errorMessage = 'An unknown server error occurred.';
+    let errorMessage = 'An unknown server error occurred during case creation.';
 
     if (error instanceof Error) {
         errorMessage = error.message;
@@ -155,7 +135,6 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
         console.error('Error Message:', errorMessage);
         console.error('Error Stack:', error.stack);
     } else {
-        // Attempt to get a string representation of unknown errors
         try {
             errorMessage = JSON.stringify(error);
         } catch {
