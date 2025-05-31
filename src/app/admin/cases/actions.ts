@@ -17,18 +17,23 @@ async function readCasesFile(): Promise<Case[]> {
   } catch (error) {
     // Check if the error is ENOENT (file not found)
     if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
-      // File doesn't exist, create it with an empty array
-      await writeCasesFile([]);
-      return [];
+      // File doesn't exist, attempt to create it with an empty array
+      try {
+        await writeCasesFile([]);
+        return [];
+      } catch (writeError) {
+        console.error('Error creating initial empty cases.json:', writeError);
+        throw writeError; // Re-throw to be caught by the main action's handler
+      }
     }
     console.error('Error reading cases.json:', error);
-    return []; // Return empty array or handle error as appropriate
+    throw error; // Re-throw other errors to be caught by the main action's handler
   }
 }
 
 async function writeCasesFile(cases: Case[]): Promise<void> {
   try {
-    // Ensure the directory exists
+    // Ensure the directory for cases.json exists
     await fs.mkdir(path.dirname(casesFilePath), { recursive: true });
     const jsonData = JSON.stringify(cases, null, 2);
     await fs.writeFile(casesFilePath, jsonData, 'utf-8');
@@ -39,64 +44,98 @@ async function writeCasesFile(cases: Case[]): Promise<void> {
 }
 
 export async function addCaseAction(formData: FormData): Promise<{ success: boolean; case?: Case; error?: string; }> {
-  const title = formData.get('title') as string;
-  const category = formData.get('category') as string;
-  const description = formData.get('description') as string;
-  const fullDescription = formData.get('fullDescription') as string;
-  const tagsString = formData.get('tags') as string;
-
-  const imageFiles = formData.getAll('caseImages') as File[];
-  const uploadedImageUrls: string[] = [];
-
-  if (!title || !category || !description || !fullDescription) {
-    return { success: false, error: 'Missing required text fields' };
-  }
-
   try {
-    // Create uploads directory if it doesn't exist
-    await fs.mkdir(UPLOADS_DIR_ABSOLUTE, { recursive: true });
+    const title = formData.get('title') as string;
+    const category = formData.get('category') as string;
+    const description = formData.get('description') as string;
+    const fullDescription = formData.get('fullDescription') as string;
+    const tagsString = formData.get('tags') as string;
 
-    for (const file of imageFiles) {
-      if (file.size === 0) continue; // Skip if a file input was left empty
+    const imageFileObjects = formData.getAll('caseImages') as File[]; // Changed variable name for clarity
+    const uploadedImageUrls: string[] = [];
+
+    if (!title || !category || !description || !fullDescription) {
+      return { success: false, error: 'Missing required text fields. Title, category, description, and full description are required.' };
+    }
+
+    // Ensure uploads directory exists before processing files
+    try {
+        await fs.mkdir(UPLOADS_DIR_ABSOLUTE, { recursive: true });
+    } catch (mkdirError) {
+        console.error('Failed to create uploads directory:', mkdirError);
+        // This is a critical failure, so we throw to be caught by the main catch block.
+        throw new Error(`Server setup error: Failed to create image upload directory. ${mkdirError instanceof Error ? mkdirError.message : String(mkdirError)}`);
+    }
+
+    for (const file of imageFileObjects) {
+      if (!(file instanceof File) || file.size === 0) {
+        // Skip if it's not a file object or if the file is empty
+        // This handles cases where form might submit non-file entries or empty file slots.
+        continue;
+      }
 
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
-      // Create a unique filename, sanitize it
-      const originalFilename = file.name.replace(/[^a-zA-Z0-9._-]/g, '_'); // Basic sanitization
+      const originalFilename = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
       const uniqueFilename = `${Date.now()}_${originalFilename}`;
       const filePath = path.join(UPLOADS_DIR_ABSOLUTE, uniqueFilename);
 
       await fs.writeFile(filePath, buffer);
       uploadedImageUrls.push(`/${UPLOADS_DIR_RELATIVE_TO_PUBLIC}/${uniqueFilename}`);
     }
-  } catch (error) {
-    console.error('Failed to upload images:', error);
-    return { success: false, error: 'Failed to upload images to server.' };
-  }
 
-  const tags = tagsString.split(',').map(tag => tag.trim()).filter(tag => tag);
+    // After processing all files, check if any valid images were actually uploaded
+    if (uploadedImageUrls.length === 0) {
+      return { success: false, error: 'No valid image files were uploaded. Please select at least one non-empty image.' };
+    }
 
-  const newCase: Case = {
-    id: Date.now().toString(), // Simple ID generation
-    title,
-    category,
-    imageUrls: uploadedImageUrls,
-    description,
-    fullDescription,
-    tags,
-  };
+    const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
 
-  try {
+    const newCase: Case = {
+      id: Date.now().toString(),
+      title,
+      category,
+      imageUrls: uploadedImageUrls,
+      description,
+      fullDescription,
+      tags,
+    };
+
     const existingCases = await readCasesFile();
     const updatedCases = [...existingCases, newCase];
     await writeCasesFile(updatedCases);
-    revalidatePath('/'); // Revalidate the homepage to show the new case
-    revalidatePath('/admin/cases'); // Revalidate the admin page itself if needed
+
+    revalidatePath('/');
+    revalidatePath('/admin/cases');
+    
     console.log('Case added successfully (local storage):', newCase.title);
     return { success: true, case: newCase };
-  } catch (error) {
-    console.error('Failed to add case to JSON:', error);
-    return { success: false, error: 'Failed to save case data to JSON.' };
+
+  } catch (error: unknown) { // Changed to unknown for stricter type checking
+    console.error('<<<<< CRITICAL ERROR IN addCaseAction >>>>>');
+    let errorMessage = 'An unknown server error occurred during case creation.';
+
+    if (error instanceof Error) {
+        errorMessage = error.message;
+        console.error('Error Name:', error.name);
+        console.error('Error Message:', error.message);
+        console.error('Error Stack:', error.stack);
+    } else if (typeof error === 'string') {
+        errorMessage = error;
+        console.error('Error (string):', error);
+    } else {
+        console.error('Error (unknown type):', error);
+        // Attempt to stringify if it's an object, otherwise use a generic message
+        try {
+            const errorString = JSON.stringify(error);
+            errorMessage = `Non-Error object received: ${errorString}`;
+            console.error('Error (stringified):', errorString);
+        } catch (stringifyError) {
+            console.error('Failed to stringify unknown error:', stringifyError);
+            errorMessage = 'Non-Error object received, and it could not be stringified.';
+        }
+    }
+    return { success: false, error: `Server Action failed: ${errorMessage}` };
   }
 }
