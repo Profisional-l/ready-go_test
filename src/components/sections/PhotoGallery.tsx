@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 
 interface GalleryImage {
@@ -18,8 +19,8 @@ const galleryImagesData: GalleryImage[] = [
   { id: '6', src: 'https://placehold.co/500x240.png', alt: 'Another Event', aiHint: "event concert light", width: 500, height: 240 },
 ];
 
-// Duplicate the array to make the marquee seamless
-const duplicatedGalleryImages = [...galleryImagesData, ...galleryImagesData, ...galleryImagesData, ...galleryImagesData];
+// Duplicate the array to make the marquee seamless - reduced from 4x to 2x
+const duplicatedGalleryImages = [...galleryImagesData, ...galleryImagesData];
 
 
 const GalleryImageItem = ({ image }: { image: GalleryImage }) => (
@@ -41,12 +42,14 @@ export function PhotoGallery() {
     <section className="py-16 md:py-24">
       <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-8 md:mb-12 text-center">НАША ЖИЗНЬ</h2>
       <div className="relative flex flex-nowrap overflow-x-hidden">
-        <div className="animate-marquee-images flex-shrink-0 flex items-center space-x-4 py-4">
+        {/* Removed py-4 from this div */}
+        <div className="animate-marquee-images flex-shrink-0 flex items-center space-x-4">
           {duplicatedGalleryImages.map((image, index) => (
             <GalleryImageItem key={`track1-${image.id}-${index}`} image={image} />
           ))}
         </div>
-        <div className="absolute top-0 animate-marquee2-images flex-shrink-0 flex items-center space-x-4 py-4">
+        {/* Removed py-4 from this div */}
+        <div className="absolute top-0 animate-marquee2-images flex-shrink-0 flex items-center space-x-4">
           {duplicatedGalleryImages.map((image, index) => (
             <GalleryImageItem key={`track2-${image.id}-${index}`} image={image} />
           ))}
