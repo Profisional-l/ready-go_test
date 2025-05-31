@@ -21,6 +21,105 @@ interface CaseModalProps {
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
   if (!caseData) return null;
 
+  const generateImageGrid = () => {
+    if (!caseData.imageUrls || caseData.imageUrls.length === 0) {
+      return null;
+    }
+
+    const images = caseData.imageUrls;
+    const gridElements: JSX.Element[] = [];
+    let imageIndex = 0;
+
+    while (imageIndex < images.length) {
+      // 1. Первая картинка в паттерне 1-2-1 (полная ширина)
+      if (imageIndex < images.length) {
+        gridElements.push(
+          <div key={`img-row-${imageIndex}`} className="grid grid-cols-1 gap-4 mb-4">
+            <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden shadow-md">
+              <Image
+                src={images[imageIndex]}
+                alt={`${caseData.title} - Image ${imageIndex + 1}`}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-lg"
+                data-ai-hint={`${caseData.title.substring(0,20)} project image`}
+              />
+            </div>
+          </div>
+        );
+        imageIndex++;
+      } else {
+        break; 
+      }
+
+      // 2. Следующие две картинки в паттерне 1-2-1 (две колонки)
+      if (imageIndex < images.length) {
+        const pairImages: JSX.Element[] = [];
+        
+        pairImages.push(
+          <div key={`img-pair-${imageIndex}`} className="relative w-full aspect-[16/10] rounded-lg overflow-hidden shadow-md">
+            <Image
+              src={images[imageIndex]}
+              alt={`${caseData.title} - Image ${imageIndex + 1}`}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-lg"
+              data-ai-hint={`${caseData.title.substring(0,20)} project image`}
+            />
+          </div>
+        );
+        imageIndex++;
+
+        if (imageIndex < images.length) {
+          pairImages.push(
+            <div key={`img-pair-${imageIndex}`} className="relative w-full aspect-[16/10] rounded-lg overflow-hidden shadow-md">
+              <Image
+                src={images[imageIndex]}
+                alt={`${caseData.title} - Image ${imageIndex + 1}`}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-lg"
+                data-ai-hint={`${caseData.title.substring(0,20)} project image`}
+              />
+            </div>
+          );
+          imageIndex++;
+        }
+        
+        gridElements.push(
+          <div key={`pair-container-${imageIndex - pairImages.length}`} className={`grid grid-cols-1 ${pairImages.length > 1 ? 'sm:grid-cols-2' : ''} gap-4 mb-4`}>
+            {pairImages}
+          </div>
+        );
+      } else {
+        break; 
+      }
+
+      // 3. Последняя картинка в паттерне 1-2-1 (полная ширина)
+      if (imageIndex < images.length) {
+        gridElements.push(
+          <div key={`img-row-${imageIndex}`} className="grid grid-cols-1 gap-4 mb-4">
+            <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden shadow-md">
+              <Image
+                src={images[imageIndex]}
+                alt={`${caseData.title} - Image ${imageIndex + 1}`}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-lg"
+                data-ai-hint={`${caseData.title.substring(0,20)} project image`}
+              />
+            </div>
+          </div>
+        );
+        imageIndex++;
+      } else {
+        break; 
+      }
+    }
+
+    return <div className="mt-6">{gridElements}</div>;
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-7xl max-h-[90vh] flex flex-col p-0 rounded-lg">
@@ -40,25 +139,9 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
               </div>
             )}
             
-            {caseData.imageUrls && caseData.imageUrls.length > 0 && (
-              <div className="mt-6 grid grid-cols-1 gap-4">
-                {caseData.imageUrls.map((url, index) => (
-                  <div key={index} className="relative w-full aspect-[16/10] rounded-lg overflow-hidden shadow-md">
-                    <Image
-                      src={url}
-                      alt={`${caseData.title} - Image ${index + 1}`}
-                      layout="fill"
-                      objectFit="cover" 
-                      className="rounded-lg"
-                      data-ai-hint={`${caseData.title} project image ${index + 1}`} 
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
+            {generateImageGrid()}
           </div>
         </ScrollArea>
-        {/* Close button is part of DialogContent by default (X icon) */}
       </DialogContent>
     </Dialog>
   );
