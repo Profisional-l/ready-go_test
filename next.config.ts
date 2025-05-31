@@ -28,6 +28,12 @@ const nextConfig: NextConfig = {
         hostname: 'www.pinterest.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
