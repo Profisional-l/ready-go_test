@@ -47,9 +47,10 @@ export default function AdminCasesPage() {
         });
         currentForm.reset();
         setSelectedFiles(null);
+        // Reset file input visually
         const fileInput = currentForm.elements.namedItem('caseImages') as HTMLInputElement;
         if (fileInput) {
-          fileInput.value = '';
+          fileInput.value = ''; 
         }
       } else {
         toast({
@@ -97,7 +98,7 @@ export default function AdminCasesPage() {
             name="caseImages"
             type="file"
             multiple
-            accept="image/*"
+            // accept="image/*" // Removed for testing
             onChange={handleFileChange}
             required
             className="mt-1 bg-background border-input text-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
