@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { addCaseAction } from './actions'; // Import the server action from the separate file
+import { addCaseAction } from './actions';
 import type { Case } from "@/types";
 
 export default function AdminCasesPage() {
@@ -23,48 +23,51 @@ export default function AdminCasesPage() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const currentForm = event.currentTarget;
+
     if (!selectedFiles || selectedFiles.length === 0) {
       toast({
         variant: "destructive",
         title: "No Files Selected",
-        description: "Please select images for the case.",
+        description: "Please select at least one image for the case.",
       });
       return;
     }
     setIsProcessing(true);
 
-    const currentForm = event.currentTarget;
-    // FormData for server action will be constructed with all fields including files
     const serverActionFormData = new FormData(currentForm);
 
-    // Note: The 'caseImages' field in FormData will be automatically populated
-    // by the browser from the file input if its 'name' attribute is 'caseImages'.
-    // We need to ensure our file input has name="caseImages".
-    // Let's adjust the form input name for clarity if it's different.
-    // Assuming the input is: <Input id="caseImagesInput" name="caseImages" type="file" ... />
+    try {
+      const result = await addCaseAction(serverActionFormData);
 
-    const result = await addCaseAction(serverActionFormData);
-
-    if (result?.success) {
-      toast({
-        title: "Case Added!",
-        description: `Successfully added "${result.case?.title}". Images saved locally.`,
-      });
-      currentForm.reset();
-      setSelectedFiles(null);
-      // Clear the file input display manually if needed, as form.reset() might not clear FileList state
-      const fileInput = currentForm.elements.namedItem('caseImages') as HTMLInputElement;
-      if (fileInput) {
-        fileInput.value = '';
+      if (result?.success) {
+        toast({
+          title: "Case Added!",
+          description: `Successfully added "${result.case?.title}". Images saved locally.`,
+        });
+        currentForm.reset();
+        setSelectedFiles(null);
+        const fileInput = currentForm.elements.namedItem('caseImages') as HTMLInputElement;
+        if (fileInput) {
+          fileInput.value = '';
+        }
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Failed to Add Case",
+          description: result?.error || "An unknown error occurred on the server.",
+        });
       }
-    } else {
+    } catch (error) {
+      console.error("Client-side error during form submission:", error);
       toast({
         variant: "destructive",
-        title: "Failed to Add Case",
-        description: result?.error || "An unknown error occurred.",
+        title: "Submission Error",
+        description: "An error occurred while submitting the form. Please try again.",
       });
+    } finally {
+      setIsProcessing(false);
     }
-    setIsProcessing(false);
   };
 
   return (
@@ -73,7 +76,7 @@ export default function AdminCasesPage() {
       <p className="text-sm text-muted-foreground mb-4">
         Внимание: Изображения будут сохранены локально в папке `public/uploads/cases`.
         Это решение подходит для локальной разработки, но не рекомендуется для продакшена на серверлес-платформах,
-        так как файлы могут быть утеряны.
+        так как файлы могут быть утеряны при перезапуске или обновлении сервера.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl bg-card p-6 rounded-lg shadow-md">
@@ -91,19 +94,23 @@ export default function AdminCasesPage() {
           <Label htmlFor="caseImages" className="text-card-foreground">Изображения кейса</Label>
           <Input
             id="caseImages"
-            name="caseImages" // Ensure this name matches what addCaseAction expects for files
+            name="caseImages"
             type="file"
             multiple
             accept="image/*"
             onChange={handleFileChange}
-            required // Make sure files are selected
+            required
             className="mt-1 bg-background border-input text-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
           />
-          {selectedFiles && Array.from(selectedFiles).map(file => (
-             <div key={file.name} className="mt-2">
-                <p className="text-sm text-muted-foreground">{file.name} ({(file.size / 1024).toFixed(2)} KB)</p>
+          {selectedFiles && selectedFiles.length > 0 && (
+             <div className="mt-2 space-y-1">
+                {Array.from(selectedFiles).map(file => (
+                    <p key={file.name} className="text-sm text-muted-foreground">
+                        {file.name} ({(file.size / 1024).toFixed(2)} KB)
+                    </p>
+                ))}
              </div>
-          ))}
+          )}
         </div>
 
         <div>
