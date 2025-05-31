@@ -15,31 +15,28 @@ async function readCasesFile(): Promise<Case[]> {
     const jsonData = await fs.readFile(casesFilePath, 'utf-8');
     return JSON.parse(jsonData) as Case[];
   } catch (error) {
-    // Check if the error is ENOENT (file not found)
     if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
-      // File doesn't exist, attempt to create it with an empty array
       try {
         await writeCasesFile([]);
         return [];
       } catch (writeError) {
         console.error('Error creating initial empty cases.json:', writeError);
-        throw writeError; // Re-throw to be caught by the main action's handler
+        throw writeError; 
       }
     }
     console.error('Error reading cases.json:', error);
-    throw error; // Re-throw other errors to be caught by the main action's handler
+    throw error; 
   }
 }
 
 async function writeCasesFile(cases: Case[]): Promise<void> {
   try {
-    // Ensure the directory for cases.json exists
     await fs.mkdir(path.dirname(casesFilePath), { recursive: true });
     const jsonData = JSON.stringify(cases, null, 2);
     await fs.writeFile(casesFilePath, jsonData, 'utf-8');
   } catch (error) {
     console.error('Error writing cases.json:', error);
-    throw error; // Re-throw to be caught by the caller
+    throw error;
   }
 }
 
@@ -51,28 +48,26 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
     const fullDescription = formData.get('fullDescription') as string;
     const tagsString = formData.get('tags') as string;
 
-    const imageFileObjects = formData.getAll('caseImages') as File[]; // Changed variable name for clarity
+    const imageFileObjects = formData.getAll('caseImages') as File[];
     const uploadedImageUrls: string[] = [];
 
     if (!title || !category || !description || !fullDescription) {
       return { success: false, error: 'Missing required text fields. Title, category, description, and full description are required.' };
     }
 
-    // Ensure uploads directory exists before processing files
     try {
         await fs.mkdir(UPLOADS_DIR_ABSOLUTE, { recursive: true });
     } catch (mkdirError) {
         console.error('Failed to create uploads directory:', mkdirError);
-        // This is a critical failure, so we throw to be caught by the main catch block.
         throw new Error(`Server setup error: Failed to create image upload directory. ${mkdirError instanceof Error ? mkdirError.message : String(mkdirError)}`);
     }
 
+    let validFilesProcessed = 0;
     for (const file of imageFileObjects) {
       if (!(file instanceof File) || file.size === 0) {
-        // Skip if it's not a file object or if the file is empty
-        // This handles cases where form might submit non-file entries or empty file slots.
         continue;
       }
+      validFilesProcessed++;
 
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
@@ -85,10 +80,19 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
       uploadedImageUrls.push(`/${UPLOADS_DIR_RELATIVE_TO_PUBLIC}/${uniqueFilename}`);
     }
 
-    // After processing all files, check if any valid images were actually uploaded
-    if (uploadedImageUrls.length === 0) {
-      return { success: false, error: 'No valid image files were uploaded. Please select at least one non-empty image.' };
+    if (validFilesProcessed === 0 && imageFileObjects.length > 0) { // If files were selected but none were valid
+         return { success: false, error: 'No valid image files were uploaded. Please select at least one non-empty image.' };
     }
+    if (uploadedImageUrls.length === 0 && imageFileObjects.length > 0) { // Fallback, should be caught by above
+        return { success: false, error: 'Image upload process resulted in no saved images, though files were provided.' };
+    }
+     // If the input was marked as required and no files are present at all (this check might be redundant if input is 'required' in form)
+    if (imageFileObjects.length === 0 || imageFileObjects.every(f => f.size === 0)) { // Stricter check if file input itself was optional but submitted empty
+        // This condition might need adjustment based on whether the file input is truly optional or not.
+        // Assuming for now 'caseImages' is required if any files are selected/dragged.
+        // If the HTML input is `required`, the browser might prevent submission, but FormData can still be empty for 'getAll'.
+    }
+
 
     const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
 
@@ -109,10 +113,10 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
     revalidatePath('/');
     revalidatePath('/admin/cases');
     
-    console.log('Case added successfully (local storage):', newCase.title);
+    console.log('addCaseAction: Successfully processed. Returning success response for case:', newCase.title);
     return { success: true, case: newCase };
 
-  } catch (error: unknown) { // Changed to unknown for stricter type checking
+  } catch (error: unknown) {
     console.error('<<<<< CRITICAL ERROR IN addCaseAction >>>>>');
     let errorMessage = 'An unknown server error occurred during case creation.';
 
@@ -126,7 +130,6 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
         console.error('Error (string):', error);
     } else {
         console.error('Error (unknown type):', error);
-        // Attempt to stringify if it's an object, otherwise use a generic message
         try {
             const errorString = JSON.stringify(error);
             errorMessage = `Non-Error object received: ${errorString}`;
@@ -136,6 +139,7 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
             errorMessage = 'Non-Error object received, and it could not be stringified.';
         }
     }
+    console.log(`addCaseAction: Error occurred. Returning error response: ${errorMessage}`);
     return { success: false, error: `Server Action failed: ${errorMessage}` };
   }
 }

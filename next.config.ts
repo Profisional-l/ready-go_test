@@ -37,6 +37,9 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+  serverActions: {
+    bodySizeLimit: '4mb', // Increased body size limit for file uploads
+  },
 };
 
 export default nextConfig;
