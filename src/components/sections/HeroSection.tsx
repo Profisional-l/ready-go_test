@@ -5,53 +5,60 @@ export function HeroSection() {
   return (
     <section className="relative py-16 md:py-24 overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-8">
-        {/* Этот div является основным контекстом позиционирования для абсолютных изображений и центрированного текста */}
-        <div className="relative flex flex-col items-center justify-center text-center min-h-[60vh] md:min-h-[70vh]">
-          
-          {/* Главное изображение (Худи) - слева, с перекрытием */}
-          <div className="absolute left-[5%] sm:left-[8%] md:left-[10%] top-1/2 transform -translate-y-1/2 z-0 
-                          w-[180px] h-[180px] 
-                          sm:w-[260px] sm:h-[260px] 
-                          md:w-[340px] md:h-[340px] 
-                          lg:w-[400px] lg:h-[400px] 
-                          xl:w-[450px] xl:h-[450px]">
-            <div className="relative w-full h-full aspect-square rounded-2xl overflow-hidden shadow-xl bg-card p-3 sm:p-4 md:p-5">
+        <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-12">
+          {/* Left: Hoodie Image */}
+          <div className="w-full lg:w-2/5 flex justify-center lg:justify-start">
+            <div className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] md:w-[360px] md:h-[360px] lg:w-[400px] lg:h-[400px] bg-card p-4 sm:p-5 md:p-6 rounded-2xl shadow-xl">
               <Image
                 src="https://placehold.co/400x400.png"
-                alt="Черное худи с принтом"
+                alt="Черное худи с бирюзовым принтом"
                 layout="fill"
                 objectFit="contain"
-                data-ai-hint="hoodie design black"
+                data-ai-hint="black hoodie turquoise print"
               />
             </div>
           </div>
 
-          {/* Текстовый контент - по центру */}
-          {/* max-width текста настроен так, чтобы изображения могли его обрамлять */}
-          <div className="relative z-10 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
-            <h1 className="text-[2.5rem] sm:text-[3.25rem] md:text-[3.75rem] lg:text-[4.5rem] xl:text-[5rem] font-extrabold text-foreground tracking-tighter leading-[0.95em]">
-              МЫ — DIGITAL<br />
-              АГЕНТСТВО <OOIcon className="inline-block align-[-0.11em] h-[0.72em] w-auto text-accent" /> READY <span className="text-accent">GO</span><br />
-              К НАМ ПРИХОДЯТ ЗА<br />
-              СТРАТЕГИЯМИ
-            </h1>
-          </div>
-
-          {/* Вторичное изображение (Упаковка/Журнал) - справа, с перекрытием */}
-          <div className="absolute right-[5%] sm:right-[8%] md:right-[10%] top-1/2 transform -translate-y-1/2 -rotate-[6deg] z-0
-                          w-[100px] h-[80px] 
-                          sm:w-[150px] sm:h-[120px] 
-                          md:w-[190px] md:h-[150px] 
-                          lg:w-[230px] lg:h-[180px]
-                          xl:w-[270px] xl:h-[210px]">
-            <div className="relative w-full h-full shadow-xl rounded-lg overflow-hidden">
-              <Image
-                src="https://placehold.co/300x250.png"
-                alt="Креативная упаковка в ящике"
-                layout="fill"
-                objectFit="cover"
-                data-ai-hint="packaging design modern"
-              />
+          {/* Right: Text Content & 3D Card */}
+          <div className="w-full lg:w-3/5 relative text-center lg:text-left">
+            <div className="relative"> {/* Container for h1 and interactive dots */}
+              <h1 className="text-[2.25rem] sm:text-[2.75rem] md:text-[3.25rem] lg:text-[3.5rem] xl:text-[4rem] font-extrabold text-foreground tracking-tighter leading-[1.1em]">
+                МЫ — DIGITAL <br />
+                АГЕНТСТВО <span className="inline-block align-middle text-[1.2em]">👀</span> READY <OOIcon className="inline-block align-[-0.11em] h-[0.72em] w-auto text-accent" /> GO <br />
+                К НАМ ПРИХОДЯТ ЗА <br />
+                СТРАТЕГИЯМИ
+              </h1>
+              
+              {/* Interactive Dots */}
+              <div 
+                className="absolute top-[25%] left-[5%] w-3.5 h-3.5 bg-accent rounded-full cursor-pointer animate-pulse shadow-md" 
+                title="Interactive point: Strategy"
+              ></div>
+              <div 
+                className="absolute top-[55%] right-[10%] lg:right-[20%] w-3 h-3 bg-muted-foreground/40 rounded-full cursor-pointer hover:bg-accent transition-colors shadow-sm" 
+                title="Interactive point: Digital"
+              ></div>
+              <div 
+                className="absolute bottom-[5%] left-[30%] w-3 h-3 bg-muted-foreground/40 rounded-full cursor-pointer hover:bg-accent transition-colors shadow-sm" 
+                title="Interactive point: Agency"
+              ></div>
+            </div>
+            
+            {/* 3D Card Image */}
+            <div className="absolute -bottom-12 -right-5 sm:-bottom-16 sm:-right-8 md:-bottom-24 md:right-0 transform rotate-[-8deg] 
+                            w-[180px] h-[108px] 
+                            sm:w-[200px] sm:h-[120px] 
+                            md:w-[240px] md:h-[144px]
+                            hidden sm:block z-10"> 
+              <div className="relative w-full h-full shadow-2xl rounded-xl overflow-hidden">
+                <Image
+                  src="https://placehold.co/240x144.png"
+                  alt="3D рендер карточки Progress on velocity"
+                  layout="fill"
+                  objectFit="cover"
+                  data-ai-hint="3d card progress velocity"
+                />
+              </div>
             </div>
           </div>
         </div>
