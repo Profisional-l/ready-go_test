@@ -7,15 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { Case } from "@/types";
-import fs from 'fs/promises'; // This Server Action will still use fs
-import path from 'path';     // This Server Action will still use fs
+import fs from 'fs/promises'; 
+import path from 'path';     
 import { revalidatePath } from 'next/cache';
-import { storage } from '@/lib/firebase'; // Firebase storage instance
-import { ref as storageRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useToast } from "@/hooks/use-toast";
-import { Progress } from "@/components/ui/progress";
 
 const casesFilePath = path.join(process.cwd(), 'src', 'data', 'cases.json');
+const UPLOADS_DIR_RELATIVE_TO_PUBLIC = 'uploads/cases';
+const UPLOADS_DIR_ABSOLUTE = path.join(process.cwd(), 'public', UPLOADS_DIR_RELATIVE_TO_PUBLIC);
 
 async function readCasesFile(): Promise<Case[]> {
   try {
@@ -42,31 +41,51 @@ async function writeCasesFile(cases: Case[]): Promise<void> {
   }
 }
 
-// Server Action - remains largely the same but expects imageUrls as an array
 async function addCaseAction(formData: FormData) {
   'use server';
   const title = formData.get('title') as string;
   const category = formData.get('category') as string;
-  // imageUrls will now be passed directly as an array of strings by the client
-  const imageUrls = formData.getAll('imageUrls') as string[]; 
   const description = formData.get('description') as string;
   const fullDescription = formData.get('fullDescription') as string;
   const tagsString = formData.get('tags') as string;
 
-  const tags = tagsString.split(',').map(tag => tag.trim()).filter(tag => tag);
+  const imageFiles = formData.getAll('caseImages') as File[];
+  const uploadedImageUrls: string[] = [];
 
   if (!title || !category || !description || !fullDescription) {
-    // Basic validation, imageUrls can be empty if no files were uploaded or if upload failed client-side
-    console.error('Missing required text fields');
-    // Consider returning an error object that client-side can handle
     return { success: false, error: 'Missing required text fields' };
   }
+
+  try {
+    // Create uploads directory if it doesn't exist
+    await fs.mkdir(UPLOADS_DIR_ABSOLUTE, { recursive: true });
+
+    for (const file of imageFiles) {
+      if (file.size === 0) continue; // Skip if a file input was left empty
+
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      
+      // Create a unique filename, sanitize it
+      const originalFilename = file.name.replace(/[^a-zA-Z0-9._-]/g, '_'); // Basic sanitization
+      const uniqueFilename = `${Date.now()}_${originalFilename}`;
+      const filePath = path.join(UPLOADS_DIR_ABSOLUTE, uniqueFilename);
+
+      await fs.writeFile(filePath, buffer);
+      uploadedImageUrls.push(`/${UPLOADS_DIR_RELATIVE_TO_PUBLIC}/${uniqueFilename}`);
+    }
+  } catch (error) {
+    console.error('Failed to upload images:', error);
+    return { success: false, error: 'Failed to upload images to server.' };
+  }
+
+  const tags = tagsString.split(',').map(tag => tag.trim()).filter(tag => tag);
 
   const newCase: Case = {
     id: Date.now().toString(), 
     title,
     category,
-    imageUrls, // Already an array of strings
+    imageUrls: uploadedImageUrls,
     description,
     fullDescription,
     tags,
@@ -78,11 +97,11 @@ async function addCaseAction(formData: FormData) {
     await writeCasesFile(updatedCases);
     revalidatePath('/'); 
     revalidatePath('/admin/cases'); 
-    console.log('Case added successfully:', newCase.title);
+    console.log('Case added successfully (local storage):', newCase.title);
     return { success: true, case: newCase };
   } catch (error) {
-    console.error('Failed to add case:', error);
-    return { success: false, error: 'Failed to save case data.' };
+    console.error('Failed to add case to JSON:', error);
+    return { success: false, error: 'Failed to save case data to JSON.' };
   }
 }
 
@@ -90,93 +109,50 @@ async function addCaseAction(formData: FormData) {
 export default function AdminCasesPage() {
   const { toast } = useToast();
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState<Record<string, number>>({}); // Progress per file
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setSelectedFiles(event.target.files);
-      setUploadProgress({}); // Reset progress when new files are selected
     }
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsUploading(true);
-    setUploadProgress({});
-
-    const currentFormData = new FormData(event.currentTarget);
-    const uploadedImageUrls: string[] = [];
-
-    if (selectedFiles && selectedFiles.length > 0) {
-      const uploadPromises = Array.from(selectedFiles).map(file => {
-        const fileRef = storageRef(storage, `cases/${Date.now()}_${file.name}`);
-        const uploadTask = uploadBytesResumable(fileRef, file);
-
-        return new Promise<string>((resolve, reject) => {
-          uploadTask.on('state_changed',
-            (snapshot) => {
-              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              setUploadProgress(prev => ({ ...prev, [file.name]: progress }));
-            },
-            (error) => {
-              console.error("Upload failed for file:", file.name, error);
-              toast({
-                variant: "destructive",
-                title: "Upload Failed",
-                description: `Could not upload ${file.name}.`,
-              });
-              reject(error);
-            },
-            async () => {
-              try {
-                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                uploadedImageUrls.push(downloadURL);
-                resolve(downloadURL);
-              } catch (error) {
-                console.error("Failed to get download URL for file:", file.name, error);
-                toast({
-                  variant: "destructive",
-                  title: "Error",
-                  description: `Could not get URL for ${file.name}.`,
-                });
-                reject(error);
-              }
-            }
-          );
-        });
+    if (!selectedFiles || selectedFiles.length === 0) {
+      toast({
+        variant: "destructive",
+        title: "No Files Selected",
+        description: "Please select images for the case.",
       });
+      return;
+    }
+    setIsProcessing(true);
 
-      try {
-        await Promise.all(uploadPromises);
-      } catch (error) {
-        // Errors are handled by individual upload toasts
-        setIsUploading(false);
-        return; // Stop if any upload fails
-      }
+    const currentForm = event.currentTarget;
+    const clientFormData = new FormData(currentForm); // Contains text fields
+    
+    const serverActionFormData = new FormData();
+    serverActionFormData.append('title', clientFormData.get('title') || '');
+    serverActionFormData.append('category', clientFormData.get('category') || '');
+    serverActionFormData.append('description', clientFormData.get('description') || '');
+    serverActionFormData.append('fullDescription', clientFormData.get('fullDescription') || '');
+    serverActionFormData.append('tags', clientFormData.get('tags') || '');
+
+    // Append files to the FormData for the server action
+    for (let i = 0; i < selectedFiles.length; i++) {
+      serverActionFormData.append('caseImages', selectedFiles[i]);
     }
     
-    // Prepare FormData for the Server Action
-    const serverActionFormData = new FormData();
-    serverActionFormData.append('title', currentFormData.get('title') || '');
-    serverActionFormData.append('category', currentFormData.get('category') || '');
-    serverActionFormData.append('description', currentFormData.get('description') || '');
-    serverActionFormData.append('fullDescription', currentFormData.get('fullDescription') || '');
-    serverActionFormData.append('tags', currentFormData.get('tags') || '');
-    
-    uploadedImageUrls.forEach(url => {
-      serverActionFormData.append('imageUrls', url);
-    });
-
     const result = await addCaseAction(serverActionFormData);
 
     if (result?.success) {
       toast({
         title: "Case Added!",
-        description: `Successfully added "${result.case?.title}".`,
+        description: `Successfully added "${result.case?.title}". Images saved locally.`,
       });
-      (event.target as HTMLFormElement).reset(); // Reset form fields
-      setSelectedFiles(null); // Clear selected files
+      currentForm.reset(); 
+      setSelectedFiles(null); 
     } else {
       toast({
         variant: "destructive",
@@ -184,13 +160,17 @@ export default function AdminCasesPage() {
         description: result?.error || "An unknown error occurred.",
       });
     }
-    setIsUploading(false);
-    setUploadProgress({});
+    setIsProcessing(false);
   };
 
   return (
     <div className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-8 text-foreground">Админ: Добавить новый кейс</h1>
+      <h1 className="text-3xl font-bold mb-8 text-foreground">Админ: Добавить новый кейс (Локальное хранилище)</h1>
+      <p className="text-sm text-muted-foreground mb-4">
+        Внимание: Изображения будут сохранены локально в папке `public/uploads/cases`. 
+        Это решение подходит для локальной разработки, но не рекомендуется для продакшена на серверлес-платформах, 
+        так как файлы могут быть утеряны.
+      </p>
       
       <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl bg-card p-6 rounded-lg shadow-md">
         <div>
@@ -204,10 +184,10 @@ export default function AdminCasesPage() {
         </div>
         
         <div>
-          <Label htmlFor="caseImages" className="text-card-foreground">Изображения кейса</Label>
+          <Label htmlFor="caseImagesInput" className="text-card-foreground">Изображения кейса</Label>
           <Input 
-            id="caseImages" 
-            name="caseImages" 
+            id="caseImagesInput" // Changed ID to avoid conflict if name="caseImages" was used by mistake
+            name="caseImagesInput" // Name for the input element itself, not for FormData key
             type="file" 
             multiple 
             accept="image/*"
@@ -217,9 +197,6 @@ export default function AdminCasesPage() {
           {selectedFiles && Array.from(selectedFiles).map(file => (
              <div key={file.name} className="mt-2">
                 <p className="text-sm text-muted-foreground">{file.name} ({(file.size / 1024).toFixed(2)} KB)</p>
-                {uploadProgress[file.name] !== undefined && (
-                    <Progress value={uploadProgress[file.name]} className="w-full h-2 mt-1" />
-                )}
              </div>
           ))}
         </div>
@@ -239,8 +216,8 @@ export default function AdminCasesPage() {
           <Input id="tags" name="tags" type="text" placeholder="tag1, tag2, tag3" className="mt-1 bg-background border-input text-foreground" />
         </div>
         
-        <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90" disabled={isUploading}>
-          {isUploading ? 'Загрузка...' : 'Добавить кейс'}
+        <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90" disabled={isProcessing}>
+          {isProcessing ? 'Обработка...' : 'Добавить кейс'}
         </Button>
       </form>
     </div>
