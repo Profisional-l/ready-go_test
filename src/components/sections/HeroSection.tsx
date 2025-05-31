@@ -25,7 +25,7 @@ export function HeroSection() {
 
       {/* Left Image (Hoodie) */}
       <div className="absolute left-8 top-1/2 transform -translate-y-1/2 z-10">
-        <div className="relative w-[300px] bg-card p-4 rounded-2xl shadow-xl">
+        <div className="relative w-[300px] bg-card rounded-xl overflow-hidden shadow-xl">
           <Image
             src="https://placehold.co/400x400.png" // Placeholder, original aspect ratio maintained by height:auto
             alt="Черное худи с бирюзовым принтом"
@@ -40,7 +40,7 @@ export function HeroSection() {
 
       {/* Right Image (3D Card) */}
       <div className="absolute right-8 bottom-8 z-10">
-        <div className="relative w-[320px] h-[240px] shadow-[0_12px_32px_rgba(0,0,0,0.2)] rounded-xl overflow-hidden">
+        <div className="relative w-[320px] h-[240px] shadow-[0_12px_12px_rgba(0,0,0,0.1)] rounded-xl overflow-hidden">
           <Image
             src="https://placehold.co/320x240.png"
             alt="3D рендер карточки Progress on velocity"
