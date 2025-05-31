@@ -19,20 +19,21 @@ const galleryImagesData: GalleryImage[] = [
   { id: '6', src: 'https://placehold.co/500x240.png', alt: 'Another Event', aiHint: "event concert light", width: 500, height: 240 },
 ];
 
-// Duplicate the array to make the marquee seamless - reduced from 4x to 2x
+// Дублируем массив изображений для создания бесшовной ленты
 const duplicatedGalleryImages = [...galleryImagesData, ...galleryImagesData];
 
-
 const GalleryImageItem = ({ image }: { image: GalleryImage }) => (
-  <div className="shrink-0 overflow-hidden rounded-xl shadow-md">
+  <div 
+    className="shrink-0 overflow-hidden rounded-xl shadow-md"
+    style={{ width: `${image.width}px`, height: `${image.height}px` }}
+  >
     <Image
       src={image.src}
       alt={image.alt}
       width={image.width}
       height={image.height}
-      className="object-cover"
+      className="object-cover w-full h-full"
       data-ai-hint={image.aiHint}
-      style={{ width: `${image.width}px`, height: `${image.height}px` }}
     />
   </div>
 );
@@ -42,14 +43,14 @@ export function PhotoGallery() {
     <section className="py-16 md:py-24">
       <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-8 md:mb-12 text-center">НАША ЖИЗНЬ</h2>
       <div className="relative flex flex-nowrap overflow-x-hidden">
-        {/* Removed py-4 from this div */}
+        {/* Первая дорожка анимации */}
         <div className="animate-marquee-images flex-shrink-0 flex items-center space-x-4">
           {duplicatedGalleryImages.map((image, index) => (
             <GalleryImageItem key={`track1-${image.id}-${index}`} image={image} />
           ))}
         </div>
-        {/* Removed py-4 from this div */}
-        <div className="absolute top-0 animate-marquee2-images flex-shrink-0 flex items-center space-x-4">
+        {/* Вторая дорожка анимации, абсолютно спозиционирована для создания непрерывности */}
+        <div className="absolute top-0 left-0 animate-marquee2-images flex-shrink-0 flex items-center space-x-4">
           {duplicatedGalleryImages.map((image, index) => (
             <GalleryImageItem key={`track2-${image.id}-${index}`} image={image} />
           ))}
