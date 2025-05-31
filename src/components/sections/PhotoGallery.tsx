@@ -40,13 +40,13 @@ export function PhotoGallery() {
   return (
     <section className="py-16 md:py-24">
       <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-8 md:mb-12 text-center">НАША ЖИЗНЬ</h2>
-      <div className="relative flex flex-nowrap overflow-x-hidden group">
-        <div className="animate-marquee-images group-hover:pause-animation flex-shrink-0 flex items-center space-x-4 py-4">
+      <div className="relative flex flex-nowrap overflow-x-hidden">
+        <div className="animate-marquee-images flex-shrink-0 flex items-center space-x-4 py-4">
           {duplicatedGalleryImages.map((image, index) => (
             <GalleryImageItem key={`track1-${image.id}-${index}`} image={image} />
           ))}
         </div>
-        <div className="absolute top-0 animate-marquee2-images group-hover:pause-animation flex-shrink-0 flex items-center space-x-4 py-4">
+        <div className="absolute top-0 animate-marquee2-images flex-shrink-0 flex items-center space-x-4 py-4">
           {duplicatedGalleryImages.map((image, index) => (
             <GalleryImageItem key={`track2-${image.id}-${index}`} image={image} />
           ))}
