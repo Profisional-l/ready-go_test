@@ -3,64 +3,106 @@
     "id": "1",
     "title": "Мобильное приложение",
     "category": "UX/UI",
-    "imageUrls": ["https://placehold.co/360x220.png"],
+    "imageUrls": [
+      "https://placehold.co/360x220.png"
+    ],
     "description": "Интерфейс для приложения.",
     "fullDescription": "Разработка интуитивно понятного интерфейса для мобильного приложения, сфокусированного на пользовательском опыте и легкости использования.",
-    "tags": ["UX", "UI", "Mobile App"]
+    "tags": [
+      "UX",
+      "UI",
+      "Mobile App"
+    ]
   },
   {
     "id": "2",
     "title": "GOLOD DESIGN",
     "category": "Веб-дизайн",
-    "imageUrls": ["https://placehold.co/360x220.png"],
+    "imageUrls": [
+      "https://placehold.co/360x220.png"
+    ],
     "description": "Редизайн сайта.",
     "fullDescription": "Комплексный редизайн веб-сайта для студии дизайна интерьеров GOLOD DESIGN, улучшение визуальной привлекательности и навигации.",
-    "tags": ["Web Design", "Redesign", "Portfolio"]
+    "tags": [
+      "Web Design",
+      "Redesign",
+      "Portfolio"
+    ]
   },
   {
     "id": "3",
     "title": "Рекламный постер NEMGO",
     "category": "Граф. дизайн",
-    "imageUrls": ["https://placehold.co/360x220.png"],
+    "imageUrls": [
+      "https://placehold.co/360x220.png"
+    ],
     "description": "Постер для мероприятия.",
     "fullDescription": "Создание яркого и привлекающего внимание рекламного постера для музыкального мероприятия NEMGO.",
-    "tags": ["Graphic Design", "Poster", "Event"]
+    "tags": [
+      "Graphic Design",
+      "Poster",
+      "Event"
+    ]
   },
   {
     "id": "4",
     "title": "Кампания ARARAT",
     "category": "Маркетинг",
-    "imageUrls": ["https://placehold.co/360x220.png"],
+    "imageUrls": [
+      "https://placehold.co/360x220.png"
+    ],
     "description": "Промо-материалы.",
     "fullDescription": "Разработка серии промо-материалов для бренда ARARAT, подчеркивающих премиальность и традиции.",
-    "tags": ["Marketing", "Branding", "Campaign"]
+    "tags": [
+      "Marketing",
+      "Branding",
+      "Campaign"
+    ]
   },
   {
     "id": "5",
     "title": "Coca-Cola Promo",
     "category": "Digital",
-    "imageUrls": ["https://placehold.co/360x220.png"],
+    "imageUrls": [
+      "https://placehold.co/360x220.png"
+    ],
     "description": "Digital кампания.",
     "fullDescription": "Запуск интерактивной digital-кампании для Coca-Cola, нацеленной на молодежную аудиторию.",
-    "tags": ["Digital Marketing", "Social Media", "Promo"]
+    "tags": [
+      "Digital Marketing",
+      "Social Media",
+      "Promo"
+    ]
   },
   {
     "id": "6",
     "title": "Optimising Technologies",
     "category": "Брендинг",
-    "imageUrls": ["https://placehold.co/360x220.png"],
+    "imageUrls": [
+      "https://placehold.co/360x220.png"
+    ],
     "description": "Фирменный стиль.",
     "fullDescription": "Разработка фирменного стиля и брендбука для технологической компании Optimising Technologies.",
-    "tags": ["Branding", "Identity", "Tech"]
+    "tags": [
+      "Branding",
+      "Identity",
+      "Tech"
+    ]
   },
   {
     "id": "1748700483772",
     "title": "Sakura Art",
     "category": "web",
-    "imageUrls": ["https://sakuraofart.github.io/Sakura/images/AllAssets/sakuratree1_1.webp"],
+    "imageUrls": [
+      "https://sakuraofart.github.io/Sakura/images/AllAssets/sakuratree1_1.webp"
+    ],
     "description": "новое агентство",
     "fullDescription": "Придумали активность для спота Lillet на городском пикнике Vulitsa Ezha, сделали дизайн карт таро (это пример описания для Sakura Art).",
-    "tags": ["Web", "Branding", "Art"]
+    "tags": [
+      "Web",
+      "Branding",
+      "Art"
+    ]
   },
   {
     "id": "lillet-case-example",
@@ -78,6 +120,27 @@
     ],
     "description": "Активность на Vulitsa Ezha, дизайн карт таро.",
     "fullDescription": "Придумали активность для спота Lillet на городском пикнике Vulitsa Ezha, сделали дизайн карт таро.",
-    "tags": ["creative idea", "print card", "event activation", "Lillet"]
+    "tags": [
+      "creative idea",
+      "print card",
+      "event activation",
+      "Lillet"
+    ]
+  },
+  {
+    "id": "1748701016543",
+    "title": "HardIO",
+    "category": "web",
+    "imageUrls": [
+      "https://www.pinterest.com/pin/997125173754147029/",
+      "https://www.pinterest.com/pin/37014028183261863/",
+      "https://www.pinterest.com/pin/7459155629476551/"
+    ],
+    "description": "МТБанка",
+    "fullDescription": "Программа лояльности для клиентов МТБанка",
+    "tags": [
+      "web",
+      "gogogo"
+    ]
   }
 ]

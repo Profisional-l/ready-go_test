@@ -22,6 +22,12 @@ const nextConfig: NextConfig = {
         hostname: 'sakuraofart.github.io',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.pinterest.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
