@@ -46,7 +46,6 @@ export default async function HomePage() {
         <div className="max-w-[1440px] mx-auto px-8">
           <ClientsSection />
         </div>
-        <FinalCTA />
       </main>
       <Footer />
     </>
