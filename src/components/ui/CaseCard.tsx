@@ -14,7 +14,7 @@ interface CaseCardProps {
 export function CaseCard({ title, imgSrc, aiHint, onClick, category }: CaseCardProps) {
   return (
     <Card
-      className="group overflow-hidden transition-all duration-300 cursor-pointer rounded-lg w-full bg-card text-card-foreground"
+      className="group overflow-hidden transition-all duration-300 cursor-pointer rounded-lg w-full bg-card text-card-foreground border-0"
       onClick={onClick}
       role="button"
       tabIndex={0}
