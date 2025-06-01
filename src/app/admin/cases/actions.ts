@@ -177,4 +177,4 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
     return { success: false, error: finalErrorMessage };
   }
 
-    
+}
