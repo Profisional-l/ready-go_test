@@ -1,0 +1,60 @@
+@font-face {
+    font-family: 'Spektra Condensed Bold Backslant';
+    src: url('Spektra-CondensedBoldBackslant.eot');
+    src: local('Spektra Condensed Bold Backslant'), local('Spektra-CondensedBoldBackslant'),
+        url('Spektra-CondensedBoldBackslant.eot?#iefix') format('embedded-opentype'),
+        url('Spektra-CondensedBoldBackslant.woff2') format('woff2'),
+        url('Spektra-CondensedBoldBackslant.woff') format('woff'),
+        url('Spektra-CondensedBoldBackslant.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Spektra Condensed Bold Free';
+    src: url('SpektraFree-CondensedBoldFree.eot');
+    src: local('Spektra Condensed Bold Free'), local('SpektraFree-CondensedBoldFree'),
+        url('SpektraFree-CondensedBoldFree.eot?#iefix') format('embedded-opentype'),
+        url('SpektraFree-CondensedBoldFree.woff2') format('woff2'),
+        url('SpektraFree-CondensedBoldFree.woff') format('woff'),
+        url('SpektraFree-CondensedBoldFree.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Spektra Condensed';
+    src: url('Spektra-CondensedBoldItalic.eot');
+    src: local('Spektra Condensed Bold Italic'), local('Spektra-CondensedBoldItalic'),
+        url('Spektra-CondensedBoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('Spektra-CondensedBoldItalic.woff2') format('woff2'),
+        url('Spektra-CondensedBoldItalic.woff') format('woff'),
+        url('Spektra-CondensedBoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Spektra Condensed';
+    src: url('Spektra-CondensedBold.eot');
+    src: local('Spektra Condensed Bold'), local('Spektra-CondensedBold'),
+        url('Spektra-CondensedBold.eot?#iefix') format('embedded-opentype'),
+        url('Spektra-CondensedBold.woff2') format('woff2'),
+        url('Spektra-CondensedBold.woff') format('woff'),
+        url('Spektra-CondensedBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Spektra Condensed Bold Variable';
+    src: url('Spektra.eot');
+    src: local('Spektra Condensed Bold Variable'), local('Spektra'),
+        url('Spektra.eot?#iefix') format('embedded-opentype'),
+        url('Spektra.woff2') format('woff2'),
+        url('Spektra.woff') format('woff'),
+        url('Spektra.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
