@@ -10,16 +10,16 @@ export function HeroSection() {
         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center max-w-[780px] z-0"
         style={{ lineHeight: 1.05 }}
       >
-        <div className="text-[130px] font-black text-foreground">
+        <div className="text-[130px] font-black font-mycustom text-foreground">
           МЫ — DIGITAL
         </div>
-        <div className="text-[130px] font-black text-foreground mt-3">
+        <div className="text-[130px] font-black font-mycustom text-foreground mt-3">
           АГЕНТСТВО <span className="inline-block align-middle">👀</span> READY <OOIcon className="inline-block align-[-0.08em] h-[0.7em] w-auto text-accent" /> GO
         </div>
-        <div className="text-[130px] font-black text-foreground mt-3">
+        <div className="text-[130px] font-black font-mycustom text-foreground mt-3">
           К НАМ ПРИХОДЯТ ЗА
         </div>
-        <div className="text-[130px] font-black text-foreground mt-3">
+        <div className="text-[130px] font-black font-mycustom text-foreground mt-3">
           СТРАТЕГИЯМИ
         </div>
       </div>
