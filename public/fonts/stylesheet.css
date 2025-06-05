@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Spektra Condensed';
+    src: url('SpektraCondensed-Regular.woff2') format('woff2');
+    font-weight: 400; /* Regular */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Spektra Condensed';
+    src: url('SpektraCondensed-Black.woff2') format('woff2');
+    font-weight: 900; /* Black */
+    font-style: normal;
+    font-display: swap;
+}
+
+/* 
+  Если у вас есть другие начертания или форматы (например, .woff, .ttf), 
+  добавьте для них отдельные @font-face правила или укажите их в src через запятую:
+  src: url('SpektraCondensed-Regular.woff2') format('woff2'),
+       url('SpektraCondensed-Regular.woff') format('woff');
+  
+  Убедитесь, что имена файлов в url() соответствуют именам ваших файлов в папке /public/fonts/
+*/
