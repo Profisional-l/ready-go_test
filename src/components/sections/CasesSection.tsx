@@ -39,7 +39,7 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
   return (
     <section id="cases" className="py-16 md:py-24">
       <div className="flex justify-between items-center mb-8 md:mb-12">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-foreground">КЕЙСЫ</h2>
+        <h2 className="text-[130px] font-mycustom text-foreground">КЕЙСЫ</h2>
         {casesDataFromProps.length > INITIAL_CASES_TO_SHOW && (
           <Button
             variant="outline"

@@ -12,7 +12,7 @@ const clientLogos = [
 export function ClientsSection() {
   return (
     <section className="py-16 md:py-24">
-      <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-8 md:mb-12 text-center">НАШИ КЛИЕНТЫ</h2>
+      {/* <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-8 md:mb-12 text-center">НАШИ КЛИЕНТЫ</h2> */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 md:gap-12 items-center justify-items-center">
         {clientLogos.map((logo) => (
           <div key={logo.id} className="relative w-[120px] h-[60px] md:w-[150px] md:h-[80px]">

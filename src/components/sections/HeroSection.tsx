@@ -24,27 +24,26 @@ export function HeroSection() {
   const nextWord = keywords[(index + 1) % keywords.length];
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-white">
+    <section className="relative min-h-screen w-full bg-white  " >
       {/* Centered content */}
-      <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8">
-        <div className="text-[13vw] sm:text-[100px] md:text-[130px] font-black font-mycustom text-center leading-[1]">
+      <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8 ">
+        <div className="text-[13vw] sm:text-[100px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-40">
           <div className="whitespace-nowrap">
             <span style={{ color: "white", WebkitTextStroke: "3.3px black" }}>МЫ — </span>DIGITAL
           </div>
           <div className="whitespace-nowrap mt-2">
             АГЕНТСТВО{" "}
-            <span className="inline-block align-middle h-[1em] w-[1em]">
+            <span className="inline-block align-middle h-[1em] ">
               <Image
                 src="/images/eyes_Group127.png"
                 alt="Анимированные глаза"
-                width={130}
-                height={130}
-                className="h-full w-full"
+                width={100}
+                height={100}
               />
             </span>{" "}
             <span style={{ color: "white", WebkitTextStroke: "3.3px black" }}>READY GO</span>
           </div>
-          <div className="whitespace-nowrap mt-4">К НАМ ПРИХОДЯТ ЗА</div>
+          <div className="whitespace-nowrap -mt-4">К НАМ ПРИХОДЯТ ЗА</div>
 
           {/* Word animation */}
           <div className="relative h-[1.3em] mt-2 overflow-hidden">
@@ -76,7 +75,7 @@ export function HeroSection() {
       </div>
 
       {/* Left Image */}
-      <div className="absolute left-4 sm:left-8 bottom-8 sm:top-1/2 sm:-translate-y-1/2 z-10">
+      <div className="absolute left-4 sm:-left-3 top-10 z-10">
         <div className="relative w-[180px] sm:w-[260px] md:w-[365px] rounded-xl overflow-hidden">
           <Image
             src="/images/back-1.png"
@@ -89,7 +88,7 @@ export function HeroSection() {
       </div>
 
       {/* Right Image */}
-      <div className="absolute right-4 sm:right-8 bottom-4 sm:bottom-8 z-10">
+      <div className="absolute -right-4 sm:-right-12 bottom-4 sm:top-20 z-10 mt-60">
         <div className="relative w-[180px] sm:w-[280px] md:w-[360px] h-[280px] sm:h-[400px] md:h-[450px] overflow-hidden">
           <Image
             src="/images/back-2.png"
