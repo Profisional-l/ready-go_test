@@ -1,84 +1,37 @@
-
 'use client';
 
 import Image from "next/image";
-import { useState, useEffect } from 'react';
-import { cn } from '@/lib/utils';
+import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 export function HeroSection() {
-  const [isMainTextVisible, setIsMainTextVisible] = useState(false);
+  const keywords = ["СТРАТЕГИЯМИ", "SMM", "ВЕБ-РАЗРАБОТКОЙ", "БРЕНДИНГОМ", "КРЕАТИВОМ"];
+  const [index, setIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  const keywords = ["СТРАТЕГИЯМИ", "SMM", "BЕб-рAзрAботкOй", "БPЕНДИHГOM", "Kреативом"];
-  const [currentKeywordIndex, setCurrentKeywordIndex] = useState(0);
-  // 'in': keyword is fully visible or sliding in
-  // 'out': keyword is sliding out
-  // 'prepare': new keyword is positioned below, ready to slide in (no transition)
-  const [keywordAnimationState, setKeywordAnimationState] = useState<'in' | 'out' | 'prepare'>('in');
-
-  // Main text entrance animation
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsMainTextVisible(true);
-    }, 100); // Short delay before main text starts appearing
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Keyword cycling and animation logic
-  useEffect(() => {
-    const displayDuration = 2700; // How long a keyword stays visible
-    const animationDuration = 300; // Duration of the slide animation (in/out)
-
-    const cycle = () => {
-      setKeywordAnimationState('out'); // Trigger slide-out animation
-
+    const interval = setInterval(() => {
+      setIsAnimating(true);
       setTimeout(() => {
-        // This block executes after the slide-out animation (animationDuration)
-        setCurrentKeywordIndex((prevIndex) => (prevIndex + 1) % keywords.length);
-        setKeywordAnimationState('prepare'); // Instantly position the new keyword below, ready for slide-in
+        setIndex((prev) => (prev + 1) % keywords.length);
+        setIsAnimating(false);
+      }, 600); // match duration of animation
+    }, 2600);
+    return () => clearInterval(interval);
+  }, [keywords.length]);
 
-        // requestAnimationFrame ensures that the 'prepare' state (with transition-none)
-        // is rendered before we switch to 'in' state (which re-enables transitions)
-        requestAnimationFrame(() => {
-          setKeywordAnimationState('in'); // Trigger slide-in animation for the new keyword
-        });
-      }, animationDuration);
-    };
-
-    // Start the cycle after the initial keyword has been displayed for displayDuration
-    const intervalId = setInterval(cycle, displayDuration + animationDuration);
-
-    return () => clearInterval(intervalId);
-  }, [keywords.length]); // Re-run effect if keywords array length changes
-
-  // Determine dynamic classes for keyword animation
-  let keywordDynamicClasses = "";
-  if (keywordAnimationState === 'in') {
-    // Sliding in or fully visible
-    keywordDynamicClasses = "translate-y-0 opacity-100 transition-transform transition-opacity duration-300 ease-in-out";
-  } else if (keywordAnimationState === 'out') {
-    // Sliding out (upwards)
-    keywordDynamicClasses = "-translate-y-full opacity-0 transition-transform transition-opacity duration-300 ease-in-out";
-  } else if (keywordAnimationState === 'prepare') {
-    // Positioned below, invisible, no transition (ready to slide in)
-    keywordDynamicClasses = "translate-y-full opacity-0 transition-none";
-  }
+  const currentWord = keywords[index];
+  const nextWord = keywords[(index + 1) % keywords.length];
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden">
-      {/* Text Block - Centered */}
-      <div
-        className={cn(
-          "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-0",
-          // Main text entrance animation classes
-          "transition-all duration-700 ease-out",
-          isMainTextVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-        )}
-      >
-        <div className="text-[130px] font-black font-mycustom text-foreground leading-none">
-          <div>
+    <section className="relative min-h-screen w-full overflow-hidden bg-white">
+      {/* Centered content */}
+      <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8">
+        <div className="text-[13vw] sm:text-[100px] md:text-[130px] font-black font-mycustom text-center leading-[1]">
+          <div className="whitespace-nowrap">
             <span style={{ color: "white", WebkitTextStroke: "3.3px black" }}>МЫ — </span>DIGITAL
           </div>
-          <div>
+          <div className="whitespace-nowrap mt-2">
             АГЕНТСТВО{" "}
             <span className="inline-block align-middle h-[1em] w-[1em]">
               <Image
@@ -86,49 +39,63 @@ export function HeroSection() {
                 alt="Анимированные глаза"
                 width={130}
                 height={130}
-                objectFit="contain"
                 className="h-full w-full"
-                data-ai-hint="animated eyes logo"
               />
             </span>{" "}
             <span style={{ color: "white", WebkitTextStroke: "3.3px black" }}>READY GO</span>
           </div>
-          <div>
-            К НАМ ПРИХОДЯТ ЗА
-          </div>
-          {/* Container for the animated keyword. h-[1em] and overflow-hidden are crucial for the effect. */}
-          <div className="h-[1em] overflow-hidden relative">
-            <span className={cn("inline-block", keywordDynamicClasses)}>
-              {keywords[currentKeywordIndex]}
-            </span>
+          <div className="whitespace-nowrap mt-4">К НАМ ПРИХОДЯТ ЗА</div>
+
+          {/* Word animation */}
+          <div className="relative h-[1.3em] mt-2 overflow-hidden">
+            <span className="sr-only">{currentWord}</span>
+
+            {/* Outgoing word */}
+            <div
+              key={`out-${index}`}
+              className={cn(
+                "absolute left-0 w-full text-center transition-transform duration-600 ease-in-out",
+                isAnimating ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"
+              )}
+            >
+              {currentWord}
+            </div>
+
+            {/* Incoming word */}
+            <div
+              key={`in-${index}`}
+              className={cn(
+                "absolute left-0 w-full text-center transition-transform duration-600 ease-in-out",
+                isAnimating ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+              )}
+            >
+              {nextWord}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Left Image (Hoodie) */}
-      <div className="absolute left-8 top-1/2 transform -translate-y-1/2 z-10">
-        <div className="relative w-[365px] rounded-xl overflow-hidden">
+      {/* Left Image */}
+      <div className="absolute left-4 sm:left-8 bottom-8 sm:top-1/2 sm:-translate-y-1/2 z-10">
+        <div className="relative w-[180px] sm:w-[260px] md:w-[365px] rounded-xl overflow-hidden">
           <Image
             src="/images/back-1.png"
             alt="Черное худи с бирюзовым принтом"
             width={365}
             height={365}
-            objectFit="contain"
             className="w-full h-auto"
-            data-ai-hint="black hoodie turquoise print"
           />
         </div>
       </div>
 
-      {/* Right Image (3D Card) */}
-      <div className="absolute right-8 bottom-8 z-10">
-        <div className="relative w-[360px] h-[450px] overflow-hidden">
+      {/* Right Image */}
+      <div className="absolute right-4 sm:right-8 bottom-4 sm:bottom-8 z-10">
+        <div className="relative w-[180px] sm:w-[280px] md:w-[360px] h-[280px] sm:h-[400px] md:h-[450px] overflow-hidden">
           <Image
             src="/images/back-2.png"
             alt="3D рендер карточки Progress on velocity"
-            layout="fill"
-            objectFit="cover"
-            data-ai-hint="3d card progress dashboard"
+            fill
+            className="object-cover"
           />
         </div>
       </div>
