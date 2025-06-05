@@ -39,7 +39,6 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
   return (
     <section id="cases" className="py-16 md:py-24">
       <div className="flex justify-between items-center mb-8 md:mb-12">
-<<<<<<< HEAD
         <h2 className="text-4xl md:text-5xl font-extrabold text-foreground">КЕЙСЫ</h2>
         {casesDataFromProps.length > INITIAL_CASES_TO_SHOW && (
           <Button
@@ -50,10 +49,6 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
             {showAll ? 'Скрыть' : `Смотреть все (${casesDataFromProps.length})`}
           </Button>
         )}
-=======
-        <h2 className="text-[130px] font-mycustom">КЕЙСЫ</h2>
-        <Button variant="outline" className="text-xs uppercase tracking-wider hover:bg-accent hover:text-accent-foreground hover:border-accent">СМОТРЕТЬ ВСЕ ({casesDataFromProps.length})</Button>
->>>>>>> 459e906691797c9753dca447ba36e06ffa0f30ca
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {casesToDisplay.map((caseItem) => (
