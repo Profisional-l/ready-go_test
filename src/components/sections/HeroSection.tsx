@@ -1,26 +1,39 @@
-import Image from 'next/image';
+import Image from "next/image";
 
-import { OOIcon } from '@/components/icons/OOIcon';
+import { OOIcon } from "@/components/icons/OOIcon";
 
 export function HeroSection() {
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
       {/* Text Block - Centered */}
       <div
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center max-w-[780px] z-0"
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center max-w-[10080px] z-0"
         style={{ lineHeight: 1.05 }}
       >
-        <div className="text-[130px] font-black font-mycustom text-foreground">
-          МЫ — DIGITAL
-        </div>
+<div className="text-[130px] font-black font-mycustom text-foreground">
+  <span style={{ color: "white", WebkitTextStroke: "3.3px black" }}>МЫ — </span>DIGITAL
+</div>
+
         <div className="text-[130px] font-black font-mycustom text-foreground mt-3">
-          АГЕНТСТВО <span className="inline-block align-middle">👀</span> READY <OOIcon className="inline-block align-[-0.08em] h-[0.7em] w-auto text-accent" /> GO
+          АГЕНТСТВО{" "}
+          <span className="inline-block">
+            <Image
+              src="/images/eyes_Group127.png" // Placeholder, original aspect ratio maintained by height:auto
+              alt="Черное худи с бирюзовым принтом"
+              width={365}
+              height={365} // Approximate height, actual height will be auto based on width
+              objectFit="contain"
+              className="w-full h-auto"
+              data-ai-hint="black hoodie turquoise print"
+            />
+          </span>{" "}
+          <span style={{ color: "white", WebkitTextStroke: "3.3px black" }}>READY GO</span>
         </div>
         <div className="text-[130px] font-black font-mycustom text-foreground mt-3">
           К НАМ ПРИХОДЯТ ЗА
         </div>
         <div className="text-[130px] font-black font-mycustom text-foreground mt-3">
-          СТРАТЕГИЯМИ
+          СТРАTЕГИЯМИ
         </div>
       </div>
 
