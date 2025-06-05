@@ -20,17 +20,17 @@ export function Header() {
       <nav>
         <ul className="flex space-x-6">
           <li>
-            <Link href="#cases" className="text-[20px] uppercase font-medium tracking-wider text-foreground hover:text-accent transition-colors">
+            <Link href="#cases" className="text-[20px] uppercase font-medium tracking-wider text-foreground hover:underline hover:decoration-foreground transition-colors">
               Кейсы
             </Link>
           </li>
           <li>
-            <Link href="#about" className="text-[20px] uppercase font-medium tracking-wider text-foreground hover:text-accent transition-colors">
+            <Link href="#about" className="text-[20px] uppercase font-medium tracking-wider text-foreground hover:underline hover:decoration-foreground transition-colors">
               О нас
             </Link>
           </li>
           <li>
-            <Link href="#contact" className="text-[20px] uppercase font-medium tracking-wider text-foreground hover:text-accent transition-colors">
+            <Link href="#contact" className="text-[20px] uppercase font-medium tracking-wider text-foreground hover:underline hover:decoration-foreground transition-colors">
               Контакты
             </Link>
           </li>
