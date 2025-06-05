@@ -16,7 +16,7 @@ export function HeroSection() {
         setIndex((prev) => (prev + 1) % keywords.length);
         setIsAnimating(false);
       }, 600); // match duration of animation
-    }, 2600);
+    }, 3600);
     return () => clearInterval(interval);
   }, [keywords.length]);
 
