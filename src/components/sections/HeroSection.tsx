@@ -10,6 +10,7 @@ export function HeroSection() {
 
   const keywords = ["СТРАTЕГИЯМИ", "SMM", "BЕб-рAзрAботкOй", "БPЕНДИHГOM", "Kреативом"];
   const [currentKeyword, setCurrentKeyword] = useState(keywords[0]);
+  // State for animation classes: transform, opacity, and transition behavior
   const [keywordAnimClass, setKeywordAnimClass] = useState('translate-y-0 opacity-100');
 
   useEffect(() => {
@@ -18,25 +19,29 @@ export function HeroSection() {
     }, 100);
 
     let keywordIndex = 0;
-    const animationSlideDuration = 300;
-    const wordDisplayDuration = 2700;
+    const animationSlideDuration = 300; // Duration for slide in/out
+    const wordDisplayDuration = 2700;   // How long a word stays visible before animating out
 
     const intervalId = setInterval(() => {
-      setKeywordAnimClass('-translate-y-full opacity-0'); // Slide current word up
+      // 1. Current word slides UP and FADES OUT
+      setKeywordAnimClass('-translate-y-full opacity-0 transition-transform transition-opacity duration-300 ease-in-out');
 
       setTimeout(() => {
         keywordIndex = (keywordIndex + 1) % keywords.length;
         setCurrentKeyword(keywords[keywordIndex]);
-        // Position new word at the bottom, invisible, no transition yet
-        setKeywordAnimClass('translate-y-full opacity-0 duration-0');
 
+        // 2. New word is INSTANTLY set at the bottom, invisible (NO animation for this step)
+        //    'transition-none' is key here to prevent animating from the old -translate-y-full position
+        setKeywordAnimClass('translate-y-full opacity-0 transition-none');
+
+        // 3. Force a reflow or wait for the next frame to apply new transition classes for the IN-animation
         requestAnimationFrame(() => {
-          // Trigger slide in animation for new word
-          setKeywordAnimClass('translate-y-0 opacity-100');
+          // New word slides UP and FADES IN
+          setKeywordAnimClass('translate-y-0 opacity-100 transition-transform transition-opacity duration-300 ease-in-out');
         });
-      }, animationSlideDuration);
+      }, animationSlideDuration); // Wait for the out-animation to complete
 
-    }, wordDisplayDuration + animationSlideDuration);
+    }, wordDisplayDuration); // Time from start of one word's full display to start of its out-animation
 
     return () => {
       clearTimeout(textAppearTimer);
@@ -58,7 +63,7 @@ export function HeroSection() {
           <div>
             <span style={{ color: "white", WebkitTextStroke: "3.3px black" }}>МЫ — </span>DIGITAL
           </div>
-          <div className="mt-0"> {/* Adjusted margin */}
+          <div className="mt-0">
             АГЕНТСТВО{" "}
             <span className="inline-block align-middle h-[1em] w-[1em]">
               <Image
@@ -73,15 +78,14 @@ export function HeroSection() {
             </span>{" "}
             <span style={{ color: "white", WebkitTextStroke: "3.3px black" }}>READY GO</span>
           </div>
-          <div className="mt-0"> {/* Adjusted margin */}
+          <div className="mt-0">
             К НАМ ПРИХОДЯТ ЗА
           </div>
-          <div className="mt-0 h-[1em] overflow-hidden"> {/* Adjusted margin, container for animated keyword */}
+          <div className="mt-0 h-[1em] overflow-hidden"> {/* Container for animated keyword */}
             <span
               className={cn(
-                "inline-block transition-all ease-in-out",
-                keywordAnimClass.includes('duration-0') ? 'duration-0' : 'duration-300',
-                keywordAnimClass.replace('duration-0', '').trim()
+                "inline-block", // Base style
+                keywordAnimClass    // Dynamic animation classes
               )}
             >
               {currentKeyword}
