@@ -6,70 +6,61 @@ import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 
 export function HeroSection() {
-  const [isTextVisible, setIsTextVisible] = useState(false);
+  const [isMainTextVisible, setIsMainTextVisible] = useState(false);
 
-  const keywords = ["СТРАTЕГИЯМИ", "SMM", "BЕб-рAзрAботкOй", "БPЕНДИHГOM", "Kреативом"];
-  const [keywordIndex, setKeywordIndex] = useState(0);
-  const [currentKeyword, setCurrentKeyword] = useState(keywords[0]);
+  const keywords = ["СТРАТЕГИЯМИ", "SMM", "BЕб-рAзрAботкOй", "БPЕНДИHГOM", "Kреативом"];
+  const [currentKeywordIndex, setCurrentKeywordIndex] = useState(0);
+  // 'in': keyword is fully visible or sliding in
+  // 'out': keyword is sliding out
+  // 'prepare': new keyword is positioned below, ready to slide in (no transition)
+  const [keywordAnimationState, setKeywordAnimationState] = useState<'in' | 'out' | 'prepare'>('in');
 
-  // Animation states for the keyword:
-  // 'visible': current word is shown, or animating in.
-  // 'exiting': current word is animating out (sliding up).
-  // 'entering': new word is positioned below (instantly, no transition), ready to slide in.
-  const [animationState, setAnimationState] = useState<'visible' | 'exiting' | 'entering'>('visible');
-
+  // Main text entrance animation
   useEffect(() => {
-    const textAppearTimer = setTimeout(() => {
-      setIsTextVisible(true);
-    }, 100);
+    const timer = setTimeout(() => {
+      setIsMainTextVisible(true);
+    }, 100); // Short delay before main text starts appearing
+    return () => clearTimeout(timer);
+  }, []);
 
-    const totalCycleDuration = 3000; // A new word will be fully visible roughly every 3 seconds.
-    const animationSlideDuration = 300; // Duration for slide in/out.
-    // Static display time = totalCycleDuration - animationSlideDuration (exit) - animationSlideDuration (entry)
-    // This isn't directly used for setInterval, but good for understanding.
+  // Keyword cycling and animation logic
+  useEffect(() => {
+    const displayDuration = 2700; // How long a keyword stays visible
+    const animationDuration = 300; // Duration of the slide animation (in/out)
 
-    const intervalId = setInterval(() => {
-      setAnimationState('exiting'); // Start exiting animation for the current word
+    const cycle = () => {
+      setKeywordAnimationState('out'); // Trigger slide-out animation
 
       setTimeout(() => {
-        // This block runs after the 'exiting' animation has completed.
-        setKeywordIndex(prevIndex => {
-          const nextIndex = (prevIndex + 1) % keywords.length;
-          setCurrentKeyword(keywords[nextIndex]); // Update to the new keyword
-          return nextIndex;
-        });
-        setAnimationState('entering'); // Position the new keyword below, ready to enter (instantly, no animation yet)
+        // This block executes after the slide-out animation (animationDuration)
+        setCurrentKeywordIndex((prevIndex) => (prevIndex + 1) % keywords.length);
+        setKeywordAnimationState('prepare'); // Instantly position the new keyword below, ready for slide-in
 
-        // Force a reflow or wait for the next frame to apply 'entering' state with 'transition-none'
-        // before switching to 'visible' state which will trigger the entrance animation.
+        // requestAnimationFrame ensures that the 'prepare' state (with transition-none)
+        // is rendered before we switch to 'in' state (which re-enables transitions)
         requestAnimationFrame(() => {
-          setAnimationState('visible'); // Trigger the entrance animation for the new keyword
+          setKeywordAnimationState('in'); // Trigger slide-in animation for the new keyword
         });
-
-      }, animationSlideDuration); // Wait for the exit animation to complete
-
-    }, totalCycleDuration); // The interval at which the entire change cycle restarts
-
-    return () => {
-      clearTimeout(textAppearTimer);
-      clearInterval(intervalId);
+      }, animationDuration);
     };
-  }, []); // Empty dependency array ensures this runs once on mount
 
-  // Determine animation classes based on the current state
-  let keywordBaseClasses = "inline-block";
-  let keywordPositionAndTransitionClasses = "";
+    // Start the cycle after the initial keyword has been displayed for displayDuration
+    const intervalId = setInterval(cycle, displayDuration + animationDuration);
 
-  if (animationState === 'visible') {
-    // Word is fully visible or animating in
-    keywordPositionAndTransitionClasses = "translate-y-0 opacity-100 transition-transform transition-opacity duration-300 ease-in-out";
-  } else if (animationState === 'exiting') {
-    // Word is animating out (sliding up)
-    keywordPositionAndTransitionClasses = "-translate-y-full opacity-0 transition-transform transition-opacity duration-300 ease-in-out";
-  } else if (animationState === 'entering') {
-    // New word is positioned below, invisible, and importantly, with no transition for this specific state.
-    // This allows it to "snap" into place before the 'visible' state animates it in.
-    keywordPositionAndTransitionClasses = "translate-y-full opacity-0 transition-none";
+    return () => clearInterval(intervalId);
+  }, [keywords.length]); // Re-run effect if keywords array length changes
+
+  // Determine dynamic classes for keyword animation
+  let keywordDynamicClasses = "";
+  if (keywordAnimationState === 'in') {
+    // Sliding in or fully visible
+    keywordDynamicClasses = "translate-y-0 opacity-100 transition-transform transition-opacity duration-300 ease-in-out";
+  } else if (keywordAnimationState === 'out') {
+    // Sliding out (upwards)
+    keywordDynamicClasses = "-translate-y-full opacity-0 transition-transform transition-opacity duration-300 ease-in-out";
+  } else if (keywordAnimationState === 'prepare') {
+    // Positioned below, invisible, no transition (ready to slide in)
+    keywordDynamicClasses = "translate-y-full opacity-0 transition-none";
   }
 
   return (
@@ -78,21 +69,22 @@ export function HeroSection() {
       <div
         className={cn(
           "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-0",
+          // Main text entrance animation classes
           "transition-all duration-700 ease-out",
-          isTextVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5" // Adjusted initial translate-y
+          isMainTextVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
         )}
       >
         <div className="text-[130px] font-black font-mycustom text-foreground leading-none">
           <div>
             <span style={{ color: "white", WebkitTextStroke: "3.3px black" }}>МЫ — </span>DIGITAL
           </div>
-          <div> {/* Removed mt-0, leading-none should handle spacing */}
+          <div>
             АГЕНТСТВО{" "}
-            <span className="inline-block align-middle h-[1em] w-[1em]"> {/* Ensure image scales with text */}
+            <span className="inline-block align-middle h-[1em] w-[1em]">
               <Image
                 src="/images/eyes_Group127.png"
                 alt="Анимированные глаза"
-                width={130} 
+                width={130}
                 height={130}
                 objectFit="contain"
                 className="h-full w-full"
@@ -101,12 +93,13 @@ export function HeroSection() {
             </span>{" "}
             <span style={{ color: "white", WebkitTextStroke: "3.3px black" }}>READY GO</span>
           </div>
-          <div> {/* Removed mt-0 */}
+          <div>
             К НАМ ПРИХОДЯТ ЗА
           </div>
-          <div className="h-[1em] overflow-hidden"> {/* Container for animated keyword, mt-0 removed */}
-            <span className={cn(keywordBaseClasses, keywordPositionAndTransitionClasses)}>
-              {currentKeyword}
+          {/* Container for the animated keyword. h-[1em] and overflow-hidden are crucial for the effect. */}
+          <div className="h-[1em] overflow-hidden relative">
+            <span className={cn("inline-block", keywordDynamicClasses)}>
+              {keywords[currentKeywordIndex]}
             </span>
           </div>
         </div>
