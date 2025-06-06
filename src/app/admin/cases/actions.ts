@@ -5,10 +5,56 @@ import type { Case } from "@/types";
 import fs from 'fs/promises';
 import path from 'path';
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 const casesFilePath = path.join(process.cwd(), 'src', 'data', 'cases.json');
 const UPLOADS_DIR_RELATIVE_TO_PUBLIC = 'uploads/cases';
 const UPLOADS_DIR_ABSOLUTE = path.join(process.cwd(), 'public', UPLOADS_DIR_RELATIVE_TO_PUBLIC);
+
+const AUTH_COOKIE_NAME = 'admin-auth-readygo-cases';
+
+async function isAuthenticated(): Promise<boolean> {
+  const cookieStore = cookies();
+  return cookieStore.get(AUTH_COOKIE_NAME)?.value === 'true';
+}
+
+export async function verifyPasswordAction(formData: FormData): Promise<{ success: boolean; error?: string }> {
+  const password = formData.get('password') as string;
+  const adminPassword = process.env.ADMIN_CASES_PASSWORD;
+
+  if (!adminPassword) {
+    console.error('ADMIN_CASES_PASSWORD is not set in environment variables.');
+    return { success: false, error: 'Ошибка конфигурации сервера.' };
+  }
+
+  if (password === adminPassword) {
+    cookies().set(AUTH_COOKIE_NAME, 'true', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      path: '/admin/cases', // Scope cookie to admin/cases path
+      maxAge: 60 * 60 * 24, // 1 day
+      sameSite: 'lax',
+    });
+    revalidatePath('/admin/cases');
+    return { success: true };
+  } else {
+    return { success: false, error: 'Неверный пароль.' };
+  }
+}
+
+export async function logoutAction(): Promise<void> {
+  cookies().set(AUTH_COOKIE_NAME, '', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    path: '/admin/cases',
+    expires: new Date(0), // Expire the cookie immediately
+    sameSite: 'lax',
+  });
+  revalidatePath('/admin/cases');
+  redirect('/admin/cases'); // Redirect to ensure the login page is shown
+}
+
 
 async function readCasesFile(): Promise<Case[]> {
   console.log('readCasesFile: Attempting to read from', casesFilePath);
@@ -20,7 +66,7 @@ async function readCasesFile(): Promise<Case[]> {
     if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
       console.warn('readCasesFile: cases.json not found. Attempting to create an empty one.');
       try {
-        await writeCasesFile([]); // Create an empty cases file
+        await writeCasesFile([]); 
         console.log('readCasesFile: Created new empty cases.json.');
         return [];
       } catch (writeError) {
@@ -36,7 +82,6 @@ async function readCasesFile(): Promise<Case[]> {
 async function writeCasesFile(cases: Case[]): Promise<void> {
   console.log('writeCasesFile: Attempting to write to', casesFilePath);
   try {
-    // Ensure the directory for cases.json exists
     const casesDir = path.dirname(casesFilePath);
     await fs.mkdir(casesDir, { recursive: true });
     console.log('writeCasesFile: Ensured directory exists for cases.json at', casesDir);
@@ -52,6 +97,13 @@ async function writeCasesFile(cases: Case[]): Promise<void> {
 
 export async function addCaseAction(formData: FormData): Promise<{ success: boolean; case?: Case; error?: string; }> {
   console.log('addCaseAction: Received request.');
+
+  if (!(await isAuthenticated())) {
+    console.log('addCaseAction: Unauthorized access attempt.');
+    return { success: false, error: 'Не авторизован. Пожалуйста, войдите.' };
+  }
+  console.log('addCaseAction: User authenticated.');
+
   try {
     const title = formData.get('title');
     const category = formData.get('category');
@@ -78,7 +130,7 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
         return { success: false, error: `Server setup error: Failed to create image upload directory. ${specificErrorMessage}` };
     }
 
-    const imageFileObjects = formData.getAll('caseImages'); // Returns (File | string)[]
+    const imageFileObjects = formData.getAll('caseImages');
     const uploadedImageUrls: string[] = [];
     let totalFilesSize = 0;
     
@@ -87,8 +139,7 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
 
 
     for (const file of validFiles) {
-      // Already filtered for File, name, and size > 0
-      const currentFile = file as File; // Safe cast after filter
+      const currentFile = file as File; 
       console.log(`addCaseAction: Processing file: ${currentFile.name}, size: ${currentFile.size} bytes, type: ${currentFile.type}`);
       totalFilesSize += currentFile.size;
 
@@ -105,8 +156,6 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
         uploadedImageUrls.push(`/${UPLOADS_DIR_RELATIVE_TO_PUBLIC}/${uniqueFilename}`);
       } catch (fileProcessingError) {
         console.error(`addCaseAction: Error processing file ${currentFile.name}:`, fileProcessingError);
-        // Optionally, decide if one failed file should halt the whole process or just be skipped
-        // For now, we'll let one failed file not stop others, but report overall failure if no images succeed.
       }
     }
     console.log(`addCaseAction: Total size of processed files: ${(totalFilesSize / (1024*1024)).toFixed(2)} MB`);
@@ -117,7 +166,6 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
     }
     
     if (uploadedImageUrls.length === 0 && validFiles.length === 0) {
-        // This case implies the client-side 'required' for file input might not be working or was bypassed.
         console.log('addCaseAction: No valid image files were uploaded. At least one image is required.');
         return { success: false, error: 'No valid image files were uploaded. At least one image is required.' };
     }
@@ -146,8 +194,8 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
     
     console.log('addCaseAction: cases.json updated.');
 
-    revalidatePath('/');
-    revalidatePath('/admin/cases');
+    revalidatePath('/'); // Revalidate public page
+    revalidatePath('/admin/cases'); // Revalidate admin page
     console.log('addCaseAction: Paths revalidated.');
     
     console.log('addCaseAction: Successfully processed. Returning success response for case:', newCase.title);
@@ -172,9 +220,8 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
         console.error('Error (unknown type, logged as string/JSON):', detail);
     }
     
-    const finalErrorMessage = `Server Action failed. Details: ${detail.substring(0, 300)}`; // Truncate for safety
+    const finalErrorMessage = `Server Action failed. Details: ${detail.substring(0, 300)}`; 
     console.log(`addCaseAction: Critical error. Returning structured error response: ${finalErrorMessage}`);
     return { success: false, error: finalErrorMessage };
   }
-
 }
