@@ -22,28 +22,25 @@ export function Header() {
           <li>
             <Link
               href="#cases"
-              className="relative group text-[20px] font-medium tracking-wider text-foreground"
+              className="relative group text-[20px] uppercase font-medium tracking-wider text-foreground transition-colors"
             >
               Кейсы
-              <span className="absolute left-0 bottom-[-4px] h-[2px] w-0 bg-foreground transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute left-0 bottom-[-4px] h-[2px] w-0 bg-accent transition-all duration-300 group-hover:w-full"></span>
             </Link>
           </li>
           <li>
             <Link
               href="#about"
-              className="relative group text-[20px] font-medium tracking-wider text-foreground"
+              className="relative group text-[20px] uppercase font-medium tracking-wider text-foreground transition-colors"
             >
               О нас
-              <span className="absolute left-0 bottom-[-4px] h-[2px] w-0 bg-foreground transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute left-0 bottom-[-4px] h-[2px] w-0 bg-accent transition-all duration-300 group-hover:w-full"></span>
             </Link>
           </li>
           <li>
             <Link
-              href="#contact"
-              className="relative group text-[20px] font-medium tracking-wider text-foreground"
-            >
+              href="#contact" className="relative group text-[20px] uppercase font-medium tracking-wider text-foreground transition-colors">
               Контакты
-              <span className="absolute left-0 bottom-[-4px] h-[2px] w-0 bg-foreground transition-all duration-300 group-hover:w-full"></span>
             </Link>
           </li>
         </ul>
