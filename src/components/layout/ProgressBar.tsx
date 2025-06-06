@@ -22,7 +22,7 @@ export function ProgressBar() {
   return (
     <div className="fixed top-0 left-0 w-full h-1 bg-transparent z-[1000]">
       <div
-        className="h-1 bg-accent transition-all duration-100 ease-linear"
+        className="h-1.5 bg-accent transition-all duration-100 ease-linear"
         style={{ width: `${scrollPercentage}%` }}
       />
     </div>

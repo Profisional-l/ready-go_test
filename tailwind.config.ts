@@ -109,8 +109,8 @@ export default {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'marquee': 'marquee 30s linear infinite',
-        'marquee2': 'marquee2 30s linear infinite',
+        'marquee': 'marquee 190s linear infinite',
+        'marquee2': 'marquee2 190s linear infinite',
         'marquee-images': 'marquee-images 80s linear infinite',
         'marquee2-images': 'marquee2-images 80s linear infinite',
       },
