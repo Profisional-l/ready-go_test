@@ -12,7 +12,7 @@ interface CaseCardProps {
 
 export function CaseCard({ title, imageUrls, onClick, category }: CaseCardProps) {
   const displayImage = imageUrls && imageUrls.length > 0 ? imageUrls[0] : 'https://placehold.co/360x220.png';
-  
+
   return (
     <Card
       className="group overflow-hidden transition-all duration-300 cursor-pointer rounded-lg w-full bg-card text-card-foreground border-0"
@@ -28,10 +28,10 @@ export function CaseCard({ title, imageUrls, onClick, category }: CaseCardProps)
           layout="fill"
           objectFit="cover"
           className="rounded-md group-hover:rounded-3xl transition-all duration-300 ease-in-out"
-          // data-ai-hint can be added if a specific hint is needed for the card's primary image
+        // data-ai-hint can be added if a specific hint is needed for the card's primary image
         />
       </CardContent>
-      <CardFooter className="p-4 pt-3 flex flex-col items-start">
+      <CardFooter className="p-0 pt-3 flex flex-col items-start">
         <p className="text-xs text-muted-foreground uppercase tracking-wider">{category}</p>
         <CardTitle className="text-lg font-semibold text-foreground mt-1">{title}</CardTitle>
       </CardFooter>

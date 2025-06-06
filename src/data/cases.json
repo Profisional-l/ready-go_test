@@ -1,10 +1,15 @@
 [
   {
     "id": "1",
-    "title": "МТБанк",
+    "title": "МТБанк - Манички",
     "category": "Манички",
     "imageUrls": [
-      "/uploads/cases/1749217216763_Google_Pixel_9_Pro_mockup_on_the_book__2__1.png"
+      "/uploads/cases/1749242977330_manchiki-main.png",
+      "/uploads/cases/1749242977332_manchiki-2.png",
+      "/uploads/cases/1749242977334_manchiki-4.png",
+      "/uploads/cases/1749242977337_manchiki-5.png",
+      "/uploads/cases/1749242977354_manchiki-1.png",
+      "/uploads/cases/1749242977360_manchiki-3.png"
     ],
     "description": "Интерфейс для приложения.",
     "fullDescription": "Разработка интуитивно понятного интерфейса для мобильного приложения, сфокусированного на пользовательском опыте и легкости использования.",
@@ -34,7 +39,7 @@
     "title": "Рекламный постер NEMGO",
     "category": "Граф. дизайн",
     "imageUrls": [
-      "https://placehold.co/360x220.png"
+      "/uploads/cases/1749248601078_BenditoMockup-_CCC-Free-A_Format-02_1.png"
     ],
     "description": "Постер для мероприятия.",
     "fullDescription": "Создание яркого и привлекающего внимание рекламного постера для музыкального мероприятия NEMGO.",
@@ -49,7 +54,7 @@
     "title": "Кампания ARARAT",
     "category": "Маркетинг",
     "imageUrls": [
-      "https://placehold.co/360x220.png"
+      "/uploads/cases/1749248622419_ararat.png"
     ],
     "description": "Промо-материалы.",
     "fullDescription": "Разработка серии промо-материалов для бренда ARARAT, подчеркивающих премиальность и традиции.",
@@ -61,10 +66,10 @@
   },
   {
     "id": "5",
-    "title": "Coca-Cola Promo",
+    "title": "Coca-Cola — Promo",
     "category": "Digital",
     "imageUrls": [
-      "https://placehold.co/360x220.png"
+      "/uploads/cases/1749248687713_cocacola.png"
     ],
     "description": "Digital кампания.",
     "fullDescription": "Запуск интерактивной digital-кампании для Coca-Cola, нацеленной на молодежную аудиторию.",
@@ -76,10 +81,10 @@
   },
   {
     "id": "6",
-    "title": "Optimising Technologies",
+    "title": "МТБанк — NEMBO",
     "category": "Брендинг",
     "imageUrls": [
-      "https://placehold.co/360x220.png"
+      "/uploads/cases/1749248936823_mtbank.png"
     ],
     "description": "Фирменный стиль.",
     "fullDescription": "Разработка фирменного стиля и брендбука для технологической компании Optimising Technologies.",

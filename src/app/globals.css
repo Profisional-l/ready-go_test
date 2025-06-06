@@ -108,3 +108,7 @@
     @apply font-headline;
   }
 }
+
+header nav{
+  z-index: 10;
+}
