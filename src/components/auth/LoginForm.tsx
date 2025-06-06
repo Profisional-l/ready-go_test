@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { verifyPasswordAction } from '@/app/admin/cases/actions'; // Adjust path as needed
+import { verifyPasswordAction } from '@/app/admin/actions'; // Updated path
 
 export default function LoginForm() {
   const router = useRouter();
@@ -31,7 +31,7 @@ export default function LoginForm() {
         title: 'Успех!',
         description: 'Вы вошли в систему.',
       });
-      router.refresh(); // Refresh the page to trigger server component re-render
+      router.refresh(); // Refresh to re-render layout and protected content
     } else {
       setError(result.error || 'Произошла неизвестная ошибка.');
       toast({
@@ -69,3 +69,5 @@ export default function LoginForm() {
     </div>
   );
 }
+
+    
