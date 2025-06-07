@@ -59,24 +59,6 @@ export function Header() {
               <span className="absolute left-0 bottom-[-4px] h-[2px] w-0 bg-foreground transition-all duration-300 group-hover:w-full"></span>
             </Link>
           </li>
-          <li>
-            <Link
-              href="#about"
-              className="relative group text-[20px] font-medium tracking-wider text-foreground"
-            >
-              О нас
-              <span className="absolute left-0 bottom-[-4px] h-[2px] w-0 bg-foreground transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="#contact"
-              className="relative group text-[20px] font-medium tracking-wider text-foreground"
-            >
-              Контакты
-              <span className="absolute left-0 bottom-[-4px] h-[2px] w-0 bg-foreground transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-          </li>
         </ul>
       </nav>
 
