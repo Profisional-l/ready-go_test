@@ -32,7 +32,7 @@ export function Footer() {
   }
 
   return (
-    <footer id="contact" className="bg-[#101010] text-background p-5">
+    <footer id="contact" className="bg-[#101010] text-background p-7 m-4 rounded-xl">
       <div className="max-w-[1450px] mx-auto px-8 grid md:grid-cols-2 gap-x-16 gap-y-12 md:gap-y-0 items-start">
         {/* Left Column */}
         <div className="pt-1">
@@ -51,7 +51,7 @@ export function Footer() {
         <form action={handleSendMessage} className="w-full">
           <div className="mb-3">
             <h4 className="text-[20px] font-semibold uppercase tracking-wider pb-[55px]">SAY HELLO</h4>
-            <p className="text-[#ffffff] text-[24px] text-muted-foreground/80">
+            <p className="text-[#ffffff] text-[24px]">
               Опишите вашу задачу. Или оставьте контакты, <br /> мы с вами свяжемся и все узнаем
             </p>
           </div>

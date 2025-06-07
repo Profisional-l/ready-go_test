@@ -14,6 +14,7 @@ export default {
         headline: ['Inter', 'sans-serif'],
         code: ['monospace'],
         mycustom: ['"Spektra Condensed"', 'sans-serif'],
+        'inter-display': ['"Inter Display"', 'sans-serif']
       },
       colors: {
         background: 'hsl(var(--background))',

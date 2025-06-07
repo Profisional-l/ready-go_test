@@ -35,7 +35,7 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
       if (imageIndex < images.length) {
         gridElements.push(
           <div key={`img-row-${imageIndex}`} className="grid grid-cols-1 gap-4 mb-4">
-            <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden shadow-md">
+            <div className="relative w-full aspect-[16/10] rounded-[30px] overflow-hidden shadow-md">
               <Image
                 src={images[imageIndex]}
                 alt={`${caseData.title} - Image ${imageIndex + 1}`}
@@ -57,7 +57,7 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
         const pairImages: JSX.Element[] = [];
 
         pairImages.push(
-          <div key={`img-pair-${imageIndex}`} className="relative w-full aspect-[16/10] rounded-lg overflow-hidden shadow-md">
+          <div key={`img-pair-${imageIndex}`} className="relative w-full aspect-[16/10] rounded-[30px] overflow-hidden shadow-md">
             <Image
               src={images[imageIndex]}
               alt={`${caseData.title} - Image ${imageIndex + 1}`}
@@ -72,7 +72,7 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
 
         if (imageIndex < images.length) {
           pairImages.push(
-            <div key={`img-pair-${imageIndex}`} className="relative w-full aspect-[16/10] rounded-lg overflow-hidden shadow-md">
+            <div key={`img-pair-${imageIndex}`} className="relative w-full aspect-[16/10]  rounded-[30px] overflow-hidden shadow-md">
               <Image
                 src={images[imageIndex]}
                 alt={`${caseData.title} - Image ${imageIndex + 1}`}
@@ -99,7 +99,7 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
       if (imageIndex < images.length) {
         gridElements.push(
           <div key={`img-row-${imageIndex}`} className="grid grid-cols-1 gap-4 mb-4">
-            <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden shadow-md">
+            <div className="relative w-full aspect-[16/10]  rounded-[30px] overflow-hidden shadow-md">
               <Image
                 src={images[imageIndex]}
                 alt={`${caseData.title} - Image ${imageIndex + 1}`}
@@ -123,10 +123,10 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-[95%] max-h-[90vh] flex flex-col p-0 rounded-lg">
-        <ScrollArea className="flex-grow overflow-y-auto">
+        <ScrollArea className="flex-grow overflow-y-auto scrollArea">
           <div className="p-6 md:p-8">
             <DialogHeader>
-              <DialogTitle className="text-[90px] font-mycustom">{caseData.title}</DialogTitle>
+              <DialogTitle className="text-[90px] font-mycustom uppercase tracking-normal">{caseData.title}</DialogTitle>
             </DialogHeader>
             <p className="text-[20px] font-medium text-center text-foreground mb-4">{caseData.fullDescription}</p>
             {caseData.tags && caseData.tags.length > 0 && (

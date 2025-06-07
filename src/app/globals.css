@@ -100,6 +100,9 @@
     @apply border-border;
     cursor: url("../components/assets/CURSOR_01.png"), auto;
   }
+  *:hover {
+    cursor: url("../components/assets/CURSOR_01.png"), auto;
+  }
   body {
     @apply bg-background text-foreground;
     @apply font-body;    
@@ -107,6 +110,12 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline;
   }
+body::-webkit-scrollbar {
+  display: none;
+}
+.scrollArea::-webkit-scrollbar {
+  display: none;
+}
 }
 
 header nav{

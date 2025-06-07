@@ -1,11 +1,11 @@
-
 "use client";
 
-import { useState } from 'react';
-import { CaseCard } from '@/components/ui/CaseCard';
-import { CaseModal } from '@/components/ui/CaseModal';
-import { Button } from '@/components/ui/button';
-import type { Case } from '@/types';
+import { useState } from "react";
+import { CaseCard } from "@/components/ui/CaseCard";
+import { CaseModal } from "@/components/ui/CaseModal";
+import { Button } from "@/components/ui/button";
+import type { Case } from "@/types";
+import Image from "next/image";
 
 interface CasesSectionProps {
   casesDataFromProps: Case[];
@@ -41,13 +41,31 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
       <div className="flex justify-between items-center mb-8 md:mb-12">
         <h2 className="text-[130px] font-mycustom text-foreground">КЕЙСЫ</h2>
         {casesDataFromProps.length > INITIAL_CASES_TO_SHOW && (
+          <div className="opacity-55 hover:opacity-100 transition-opacity duration-300">
           <Button
             variant="outline"
-            className="text-xs uppercase tracking-wider hover:bg-accent hover:text-accent-foreground hover:border-accent"
+            className="text-base uppercase tracking-wider font-bold border-0 bg-transparent hover:bg-transparent"
             onClick={toggleShowAll}
           >
-            {showAll ? 'Скрыть' : `Смотреть все (${casesDataFromProps.length})`}
-          </Button>
+            {showAll ? (
+              "Скрыть"
+            ) : (
+              <>
+                {`Смотреть все `}
+                <span className="inline-block align-middle h-[1em]">
+                  <Image
+                    src="/images/Group127w.png"
+                    alt="Анимированные глаза"
+                    width={15}
+                    height={15}
+                  />
+                </span>
+                {` (${casesDataFromProps.length})`}
+              </>
+            )}
+          </Button>            
+          </div>
+
         )}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -59,7 +77,11 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
           />
         ))}
       </div>
-      <CaseModal isOpen={isModalOpen} onClose={closeModal} caseData={selectedCase} />
+      <CaseModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        caseData={selectedCase}
+      />
     </section>
   );
 }
