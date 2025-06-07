@@ -126,7 +126,7 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
         <ScrollArea className="flex-grow overflow-y-auto scrollArea">
           <div className="p-6 md:p-8">
             <DialogHeader>
-              <DialogTitle className="text-[90px] font-mycustom uppercase tracking-normal">{caseData.title}</DialogTitle>
+              <DialogTitle className="text-[60px] md:text-[90px] font-mycustom uppercase tracking-normal">{caseData.title}</DialogTitle>
             </DialogHeader>
             <p className="text-[20px] font-medium text-center text-foreground mb-4">{caseData.fullDescription}</p>
             {caseData.tags && caseData.tags.length > 0 && (
