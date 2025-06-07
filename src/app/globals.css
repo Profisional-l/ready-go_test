@@ -116,6 +116,14 @@ body::-webkit-scrollbar {
 .scrollArea::-webkit-scrollbar {
   display: none;
 }
+.footerText {
+  font-size: 110px;
+}
+@media (max-width: 404px) {
+    .footerText {
+      font-size: 80px;
+    }
+  }
 }
 
 header nav{

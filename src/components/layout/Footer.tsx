@@ -78,8 +78,8 @@ export function Footer() {
         </form>
       </div>
       <section className="bg-[#101010] text-background pt-20 md:pt-[170px]">
-        <div className="max-w-[1450px] mx-auto px-8 text-center">
-          <h2 className="font-mycustom text-[110px] font-extrabold leading-tight uppercase">
+        <div className="max-w-[1450px] mx-auto  text-center">
+          <h2 className="font-mycustom font-extrabold leading-tight uppercase footerText">
             ВЫ READY РАБОТАТЬ С НАМИ?
             <span className="inline-block">
               <Image
