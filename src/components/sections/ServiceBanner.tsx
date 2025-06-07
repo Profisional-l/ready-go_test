@@ -14,7 +14,7 @@ const BannerContent = () => (
 
 export function ServiceBanner() {
   return (
-    <section className="bg-accent text-accent-foreground overflow-hidden h-[190px]">
+    <section className="bg-accent text-accent-foreground overflow-hidden h-[190px] py-4 md:py-0">
       <div className="relative flex flex-nowrap h-full">
         <div className="animate-marquee flex-shrink-0 flex items-center h-full">
           <BannerContent />

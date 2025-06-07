@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
 
 interface CaseCardProps {
+  
   id: string;
   title: string;
   imageUrls: string[];
@@ -13,14 +14,18 @@ export function CaseCard({ title, imageUrls, onClick, category }: CaseCardProps)
   const displayImage = imageUrls && imageUrls.length > 0 ? imageUrls[0] : 'https://placehold.co/360x220.png';
 
   return (
-    <Card
-      className="group overflow-hidden transition-all duration-300 cursor-pointer rounded-lg w-full bg-card text-card-foreground border-0"
+    <Card 
+      className="group overflow-hidden transition-all duration-300 cursor-pointer rounded-lg w-full bg-card text-card-foreground border-0 
+                 sm:w-auto sm:max-w-sm md:max-w-md lg:max-w-lg"
       onClick={onClick}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onClick()}
     >
-      <CardContent className="p-3 aspect-[280/220] relative">
+      <CardContent 
+        className="p-3 aspect-[280/220] relative 
+                   sm:aspect-[3/2] md:aspect-[4/3] lg:aspect-[16/9]"
+      >
         <Image
           src={displayImage}
           alt={title}
@@ -29,7 +34,10 @@ export function CaseCard({ title, imageUrls, onClick, category }: CaseCardProps)
           className="rounded-md group-hover:rounded-[50px] transition-all duration-300 ease-in-out"
         />
       </CardContent>
-      <CardFooter className="p-0 pt-3">
+      <CardFooter 
+        className="p-0 pt-3 
+                   sm:p-2 md:p-3"
+      >
         <div className="flex items-center -ml-4 group-hover:ml-0 transition-all duration-300">
           <Image
             src="/images/Line 5.png"
@@ -39,7 +47,9 @@ export function CaseCard({ title, imageUrls, onClick, category }: CaseCardProps)
             className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 mr-1"
           />
           <CardTitle className="text-lg font-inter font-medium tracking-normal text-foreground">
-            {title} — {category}
+            <span className="block text-base sm:text-lg font-bold">{title}</span>
+            <span className="block text-sm sm:text-base text-muted-foreground">{category}</span>
+
           </CardTitle>
         </div>
       </CardFooter>

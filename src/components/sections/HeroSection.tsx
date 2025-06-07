@@ -72,7 +72,7 @@ export function HeroSection() {
     <section className="relative min-h-screen w-full bg-white">
       {/* Центрированный контент */}
       <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8">
-        <div className="text-[13vw] sm:text-[100px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-40">
+        <div className="text-[10vw] sm:text-[13vw] sm:text-[100px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-40">
           <div className="whitespace-nowrap">
             <span style={{ color: "white", WebkitTextStroke: "3.3px black" }}>МЫ — </span>DIGITAL
           </div>

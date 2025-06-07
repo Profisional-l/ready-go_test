@@ -33,8 +33,8 @@ const duplicatedGalleryImages = [...galleryImagesData, ...galleryImagesData];
 
 const GalleryImageItem = ({ image }: { image: GalleryImage }) => (
   <div
-    className="shrink-0 overflow-hidden rounded-xl shadow-md mr-4"
-    style={{ width: `${image.width}px`, height: `${image.height}px` }}
+    className="shrink-0 overflow-hidden rounded-xl shadow-md mr-4 w-48 md:w-auto"
+    style={{ height: `${image.height}px` }}
   >
     <Image
       src={image.src}
@@ -50,9 +50,10 @@ const GalleryImageItem = ({ image }: { image: GalleryImage }) => (
 export function PhotoGallery() {
   return (
     <section className="py-16 md:py-24">
-      <div className="max-w-[1440px] mx-auto px-8">
-        {/* <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-8 md:mb-12 text-center">
-          НАША ЖИЗНЬ
+      <div className="max-w-[1440px] mx-auto px-4 md:px-8">
+        {/* The heading is commented out, but if uncommented, this is where mobile responsiveness should be applied */}
+        {/* <h2 className="text-2xl md:text-4xl font-extrabold text-foreground mb-8 md:mb-12 text-center">
+          НАША ЖИЗНЬ 
         </h2> */}
       </div>
       <div className="relative flex flex-nowrap overflow-x-hidden">

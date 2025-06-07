@@ -86,7 +86,7 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
           imageIndex++;
         }
 
-        gridElements.push(
+        gridElements.push( 
           <div key={`pair-container-${imageIndex - pairImages.length}`} className={`grid grid-cols-1 ${pairImages.length > 1 ? 'sm:grid-cols-2' : ''} gap-4 mb-4`}>
             {pairImages}
           </div>
@@ -122,11 +122,11 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-[95%] max-h-[90vh] flex flex-col p-0 rounded-lg">
-        <ScrollArea className="flex-grow overflow-y-auto scrollArea">
+      <DialogContent className="max-w-[95%] max-h-[90vh] flex flex-col p-0 rounded-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg md:w-full md:max-w-[60%] lg:max-w-[70%] xl:max-w-[80%] data-[state=closed]:slide-out-to-top-[3%] data-[state=open]:slide-in-from-top-[3%] data-[state=closed]:slide-out-to-bottom-[3%] data-[state=open]:slide-in-from-bottom-[3%] fixed left-[50%] top-[50%] z-50 grid translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200">
+        <ScrollArea className="flex-grow overflow-y-auto">
           <div className="p-6 md:p-8">
             <DialogHeader>
-              <DialogTitle className="text-[90px] font-mycustom uppercase tracking-normal">{caseData.title}</DialogTitle>
+              <DialogTitle className="text-4xl md:text-6xl lg:text-7xl xl:text-[90px] font-mycustom uppercase tracking-normal">{caseData.title}</DialogTitle>
             </DialogHeader>
             <p className="text-[20px] font-medium text-center text-foreground mb-4">{caseData.fullDescription}</p>
             {caseData.tags && caseData.tags.length > 0 && (
