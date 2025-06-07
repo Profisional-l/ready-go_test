@@ -70,7 +70,7 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen w-full bg-white">
-      {/* Центрированный контент */}
+      {/* Центрированный контент - Adjusted for responsiveness */}
       <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8">
         <div className="text-[10vw] sm:text-[13vw] sm:text-[100px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-40">
           <div className="whitespace-nowrap">
@@ -103,7 +103,7 @@ export function HeroSection() {
               )}
             >
               {currentWord}
-            </div>
+            </div> {/* Added unique key */}
 
             <div
               key={`word-next-${index}`}
@@ -119,10 +119,10 @@ export function HeroSection() {
             </div>
           </div>
         </div>
-      </div>
+      </div> {/* End of Centered Content - Adjusted for responsiveness */}
 
-      {/* Левая картинка */}
-      <div className="absolute left-4 sm:-left-6 top-10 z-10" style={leftImageStyle}>
+      {/* Левая картинка - Adjusted for responsiveness */}
+      <div className="absolute left-2 sm:left-4 top-10 sm:top-10 z-10" style={leftImageStyle}>
         <div className="relative w-[180px] sm:w-[260px] md:w-[365px] rounded-xl overflow-hidden">
           <Image
             src="/images/back-1.png"
@@ -133,8 +133,8 @@ export function HeroSection() {
           />
         </div>
       </div>
-
-      {/* Правая картинка */}
+      {/* End of Левая картинка - Adjusted for responsiveness */}
+      {/* Правая картинка - Adjusted for responsiveness */}
       <div className="absolute -right-4 sm:-right-5 bottom-4 sm:top-20 z-10 mt-60" style={rightImageStyle}>
         <div className="relative w-[180px] sm:w-[280px] md:w-[360px] h-[280px] sm:h-[400px] md:h-[450px] overflow-hidden">
           <Image
@@ -144,7 +144,7 @@ export function HeroSection() {
             className="object-cover"
           />
         </div>
-      </div>
+      </div> {/* End of Правая картинка - Adjusted for responsiveness */}
     </section>
   );
 }

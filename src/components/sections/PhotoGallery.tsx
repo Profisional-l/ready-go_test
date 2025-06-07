@@ -34,7 +34,7 @@ const duplicatedGalleryImages = [...galleryImagesData, ...galleryImagesData];
 const GalleryImageItem = ({ image }: { image: GalleryImage }) => (
   <div
     className="shrink-0 overflow-hidden rounded-xl shadow-md mr-4 w-48 md:w-auto"
-    style={{ height: `${image.height}px` }}
+    style={{ height: 'auto' }} // Let height adjust based on aspect ratio and width
   >
     <Image
       src={image.src}
@@ -42,7 +42,7 @@ const GalleryImageItem = ({ image }: { image: GalleryImage }) => (
       width={image.width}
       height={image.height}
       className="object-cover w-full h-full"
-      data-ai-hint={image.aiHint}
+      data-ai-hint={image.aiHint} // Consider adjusting width for smaller screens
     />
   </div>
 );
@@ -57,7 +57,7 @@ export function PhotoGallery() {
         </h2> */}
       </div>
       <div className="relative flex flex-nowrap overflow-x-hidden">
-        <div className="animate-marquee-images flex-shrink-0 flex items-center">
+        <div className="animate-marquee-images flex-shrink-0 flex items-center" style={{ gap: '1rem' }}> {/* Added gap for spacing */}
           {duplicatedGalleryImages.map((image, index) => (
             <GalleryImageItem key={`track1-${image.id}-${index}`} image={image} />
           ))}
