@@ -88,7 +88,7 @@ export function HeroSection() {
             </span>{" "}
             <span style={{ color: "white", WebkitTextStroke: "3.3px black" }}>READY GO</span>
           </div>
-          <div className="whitespace-nowrap -mt-4">К НАМ ПРИХОДЯТ ЗА</div>
+          <div className="-mt-4">К НАМ ПРИХОДЯТ ЗА</div>
 
           {/* Слова с анимацией */}
           <div className="relative h-[1.3em] mt-2 overflow-hidden">
