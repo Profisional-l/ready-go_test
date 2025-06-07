@@ -62,11 +62,6 @@ export function PhotoGallery() {
             <GalleryImageItem key={`track1-${image.id}-${index}`} image={image} />
           ))}
         </div>
-        <div className="absolute top-0 left-0 animate-marquee2-images flex-shrink-0 flex items-center">
-          {duplicatedGalleryImages.map((image, index) => (
-            <GalleryImageItem key={`track2-${image.id}-${index}`} image={image} />
-          ))}
-        </div>
       </div>
     </section>
   );

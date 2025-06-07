@@ -21,7 +21,6 @@ export function Header() {
             alt="Company Logo"
             width={95} // Вам может потребоваться изменить эти значения
             height={55} // в зависимости от размеров вашего логотипа
-            className="h-auto w-auto" // Для лучшей адаптивности
           />
         </Link>
       </div>
@@ -54,24 +53,6 @@ export function Header() {
               href="#contact"
               className="relative group text-[20px] font-medium tracking-wider text-foreground"
               onClick={() => setIsOpen(false)}
-            >
-              Контакты
-              <span className="absolute left-0 bottom-[-4px] h-[2px] w-0 bg-foreground transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="#about"
-              className="relative group text-[20px] font-medium tracking-wider text-foreground"
-            >
-              О нас
-              <span className="absolute left-0 bottom-[-4px] h-[2px] w-0 bg-foreground transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="#contact"
-              className="relative group text-[20px] font-medium tracking-wider text-foreground"
             >
               Контакты
               <span className="absolute left-0 bottom-[-4px] h-[2px] w-0 bg-foreground transition-all duration-300 group-hover:w-full"></span>
