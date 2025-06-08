@@ -79,11 +79,11 @@ export function HeroSection() {
           <div className="whitespace-nowrap mt-2">
             АГЕНТСТВО{" "}
             {/* Adjusted for responsive Image component */}
-            <span className="relative inline-block align-middle h-[1em] w-[1.5em]"> {/* Added relative and set dimensions */}
+            <span className="relative inline-block h-[103px] w-[95px]"> {/* Added relative and set dimensions */}
               <Image
                 src="/images/eyes_Group127.png"
                 alt="Анимированные глаза"
-                fill // Use fill for responsive scaling within parent
+                fill
               />
             </span>{" "}
             <span style={{ color: "white", WebkitTextStroke: "3.3px black" }}>READY GO</span>
