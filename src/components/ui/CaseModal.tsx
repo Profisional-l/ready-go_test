@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from 'next/image';
@@ -26,98 +25,27 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
       return null;
     }
 
-    const images = caseData.imageUrls;
-    const gridElements: JSX.Element[] = [];
-    let imageIndex = 0;
-
-    while (imageIndex < images.length) {
-      // 1. Первая картинка в паттерне 1-2-1 (полная ширина)
-      if (imageIndex < images.length) {
-        gridElements.push(
-          <div key={`img-row-${imageIndex}`} className="grid grid-cols-1 gap-4 mb-4">
-            <div className="relative w-full aspect-[16/10] rounded-[30px] overflow-hidden shadow-md">
+    return (
+      <div className="mt-6">
+        <div className="flex flex-wrap justify-center gap-2">
+          {caseData.imageUrls.map((image, index) => (
+            <div key={`img-${index}`} className="flex justify-center">
               <Image
-                src={images[imageIndex]}
-                alt={`${caseData.title} - Image ${imageIndex + 1}`}
-                layout="fill"
-                objectFit="cover"
-                className="rounded-lg"
+                src={image}
+                alt={`${caseData.title} - Image ${index + 1}`}
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{ width: 'auto', height: 'auto', maxWidth: '100%' }}
+                className="rounded-[30px]"
                 data-ai-hint={`${caseData.title.substring(0, 20)} project image`}
+                unoptimized
               />
             </div>
-          </div>
-        );
-        imageIndex++;
-      } else {
-        break;
-      }
-
-      // 2. Следующие две картинки в паттерне 1-2-1 (две колонки)
-      if (imageIndex < images.length) {
-        const pairImages: JSX.Element[] = [];
-
-        pairImages.push(
-          <div key={`img-pair-${imageIndex}`} className="relative w-full aspect-[16/10] rounded-[30px] overflow-hidden shadow-md">
-            <Image
-              src={images[imageIndex]}
-              alt={`${caseData.title} - Image ${imageIndex + 1}`}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-lg"
-              data-ai-hint={`${caseData.title.substring(0, 20)} project image`}
-            />
-          </div>
-        );
-        imageIndex++;
-
-        if (imageIndex < images.length) {
-          pairImages.push(
-            <div key={`img-pair-${imageIndex}`} className="relative w-full aspect-[16/10]  rounded-[30px] overflow-hidden shadow-md">
-              <Image
-                src={images[imageIndex]}
-                alt={`${caseData.title} - Image ${imageIndex + 1}`}
-                layout="fill"
-                objectFit="cover"
-                className="rounded-lg"
-                data-ai-hint={`${caseData.title.substring(0, 20)} project image`}
-              />
-            </div>
-          );
-          imageIndex++;
-        }
-
-        gridElements.push(
-          <div key={`pair-container-${imageIndex - pairImages.length}`} className={`grid grid-cols-1 ${pairImages.length > 1 ? 'sm:grid-cols-2' : ''} gap-4 mb-4`}>
-            {pairImages}
-          </div>
-        );
-      } else {
-        break;
-      }
-
-      // 3. Последняя картинка в паттерне 1-2-1 (полная ширина)
-      if (imageIndex < images.length) {
-        gridElements.push(
-          <div key={`img-row-${imageIndex}`} className="grid grid-cols-1 gap-4 mb-4">
-            <div className="relative w-full aspect-[16/10]  rounded-[30px] overflow-hidden shadow-md">
-              <Image
-                src={images[imageIndex]}
-                alt={`${caseData.title} - Image ${imageIndex + 1}`}
-                layout="fill"
-                objectFit="cover"
-                className="rounded-lg"
-                data-ai-hint={`${caseData.title.substring(0, 20)} project image`}
-              />
-            </div>
-          </div>
-        );
-        imageIndex++;
-      } else {
-        break;
-      }
-    }
-
-    return <div className="mt-6">{gridElements}</div>;
+          ))}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -126,13 +54,21 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
         <ScrollArea className="flex-grow overflow-y-auto scrollArea">
           <div className="p-6 md:p-8">
             <DialogHeader>
-              <DialogTitle className="text-[60px] md:text-[90px] font-mycustom uppercase tracking-normal">{caseData.title}</DialogTitle>
+              <DialogTitle className="text-[60px] md:text-[90px] font-mycustom uppercase tracking-normal">
+                {caseData.title}
+              </DialogTitle>
             </DialogHeader>
-            <p className="text-[20px] font-medium text-center text-foreground mb-4">{caseData.fullDescription}</p>
+            <p className="text-[20px] font-medium text-center text-foreground mb-4">
+              {caseData.fullDescription}
+            </p>
             {caseData.tags && caseData.tags.length > 0 && (
               <div className="flex flex-wrap justify-center gap-2 mb-6">
                 {caseData.tags.map((tag, index) => (
-                  <Badge key={index} variant="secondary" className="text-[#5D5D5D] text-sm">
+                  <Badge
+                    key={index}
+                    variant="secondary"
+                    className="text-[#5D5D5D] text-sm"
+                  >
                     {tag}
                   </Badge>
                 ))}
