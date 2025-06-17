@@ -11,29 +11,150 @@ export function HeroSection() {
     "ВЕБ-РАЗРАБОТКОЙ",
     "БРЕНДИНГОМ",
     "КРЕАТИВОМ",
+    "ПРОДАКШЕНОМ",
+    "МЕРЧОМ",
   ];
+  
+  // Группируем изображения по 2 для каждого ключевого слова
+ const imageGroups = [
+    [
+      { 
+        src: "/images/ForHeroSection/back-1.png", 
+        alt: "СТРАТЕГИЯМИ",
+        width: 305,
+        height: 352,
+        maxHeight: 352
+      },
+      { 
+        src: "/images/ForHeroSection/back-2.png", 
+        alt: "СТРАТЕГИЯМИ",
+        width: 308,
+        height: 378,
+        maxHeight: 378
+      }
+    ],
+    [
+      { 
+        src: "/images/ForHeroSection/back-3.png", 
+        alt: "SMM",
+        width: 288,
+        height: 360,
+        maxHeight: 360
+      },
+      { 
+        src: "/images/ForHeroSection/back-4.png", 
+        alt: "SMM",
+        width: 302,
+        height: 353,
+        maxHeight: 420
+      }
+    ],
+    [
+      { 
+        src: "/images/ForHeroSection/back-5.png", 
+        alt: "СТРАТЕГИЯМИ",
+        width: 254,
+        height: 351,
+        maxHeight: 351
+      },
+      { 
+        src: "/images/ForHeroSection/back-6.png", 
+        alt: "СТРАТЕГИЯМИ",
+        width: 396,
+        height: 308,
+        maxHeight: 308
+      }
+    ],
+        [
+      { 
+        src: "/images/ForHeroSection/back-7.png", 
+        alt: "СТРАТЕГИЯМИ",
+        width: 290,
+        height: 364,
+        maxHeight: 364
+      },
+      { 
+        src: "/images/ForHeroSection/back-8.png", 
+        alt: "СТРАТЕГИЯМИ",
+        width: 338,
+        height: 338,
+        maxHeight: 338
+      }
+    ],
+            [
+      { 
+        src: "/images/ForHeroSection/back-9.png", 
+        alt: "СТРАТЕГИЯМИ",
+        width: 387,
+        height: 259,
+        maxHeight: 259
+      },
+      { 
+        src: "/images/ForHeroSection/back-10.png", 
+        alt: "СТРАТЕГИЯМИ",
+        width: 311,
+        height: 311,
+        maxHeight: 311
+      }
+    ],
+            [
+      { 
+        src: "/images/ForHeroSection/back-11.png", 
+        alt: "СТРАТЕГИЯМИ",
+        width: 290,
+        height: 371,
+        maxHeight: 371
+      },
+      { 
+        src: "/images/ForHeroSection/back-12.png", 
+        alt: "СТРАТЕГИЯМИ",
+        width: 272,
+        height: 338,
+        maxHeight: 338
+      }
+    ],
+            [
+      { 
+        src: "/images/ForHeroSection/back-13.png", 
+        alt: "СТРАТЕГИЯМИ",
+        width: 339,
+        height: 339,
+        maxHeight: 339
+      },
+      { 
+        src: "/images/ForHeroSection/back-14.png", 
+        alt: "СТРАТЕГИЯМИ",
+        width: 285,
+        height: 359,
+        maxHeight: 359
+      }
+    ],
+  ];
+
   const [index, setIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [imagePosition, setImagePosition] = useState(true);
+  const [imageOpacity, setImageOpacity] = useState(1);
 
   const [leftImageStyle, setLeftImageStyle] = useState<React.CSSProperties>({});
-  const [rightImageStyle, setRightImageStyle] = useState<React.CSSProperties>(
-    {}
-  );
+  const [rightImageStyle, setRightImageStyle] = useState<React.CSSProperties>({});
   const [eyeStyle, setEyeStyle] = useState<React.CSSProperties>({});
   const mouse = useRef({ x: 0, y: 0 });
   const animFrame = useRef<number | null>(null);
   const eyesRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+
   // Определяем мобильное устройство
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768); // 768px - стандартный брейкпойнт для mobile
+      setIsMobile(window.innerWidth < 768);
     };
 
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
   // Плавное движение изображений и глаз
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -68,7 +189,7 @@ export function HeroSection() {
         const eyesCenterY = eyesRect.top + eyesRect.height / 2;
 
         const angle = Math.atan2(y - eyesCenterY, x - eyesCenterX);
-        const distance = 8; // Максимальное смещение зрачков
+        const distance = 8;
         const eyeX = Math.cos(angle) * distance;
         const eyeY = Math.sin(angle) * distance * 1.7;
 
@@ -90,7 +211,26 @@ export function HeroSection() {
     };
   }, []);
 
-  // Плавная смена слов
+  // Плавная смена слов и изображений
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Фаза 1: плавное исчезновение картинок
+      setImageOpacity(0);
+      
+      setTimeout(() => {
+        // Фаза 2: мгновенное изменение позиции и изображений
+        setImagePosition((prev) => !prev);
+        
+      }, 300);
+       // Фаза 3: плавное появление картинок
+        setTimeout(() => {
+           setImageOpacity(1);
+        }, 600)
+    }, 3500);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setIsAnimating(true);
@@ -104,12 +244,25 @@ export function HeroSection() {
 
   const currentWord = keywords[index];
   const nextWord = keywords[(index + 1) % keywords.length];
+  const currentImages = imageGroups[index % imageGroups.length];
+  const nextImages = imageGroups[(index + 1) % imageGroups.length];
+
+  useEffect(() => {
+  // Предзагружаем все изображения
+  imageGroups.flat().forEach((img) => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = img.src;
+    document.head.appendChild(link);
+  });
+}, []);
 
   return (
-    <section className="relative min-h-screen w-full bg-white">
+    <section className="relative min-h-screen w-full bg-background">
       {/* Центрированный контент */}
       <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8">
-        <div className="text-[60px] sm:text-[100px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-40 mainScreenTextBlock">
+        <div className="text-[60px] sm:text-[100px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-40 mainScreenTextBlock max-w-[1000px]">
           <div className="whitespace-normal">
             <span className="textToBorder">МЫ — </span>DIGITAL
           </div>
@@ -124,19 +277,19 @@ export function HeroSection() {
                 style={{ position: "relative", height: "100%", width: "100%" }}
               >
                 {isMobile ? (
-                  // Мобильная версия - просто статичное изображение
                   <Image
                     src="/images/eyes_Group127.png"
                     alt="глаза"
+                    unoptimized={true}
                     layout="fill"
                     objectFit="contain"
                   />
                 ) : (
-                  // Десктопная версия с анимацией
                   <>
                     <Image
                       src="/images/eyes0.png"
                       alt="глаза"
+                      unoptimized={true}
                       layout="fill"
                       objectFit="contain"
                     />
@@ -167,6 +320,7 @@ export function HeroSection() {
                         <Image
                           src="/images/eyes1.png"
                           alt="зрачки"
+                          unoptimized={true}
                           layout="fill"
                           objectFit="contain"
                         />
@@ -178,7 +332,6 @@ export function HeroSection() {
             </span>{" "}
             <span className="textToBorder">READY GO.</span> <span>К НАМ ПРИХОДЯТ ЗА</span>
           </div>
-          {/* <div className="md:-mt-4"></div> */}
 
           {/* Слова с анимацией */}
           <div className="relative h-[2em] mt-1 overflow-hidden">
@@ -211,34 +364,69 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Левая картинка */}
-      <div
-        className="absolute left-2 sm:left-4 top-10 sm:top-10 z-10"
-        style={leftImageStyle}
+      {/* Левая картинка с анимацией */}
+       <div
+        className={cn(
+          "absolute left-2 sm:left-4 z-10 transition-all duration-700",
+          imagePosition ? 'bottom-56' : 'top-10'
+        )}
+        style={{
+          ...leftImageStyle,
+          opacity: imageOpacity,
+          transition: 'opacity 0.35s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out'
+        }}
       >
-        <div className="relative w-[180px] sm:w-[260px] md:w-[365px] rounded-xl overflow-hidden hidden md:block">
-          <Image
-            src="/images/back-1.png"
-            alt="Черное худи с бирюзовым принтом"
-            width={365}
-            height={365}
-            className="w-full h-auto"
-          />
+        <div 
+          className="relative overflow-hidden hidden md:block"
+          style={{
+            width: `${currentImages[0].width}px`,
+            height: `${currentImages[0].height}px`
+          }}
+        >
+          <div className="w-full h-full rounded-[12px] overflow-hidden">
+            <Image
+              src={currentImages[0].src}
+              alt={currentImages[0].alt}
+              unoptimized={true}
+              width={currentImages[0].width}
+              height={currentImages[0].height}
+              className="w-full h-full object-cover"
+              style={{ maxHeight: `${currentImages[0].maxHeight}px` }}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Правая картинка */}
+      {/* Правая картинка с анимацией */}
       <div
-        className="absolute -right-4 sm:-right-5 bottom-4 sm:top-20 z-10 mt-60"
-        style={rightImageStyle}
+        className={cn(
+          "absolute -right-4 sm:-right-5 z-10 transition-all duration-700",
+          imagePosition ? 'top-10' : 'bottom-48'
+        )}
+        style={{
+          ...rightImageStyle,
+          opacity: imageOpacity,
+          transition: 'opacity 0.35s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out'
+        }}
       >
-        <div className="relative w-[180px] sm:w-[280px] md:w-[360px] h-[280px] sm:h-[400px] md:h-[450px] overflow-hidden hidden md:block">
-          <Image
-            src="/images/back-2.png"
-            alt="3D рендер карточки Progress on velocity"
-            fill
-            className="object-cover"
-          />
+        <div 
+          className="relative overflow-hidden hidden md:block"
+          style={{
+            width: `${currentImages[1].width}px`,
+            height: `${currentImages[1].height}px`
+          }}
+        >
+          <div className="w-full h-full rounded-[12px] overflow-hidden">
+            <Image
+              src={currentImages[1].src}
+              alt={currentImages[1].alt}
+              unoptimized={true}
+              width={currentImages[1].width}
+              height={currentImages[1].height}
+              className="w-full h-full object-cover"
+              style={{ maxHeight: `${currentImages[1].maxHeight}px` }}
+            />
+          </div>
         </div>
       </div>
     </section>

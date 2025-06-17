@@ -12,7 +12,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="relative flex items-center justify-between py-5 px-4 md:px-8 lg:px-12">
+    <header className="relative flex items-center justify-between py-2 md:py-4 px-0">
       {/* Logo positioned to the left */}
       <div className="flex-shrink-0">
         <Link href="/">

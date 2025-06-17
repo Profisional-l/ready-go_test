@@ -2,7 +2,7 @@ export function AboutSection() {
   return (
     <section id="about" className="py-16 md:py-24">
       <div className="mx-auto text-left">
-        <h2 className="text-[80px] md:text-[130px] font-mycustom ">О НАС</h2>
+        <h2 className="text-6xl md:text-[130px] font-mycustom mb-10">О НАС</h2>
         <p className="text-[24px] md:text-[44px] max-w-[1380px]">
           Когда-то наша команда из Минска была частью Red Graphic — агентства с
           30-летней историей. <br />

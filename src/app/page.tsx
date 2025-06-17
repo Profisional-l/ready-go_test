@@ -30,20 +30,22 @@ export default async function HomePage() {
   return (
     <>
       <ProgressBar />
-      <div className="max-w-[1440px] mx-auto px-8">
+      <div className="max-w-[1640px] mx-auto px-3 md:px-8">
         <Header />
       </div>
       <main className="bg-background text-foreground">
-        <div className="max-w-[1440px] mx-auto md:px-8">
+        <div className="max-w-[1640px] mx-auto md:px-8">
           <HeroSection />
-          <CasesSection casesDataFromProps={casesData} />
+          <div className='bg-[#F1F0F0] md:bg-background'>
+          <CasesSection casesDataFromProps={casesData}/>
+          </div>
         </div>
         <ServiceBanner />
-        <div className="max-w-[1440px] mx-auto px-8">
+        <div className="max-w-[1640px] mx-auto px-8">
           <AboutSection />
         </div>
         <PhotoGallery />
-        <div className="max-w-[1440px] mx-auto px-8">
+        <div className="max-w-[1640px] mx-auto px-8">
           <ClientsSection />
         </div>
       </main>

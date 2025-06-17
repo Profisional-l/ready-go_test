@@ -43,7 +43,7 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
     >
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12">
         {/* Adjusted font size for mobile */}
-        <h2 className="text-5xl md:text-[130px] font-mycustom text-foreground mb-4 md:mb-0">
+        <h2 className="text-6xl md:text-[130px] font-mycustom text-foreground mb-4 md:mb-0">
           КЕЙСЫ
         </h2>
       </div>
@@ -58,10 +58,10 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
         ))}
       </div>
       {casesDataFromProps.length > INITIAL_CASES_TO_SHOW && (
-        <div className="self-end md:self-auto mt-5 text-center">
+        <div className="self-end md:self-auto mt-12 text-center">
           <Button
             variant="outline"
-            className="text-sm md:text-base tracking-wider opacity-55 hover:opacity-100 transition-opacity duration-300  border-solid border-[1.5px] border-[#000000] rounded-[54px] bg-transparent hover:bg-transparent p-5  mx-auto"
+            className="text-sm md:text-base tracking-wider opacity-55 hover:opacity-100 transition-opacity duration-300  border-solid border-[1.5px] border-[#000000] rounded-[54px] bg-transparent hover:bg-transparent p-5 px-6  mx-auto"
             onClick={toggleShowAll}
           >
             {showAll ? "Скрыть" : <>{`Показать все `}</>}
