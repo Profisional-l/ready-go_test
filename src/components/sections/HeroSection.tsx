@@ -109,7 +109,7 @@ export function HeroSection() {
     <section className="relative min-h-screen w-full bg-white">
       {/* Центрированный контент */}
       <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8">
-        <div className="text-[80px] sm:text-[100px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-40 mainScreenTextBlock">
+        <div className="text-[60px] sm:text-[100px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-40 mainScreenTextBlock">
           <div className="whitespace-normal">
             <span className="textToBorder">МЫ — </span>DIGITAL
           </div>
@@ -176,12 +176,12 @@ export function HeroSection() {
                 )}
               </div>
             </span>{" "}
-            <span className="textToBorder">READY GO</span>
+            <span className="textToBorder">READY GO.</span> <span>К НАМ ПРИХОДЯТ ЗА</span>
           </div>
-          <div className="md:-mt-4">К НАМ ПРИХОДЯТ ЗА</div>
+          {/* <div className="md:-mt-4"></div> */}
 
           {/* Слова с анимацией */}
-          <div className="relative h-[1.3em] mt-2 overflow-hidden">
+          <div className="relative h-[2em] mt-1 overflow-hidden">
             <div
               key={`word-${index}`}
               className={cn(

@@ -37,38 +37,17 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
     : casesDataFromProps.slice(0, INITIAL_CASES_TO_SHOW);
 
   return (
-    <section id="cases" className="py-10 md:py-24 px-4 overflow-hidden">
+    <section
+      id="cases"
+      className="py-10 md:py-24 px-4 overflow-hidden"
+    >
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12">
         {/* Adjusted font size for mobile */}
-        <h2 className="text-5xl md:text-[130px] font-mycustom text-foreground mb-4 md:mb-0">КЕЙСЫ</h2>
-        {casesDataFromProps.length > INITIAL_CASES_TO_SHOW && (
-          <div className="opacity-55 hover:opacity-100 transition-opacity duration-300 self-end md:self-auto">
-          <Button
-            variant="outline"
-            className="text-sm md:text-base uppercase tracking-wider font-bold border-0 bg-transparent hover:bg-transparent p-0"
-            onClick={toggleShowAll}
-          >
-            {showAll ? (
-              "Скрыть"
-            ) : (
-              <>
-                {`Смотреть все `}
-                <span className="inline-block align-middle h-[1em]">
-                  <Image
-                    src="/images/Group127w.png"
-                    alt="Анимированные глаза"
-                    width={15}
-                    height={15}
-                  />
-                </span>
-                {` (${casesDataFromProps.length})`}
-              </>
-            )}
-          </Button>            
-          </div>
-
-        )}
-      </div>{/* Adjusted grid for mobile */}
+        <h2 className="text-5xl md:text-[130px] font-mycustom text-foreground mb-4 md:mb-0">
+          КЕЙСЫ
+        </h2>
+      </div>
+      {/* Adjusted grid for mobile */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {casesToDisplay.map((caseItem) => (
           <CaseCard
@@ -78,6 +57,17 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
           />
         ))}
       </div>
+      {casesDataFromProps.length > INITIAL_CASES_TO_SHOW && (
+        <div className="self-end md:self-auto mt-5 text-center">
+          <Button
+            variant="outline"
+            className="text-sm md:text-base tracking-wider opacity-55 hover:opacity-100 transition-opacity duration-300  border-solid border-[1.5px] border-[#000000] rounded-[54px] bg-transparent hover:bg-transparent p-5  mx-auto"
+            onClick={toggleShowAll}
+          >
+            {showAll ? "Скрыть" : <>{`Показать все `}</>}
+          </Button>
+        </div>
+      )}
       <CaseModal
         isOpen={isModalOpen}
         onClose={closeModal}
