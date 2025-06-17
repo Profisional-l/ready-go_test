@@ -34,7 +34,7 @@ export default async function HomePage() {
         <Header />
       </div>
       <main className="bg-background text-foreground">
-        <div className="max-w-[1440px] mx-auto px-8">
+        <div className="max-w-[1440px] mx-auto md:px-8">
           <HeroSection />
           <CasesSection casesDataFromProps={casesData} />
         </div>

@@ -72,60 +72,61 @@ export function HeroSection() {
     <section className="relative min-h-screen w-full bg-white">
       {/* Центрированный контент - Adjusted for responsiveness */}
       <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8">
-        <div className="text-[10vw] sm:text-[13vw] sm:text-[100px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-40">
-          <div className="whitespace-nowrap">
-            <span style={{ color: "white", WebkitTextStroke: "3.3px black" }}>МЫ — </span>DIGITAL
-          </div>
-          <div className="whitespace-nowrap mt-2">
-            АГЕНТСТВО{" "}
-            <span className="relative inline-block" style={{ height: "1em", width: "calc(95/103 * 1em)" }}>
-              <div style={{ position: "relative", height: "100%", width: "100%" }}>
-                <Image
-                  src="/images/eyes_Group127.png"
-                  alt="Анимированные глаза"
-                  layout="fill"
-                  objectFit="contain"
-                />
-              </div>
-            </span>{" "}
-            <span style={{ color: "white", WebkitTextStroke: "3.3px black" }}>READY GO</span>
-          </div>
-          <div className="-mt-4">К НАМ ПРИХОДЯТ ЗА</div>
+<div className="text-[80px] sm:text-[100px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-40 mainScreenTextBlock">
+  <div className="whitespace-normal"> {/* Изменено на whitespace-normal */}
+    <span className="textToBorder">МЫ — </span>DIGITAL
+  </div>
+  <div className="whitespace-normal mt-2"> {/* Изменено на whitespace-normal */}
+    АГЕНТСТВО{" "}
+    <span className="relative inline-block" style={{ height: ".83em", width: "calc(95/103 * 1em)" }}>
+      <div style={{ position: "relative", height: "100%", width: "100%" }}>
+        <Image
+          src="/images/eyes_Group127.png"
+          alt="Анимированные глаза"
+          layout="fill"
+          objectFit="contain"
+        />
+      </div>
+    </span>{" "}
+    <span className="textToBorder">READY GO</span>
+  </div>
+  <div className="md:-mt-4">К НАМ ПРИХОДЯТ ЗА</div>
 
-          {/* Слова с анимацией */}
-          <div className="relative h-[1.3em] mt-2 overflow-hidden">
-            <div
-              key={`word-${index}`}
-              className={cn(
-                "absolute w-full text-center transition-all duration-700",
-                isAnimating
-                  ? "-translate-y-full opacity-0"
-                  : "translate-y-0 opacity-100",
-                "ease-[cubic-bezier(0.77,0,0.175,1)]"
-              )}
-            >
-              {currentWord}
-            </div> {/* Added unique key */}
+  {/* Слова с анимацией */}
+  <div className="relative h-[1.3em] mt-2 overflow-hidden">
+    <div
+      key={`word-${index}`}
+      className={cn(
+        "absolute w-full text-center transition-all duration-700",
+        isAnimating
+          ? "-translate-y-full opacity-0"
+          : "translate-y-0 opacity-100",
+        "ease-[cubic-bezier(0.77,0,0.175,1)]"
+      )}
+    >
+      {currentWord}
+    </div> {/* Added unique key */}
 
-            <div
-              key={`word-next-${index}`}
-              className={cn(
-                "absolute w-full text-center transition-all duration-700",
-                isAnimating
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-full opacity-0",
-                "ease-[cubic-bezier(0.77,0,0.175,1)]"
-              )}
-            >
-              {nextWord}
-            </div>
-          </div>
-        </div>
+    <div
+      key={`word-next-${index}`}
+      className={cn(
+        "absolute w-full text-center transition-all duration-700",
+        isAnimating
+          ? "translate-y-0 opacity-100"
+          : "translate-y-full opacity-0",
+        "ease-[cubic-bezier(0.77,0,0.175,1)]"
+      )}
+    >
+      {nextWord}
+    </div>
+  </div>
+</div>
+
       </div> {/* End of Centered Content - Adjusted for responsiveness */}
 
       {/* Левая картинка - Adjusted for responsiveness */}
       <div className="absolute left-2 sm:left-4 top-10 sm:top-10 z-10" style={leftImageStyle}>
-        <div className="relative w-[180px] sm:w-[260px] md:w-[365px] rounded-xl overflow-hidden">
+        <div className="relative w-[180px] sm:w-[260px] md:w-[365px] rounded-xl overflow-hidden hidden md:block">
           <Image
             src="/images/back-1.png"
             alt="Черное худи с бирюзовым принтом"
@@ -138,7 +139,7 @@ export function HeroSection() {
       {/* End of Левая картинка - Adjusted for responsiveness */}
       {/* Правая картинка - Adjusted for responsiveness */}
       <div className="absolute -right-4 sm:-right-5 bottom-4 sm:top-20 z-10 mt-60" style={rightImageStyle}>
-        <div className="relative w-[180px] sm:w-[280px] md:w-[360px] h-[280px] sm:h-[400px] md:h-[450px] overflow-hidden">
+        <div className="relative w-[180px] sm:w-[280px] md:w-[360px] h-[280px] sm:h-[400px] md:h-[450px] overflow-hidden hidden md:block">
           <Image
             src="/images/back-2.png"
             alt="3D рендер карточки Progress on velocity"
