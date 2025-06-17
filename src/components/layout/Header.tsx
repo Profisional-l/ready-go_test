@@ -26,7 +26,7 @@ export function Header() {
       </div>
 
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex flex-grow justify-center">
+      <nav className="hidden md:flex flex-grow justify-center mr-[95px]">
         <ul className="flex space-x-6">
           <li>
             <Link
