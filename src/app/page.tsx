@@ -34,20 +34,31 @@ export default async function HomePage() {
         <Header />
       </div>
       <main className="bg-background text-foreground">
-        <div className="max-w-[1640px] mx-auto md:px-8">
-          <HeroSection />
-          <div className='bg-[#F1F0F0] md:bg-background'>
-          <CasesSection casesDataFromProps={casesData}/>
+        <div className="grid-container max-w-[1640px] mx-auto md:px-8">
+          <div className="col-span-8">
+            <HeroSection />
           </div>
+          <div className="col-span-8 bg-[#F1F0F0] md:bg-background">
+            <CasesSection casesDataFromProps={casesData} />
+          </div>
+          {/* <div className="col-span-8">
+            <ServiceBanner />
+          </div> */}
         </div>
         <ServiceBanner />
-        <div className="max-w-[1640px] mx-auto px-8">
-          <AboutSection />
+        <div className="grid-container max-w-[1640px] mx-auto md:px-8">
+          <div className="col-span-8">
+            <AboutSection />
+          </div>
+          {/* <div className="col-span-8"> */}
+          {/* <PhotoGallery /> */}
+          {/* </div> */}
+          <div className="col-span-8">
+            <ClientsSection />
+          </div>
+          {/* Add FinalCTA here if it should be part of the main grid */}
         </div>
-        {/* <PhotoGallery /> */}
-        <div className="max-w-[1640px] mx-auto px-8">
-          <ClientsSection />
-        </div>
+        
       </main>
       <Footer />
     </>

@@ -33,7 +33,7 @@ export function Footer() {
 
   return (
     <footer id="contact" className="bg-[#101010] text-background p-7 m-3 rounded-xl">
-      <div className="max-w-[1450px] mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start">
+      <div className="max-w-[1450px] mx-0 grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start">
         {/* Left Column */}
         <div className="pt-1 mb-8 md:mb-0">
           <p className="text-[#ffffff] text-[20px] text-muted-foreground/80 pb-[55px]">&copy; READYGO 2025</p>
