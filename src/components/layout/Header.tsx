@@ -71,6 +71,8 @@ export function Header() {
               src="/images/w_logo.png"
               alt="Logo dark"
               fill
+              unoptimized={true}
+              quality={100}
               className={`transition-opacity duration-500 object-contain ${
                 isOpen ? "opacity-100" : "opacity-0"
               }`}
@@ -79,6 +81,8 @@ export function Header() {
               src="/images/logo.png"
               alt="Logo light"
               fill
+              unoptimized={true}
+              quality={100}
               className={`absolute top-0 left-0 transition-opacity duration-500 object-contain ${
                 isOpen ? "opacity-0" : "opacity-100"
               }`}
@@ -115,7 +119,7 @@ export function Header() {
           >
             <span
               className={`w-[28.87px] h-[3px] transform transition duration-300 ease-in-out ${
-                isOpen ? "rotate-45 translate-y-[10px] bg-white" : "bg-black"
+                isOpen ? "rotate-45 translate-y-[11px] bg-white" : "bg-black"
               }`}
             />
             <span
