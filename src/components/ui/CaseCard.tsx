@@ -20,7 +20,7 @@ export function CaseCard({ title, imageUrls, onClick, category }: CaseCardProps)
       tabIndex={0}
       onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onClick()}
     >
-      <CardContent className="p-3 aspect-[280/220] relative">
+      <CardContent className="p-3 aspect-square md:aspect-[280/220] relative">
         <Image
           src={displayImage}
           alt={title}

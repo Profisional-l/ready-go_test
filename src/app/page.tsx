@@ -44,7 +44,7 @@ export default async function HomePage() {
         <div className="max-w-[1640px] mx-auto px-8">
           <AboutSection />
         </div>
-        <PhotoGallery />
+        {/* <PhotoGallery /> */}
         <div className="max-w-[1640px] mx-auto px-8">
           <ClientsSection />
         </div>
