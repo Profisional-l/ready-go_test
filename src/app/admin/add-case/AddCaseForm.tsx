@@ -76,8 +76,17 @@ export default function AddCaseForm() {
     }
     setIsProcessing(true);
 
-    const serverActionFormData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const serverActionFormData = new FormData();
 
+    // Explicitly append form fields
+    serverActionFormData.append('title', form.title.value);
+    serverActionFormData.append('category', form.category.value);
+    serverActionFormData.append('description', form.description.value);
+    serverActionFormData.append('fullDescription', form.fullDescription.value);
+    serverActionFormData.append('tags', form.tags.value);
+
+    // Append files from state
     files.forEach(file => {
       serverActionFormData.append('caseMedia', file);
     });
