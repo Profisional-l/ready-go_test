@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, type ChangeEvent, type FormEvent, useRef, type DragEvent } from "react";
+import { useState, type ChangeEvent, type FormEvent, useRef } from "react";
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +10,29 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { addCaseAction } from '@/app/admin/actions';
 import { useRouter } from "next/navigation";
-import { GripVertical } from "lucide-react";
+import { GripVertical, Film, FileImage } from "lucide-react";
+
+// MediaPreview component to render image or video
+const MediaPreview = ({ file }: { file: File }) => {
+  const isVideo = file.type.startsWith('video');
+  const url = URL.createObjectURL(file);
+
+  return (
+    <div className="relative w-10 h-10">
+      {isVideo ? (
+        <video src={url} className="w-full h-full object-cover rounded" />
+      ) : (
+        <Image
+          src={url}
+          alt={file.name}
+          width={40}
+          height={40}
+          className="rounded object-cover"
+        />
+      )}
+    </div>
+  );
+};
 
 export default function AddCaseForm() {
   const { toast } = useToast();
@@ -22,7 +44,7 @@ export default function AddCaseForm() {
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setFiles(Array.from(event.target.files));
+      setFiles(prevFiles => [...prevFiles, ...Array.from(event.target.files)]);
     }
   };
 
@@ -41,28 +63,21 @@ export default function AddCaseForm() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const currentForm = event.currentTarget;
 
     if (files.length === 0) {
       toast({
         variant: "destructive",
         title: "Нет файлов",
-        description: "Пожалуйста, выберите хотя бы одно изображение.",
+        description: "Пожалуйста, выберите хотя бы один медиа-файл.",
       });
       return;
     }
     setIsProcessing(true);
 
-    const serverActionFormData = new FormData();
-    serverActionFormData.append('title', currentForm.title.value);
-    serverActionFormData.append('category', currentForm.category.value);
-    serverActionFormData.append('description', currentForm.description.value);
-    serverActionFormData.append('fullDescription', currentForm.fullDescription.value);
-    serverActionFormData.append('tags', currentForm.tags.value);
-    serverActionFormData.append('videoUrl', currentForm.videoUrl.value);
+    const serverActionFormData = new FormData(event.currentTarget);
 
     files.forEach(file => {
-      serverActionFormData.append('caseImages', file);
+      serverActionFormData.append('caseMedia', file);
     });
 
     try {
@@ -108,26 +123,26 @@ export default function AddCaseForm() {
         </div>
 
         <div>
-          <Label htmlFor="caseImages" className="text-card-foreground">Изображения кейса</Label>
+          <Label htmlFor="caseMedia" className="text-card-foreground">Медиа-файлы (Изображения и Видео)</Label>
           <Input
-            id="caseImages"
-            name="caseImages"
+            id="caseMedia"
+            name="caseMediaInput" // Name changed to avoid conflict with formData append
             type="file"
             multiple
+            accept="image/*,video/*"
             onChange={handleFileChange}
-            required
             className="mt-1 bg-background border-input text-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
           />
         </div>
 
         {files.length > 0 && (
             <div>
-                <Label>Порядок изображений (перетащите для сортировки)</Label>
-                <p className="text-sm text-muted-foreground">Первое изображение будет обложкой кейса.</p>
+                <Label>Порядок медиа (перетащите для сортировки)</Label>
+                <p className="text-sm text-muted-foreground">Первый элемент будет обложкой кейса.</p>
                 <div className="mt-2 space-y-2 rounded-lg border p-2">
                     {files.map((file, index) => (
                         <div
-                            key={file.name + index}
+                            key={file.name + index + file.size}
                             className="flex items-center p-2 bg-muted rounded-md cursor-grab"
                             draggable
                             onDragStart={() => (dragItem.current = index)}
@@ -136,25 +151,14 @@ export default function AddCaseForm() {
                             onDragOver={(e) => e.preventDefault()}
                         >
                             <GripVertical className="h-5 w-5 text-muted-foreground mr-2"/>
-                            <Image
-                                src={URL.createObjectURL(file)}
-                                alt={file.name}
-                                width={40}
-                                height={40}
-                                className="rounded object-cover mr-4"
-                            />
-                            <p className="text-sm text-foreground truncate">{file.name}</p>
+                            <MediaPreview file={file} />
+                            <p className="ml-4 text-sm text-foreground truncate">{file.name}</p>
                         </div>
                     ))}
                 </div>
             </div>
         )}
-
-        <div>
-          <Label htmlFor="videoUrl" className="text-card-foreground">URL Видео (опционально)</Label>
-          <Input id="videoUrl" name="videoUrl" type="url" placeholder="https://example.com/video.mp4" className="mt-1 bg-background border-input text-foreground" />
-        </div>
-
+        
         <div>
           <Label htmlFor="description" className="text-card-foreground">Краткое описание (для карточки)</Label>
           <Textarea id="description" name="description" required rows={3} className="mt-1 bg-background border-input text-foreground" />

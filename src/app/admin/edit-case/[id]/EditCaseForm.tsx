@@ -1,8 +1,8 @@
 
 'use client';
 
-import type { Case } from "@/types";
-import { useState, type ChangeEvent, type FormEvent, useEffect, useRef } from "react";
+import type { Case, MediaItem } from "@/types";
+import { useState, type ChangeEvent, type FormEvent, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,45 +17,61 @@ interface EditCaseFormProps {
   caseToEdit: Case;
 }
 
+const MediaPreview = ({ item }: { item: MediaItem | File }) => {
+  const isFile = item instanceof File;
+  const url = isFile ? URL.createObjectURL(item) : item.url;
+  const type = isFile ? (item.type.startsWith('video') ? 'video' : 'image') : item.type;
+  const name = isFile ? item.name : item.url.split('/').pop();
+
+  return (
+    <div className="flex items-center gap-4">
+      <div className="relative w-10 h-10">
+        {type === 'video' ? (
+          <video src={url} className="w-full h-full object-cover rounded" />
+        ) : (
+          <Image
+            src={url}
+            alt={name || 'media'}
+            width={40}
+            height={40}
+            unoptimized
+            className="rounded object-cover"
+          />
+        )}
+      </div>
+      <p className="text-sm text-foreground truncate">{name}</p>
+    </div>
+  );
+};
+
+
 export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
   const { toast } = useToast();
   const router = useRouter();
   
-  const [currentImageUrls, setCurrentImageUrls] = useState<string[]>(caseToEdit.imageUrls);
-  const [newFiles, setNewFiles] = useState<File[]>([]);
+  const [mediaItems, setMediaItems] = useState<(MediaItem | File)[]>(caseToEdit.media);
   const [isProcessing, setIsProcessing] = useState(false);
-
   const dragItem = useRef<number | null>(null);
   const dragOverItem = useRef<number | null>(null);
   
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
-      setNewFiles(Array.from(event.target.files));
-      // Clear existing image previews when new files are selected for replacement
-      setCurrentImageUrls([]);
+      // Logic for replacing all media
+      setMediaItems(Array.from(event.target.files));
     }
   };
 
-  const handleDragSort = (isNew: boolean) => {
+  const handleDragSort = () => {
     if (dragItem.current === null || dragOverItem.current === null) return;
     
-    if (isNew) {
-      setNewFiles(prev => {
+    setMediaItems(prev => {
         const newItems = [...prev];
         const [draggedItemContent] = newItems.splice(dragItem.current!, 1);
         newItems.splice(dragOverItem.current!, 0, draggedItemContent);
+        dragItem.current = null;
+        dragOverItem.current = null;
         return newItems;
       });
-    } else {
-      setCurrentImageUrls(prev => {
-        const newItems = [...prev];
-        const [draggedItemContent] = newItems.splice(dragItem.current!, 1);
-        newItems.splice(dragOverItem.current!, 0, draggedItemContent);
-        return newItems;
-      });
-    }
-    dragItem.current = null;
-    dragOverItem.current = null;
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -65,22 +81,23 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
     const form = event.currentTarget;
     const serverActionFormData = new FormData();
 
-    // Append all text data
     serverActionFormData.append('title', form.title.value);
     serverActionFormData.append('category', form.category.value);
     serverActionFormData.append('description', form.description.value);
     serverActionFormData.append('fullDescription', form.fullDescription.value);
     serverActionFormData.append('tags', form.tags.value);
-    serverActionFormData.append('videoUrl', form.videoUrl.value);
+
+    const newFiles = mediaItems.filter(item => item instanceof File) as File[];
+    const existingMedia = mediaItems.filter(item => !(item instanceof File)) as MediaItem[];
 
     if (newFiles.length > 0) {
-      // Logic for replacing images
-      newFiles.forEach(file => {
-        serverActionFormData.append('caseImages', file);
-      });
+        // If there are new files, we assume it's a full replacement
+        newFiles.forEach(file => {
+            serverActionFormData.append('caseMedia', file);
+        });
     } else {
-      // Logic for reordering existing images
-      serverActionFormData.append('imageUrls', JSON.stringify(currentImageUrls));
+        // If no new files, we are just reordering existing ones
+        serverActionFormData.append('mediaOrder', JSON.stringify(existingMedia));
     }
 
     try {
@@ -111,8 +128,8 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
       setIsProcessing(false);
     }
   };
-
-  const isReplacingImages = newFiles.length > 0;
+  
+  const isReplacingMedia = mediaItems.some(item => item instanceof File);
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -129,47 +146,38 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
         </div>
         
         <div>
-            <Label>Порядок изображений (перетащите для сортировки)</Label>
-            <p className="text-sm text-muted-foreground">Первое изображение будет обложкой кейса.</p>
+            <Label>Порядок медиа (перетащите для сортировки)</Label>
+            <p className="text-sm text-muted-foreground">Первый элемент будет обложкой кейса.</p>
             <div className="mt-2 space-y-2 rounded-lg border p-2">
-                {(isReplacingImages ? newFiles : currentImageUrls).map((item, index) => {
-                    const url = isReplacingImages ? URL.createObjectURL(item as File) : (item as string);
-                    const name = isReplacingImages ? (item as File).name : (item as string).split('/').pop();
-                    return (
-                        <div
-                            key={url}
-                            className="flex items-center p-2 bg-muted rounded-md cursor-grab"
-                            draggable
-                            onDragStart={() => (dragItem.current = index)}
-                            onDragEnter={() => (dragOverItem.current = index)}
-                            onDragEnd={() => handleDragSort(isReplacingImages)}
-                            onDragOver={(e) => e.preventDefault()}
-                        >
-                            <GripVertical className="h-5 w-5 text-muted-foreground mr-2"/>
-                            <Image src={url} alt={name || 'image'} width={40} height={40} className="rounded object-cover mr-4"/>
-                            <p className="text-sm text-foreground truncate">{name}</p>
-                        </div>
-                    );
-                })}
+                {mediaItems.map((item, index) => (
+                    <div
+                        key={index}
+                        className="flex items-center p-2 bg-muted rounded-md cursor-grab"
+                        draggable
+                        onDragStart={() => (dragItem.current = index)}
+                        onDragEnter={() => (dragOverItem.current = index)}
+                        onDragEnd={handleDragSort}
+                        onDragOver={(e) => e.preventDefault()}
+                    >
+                        <GripVertical className="h-5 w-5 text-muted-foreground mr-2"/>
+                        <MediaPreview item={item} />
+                    </div>
+                ))}
             </div>
         </div>
 
         <div>
-          <Label htmlFor="caseImages" className="text-card-foreground">Загрузить новые изображения (заменят старые)</Label>
+          <Label htmlFor="caseMedia" className="text-card-foreground">Загрузить новые файлы (заменят старые)</Label>
           <Input
-            id="caseImages"
-            name="caseImages"
+            id="caseMedia"
+            name="caseMediaInput"
             type="file"
             multiple
+            accept="image/*,video/*"
             onChange={handleFileChange}
             className="mt-1 bg-background file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
           />
-           {isReplacingImages && <p className="text-sm text-accent-foreground mt-2 p-2 bg-accent/20 rounded-md">Выбраны новые файлы, которые заменят все текущие изображения после сохранения.</p>}
-        </div>
-
-        <div>
-          <Label htmlFor="videoUrl" className="text-card-foreground">URL Видео (опционально)</Label>
-          <Input id="videoUrl" name="videoUrl" type="url" defaultValue={caseToEdit.videoUrl} placeholder="https://example.com/video.mp4" className="mt-1 bg-background border-input text-foreground" />
+           {isReplacingMedia && <p className="text-sm text-accent-foreground mt-2 p-2 bg-accent/20 rounded-md">Выбраны новые файлы. После сохранения они заменят все текущие медиа-файлы.</p>}
         </div>
 
         <div>

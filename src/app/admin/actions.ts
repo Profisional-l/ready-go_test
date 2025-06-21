@@ -1,7 +1,7 @@
 
 'use server';
 
-import type { Case } from "@/types";
+import type { Case, MediaItem } from "@/types";
 import fs from 'fs/promises';
 import path from 'path';
 import { revalidatePath } from 'next/cache';
@@ -37,6 +37,7 @@ export async function verifyPasswordAction(formData: FormData): Promise<{ succes
       maxAge: 60 * 60 * 24, // 1 day
       sameSite: 'lax',
     });
+    // Redirect to the admin dashboard on successful login
     redirect('/admin');
   } else {
     return { success: false, error: 'Неверный пароль.' };
@@ -59,12 +60,19 @@ export async function logoutAction(): Promise<void> {
 async function readCasesFile(): Promise<Case[]> {
   try {
     const jsonData = await fs.readFile(casesFilePath, 'utf-8');
-    const cases = JSON.parse(jsonData) as Case[];
-    // Backward compatibility patch for old data
-    return cases.map(c => ({
-      ...c,
-      videoUrl: c.videoUrl || '',
-    }));
+    let cases = JSON.parse(jsonData) as any[];
+
+    // Backward compatibility: convert old structure to new media structure
+    return cases.map(c => {
+      if (c.imageUrls && !c.media) {
+        const media = (c.imageUrls as string[]).map(url => ({ type: 'image', url } as MediaItem));
+        if (c.videoUrl) {
+          media.unshift({ type: 'video', url: c.videoUrl });
+        }
+        return { ...c, media, imageUrls: undefined, videoUrl: undefined };
+      }
+      return c;
+    });
   } catch (error) {
     if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
       await writeCasesFile([]);
@@ -88,6 +96,7 @@ async function writeCasesFile(cases: Case[]): Promise<void> {
 }
 
 export async function getCases(): Promise<Case[]> {
+  // The layout already protects the page, so this check can be removed to avoid potential context issues.
   if (!(await isAuthenticated())) {
     console.warn('getCases called without authentication.');
     return []; 
@@ -96,8 +105,8 @@ export async function getCases(): Promise<Case[]> {
 }
 
 export async function getCase(id: string): Promise<Case | undefined> {
+  // The layout already protects the page
   if (!(await isAuthenticated())) {
-    console.warn(`getCase(${id}) called without authentication.`);
     return undefined;
   }
   const cases = await readCasesFile();
@@ -105,11 +114,11 @@ export async function getCase(id: string): Promise<Case | undefined> {
 }
 
 // --- File Operations ---
-async function saveUploadedFiles(formData: FormData): Promise<string[]> {
+async function saveUploadedMedia(formData: FormData): Promise<MediaItem[]> {
   await fs.mkdir(UPLOADS_DIR_ABSOLUTE, { recursive: true });
-  const imageFileObjects = formData.getAll('caseImages');
-  const uploadedImageUrls: string[] = [];
-  const validFiles = imageFileObjects.filter(file => file instanceof File && file.name && file.size > 0);
+  const mediaFileObjects = formData.getAll('caseMedia');
+  const uploadedMediaItems: MediaItem[] = [];
+  const validFiles = mediaFileObjects.filter(file => file instanceof File && file.name && file.size > 0);
 
   for (const file of validFiles) {
     const currentFile = file as File;
@@ -119,21 +128,27 @@ async function saveUploadedFiles(formData: FormData): Promise<string[]> {
     const uniqueFilename = `${Date.now()}_${originalFilename}`;
     const filePath = path.join(UPLOADS_DIR_ABSOLUTE, uniqueFilename);
     await fs.writeFile(filePath, buffer);
-    uploadedImageUrls.push(`/${UPLOADS_DIR_RELATIVE_TO_PUBLIC}/${uniqueFilename}`);
+    
+    const fileType = currentFile.type.startsWith('video') ? 'video' : 'image';
+    
+    uploadedMediaItems.push({
+      type: fileType,
+      url: `/${UPLOADS_DIR_RELATIVE_TO_PUBLIC}/${uniqueFilename}`
+    });
   }
-  return uploadedImageUrls;
+  return uploadedMediaItems;
 }
 
-async function deleteImageFiles(imageUrls: string[]): Promise<void> {
-  for (const url of imageUrls) {
-    if (url.startsWith(`/${UPLOADS_DIR_RELATIVE_TO_PUBLIC}/`)) {
-      const filename = path.basename(url);
+async function deleteMediaFiles(mediaItems: MediaItem[]): Promise<void> {
+  for (const item of mediaItems) {
+    if (item.url.startsWith(`/${UPLOADS_DIR_RELATIVE_TO_PUBLIC}/`)) {
+      const filename = path.basename(item.url);
       const filePath = path.join(UPLOADS_DIR_ABSOLUTE, filename);
       try {
         await fs.unlink(filePath);
-        console.log(`Deleted image file: ${filePath}`);
+        console.log(`Deleted media file: ${filePath}`);
       } catch (err) {
-        console.error(`Error deleting image file ${filePath}:`, err);
+        console.error(`Error deleting media file ${filePath}:`, err);
       }
     }
   }
@@ -151,28 +166,22 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
     const description = formData.get('description') as string;
     const fullDescription = formData.get('fullDescription') as string;
     const tagsString = formData.get('tags') as string;
-    const videoUrl = formData.get('videoUrl') as string;
 
     if (!title || !category || !description || !fullDescription) {
       return { success: false, error: 'Все текстовые поля обязательны.' };
     }
 
-    const uploadedImageUrls = await saveUploadedFiles(formData);
-    const imageFiles = formData.getAll('caseImages').filter(f => f instanceof File && f.size > 0);
-    if (uploadedImageUrls.length === 0 && imageFiles.length > 0) {
-        return { success: false, error: 'Ошибка при загрузке изображений.' };
-    }
-    if (uploadedImageUrls.length === 0) {
-      return { success: false, error: 'Требуется как минимум одно изображение.' };
+    const uploadedMedia = await saveUploadedMedia(formData);
+    if (uploadedMedia.length === 0) {
+      return { success: false, error: 'Требуется как минимум один медиа-файл.' };
     }
 
-    const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
+    const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(Boolean) : [];
     const newCase: Case = {
       id: Date.now().toString(),
       title,
       category,
-      imageUrls: uploadedImageUrls,
-      videoUrl: videoUrl || '',
+      media: uploadedMedia,
       description,
       fullDescription,
       tags,
@@ -198,7 +207,9 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
   }
 
   try {
-    const existingCase = await getCase(caseId);
+    const allCases = await readCasesFile();
+    const existingCase = allCases.find(c => c.id === caseId);
+
     if (!existingCase) {
       return { success: false, error: 'Кейс не найден.' };
     }
@@ -208,29 +219,26 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
     const description = formData.get('description') as string;
     const fullDescription = formData.get('fullDescription') as string;
     const tagsString = formData.get('tags') as string;
-    const videoUrl = formData.get('videoUrl') as string;
 
     if (!title || !category || !description || !fullDescription) {
       return { success: false, error: 'Все текстовые поля обязательны.' };
     }
     
-    let finalImageUrls: string[];
-    const newFilesProvided = (formData.getAll('caseImages').filter(f => f instanceof File && f.size > 0)).length > 0;
+    let finalMedia: MediaItem[];
+    const newFilesProvided = (formData.getAll('caseMedia').filter(f => f instanceof File && f.size > 0)).length > 0;
 
     if (newFilesProvided) {
-      // Replace logic: delete old, upload new
-      await deleteImageFiles(existingCase.imageUrls); 
-      finalImageUrls = await saveUploadedFiles(formData);
-      if (finalImageUrls.length === 0) {
-        return { success: false, error: 'Ошибка при загрузке новых изображений.' };
+      await deleteMediaFiles(existingCase.media);
+      finalMedia = await saveUploadedMedia(formData);
+      if (finalMedia.length === 0) {
+        return { success: false, error: 'Ошибка при загрузке новых медиа-файлов.' };
       }
     } else {
-      // Reorder logic: use the provided order of existing URLs
-      const imageUrlsString = formData.get('imageUrls') as string;
-      finalImageUrls = imageUrlsString ? JSON.parse(imageUrlsString) : existingCase.imageUrls;
+      const mediaOrderString = formData.get('mediaOrder') as string;
+      finalMedia = mediaOrderString ? JSON.parse(mediaOrderString) : existingCase.media;
     }
 
-    const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
+    const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(Boolean) : [];
     const updatedCaseData: Case = {
       ...existingCase,
       title,
@@ -238,11 +246,9 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
       description,
       fullDescription,
       tags,
-      videoUrl: videoUrl || '',
-      imageUrls: finalImageUrls,
+      media: finalMedia,
     };
 
-    const allCases = await readCasesFile();
     const updatedCases = allCases.map(c => c.id === caseId ? updatedCaseData : c);
     await writeCasesFile(updatedCases);
 
@@ -270,7 +276,7 @@ export async function deleteCaseAction(caseId: string): Promise<{ success: boole
       return { success: false, error: 'Кейс не найден.' };
     }
 
-    await deleteImageFiles(caseToDelete.imageUrls);
+    await deleteMediaFiles(caseToDelete.media);
 
     const updatedCases = cases.filter(c => c.id !== caseId);
     await writeCasesFile(updatedCases);

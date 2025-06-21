@@ -21,54 +21,39 @@ interface CaseModalProps {
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
   if (!caseData) return null;
 
-  const renderVideo = () => {
-    if (!caseData.videoUrl) return null;
-
-    // Basic validation for video URLs
-    const isVideoFile = caseData.videoUrl.match(/\.(mp4|webm|ogg)$/i);
-
-    if (isVideoFile) {
-        return (
-            <div className="mb-8">
-                <video
-                    controls
-                    preload="metadata"
-                    className="w-full max-w-4xl mx-auto rounded-lg shadow-lg"
-                >
-                    <source src={caseData.videoUrl} type={`video/${caseData.videoUrl.split('.').pop()}`} />
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-        );
-    }
-    
-    // Fallback for other URLs (e.g., YouTube embed - requires specific URL format)
-    // For simplicity, we are only handling direct video files for now.
-    // A more robust solution would handle YouTube/Vimeo URLs and generate iframes.
-    return null; 
-  };
-
-  const generateImageGrid = () => {
-    if (!caseData.imageUrls || caseData.imageUrls.length === 0) {
+  const renderMediaGrid = () => {
+    if (!caseData.media || caseData.media.length === 0) {
       return null;
     }
 
     return (
       <div className="mt-6">
         <div className="flex flex-wrap justify-center gap-2">
-          {caseData.imageUrls.map((image, index) => (
-            <div key={`img-${index}`} className="flex justify-center">
-              <Image
-                src={image}
-                alt={`${caseData.title} - Image ${index + 1}`}
-                width={0}
-                height={0}
-                sizes="100vw"
-                style={{ width: 'auto', height: 'auto', maxWidth: '100%' }}
-                className="rounded-[30px] "
-                data-ai-hint={`${caseData.title.substring(0, 20)} project image`}
-                unoptimized
-              />
+          {caseData.media.map((item, index) => (
+            <div key={`media-${index}`} className="flex justify-center">
+              {item.type === 'image' ? (
+                <Image
+                  src={item.url}
+                  alt={`${caseData.title} - Media ${index + 1}`}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{ width: 'auto', height: 'auto', maxWidth: '100%' }}
+                  className="rounded-[30px]"
+                  data-ai-hint={`${caseData.title.substring(0, 20)} project media`}
+                  unoptimized
+                />
+              ) : (
+                <video
+                  controls
+                  preload="metadata"
+                  className="w-full max-w-4xl mx-auto rounded-lg shadow-lg"
+                  style={{ maxWidth: '100%', height: 'auto' }}
+                >
+                  <source src={item.url} type={`video/${item.url.split('.').pop()}`} />
+                  Your browser does not support the video tag.
+                </video>
+              )}
             </div>
           ))}
         </div>
@@ -103,8 +88,7 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
               </div>
             )}
             
-            {renderVideo()}
-            {generateImageGrid()}
+            {renderMediaGrid()}
           </div>
         </ScrollArea>
       </DialogContent>

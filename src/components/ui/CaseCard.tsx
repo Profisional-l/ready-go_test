@@ -1,16 +1,18 @@
 import Image from 'next/image';
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
+import type { MediaItem } from '@/types';
+import { Film } from 'lucide-react';
 
 interface CaseCardProps {
   id: string;
   title: string;
-  imageUrls: string[];
+  media: MediaItem[];
   onClick: () => void;
   category: string;
 }
 
-export function CaseCard({ title, imageUrls, onClick, category }: CaseCardProps) {
-  const displayImage = imageUrls && imageUrls.length > 0 ? imageUrls[0] : 'https://placehold.co/360x220.png';
+export function CaseCard({ title, media, onClick, category }: CaseCardProps) {
+  const cover = media.length > 0 ? media[0] : null;
 
   return (
     <Card
@@ -21,13 +23,23 @@ export function CaseCard({ title, imageUrls, onClick, category }: CaseCardProps)
       onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onClick()}
     >
       <CardContent className="p-3 aspect-square md:aspect-[280/220] relative">
-        <Image
-          src={displayImage}
-          alt={title}
-          layout="fill"
-          objectFit="cover"
-          className="rounded-md group-hover:rounded-[50px] transition-all duration-300 ease-in-out"
-        />
+        {cover ? (
+          cover.type === 'image' ? (
+            <Image
+              src={cover.url}
+              alt={title}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-md group-hover:rounded-[50px] transition-all duration-300 ease-in-out"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-muted rounded-md group-hover:rounded-[50px] transition-all duration-300 ease-in-out">
+              <Film className="h-12 w-12 text-muted-foreground" />
+            </div>
+          )
+        ) : (
+          <div className="w-full h-full bg-muted rounded-md group-hover:rounded-[50px] transition-all duration-300 ease-in-out" />
+        )}
       </CardContent>
       <CardFooter className="p-0 pt-3">
         <div className="flex items-center -ml-4 group-hover:ml-0 transition-all duration-300">
