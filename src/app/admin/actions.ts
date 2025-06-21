@@ -37,8 +37,7 @@ export async function verifyPasswordAction(formData: FormData): Promise<{ succes
       maxAge: 60 * 60 * 24, // 1 day
       sameSite: 'lax',
     });
-    revalidatePath('/admin');
-    return { success: true };
+    redirect('/admin');
   } else {
     return { success: false, error: 'Неверный пароль.' };
   }
