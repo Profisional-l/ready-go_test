@@ -10,7 +10,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
+        body: ['Inter Display', 'sans-serif'],
         headline: ['Inter', 'sans-serif'],
         code: ['monospace'],
         mycustom: ['"Spektra Condensed"', 'sans-serif'],
