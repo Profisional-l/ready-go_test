@@ -149,10 +149,6 @@ async function deleteMediaFiles(mediaItems: MediaItem[]): Promise<void> {
 
 // --- Case CRUD Actions ---
 export async function addCaseAction(formData: FormData): Promise<{ success: boolean; case?: Case; error?: string; }> {
-  if (!(await isAuthenticated())) {
-    return { success: false, error: 'Не авторизован.' };
-  }
-
   try {
     const title = formData.get('title') as string;
     const category = formData.get('category') as string;
@@ -195,10 +191,6 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
 }
 
 export async function updateCaseAction(caseId: string, formData: FormData): Promise<{ success: boolean; case?: Case; error?: string; }> {
-  if (!(await isAuthenticated())) {
-    return { success: false, error: 'Не авторизован.' };
-  }
-
   try {
     const allCases = await readCasesFile();
     const existingCase = allCases.find(c => c.id === caseId);
@@ -258,9 +250,6 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
 }
 
 export async function deleteCaseAction(caseId: string): Promise<{ success: boolean; error?: string }> {
-  if (!(await isAuthenticated())) {
-    return { success: false, error: 'Не авторизован.' };
-  }
   try {
     const cases = await readCasesFile();
     const caseToDelete = cases.find(c => c.id === caseId);
