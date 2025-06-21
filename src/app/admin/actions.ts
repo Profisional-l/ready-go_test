@@ -184,9 +184,8 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
     
     return { success: true, case: newCase };
   } catch (error: unknown) {
-    const detail = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
-    console.error('Error in addCaseAction:', detail);
-    return { success: false, error: `Ошибка сервера: ${detail.substring(0,300)}` };
+    console.error('Error in addCaseAction:', error);
+    return { success: false, error: 'Произошла ошибка на сервере при добавлении кейса.' };
   }
 }
 
@@ -243,9 +242,8 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
     
     return { success: true, case: updatedCaseData };
   } catch (error: unknown) {
-    const detail = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
-    console.error('Error in updateCaseAction:', detail);
-    return { success: false, error: `Ошибка сервера: ${detail.substring(0,300)}` };
+    console.error('Error in updateCaseAction:', error);
+    return { success: false, error: 'Произошла ошибка на сервере при обновлении кейса.' };
   }
 }
 
@@ -268,8 +266,7 @@ export async function deleteCaseAction(caseId: string): Promise<{ success: boole
 
     return { success: true };
   } catch (error: unknown) {
-    const detail = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
-    console.error('Error in deleteCaseAction:', detail);
-    return { success: false, error: `Ошибка сервера: ${detail.substring(0,300)}` };
+    console.error('Error in deleteCaseAction:', error);
+    return { success: false, error: 'Произошла ошибка на сервере при удалении кейса.' };
   }
 }

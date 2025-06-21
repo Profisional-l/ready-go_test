@@ -1,16 +1,33 @@
-
 [
   {
     "id": "1",
     "title": "МТБанк",
     "category": "Манички",
     "media": [
-      { "type": "image", "url": "/uploads/cases/1749242977330_manchiki-main.png" },
-      { "type": "image", "url": "/uploads/cases/1749242977332_manchiki-2.png" },
-      { "type": "image", "url": "/uploads/cases/1749242977334_manchiki-4.png" },
-      { "type": "image", "url": "/uploads/cases/1749242977337_manchiki-5.png" },
-      { "type": "image", "url": "/uploads/cases/1749242977354_manchiki-1.png" },
-      { "type": "image", "url": "/uploads/cases/1749242977360_manchiki-3.png" }
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749242977330_manchiki-main.png"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749242977332_manchiki-2.png"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749242977334_manchiki-4.png"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749242977337_manchiki-5.png"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749242977354_manchiki-1.png"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749242977360_manchiki-3.png"
+      }
     ],
     "description": "Интерфейс для приложения.",
     "fullDescription": "Разработка интуитивно понятного интерфейса для мобильного приложения, сфокусированного на пользовательском опыте и легкости использования.",
@@ -25,7 +42,10 @@
     "title": "Golden Design",
     "category": "Веб-сайт",
     "media": [
-      { "type": "image", "url": "/uploads/cases/1749217285182_Free_Studio_Display_mockup_on_a_white_table__1__1.png" }
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749217285182_Free_Studio_Display_mockup_on_a_white_table__1__1.png"
+      }
     ],
     "description": "Создание сайта.",
     "fullDescription": "Комплексный редизайн веб-сайта для студии дизайна интерьеров GOLOD DESIGN, улучшение визуальной привлекательности и навигации.",
@@ -40,7 +60,10 @@
     "title": "Optimizing Technologies",
     "category": "Буклет",
     "media": [
-      { "type": "image", "url": "/uploads/cases/1749290181893_c881d68b41c150d93db16a2ea916487149f67440.png" }
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749290181893_c881d68b41c150d93db16a2ea916487149f67440.png"
+      }
     ],
     "description": "Постер для мероприятия.",
     "fullDescription": "Создание яркого и привлекающего внимание рекламного постера для музыкального мероприятия NEMGO.",
@@ -55,7 +78,10 @@
     "title": "ARARAT",
     "category": "Контент-съемка",
     "media": [
-      { "type": "image", "url": "/uploads/cases/1749248622419_ararat.png" }
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749248622419_ararat.png"
+      }
     ],
     "description": "Промо-материалы.",
     "fullDescription": "Разработка серии промо-материалов для бренда ARARAT, подчеркивающих премиальность и традиции.",
@@ -70,7 +96,10 @@
     "title": "Coca-Cola",
     "category": "Promo",
     "media": [
-      { "type": "image", "url": "/uploads/cases/1749248687713_cocacola.png" }
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749248687713_cocacola.png"
+      }
     ],
     "description": "Digital кампания.",
     "fullDescription": "Запуск интерактивной digital-кампании для Coca-Cola, нацеленной на молодежную аудиторию.",
@@ -85,7 +114,10 @@
     "title": "МТБанк — NEMBO",
     "category": "Брендинг",
     "media": [
-      { "type": "image", "url": "/uploads/cases/1749248936823_mtbank.png" }
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749248936823_mtbank.png"
+      }
     ],
     "description": "Фирменный стиль.",
     "fullDescription": "Разработка фирменного стиля и брендбука для технологической компании Optimising Technologies.",
@@ -100,7 +132,10 @@
     "title": "Sportmaster",
     "category": "SMM",
     "media": [
-      { "type": "image", "url": "/uploads/cases/1749287967756_Frame_39700.png" }
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749287967756_Frame_39700.png"
+      }
     ],
     "description": "SMM for Sportmaster ",
     "fullDescription": "SMM for Sportmaster in Instagram.",
@@ -108,6 +143,27 @@
       "Graphic Design",
       "Poster",
       "Event"
+    ]
+  },
+  {
+    "id": "1750533014003",
+    "title": "NEMBO",
+    "category": "web",
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1750533013950_Menu.png"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750533013974_Nembo_20_09_FINAL.mp4"
+      }
+    ],
+    "description": "NEMBONEMBONEMBO",
+    "fullDescription": "NEMBONEMBO",
+    "tags": [
+      "web",
+      "gogogo"
     ]
   }
 ]
