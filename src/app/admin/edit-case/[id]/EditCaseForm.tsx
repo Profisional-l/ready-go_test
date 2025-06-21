@@ -2,7 +2,7 @@
 'use client';
 
 import type { Case, MediaItem } from "@/types";
-import { useState, type ChangeEvent, type FormEvent, useRef } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { updateCaseAction } from '@/app/admin/actions';
 import { useRouter } from "next/navigation";
-import { GripVertical } from "lucide-react";
+import { ArrowUp, ArrowDown } from "lucide-react";
 
 interface EditCaseFormProps {
   caseToEdit: Case;
@@ -39,11 +39,10 @@ const MediaPreview = ({ item }: { item: MediaItem | File }) => {
           />
         )}
       </div>
-      <p className="text-sm text-foreground truncate">{name}</p>
+      <p className="text-sm text-foreground truncate flex-grow">{name}</p>
     </div>
   );
 };
-
 
 export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
   const { toast } = useToast();
@@ -51,27 +50,23 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
   
   const [mediaItems, setMediaItems] = useState<(MediaItem | File)[]>(caseToEdit.media);
   const [isProcessing, setIsProcessing] = useState(false);
-  const dragItem = useRef<number | null>(null);
-  const dragOverItem = useRef<number | null>(null);
   
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
-      // Logic for replacing all media
       setMediaItems(Array.from(event.target.files));
     }
   };
 
-  const handleDragSort = () => {
-    if (dragItem.current === null || dragOverItem.current === null) return;
-    
-    setMediaItems(prev => {
-        const newItems = [...prev];
-        const [draggedItemContent] = newItems.splice(dragItem.current!, 1);
-        newItems.splice(dragOverItem.current!, 0, draggedItemContent);
-        dragItem.current = null;
-        dragOverItem.current = null;
-        return newItems;
-      });
+  const handleMove = (index: number, direction: 'up' | 'down') => {
+    if (direction === 'up' && index === 0) return;
+    if (direction === 'down' && index === mediaItems.length - 1) return;
+
+    setMediaItems(prevItems => {
+      const newItems = [...prevItems];
+      const targetIndex = direction === 'up' ? index - 1 : index + 1;
+      [newItems[index], newItems[targetIndex]] = [newItems[targetIndex], newItems[index]];
+      return newItems;
+    });
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -91,12 +86,10 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
     const existingMedia = mediaItems.filter(item => !(item instanceof File)) as MediaItem[];
 
     if (newFiles.length > 0) {
-        // If there are new files, we assume it's a full replacement
         newFiles.forEach(file => {
             serverActionFormData.append('caseMedia', file);
         });
     } else {
-        // If no new files, we are just reordering existing ones
         serverActionFormData.append('mediaOrder', JSON.stringify(existingMedia));
     }
 
@@ -146,27 +139,43 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
         </div>
         
         <div>
-            <Label>Порядок медиа (перетащите для сортировки)</Label>
-            <p className="text-sm text-muted-foreground">Первый элемент будет обложкой кейса.</p>
+            <Label>Порядок медиа</Label>
+            <p className="text-sm text-muted-foreground">Первый элемент будет обложкой кейса. Используйте стрелки для сортировки.</p>
             <div className="mt-2 space-y-2 rounded-lg border p-2">
                 {mediaItems.map((item, index) => {
                   const isFile = item instanceof File;
                   const key = isFile 
-                    ? `new-${item.name}-${item.lastModified}` 
-                    : `existing-${(item as MediaItem).url}`;
+                    ? `new-${item.name}-${item.lastModified}-${index}` 
+                    : `existing-${(item as MediaItem).url}-${index}`;
 
                   return (
                     <div
                         key={key}
-                        className="flex items-center p-2 bg-muted rounded-md cursor-grab"
-                        draggable
-                        onDragStart={() => (dragItem.current = index)}
-                        onDragEnter={() => (dragOverItem.current = index)}
-                        onDragEnd={handleDragSort}
-                        onDragOver={(e) => e.preventDefault()}
+                        className="flex items-center p-2 bg-muted rounded-md"
                     >
-                        <GripVertical className="h-5 w-5 text-muted-foreground mr-2"/>
                         <MediaPreview item={item} />
+                        <div className="flex items-center ml-auto pl-4">
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleMove(index, 'up')}
+                                disabled={index === 0}
+                                aria-label="Move up"
+                            >
+                                <ArrowUp className="h-4 w-4" />
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleMove(index, 'down')}
+                                disabled={index === mediaItems.length - 1}
+                                aria-label="Move down"
+                            >
+                                <ArrowDown className="h-4 w-4" />
+                            </Button>
+                        </div>
                     </div>
                   );
                 })}

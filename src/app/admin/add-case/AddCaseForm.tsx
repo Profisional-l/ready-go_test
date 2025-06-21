@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, type ChangeEvent, type FormEvent, useRef } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { addCaseAction } from '@/app/admin/actions';
 import { useRouter } from "next/navigation";
-import { GripVertical, Film, FileImage } from "lucide-react";
+import { ArrowUp, ArrowDown, X } from "lucide-react";
 
 // MediaPreview component to render image or video
 const MediaPreview = ({ file }: { file: File }) => {
@@ -39,27 +39,29 @@ export default function AddCaseForm() {
   const router = useRouter();
   const [files, setFiles] = useState<File[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
-  const dragItem = useRef<number | null>(null);
-  const dragOverItem = useRef<number | null>(null);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setFiles(prevFiles => [...prevFiles, ...Array.from(event.target.files)]);
+      setFiles(prevFiles => [...prevFiles, ...Array.from(event.target.files!)]);
     }
   };
 
-  const handleDragSort = () => {
-    if (dragItem.current === null || dragOverItem.current === null) return;
-    
+  const handleMove = (index: number, direction: 'up' | 'down') => {
+    if (direction === 'up' && index === 0) return;
+    if (direction === 'down' && index === files.length - 1) return;
+
     setFiles(prevFiles => {
       const newFiles = [...prevFiles];
-      const draggedFile = newFiles.splice(dragItem.current!, 1)[0];
-      newFiles.splice(dragOverItem.current!, 0, draggedFile);
-      dragItem.current = null;
-      dragOverItem.current = null;
+      const targetIndex = direction === 'up' ? index - 1 : index + 1;
+      // Swap elements
+      [newFiles[index], newFiles[targetIndex]] = [newFiles[targetIndex], newFiles[index]];
       return newFiles;
     });
   };
+  
+  const handleRemoveFile = (index: number) => {
+    setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
+  }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -126,7 +128,7 @@ export default function AddCaseForm() {
           <Label htmlFor="caseMedia" className="text-card-foreground">Медиа-файлы (Изображения и Видео)</Label>
           <Input
             id="caseMedia"
-            name="caseMediaInput" // Name changed to avoid conflict with formData append
+            name="caseMediaInput"
             type="file"
             multiple
             accept="image/*,video/*"
@@ -137,22 +139,48 @@ export default function AddCaseForm() {
 
         {files.length > 0 && (
             <div>
-                <Label>Порядок медиа (перетащите для сортировки)</Label>
-                <p className="text-sm text-muted-foreground">Первый элемент будет обложкой кейса.</p>
+                <Label>Порядок медиа</Label>
+                <p className="text-sm text-muted-foreground">Первый элемент будет обложкой кейса. Используйте стрелки для сортировки.</p>
                 <div className="mt-2 space-y-2 rounded-lg border p-2">
                     {files.map((file, index) => (
                         <div
-                            key={`file-${file.name}-${file.lastModified}-${file.size}`}
-                            className="flex items-center p-2 bg-muted rounded-md cursor-grab"
-                            draggable
-                            onDragStart={() => (dragItem.current = index)}
-                            onDragEnter={() => (dragOverItem.current = index)}
-                            onDragEnd={handleDragSort}
-                            onDragOver={(e) => e.preventDefault()}
+                            key={`${file.name}-${file.lastModified}-${index}`}
+                            className="flex items-center p-2 bg-muted rounded-md"
                         >
-                            <GripVertical className="h-5 w-5 text-muted-foreground mr-2"/>
                             <MediaPreview file={file} />
-                            <p className="ml-4 text-sm text-foreground truncate">{file.name}</p>
+                            <p className="ml-4 text-sm text-foreground truncate flex-grow">{file.name}</p>
+                            <div className="flex items-center ml-auto pl-4">
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleMove(index, 'up')}
+                                disabled={index === 0}
+                                aria-label="Move up"
+                              >
+                                <ArrowUp className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleMove(index, 'down')}
+                                disabled={index === files.length - 1}
+                                aria-label="Move down"
+                              >
+                                <ArrowDown className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="destructive"
+                                size="sm"
+                                onClick={() => handleRemoveFile(index)}
+                                aria-label="Remove"
+                                className="ml-2"
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
                         </div>
                     ))}
                 </div>
