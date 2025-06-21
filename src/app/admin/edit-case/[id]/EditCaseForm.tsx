@@ -149,9 +149,15 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
             <Label>Порядок медиа (перетащите для сортировки)</Label>
             <p className="text-sm text-muted-foreground">Первый элемент будет обложкой кейса.</p>
             <div className="mt-2 space-y-2 rounded-lg border p-2">
-                {mediaItems.map((item, index) => (
+                {mediaItems.map((item, index) => {
+                  const isFile = item instanceof File;
+                  const key = isFile 
+                    ? `new-${item.name}-${item.lastModified}` 
+                    : `existing-${(item as MediaItem).url}`;
+
+                  return (
                     <div
-                        key={index}
+                        key={key}
                         className="flex items-center p-2 bg-muted rounded-md cursor-grab"
                         draggable
                         onDragStart={() => (dragItem.current = index)}
@@ -162,7 +168,8 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
                         <GripVertical className="h-5 w-5 text-muted-foreground mr-2"/>
                         <MediaPreview item={item} />
                     </div>
-                ))}
+                  );
+                })}
             </div>
         </div>
 

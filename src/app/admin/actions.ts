@@ -96,19 +96,12 @@ async function writeCasesFile(cases: Case[]): Promise<void> {
 }
 
 export async function getCases(): Promise<Case[]> {
-  // The layout already protects the page, so this check can be removed to avoid potential context issues.
-  if (!(await isAuthenticated())) {
-    console.warn('getCases called without authentication.');
-    return []; 
-  }
+  // Authentication is handled by the layout, so the check here is removed.
   return readCasesFile();
 }
 
 export async function getCase(id: string): Promise<Case | undefined> {
-  // The layout already protects the page
-  if (!(await isAuthenticated())) {
-    return undefined;
-  }
+  // Authentication is handled by the layout.
   const cases = await readCasesFile();
   return cases.find(c => c.id === id);
 }

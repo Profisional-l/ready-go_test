@@ -142,7 +142,7 @@ export default function AddCaseForm() {
                 <div className="mt-2 space-y-2 rounded-lg border p-2">
                     {files.map((file, index) => (
                         <div
-                            key={file.name + index + file.size}
+                            key={`file-${file.name}-${file.lastModified}-${file.size}`}
                             className="flex items-center p-2 bg-muted rounded-md cursor-grab"
                             draggable
                             onDragStart={() => (dragItem.current = index)}
