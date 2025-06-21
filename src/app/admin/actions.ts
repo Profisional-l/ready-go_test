@@ -33,7 +33,7 @@ export async function verifyPasswordAction(formData: FormData): Promise<{ succes
     cookies().set(AUTH_COOKIE_NAME, 'true', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      path: '/admin',
+      path: '/',
       maxAge: 60 * 60 * 24, // 1 day
       sameSite: 'lax',
     });
@@ -48,7 +48,7 @@ export async function logoutAction(): Promise<void> {
   cookies().set(AUTH_COOKIE_NAME, '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    path: '/admin',
+    path: '/',
     expires: new Date(0),
     sameSite: 'lax',
   });
