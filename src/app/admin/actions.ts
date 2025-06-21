@@ -12,7 +12,7 @@ const casesFilePath = path.join(process.cwd(), 'src', 'data', 'cases.json');
 const UPLOADS_DIR_RELATIVE_TO_PUBLIC = 'uploads/cases';
 const UPLOADS_DIR_ABSOLUTE = path.join(process.cwd(), 'public', UPLOADS_DIR_RELATIVE_TO_PUBLIC);
 
-const AUTH_COOKIE_NAME = 'admin-auth-readygo-cases'; // Keeping original name for now
+const AUTH_COOKIE_NAME = 'admin-auth-readygo-cases';
 
 // --- Authentication ---
 export async function isAuthenticated(): Promise<boolean> {
@@ -33,7 +33,7 @@ export async function verifyPasswordAction(formData: FormData): Promise<{ succes
     cookies().set(AUTH_COOKIE_NAME, 'true', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      path: '/admin', // Changed path to /admin
+      path: '/admin',
       maxAge: 60 * 60 * 24, // 1 day
       sameSite: 'lax',
     });
@@ -48,7 +48,7 @@ export async function logoutAction(): Promise<void> {
   cookies().set(AUTH_COOKIE_NAME, '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    path: '/admin', // Changed path to /admin
+    path: '/admin',
     expires: new Date(0),
     sameSite: 'lax',
   });
@@ -60,7 +60,12 @@ export async function logoutAction(): Promise<void> {
 async function readCasesFile(): Promise<Case[]> {
   try {
     const jsonData = await fs.readFile(casesFilePath, 'utf-8');
-    return JSON.parse(jsonData) as Case[];
+    const cases = JSON.parse(jsonData) as Case[];
+    // Backward compatibility patch for old data
+    return cases.map(c => ({
+      ...c,
+      videoUrl: c.videoUrl || '',
+    }));
   } catch (error) {
     if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
       await writeCasesFile([]);
@@ -85,8 +90,6 @@ async function writeCasesFile(cases: Case[]): Promise<void> {
 
 export async function getCases(): Promise<Case[]> {
   if (!(await isAuthenticated())) {
-    // Or throw error / return empty array depending on how you want to handle unauthorized access here
-    // For page display, the layout should prevent access. For direct action calls, this is a safeguard.
     console.warn('getCases called without authentication.');
     return []; 
   }
@@ -149,24 +152,20 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
     const description = formData.get('description') as string;
     const fullDescription = formData.get('fullDescription') as string;
     const tagsString = formData.get('tags') as string;
+    const videoUrl = formData.get('videoUrl') as string;
 
     if (!title || !category || !description || !fullDescription) {
       return { success: false, error: 'Все текстовые поля обязательны.' };
     }
 
     const uploadedImageUrls = await saveUploadedFiles(formData);
-    if (uploadedImageUrls.length === 0) {
-       const imageFiles = formData.getAll('caseImages').filter(f => f instanceof File && f.size > 0);
-       if (imageFiles.length > 0) {
-            return { success: false, error: 'Ошибка при загрузке изображений.' };
-       }
-       // If no files were submitted and it's a new case, this might be an error or allowed.
-       // For now, assume at least one image is typically expected for a new case.
-       // If allowing no images, this check needs adjustment.
-       // For this example, let's enforce at least one image for new cases from the form:
-       // The form has 'required' on file input, so this state implies an issue if files were meant to be there.
+    const imageFiles = formData.getAll('caseImages').filter(f => f instanceof File && f.size > 0);
+    if (uploadedImageUrls.length === 0 && imageFiles.length > 0) {
+        return { success: false, error: 'Ошибка при загрузке изображений.' };
     }
-
+    if (uploadedImageUrls.length === 0) {
+      return { success: false, error: 'Требуется как минимум одно изображение.' };
+    }
 
     const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
     const newCase: Case = {
@@ -174,6 +173,7 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
       title,
       category,
       imageUrls: uploadedImageUrls,
+      videoUrl: videoUrl || '',
       description,
       fullDescription,
       tags,
@@ -209,22 +209,26 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
     const description = formData.get('description') as string;
     const fullDescription = formData.get('fullDescription') as string;
     const tagsString = formData.get('tags') as string;
+    const videoUrl = formData.get('videoUrl') as string;
 
     if (!title || !category || !description || !fullDescription) {
       return { success: false, error: 'Все текстовые поля обязательны.' };
     }
     
-    let finalImageUrls = existingCase.imageUrls;
-    const imageFileObjects = formData.getAll('caseImages');
-    const newFilesProvided = imageFileObjects.some(file => file instanceof File && file.size > 0);
+    let finalImageUrls: string[];
+    const newFilesProvided = (formData.getAll('caseImages').filter(f => f instanceof File && f.size > 0)).length > 0;
 
     if (newFilesProvided) {
-      await deleteImageFiles(existingCase.imageUrls); // Delete old images
-      finalImageUrls = await saveUploadedFiles(formData); // Save new images
+      // Replace logic: delete old, upload new
+      await deleteImageFiles(existingCase.imageUrls); 
+      finalImageUrls = await saveUploadedFiles(formData);
       if (finalImageUrls.length === 0) {
-        // This implies an error during new image upload if files were indeed provided.
         return { success: false, error: 'Ошибка при загрузке новых изображений.' };
       }
+    } else {
+      // Reorder logic: use the provided order of existing URLs
+      const imageUrlsString = formData.get('imageUrls') as string;
+      finalImageUrls = imageUrlsString ? JSON.parse(imageUrlsString) : existingCase.imageUrls;
     }
 
     const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
@@ -235,6 +239,7 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
       description,
       fullDescription,
       tags,
+      videoUrl: videoUrl || '',
       imageUrls: finalImageUrls,
     };
 
@@ -281,5 +286,3 @@ export async function deleteCaseAction(caseId: string): Promise<{ success: boole
     return { success: false, error: `Ошибка сервера: ${detail.substring(0,300)}` };
   }
 }
-
-    

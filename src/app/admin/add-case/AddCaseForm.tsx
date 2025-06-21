@@ -1,32 +1,49 @@
 
 'use client';
 
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useState, type ChangeEvent, type FormEvent, useRef, type DragEvent } from "react";
+import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { addCaseAction } from '@/app/admin/actions'; // Updated path
+import { addCaseAction } from '@/app/admin/actions';
 import { useRouter } from "next/navigation";
+import { GripVertical } from "lucide-react";
 
 export default function AddCaseForm() {
   const { toast } = useToast();
   const router = useRouter();
-  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const dragItem = useRef<number | null>(null);
+  const dragOverItem = useRef<number | null>(null);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setSelectedFiles(event.target.files);
+      setFiles(Array.from(event.target.files));
     }
+  };
+
+  const handleDragSort = () => {
+    if (dragItem.current === null || dragOverItem.current === null) return;
+    
+    setFiles(prevFiles => {
+      const newFiles = [...prevFiles];
+      const draggedFile = newFiles.splice(dragItem.current!, 1)[0];
+      newFiles.splice(dragOverItem.current!, 0, draggedFile);
+      dragItem.current = null;
+      dragOverItem.current = null;
+      return newFiles;
+    });
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const currentForm = event.currentTarget;
 
-    if (!selectedFiles || selectedFiles.length === 0) {
+    if (files.length === 0) {
       toast({
         variant: "destructive",
         title: "Нет файлов",
@@ -36,7 +53,17 @@ export default function AddCaseForm() {
     }
     setIsProcessing(true);
 
-    const serverActionFormData = new FormData(currentForm);
+    const serverActionFormData = new FormData();
+    serverActionFormData.append('title', currentForm.title.value);
+    serverActionFormData.append('category', currentForm.category.value);
+    serverActionFormData.append('description', currentForm.description.value);
+    serverActionFormData.append('fullDescription', currentForm.fullDescription.value);
+    serverActionFormData.append('tags', currentForm.tags.value);
+    serverActionFormData.append('videoUrl', currentForm.videoUrl.value);
+
+    files.forEach(file => {
+      serverActionFormData.append('caseImages', file);
+    });
 
     try {
       const result = await addCaseAction(serverActionFormData);
@@ -46,7 +73,7 @@ export default function AddCaseForm() {
           title: "Кейс добавлен!",
           description: `Кейс "${result.case?.title}" успешно добавлен.`,
         });
-        router.push('/admin'); // Redirect to admin dashboard
+        router.push('/admin');
       } else {
         toast({
           variant: "destructive",
@@ -91,15 +118,41 @@ export default function AddCaseForm() {
             required
             className="mt-1 bg-background border-input text-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
           />
-          {selectedFiles && selectedFiles.length > 0 && (
-             <div className="mt-2 space-y-1">
-                {Array.from(selectedFiles).map(file => (
-                    <p key={file.name} className="text-sm text-muted-foreground">
-                        {file.name} ({(file.size / 1024).toFixed(2)} KB)
-                    </p>
-                ))}
-             </div>
-          )}
+        </div>
+
+        {files.length > 0 && (
+            <div>
+                <Label>Порядок изображений (перетащите для сортировки)</Label>
+                <p className="text-sm text-muted-foreground">Первое изображение будет обложкой кейса.</p>
+                <div className="mt-2 space-y-2 rounded-lg border p-2">
+                    {files.map((file, index) => (
+                        <div
+                            key={file.name + index}
+                            className="flex items-center p-2 bg-muted rounded-md cursor-grab"
+                            draggable
+                            onDragStart={() => (dragItem.current = index)}
+                            onDragEnter={() => (dragOverItem.current = index)}
+                            onDragEnd={handleDragSort}
+                            onDragOver={(e) => e.preventDefault()}
+                        >
+                            <GripVertical className="h-5 w-5 text-muted-foreground mr-2"/>
+                            <Image
+                                src={URL.createObjectURL(file)}
+                                alt={file.name}
+                                width={40}
+                                height={40}
+                                className="rounded object-cover mr-4"
+                            />
+                            <p className="text-sm text-foreground truncate">{file.name}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )}
+
+        <div>
+          <Label htmlFor="videoUrl" className="text-card-foreground">URL Видео (опционально)</Label>
+          <Input id="videoUrl" name="videoUrl" type="url" placeholder="https://example.com/video.mp4" className="mt-1 bg-background border-input text-foreground" />
         </div>
 
         <div>
@@ -129,5 +182,3 @@ export default function AddCaseForm() {
     </div>
   );
 }
-
-    

@@ -2,7 +2,7 @@
 'use client';
 
 import type { Case } from "@/types";
-import { useState, type ChangeEvent, type FormEvent, useEffect } from "react";
+import { useState, type ChangeEvent, type FormEvent, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { updateCaseAction } from '@/app/admin/actions';
 import { useRouter } from "next/navigation";
-import { XCircle } from "lucide-react";
+import { GripVertical } from "lucide-react";
 
 interface EditCaseFormProps {
   caseToEdit: Case;
@@ -21,45 +21,67 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
   const { toast } = useToast();
   const router = useRouter();
   
-  const [title, setTitle] = useState(caseToEdit.title);
-  const [category, setCategory] = useState(caseToEdit.category);
-  const [description, setDescription] = useState(caseToEdit.description);
-  const [fullDescription, setFullDescription] = useState(caseToEdit.fullDescription);
-  const [tags, setTags] = useState(caseToEdit.tags.join(', '));
   const [currentImageUrls, setCurrentImageUrls] = useState<string[]>(caseToEdit.imageUrls);
-  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  const [newFiles, setNewFiles] = useState<File[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
 
+  const dragItem = useRef<number | null>(null);
+  const dragOverItem = useRef<number | null>(null);
+  
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setSelectedFiles(event.target.files);
-      // Preview new files by converting them to data URLs (optional, for better UX)
-      const newImagePreviewUrls = Array.from(event.target.files).map(file => URL.createObjectURL(file));
-      setCurrentImageUrls(newImagePreviewUrls); // Replace current images with previews of new ones
+    if (event.target.files && event.target.files.length > 0) {
+      setNewFiles(Array.from(event.target.files));
+      // Clear existing image previews when new files are selected for replacement
+      setCurrentImageUrls([]);
     }
   };
-  
-  // Clean up object URLs when component unmounts or files change
-  useEffect(() => {
-    return () => {
-        currentImageUrls.forEach(url => {
-            if (url.startsWith('blob:')) {
-                URL.revokeObjectURL(url);
-            }
-        });
-    };
-  }, [currentImageUrls]);
 
+  const handleDragSort = (isNew: boolean) => {
+    if (dragItem.current === null || dragOverItem.current === null) return;
+    
+    if (isNew) {
+      setNewFiles(prev => {
+        const newItems = [...prev];
+        const [draggedItemContent] = newItems.splice(dragItem.current!, 1);
+        newItems.splice(dragOverItem.current!, 0, draggedItemContent);
+        return newItems;
+      });
+    } else {
+      setCurrentImageUrls(prev => {
+        const newItems = [...prev];
+        const [draggedItemContent] = newItems.splice(dragItem.current!, 1);
+        newItems.splice(dragOverItem.current!, 0, draggedItemContent);
+        return newItems;
+      });
+    }
+    dragItem.current = null;
+    dragOverItem.current = null;
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsProcessing(true);
 
-    const serverActionFormData = new FormData(event.currentTarget);
-    // If no new files are selected, we don't want to send an empty 'caseImages' entry
-    // The server action will check if 'caseImages' has actual files.
-    // FormData automatically handles the 'caseImages' input. If files are selected, they are included.
-    // If no files selected for an input type="file", it won't be part of formData unless handled explicitly.
+    const form = event.currentTarget;
+    const serverActionFormData = new FormData();
+
+    // Append all text data
+    serverActionFormData.append('title', form.title.value);
+    serverActionFormData.append('category', form.category.value);
+    serverActionFormData.append('description', form.description.value);
+    serverActionFormData.append('fullDescription', form.fullDescription.value);
+    serverActionFormData.append('tags', form.tags.value);
+    serverActionFormData.append('videoUrl', form.videoUrl.value);
+
+    if (newFiles.length > 0) {
+      // Logic for replacing images
+      newFiles.forEach(file => {
+        serverActionFormData.append('caseImages', file);
+      });
+    } else {
+      // Logic for reordering existing images
+      serverActionFormData.append('imageUrls', JSON.stringify(currentImageUrls));
+    }
 
     try {
       const result = await updateCaseAction(caseToEdit.id, serverActionFormData);
@@ -70,6 +92,7 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
           description: `Кейс "${result.case?.title}" успешно обновлен.`,
         });
         router.push('/admin');
+        router.refresh();
       } else {
         toast({
           variant: "destructive",
@@ -89,35 +112,47 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
     }
   };
 
+  const isReplacingImages = newFiles.length > 0;
+
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8 text-foreground">Редактировать кейс: {caseToEdit.title}</h1>
+      <h1 className="text-3xl font-bold mb-8 text-foreground">Редактировать кейс</h1>
       <form onSubmit={handleSubmit} className="space-y-6 bg-card p-6 rounded-lg shadow-md">
         <div>
           <Label htmlFor="title" className="text-card-foreground">Название</Label>
-          <Input id="title" name="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} required className="mt-1 bg-background" />
+          <Input id="title" name="title" type="text" defaultValue={caseToEdit.title} required className="mt-1 bg-background" />
         </div>
 
         <div>
           <Label htmlFor="category" className="text-card-foreground">Категория</Label>
-          <Input id="category" name="category" type="text" value={category} onChange={(e) => setCategory(e.target.value)} required className="mt-1 bg-background" />
+          <Input id="category" name="category" type="text" defaultValue={caseToEdit.category} required className="mt-1 bg-background" />
         </div>
         
         <div>
-          <Label className="text-card-foreground">Текущие изображения</Label>
-            {currentImageUrls.length > 0 ? (
-              <div className="mt-2 grid grid-cols-3 gap-2">
-                {currentImageUrls.map((url, index) => (
-                  <div key={index} className="relative aspect-video">
-                    <Image src={url.startsWith('blob:') ? url : url} alt={`Current image ${index + 1}`} layout="fill" objectFit="cover" className="rounded" />
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-sm text-muted-foreground mt-1">Нет текущих изображений.</p>
-            )}
+            <Label>Порядок изображений (перетащите для сортировки)</Label>
+            <p className="text-sm text-muted-foreground">Первое изображение будет обложкой кейса.</p>
+            <div className="mt-2 space-y-2 rounded-lg border p-2">
+                {(isReplacingImages ? newFiles : currentImageUrls).map((item, index) => {
+                    const url = isReplacingImages ? URL.createObjectURL(item as File) : (item as string);
+                    const name = isReplacingImages ? (item as File).name : (item as string).split('/').pop();
+                    return (
+                        <div
+                            key={url}
+                            className="flex items-center p-2 bg-muted rounded-md cursor-grab"
+                            draggable
+                            onDragStart={() => (dragItem.current = index)}
+                            onDragEnter={() => (dragOverItem.current = index)}
+                            onDragEnd={() => handleDragSort(isReplacingImages)}
+                            onDragOver={(e) => e.preventDefault()}
+                        >
+                            <GripVertical className="h-5 w-5 text-muted-foreground mr-2"/>
+                            <Image src={url} alt={name || 'image'} width={40} height={40} className="rounded object-cover mr-4"/>
+                            <p className="text-sm text-foreground truncate">{name}</p>
+                        </div>
+                    );
+                })}
+            </div>
         </div>
-
 
         <div>
           <Label htmlFor="caseImages" className="text-card-foreground">Загрузить новые изображения (заменят старые)</Label>
@@ -129,31 +164,27 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
             onChange={handleFileChange}
             className="mt-1 bg-background file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
           />
-           {selectedFiles && selectedFiles.length > 0 && (
-             <div className="mt-2 space-y-1">
-                <p className="text-sm text-accent">Выбраны новые файлы:</p>
-                {Array.from(selectedFiles).map(file => (
-                    <p key={file.name} className="text-sm text-muted-foreground">
-                        {file.name} ({(file.size / 1024).toFixed(2)} KB)
-                    </p>
-                ))}
-             </div>
-          )}
+           {isReplacingImages && <p className="text-sm text-accent-foreground mt-2 p-2 bg-accent/20 rounded-md">Выбраны новые файлы, которые заменят все текущие изображения после сохранения.</p>}
+        </div>
+
+        <div>
+          <Label htmlFor="videoUrl" className="text-card-foreground">URL Видео (опционально)</Label>
+          <Input id="videoUrl" name="videoUrl" type="url" defaultValue={caseToEdit.videoUrl} placeholder="https://example.com/video.mp4" className="mt-1 bg-background border-input text-foreground" />
         </div>
 
         <div>
           <Label htmlFor="description" className="text-card-foreground">Краткое описание</Label>
-          <Textarea id="description" name="description" value={description} onChange={(e) => setDescription(e.target.value)} required rows={3} className="mt-1 bg-background" />
+          <Textarea id="description" name="description" defaultValue={caseToEdit.description} required rows={3} className="mt-1 bg-background" />
         </div>
 
         <div>
           <Label htmlFor="fullDescription" className="text-card-foreground">Полное описание</Label>
-          <Textarea id="fullDescription" name="fullDescription" value={fullDescription} onChange={(e) => setFullDescription(e.target.value)} required rows={6} className="mt-1 bg-background" />
+          <Textarea id="fullDescription" name="fullDescription" defaultValue={caseToEdit.fullDescription} required rows={6} className="mt-1 bg-background" />
         </div>
 
         <div>
           <Label htmlFor="tags" className="text-card-foreground">Теги (через запятую)</Label>
-          <Input id="tags" name="tags" type="text" value={tags} onChange={(e) => setTags(e.target.value)} placeholder="tag1, tag2, tag3" className="mt-1 bg-background" />
+          <Input id="tags" name="tags" type="text" defaultValue={caseToEdit.tags.join(', ')} placeholder="tag1, tag2, tag3" className="mt-1 bg-background" />
         </div>
         
         <div className="flex space-x-2">
@@ -168,5 +199,3 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
     </div>
   );
 }
-
-    
