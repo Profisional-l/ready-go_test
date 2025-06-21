@@ -68,7 +68,7 @@ export function Header() {
         <Link href="/" className="relative w-[95px] h-[55px] z-50">
           <div className="relative w-full h-full">
             <Image
-              src="/images/w_logo.png"
+              src="/images/svg_w_logo.svg"
               alt="Logo dark"
               fill
               unoptimized={true}
@@ -78,7 +78,7 @@ export function Header() {
               }`}
             />
             <Image
-              src="/images/logo.png"
+              src="/images/svg_logo.svg"
               alt="Logo light"
               fill
               unoptimized={true}

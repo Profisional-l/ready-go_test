@@ -98,9 +98,9 @@
 @layer base {
   * {
     @apply border-border;
-    cursor: url("../components/assets/CURSOR_01.png"), auto;
+    /* cursor: url("../components/assets/CURSOR_01.png"), auto; */
   }
-  *:hover {
+  button:hover, a:hover, .caseCard:hover {
     cursor: url("../components/assets/CURSOR_01.png"), auto;
   }
   body {
@@ -143,3 +143,5 @@ body::-webkit-scrollbar {
 header nav{
   z-index: 10;
 }
+
+

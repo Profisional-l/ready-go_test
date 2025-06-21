@@ -14,7 +14,7 @@ export function CaseCard({ title, imageUrls, onClick, category }: CaseCardProps)
 
   return (
     <Card
-      className="group overflow-hidden transition-all duration-300 cursor-pointer rounded-lg w-full bg-[#F1F0F0 ] md:bg-background text-card-foreground border-0"
+      className="group overflow-hidden transition-all duration-300 cursor-pointer rounded-lg w-full bg-[#F1F0F0 ] md:bg-background text-card-foreground border-0 caseCard"
       onClick={onClick}
       role="button"
       tabIndex={0}
