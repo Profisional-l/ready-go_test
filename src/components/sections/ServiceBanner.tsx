@@ -1,51 +1,60 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function ServiceBanner() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => {
+    const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const bannerWidth = isMobile ? 1827 : 3560;
-  const bannerHeight = isMobile ? 99 : 190;
+  const imageSrc = "/images/Group103.png";
+  const imageHeight = isMobile ? 99 : 190;
 
-  const BannerContent = () => (
-    <span className="relative h-[99px] md:h-[191px] w-auto md:w-[3560px] mx-8">
-      <Image
-        src="/images/Group103.png"
-        alt="service banner"
-        className="object-cover"
-        width={bannerWidth}
-        height={bannerHeight}
-      />
-    </span>
+  const BannerItem = () => (
+    <div className="flex items-center justify-center h-[99px] md:h-[190px] px-4">
+      <div className="relative" style={{ height: `${imageHeight}px` }}>
+        <Image
+          src={imageSrc}
+          alt="Service banner"
+          width={isMobile ? 1827 : 3560}
+          height={imageHeight}
+          className="object-contain"
+          priority
+        />
+      </div>
+    </div>
   );
 
   return (
-    <section className="bg-accent text-accent-foreground overflow-hidden h-[99px] md:h-[190px] py-4 md:py-0">
-      <div className="relative flex flex-nowrap h-full">
-        <div className="animate-marquee flex-shrink-0 flex items-center h-full">
-          <BannerContent />
-          <BannerContent />
-          <BannerContent />
-          <BannerContent />
-        </div>
-        <div className="animate-marquee flex-shrink-0 flex items-center h-full">
-          <BannerContent />
-          <BannerContent />
-          <BannerContent />
-          <BannerContent />
-        </div>
+    <section className="bg-accent text-accent-foreground overflow-hidden h-[99px] md:h-[190px] py-0 ">
+      <div className="relative flex w-max animate-marquee">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <BannerItem key={i} />
+        ))}
       </div>
+
+      <style jsx>{`
+        @keyframes marquee {
+          0% {
+            transform: translateX(0%);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        .animate-marquee {
+          animation: marquee 80s linear infinite;
+        }
+      `}</style>
     </section>
   );
 }
