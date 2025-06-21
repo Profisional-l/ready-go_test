@@ -38,7 +38,7 @@ export function CaseCard({ title, imageUrls, onClick, category }: CaseCardProps)
             height={15}
             className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 mr-1"
           />
-          <CardTitle className="text-[24px] font-inter font-medium tracking-normal text-foreground">
+          <CardTitle className="text-[18px] md:text-[24px] font-inter font-medium tracking-normal text-foreground">
             {title} — {category}
           </CardTitle>
         </div>

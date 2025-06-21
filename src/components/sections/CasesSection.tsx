@@ -48,7 +48,7 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
         </h2>
       </div>
       {/* Adjusted grid for mobile */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-2">
         {casesToDisplay.map((caseItem) => (
           <CaseCard
             key={caseItem.id}
