@@ -77,8 +77,8 @@ export function AboutSection() {
   }, []);
 
   return (
-    <section id="about" className="py-16 md:py-24">
-      <div className="max-w-[1380px] mx-auto">
+    <section id="about" className="py-10 md:py-24 px-4">
+      <div className="m-0 max-w-[1380px]">
         <div className="flex flex-col md:flex-row md:items-start md:space-x-16">
           {/* Текстовый блок */}
           <div
