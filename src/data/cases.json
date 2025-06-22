@@ -165,5 +165,31 @@
       "web",
       "gogogo"
     ]
+  },
+  {
+    "id": "1750548030645",
+    "title": "NEMBO",
+    "category": "NEMBONEMBO",
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1750548029469_e41e72c84c871bcec3195b663dabae22447a31d7.png"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750548029566_______Bq_Evgeniya_final_30sec_v3__1_.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750548030138_______BQ_Olga_final_30sec_1080__1_.mp4"
+      }
+    ],
+    "description": "NEMBONEMBONEMBO",
+    "fullDescription": "NEMBONEMBONEMBO",
+    "tags": [
+      "Graphic Design",
+      "Poster",
+      "Event"
+    ]
   }
 ]
