@@ -78,6 +78,7 @@ const renderMediaGrid = () => {
             <div key={`video-${rowIndex}-${index}`} className="w-full">
               <video
                 controls
+                playsInline
                 preload="metadata"
                 className="w-full h-auto rounded-[10px] object-contain"
               >
@@ -106,11 +107,11 @@ const renderMediaGrid = () => {
         <ScrollArea className="flex-grow overflow-y-auto scrollArea">
           <div className="p-6 md:p-20 md:px-48">
             <DialogHeader>
-              <DialogTitle className="text-[60px] md:text-[90px] font-mycustom uppercase tracking-normal -mt-10">
+              <DialogTitle className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">
                 {caseData.title}
               </DialogTitle>
             </DialogHeader>
-            <p className="text-[20px] font-medium text-center text-foreground mb-10 max-w-[600px] mx-auto ">
+            <p className="text-[20px] font-medium text-left md:text-center text-foreground mb-10 max-w-[600px] mx-auto ">
               {caseData.fullDescription}
             </p>
             {caseData.tags && caseData.tags.length > 0 && (
