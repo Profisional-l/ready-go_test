@@ -31,11 +31,7 @@
     ],
     "description": "Интерфейс для приложения.",
     "fullDescription": "Разработка интуитивно понятного интерфейса для мобильного приложения, сфокусированного на пользовательском опыте и легкости использования.",
-    "tags": [
-      "UX",
-      "UI",
-      "Mobile App"
-    ]
+    "tags": ["UX", "UI", "Mobile App"]
   },
   {
     "id": "2",
@@ -49,11 +45,7 @@
     ],
     "description": "Создание сайта.",
     "fullDescription": "Комплексный редизайн веб-сайта для студии дизайна интерьеров GOLOD DESIGN, улучшение визуальной привлекательности и навигации.",
-    "tags": [
-      "Web Design",
-      "Redesign",
-      "Portfolio"
-    ]
+    "tags": ["Web Design", "Redesign", "Portfolio"]
   },
   {
     "id": "3",
@@ -67,11 +59,7 @@
     ],
     "description": "Постер для мероприятия.",
     "fullDescription": "Создание яркого и привлекающего внимание рекламного постера для музыкального мероприятия NEMGO.",
-    "tags": [
-      "Graphic Design",
-      "Poster",
-      "Event"
-    ]
+    "tags": ["Graphic Design", "Poster", "Event"]
   },
   {
     "id": "4",
@@ -85,11 +73,7 @@
     ],
     "description": "Промо-материалы.",
     "fullDescription": "Разработка серии промо-материалов для бренда ARARAT, подчеркивающих премиальность и традиции.",
-    "tags": [
-      "Marketing",
-      "Branding",
-      "Campaign"
-    ]
+    "tags": ["Marketing", "Branding", "Campaign"]
   },
   {
     "id": "5",
@@ -103,11 +87,7 @@
     ],
     "description": "Digital кампания.",
     "fullDescription": "Запуск интерактивной digital-кампании для Coca-Cola, нацеленной на молодежную аудиторию.",
-    "tags": [
-      "Digital Marketing",
-      "Social Media",
-      "Promo"
-    ]
+    "tags": ["Digital Marketing", "Social Media", "Promo"]
   },
   {
     "id": "6",
@@ -121,11 +101,7 @@
     ],
     "description": "Фирменный стиль.",
     "fullDescription": "Разработка фирменного стиля и брендбука для технологической компании Optimising Technologies.",
-    "tags": [
-      "Branding",
-      "Identity",
-      "Tech"
-    ]
+    "tags": ["Branding", "Identity", "Tech"]
   },
   {
     "id": "1749287912830",
@@ -139,11 +115,7 @@
     ],
     "description": "SMM for Sportmaster ",
     "fullDescription": "SMM for Sportmaster in Instagram.",
-    "tags": [
-      "Graphic Design",
-      "Poster",
-      "Event"
-    ]
+    "tags": ["Graphic Design", "Poster", "Event"]
   },
   {
     "id": "1750533014003",
@@ -161,10 +133,7 @@
     ],
     "description": "NEMBONEMBONEMBO",
     "fullDescription": "NEMBONEMBO",
-    "tags": [
-      "web",
-      "gogogo"
-    ]
+    "tags": ["web", "gogogo"]
   },
   {
     "id": "1750548030645",
@@ -182,14 +151,22 @@
       {
         "type": "video",
         "url": "/uploads/cases/1750548030138_______BQ_Olga_final_30sec_1080__1_.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750548029566_______Bq_Evgeniya_final_30sec_v3__1_.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750548029566_______Bq_Evgeniya_final_30sec_v3__1_.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750548029566_______Bq_Evgeniya_final_30sec_v3__1_.mp4"
       }
     ],
     "description": "NEMBONEMBONEMBO",
     "fullDescription": "NEMBONEMBONEMBO",
-    "tags": [
-      "Graphic Design",
-      "Poster",
-      "Event"
-    ]
+    "tags": ["Graphic Design", "Poster", "Event"]
   }
 ]

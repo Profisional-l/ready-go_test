@@ -1,16 +1,15 @@
-
 "use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import type { Case } from '@/types';
+} from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import type { Case } from "@/types";
 
 interface CaseModalProps {
   isOpen: boolean;
@@ -21,45 +20,85 @@ interface CaseModalProps {
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
   if (!caseData) return null;
 
-  const renderMediaGrid = () => {
-    if (!caseData.media || caseData.media.length === 0) {
-      return null;
-    }
+const renderMediaGrid = () => {
+  if (!caseData?.media || caseData.media.length === 0) return null;
 
-    return (
-      <div className="mt-6">
-        <div className="flex flex-wrap justify-center gap-2">
-          {caseData.media.map((item, index) => (
-            <div key={`media-${index}`} className="flex justify-center">
-              {item.type === 'image' ? (
-                <Image
-                  src={item.url}
-                  alt={`${caseData.title} - Media ${index + 1}`}
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  style={{ width: 'auto', height: 'auto', maxWidth: '100%' }}
-                  className="rounded-[30px]"
-                  data-ai-hint={`${caseData.title.substring(0, 20)} project media`}
-                  unoptimized
-                />
-              ) : (
-                <video
-                  controls
-                  preload="metadata"
-                  className="w-full max-w-4xl mx-auto rounded-lg shadow-lg"
-                  style={{ maxWidth: '100%', height: 'auto' }}
-                >
-                  <source src={item.url} type={`video/${item.url.split('.').pop()}`} />
-                  Your browser does not support the video tag.
-                </video>
-              )}
+  const images = caseData.media.filter((item) => item.type === "image");
+  const videos = caseData.media.filter((item) => item.type === "video");
+
+  return (
+    <div className="mt-6 space-y-3">
+      {/* Блок изображений */}
+      {images.length > 0 && (
+        <div
+          className={`grid gap-3 ${
+            images.length === 1
+              ? "grid-cols-1"
+              : images.length === 2
+              ? "grid-cols-1 sm:grid-cols-2"
+              : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+          }`}
+        >
+          {images.map((item, index) => (
+            <div key={`image-${index}`} className="w-full">
+              <Image
+                src={item.url}
+                alt={`${caseData.title} - Image ${index + 1}`}
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  maxWidth: "100%",
+                  objectFit: "cover",
+                }}
+                className="rounded-[10px]"
+                unoptimized
+              />
             </div>
           ))}
         </div>
-      </div>
-    );
-  };
+      )}
+
+   {videos.length > 0 && (
+  <div className="space-y-3">
+    {Array.from({ length: Math.ceil(videos.length / 3) }).map((_, rowIndex) => {
+      const rowVideos = videos.slice(rowIndex * 3, rowIndex * 3 + 3);
+      const colClass =
+        rowVideos.length === 1
+          ? "grid-cols-1"
+          : rowVideos.length === 2
+          ? "grid-cols-1 sm:grid-cols-2"
+          : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
+
+      return (
+        <div key={rowIndex} className={`grid ${colClass} gap-3`}>
+          {rowVideos.map((item, index) => (
+            <div key={`video-${rowIndex}-${index}`} className="w-full">
+              <video
+                controls
+                preload="metadata"
+                className="w-full h-auto rounded-[10px] object-contain"
+              >
+                <source
+                  src={item.url}
+                  type={`video/${item.url.split(".").pop()}`}
+                />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          ))}
+        </div>
+      );
+    })}
+  </div>
+)}
+
+    </div>
+  );
+};
+
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -87,7 +126,7 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
                 ))}
               </div>
             )}
-            
+
             {renderMediaGrid()}
           </div>
         </ScrollArea>
