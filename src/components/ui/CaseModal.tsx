@@ -10,6 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Case } from "@/types";
+import { useState, useRef, useEffect } from "react";
 
 interface CaseModalProps {
   isOpen: boolean;
@@ -17,89 +18,144 @@ interface CaseModalProps {
   caseData: Case | null;
 }
 
+// Новый компонент для видео с превью из первого кадра
+function VideoWithPreview({ src }: { src: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [poster, setPoster] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Функция захвата кадра в canvas и генерация dataURL
+    const captureFrame = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL("image/png");
+      setPoster(dataUrl);
+    };
+
+    const onLoadedMetadata = () => {
+      // Прокручиваем на 0.1 секунды, чтобы гарантированно получить кадр
+      video.currentTime = 0.1;
+    };
+
+    const onSeeked = () => {
+      captureFrame();
+      video.currentTime = 0; // Вернуть в начало, чтобы не "подергивалось"
+      video.removeEventListener("seeked", onSeeked);
+    };
+
+    video.addEventListener("loadedmetadata", onLoadedMetadata);
+    video.addEventListener("seeked", onSeeked);
+
+    return () => {
+      video.removeEventListener("loadedmetadata", onLoadedMetadata);
+      video.removeEventListener("seeked", onSeeked);
+    };
+  }, [src]);
+
+  return (
+    <video
+      ref={videoRef}
+      controls
+      playsInline
+      preload="metadata"
+      poster={poster}
+      className="w-full h-auto rounded-[10px] object-contain"
+    >
+      <source src={src} type={`video/${src.split(".").pop()}`} />
+      Your browser does not support the video tag.
+    </video>
+  );
+}
+
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
   if (!caseData) return null;
 
-const renderMediaGrid = () => {
-  if (!caseData?.media || caseData.media.length === 0) return null;
+  const renderMediaGrid = () => {
+    if (!caseData?.media || caseData.media.length === 0) return null;
 
-  const images = caseData.media.filter((item) => item.type === "image");
-  const videos = caseData.media.filter((item) => item.type === "video");
+    const images = caseData.media.filter((item) => item.type === "image");
+    const videos = caseData.media.filter((item) => item.type === "video");
 
-  return (
-    <div className="mt-6 space-y-3">
-      {/* Блок изображений */}
-      {images.length > 0 && (
-        <div
-          className={`grid gap-3 ${
-            images.length === 1
-              ? "grid-cols-1"
-              : images.length === 2
-              ? "grid-cols-1 sm:grid-cols-2"
-              : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-          }`}
-        >
-          {images.map((item, index) => (
-            <div key={`image-${index}`} className="w-full">
-              <Image
-                src={item.url}
-                alt={`${caseData.title} - Image ${index + 1}`}
-                width={0}
-                height={0}
-                sizes="100vw"
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  maxWidth: "100%",
-                  objectFit: "cover",
-                }}
-                className="rounded-[10px]"
-                unoptimized
-              />
-            </div>
-          ))}
-        </div>
-      )}
-
-   {videos.length > 0 && (
-  <div className="space-y-3">
-    {Array.from({ length: Math.ceil(videos.length / 3) }).map((_, rowIndex) => {
-      const rowVideos = videos.slice(rowIndex * 3, rowIndex * 3 + 3);
-      const colClass =
-        rowVideos.length === 1
-          ? "grid-cols-1"
-          : rowVideos.length === 2
-          ? "grid-cols-1 sm:grid-cols-2"
-          : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
-
-      return (
-        <div key={rowIndex} className={`grid ${colClass} gap-3`}>
-          {rowVideos.map((item, index) => (
-            <div key={`video-${rowIndex}-${index}`} className="w-full">
-              <video
-                controls
-                playsInline
-                preload="metadata"
-                className="w-full h-auto rounded-[10px] object-contain"
-              >
-                <source
+    return (
+      <div className="mt-6 space-y-3">
+        {/* Изображения */}
+        {images.length > 0 && (
+          <div
+            className={`grid gap-3 ${
+              images.length === 1
+                ? "grid-cols-1"
+                : images.length === 2
+                ? "grid-cols-1 sm:grid-cols-2"
+                : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+            }`}
+          >
+            {images.map((item, index) => (
+              <div key={`image-${index}`} className="w-full">
+                <Image
                   src={item.url}
-                  type={`video/${item.url.split(".").pop()}`}
+                  alt={`${caseData.title} - Image ${index + 1}`}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    maxWidth: "100%",
+                    objectFit: "cover",
+                  }}
+                  className="rounded-[10px]"
+                  unoptimized
                 />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          ))}
-        </div>
-      );
-    })}
-  </div>
-)}
+              </div>
+            ))}
+          </div>
+        )}
 
-    </div>
-  );
-};
+        {/* Видео с превью из первого кадра */}
+        {videos.length > 0 && (
+          <div className="space-y-3">
+            {Array.from({ length: Math.ceil(videos.length / 3) }).map(
+              (_, rowIndex) => {
+                const rowVideos = videos.slice(
+                  rowIndex * 3,
+                  rowIndex * 3 + 3
+                );
+                const colClass =
+                  rowVideos.length === 1
+                    ? "grid-cols-1"
+                    : rowVideos.length === 2
+                    ? "grid-cols-1 sm:grid-cols-2"
+                    : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
 
+                return (
+                  <div
+                    key={rowIndex}
+                    className={`grid ${colClass} gap-3`}
+                  >
+                    {rowVideos.map((item, index) => (
+                      <div
+                        key={`video-${rowIndex}-${index}`}
+                        className="w-full"
+                      >
+                        <VideoWithPreview src={item.url} />
+                      </div>
+                    ))}
+                  </div>
+                );
+              }
+            )}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
