@@ -1,7 +1,7 @@
 
 'use client';
 
-import type { Case } from '@/types';
+import type { Case, MediaItem } from '@/types';
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -28,11 +28,31 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { deleteCaseAction } from '@/app/admin/actions';
 import { useRouter } from 'next/navigation';
-import { PlusCircle, Edit, Trash2 } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Film } from 'lucide-react';
 
 interface AdminDashboardClientProps {
   initialCases: Case[];
 }
+
+const MediaThumbnail = ({ item }: { item: MediaItem }) => {
+  if (item.type === 'image') {
+    return (
+      <Image
+        src={item.url}
+        alt="Thumbnail"
+        width={60}
+        height={40}
+        className="rounded object-cover"
+        data-ai-hint="case thumbnail"
+      />
+    );
+  }
+  return (
+    <div className="w-[60px] h-[40px] flex items-center justify-center bg-muted rounded">
+      <Film className="h-6 w-6 text-muted-foreground" />
+    </div>
+  );
+};
 
 export default function AdminDashboardClient({ initialCases }: AdminDashboardClientProps) {
   const [cases, setCases] = useState<Case[]>(initialCases);
@@ -46,7 +66,7 @@ export default function AdminDashboardClient({ initialCases }: AdminDashboardCli
     if (result.success) {
       setCases(prevCases => prevCases.filter(c => c.id !== caseId));
       toast({ title: 'Успех', description: 'Кейс успешно удален.' });
-      router.refresh(); // To ensure server components also update if needed elsewhere
+      router.refresh(); 
     } else {
       toast({ variant: 'destructive', title: 'Ошибка', description: result.error || 'Не удалось удалить кейс.' });
     }
@@ -71,7 +91,7 @@ export default function AdminDashboardClient({ initialCases }: AdminDashboardCli
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[80px]">Изображение</TableHead>
+                <TableHead className="w-[80px]">Обложка</TableHead>
                 <TableHead>Название</TableHead>
                 <TableHead>Категория</TableHead>
                 <TableHead className="text-right">Действия</TableHead>
@@ -81,14 +101,11 @@ export default function AdminDashboardClient({ initialCases }: AdminDashboardCli
               {cases.map((caseItem) => (
                 <TableRow key={caseItem.id}>
                   <TableCell>
-                    <Image
-                      src={caseItem.imageUrls[0] || 'https://placehold.co/60x40.png'}
-                      alt={caseItem.title}
-                      width={60}
-                      height={40}
-                      className="rounded object-cover"
-                      data-ai-hint="case thumbnail"
-                    />
+                    {caseItem.media.length > 0 ? (
+                      <MediaThumbnail item={caseItem.media[0]} />
+                    ) : (
+                      <div className="w-[60px] h-[40px] bg-muted rounded" />
+                    )}
                   </TableCell>
                   <TableCell className="font-medium">{caseItem.title}</TableCell>
                   <TableCell>{caseItem.category}</TableCell>
@@ -135,5 +152,3 @@ export default function AdminDashboardClient({ initialCases }: AdminDashboardCli
     </div>
   );
 }
-
-    

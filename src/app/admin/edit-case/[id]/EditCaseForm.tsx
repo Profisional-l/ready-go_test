@@ -1,8 +1,8 @@
 
 'use client';
 
-import type { Case } from "@/types";
-import { useState, type ChangeEvent, type FormEvent, useEffect } from "react";
+import type { Case, MediaItem } from "@/types";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,55 +11,85 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { updateCaseAction } from '@/app/admin/actions';
 import { useRouter } from "next/navigation";
-import { XCircle } from "lucide-react";
+import { ArrowUp, ArrowDown } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 interface EditCaseFormProps {
   caseToEdit: Case;
 }
 
+const MediaPreview = ({ item }: { item: MediaItem | File }) => {
+  const isFile = item instanceof File;
+  const url = isFile ? URL.createObjectURL(item) : item.url;
+  const type = isFile ? (item.type.startsWith('video') ? 'video' : 'image') : item.type;
+  const name = isFile ? item.name : item.url.split('/').pop();
+
+  return (
+    <div className="flex items-center gap-4">
+      <div className="relative w-10 h-10">
+        {type === 'video' ? (
+          <video src={url} className="w-full h-full object-cover rounded" />
+        ) : (
+          <Image
+            src={url}
+            alt={name || 'media'}
+            width={40}
+            height={40}
+            unoptimized
+            className="rounded object-cover"
+          />
+        )}
+      </div>
+      <p className="text-sm text-foreground truncate flex-grow">{name}</p>
+    </div>
+  );
+};
+
 export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
   const { toast } = useToast();
   const router = useRouter();
   
-  const [title, setTitle] = useState(caseToEdit.title);
-  const [category, setCategory] = useState(caseToEdit.category);
-  const [description, setDescription] = useState(caseToEdit.description);
-  const [fullDescription, setFullDescription] = useState(caseToEdit.fullDescription);
-  const [tags, setTags] = useState(caseToEdit.tags.join(', '));
-  const [currentImageUrls, setCurrentImageUrls] = useState<string[]>(caseToEdit.imageUrls);
-  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  const [mediaItems, setMediaItems] = useState<(MediaItem | File)[]>(caseToEdit.media);
+  const [caseType, setCaseType] = useState<'modal' | 'link'>(caseToEdit.type || 'modal');
   const [isProcessing, setIsProcessing] = useState(false);
-
+  
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setSelectedFiles(event.target.files);
-      // Preview new files by converting them to data URLs (optional, for better UX)
-      const newImagePreviewUrls = Array.from(event.target.files).map(file => URL.createObjectURL(file));
-      setCurrentImageUrls(newImagePreviewUrls); // Replace current images with previews of new ones
+    if (event.target.files && event.target.files.length > 0) {
+      setMediaItems(Array.from(event.target.files));
     }
   };
-  
-  // Clean up object URLs when component unmounts or files change
-  useEffect(() => {
-    return () => {
-        currentImageUrls.forEach(url => {
-            if (url.startsWith('blob:')) {
-                URL.revokeObjectURL(url);
-            }
-        });
-    };
-  }, [currentImageUrls]);
 
+  const handleMove = (index: number, direction: 'up' | 'down') => {
+    if (direction === 'up' && index === 0) return;
+    if (direction === 'down' && index === mediaItems.length - 1) return;
+
+    setMediaItems(prevItems => {
+      const newItems = [...prevItems];
+      const targetIndex = direction === 'up' ? index - 1 : index + 1;
+      [newItems[index], newItems[targetIndex]] = [newItems[targetIndex], newItems[index]];
+      return newItems;
+    });
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsProcessing(true);
 
-    const serverActionFormData = new FormData(event.currentTarget);
-    // If no new files are selected, we don't want to send an empty 'caseImages' entry
-    // The server action will check if 'caseImages' has actual files.
-    // FormData automatically handles the 'caseImages' input. If files are selected, they are included.
-    // If no files selected for an input type="file", it won't be part of formData unless handled explicitly.
+    const form = event.currentTarget;
+    const serverActionFormData = new FormData(form);
+
+    const newFiles = mediaItems.filter(item => item instanceof File) as File[];
+    const existingMedia = mediaItems.filter(item => !(item instanceof File)) as MediaItem[];
+
+    if (newFiles.length > 0) {
+        newFiles.forEach(file => {
+            serverActionFormData.append('caseMedia', file);
+        });
+    } else {
+        serverActionFormData.append('mediaOrder', JSON.stringify(existingMedia));
+    }
+    
+    serverActionFormData.set('type', caseType);
 
     try {
       const result = await updateCaseAction(caseToEdit.id, serverActionFormData);
@@ -70,6 +100,7 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
           description: `Кейс "${result.case?.title}" успешно обновлен.`,
         });
         router.push('/admin');
+        router.refresh();
       } else {
         toast({
           variant: "destructive",
@@ -88,73 +119,126 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
       setIsProcessing(false);
     }
   };
+  
+  const isReplacingMedia = mediaItems.some(item => item instanceof File);
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8 text-foreground">Редактировать кейс: {caseToEdit.title}</h1>
+      <h1 className="text-3xl font-bold mb-8 text-foreground">Редактировать кейс</h1>
       <form onSubmit={handleSubmit} className="space-y-6 bg-card p-6 rounded-lg shadow-md">
+        
+        <div>
+          <Label className="text-card-foreground mb-2 block">Тип кейса</Label>
+          <RadioGroup
+            value={caseType}
+            onValueChange={(value: 'modal' | 'link') => setCaseType(value)}
+            className="flex items-center space-x-4"
+            name="type"
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="modal" id="r-modal" />
+              <Label htmlFor="r-modal">Модальное окно</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="link" id="r-link" />
+              <Label htmlFor="r-link">Внешняя ссылка</Label>
+            </div>
+          </RadioGroup>
+        </div>
+
         <div>
           <Label htmlFor="title" className="text-card-foreground">Название</Label>
-          <Input id="title" name="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} required className="mt-1 bg-background" />
+          <Input id="title" name="title" type="text" defaultValue={caseToEdit.title} required className="mt-1 bg-background" />
         </div>
 
         <div>
           <Label htmlFor="category" className="text-card-foreground">Категория</Label>
-          <Input id="category" name="category" type="text" value={category} onChange={(e) => setCategory(e.target.value)} required className="mt-1 bg-background" />
+          <Input id="category" name="category" type="text" defaultValue={caseToEdit.category} required className="mt-1 bg-background" />
         </div>
         
+        {caseType === 'link' && (
+          <div>
+            <Label htmlFor="externalUrl">Внешняя ссылка (URL)</Label>
+            <Input id="externalUrl" name="externalUrl" type="url" defaultValue={caseToEdit.externalUrl} required className="mt-1 bg-background" />
+          </div>
+        )}
+
         <div>
-          <Label className="text-card-foreground">Текущие изображения</Label>
-            {currentImageUrls.length > 0 ? (
-              <div className="mt-2 grid grid-cols-3 gap-2">
-                {currentImageUrls.map((url, index) => (
-                  <div key={index} className="relative aspect-video">
-                    <Image src={url.startsWith('blob:') ? url : url} alt={`Current image ${index + 1}`} layout="fill" objectFit="cover" className="rounded" />
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-sm text-muted-foreground mt-1">Нет текущих изображений.</p>
-            )}
+            <Label>Порядок медиа</Label>
+            <p className="text-sm text-muted-foreground">Первый элемент будет обложкой кейса. Используйте стрелки для сортировки.</p>
+            <div className="mt-2 space-y-2 rounded-lg border p-2">
+                {mediaItems.map((item, index) => {
+                  const isFile = item instanceof File;
+                  const key = isFile 
+                    ? `new-${item.name}-${item.lastModified}-${index}` 
+                    : `existing-${(item as MediaItem).url}-${index}`;
+
+                  return (
+                    <div
+                        key={key}
+                        className="flex items-center p-2 bg-muted rounded-md"
+                    >
+                        <MediaPreview item={item} />
+                        <div className="flex items-center ml-auto pl-4">
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleMove(index, 'up')}
+                                disabled={index === 0}
+                                aria-label="Move up"
+                            >
+                                <ArrowUp className="h-4 w-4" />
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleMove(index, 'down')}
+                                disabled={index === mediaItems.length - 1}
+                                aria-label="Move down"
+                            >
+                                <ArrowDown className="h-4 w-4" />
+                            </Button>
+                        </div>
+                    </div>
+                  );
+                })}
+            </div>
         </div>
 
-
         <div>
-          <Label htmlFor="caseImages" className="text-card-foreground">Загрузить новые изображения (заменят старые)</Label>
+          <Label htmlFor="caseMedia" className="text-card-foreground">Загрузить новые файлы (заменят старые)</Label>
           <Input
-            id="caseImages"
-            name="caseImages"
+            id="caseMedia"
+            name="caseMediaInput"
             type="file"
             multiple
+            accept="image/*,video/*"
             onChange={handleFileChange}
             className="mt-1 bg-background file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
           />
-           {selectedFiles && selectedFiles.length > 0 && (
-             <div className="mt-2 space-y-1">
-                <p className="text-sm text-accent">Выбраны новые файлы:</p>
-                {Array.from(selectedFiles).map(file => (
-                    <p key={file.name} className="text-sm text-muted-foreground">
-                        {file.name} ({(file.size / 1024).toFixed(2)} KB)
-                    </p>
-                ))}
-             </div>
-          )}
+           {isReplacingMedia && <p className="text-sm text-accent-foreground mt-2 p-2 bg-accent/20 rounded-md">Выбраны новые файлы. После сохранения они заменят все текущие медиа-файлы.</p>}
         </div>
 
-        <div>
-          <Label htmlFor="description" className="text-card-foreground">Краткое описание</Label>
-          <Textarea id="description" name="description" value={description} onChange={(e) => setDescription(e.target.value)} required rows={3} className="mt-1 bg-background" />
-        </div>
+        {caseType === 'modal' && (
+          <>
+            <div>
+              <Label htmlFor="description" className="text-card-foreground">Краткое описание</Label>
+              <Textarea id="description" name="description" defaultValue={caseToEdit.description} required rows={3} className="mt-1 bg-background" />
+            </div>
 
-        <div>
-          <Label htmlFor="fullDescription" className="text-card-foreground">Полное описание</Label>
-          <Textarea id="fullDescription" name="fullDescription" value={fullDescription} onChange={(e) => setFullDescription(e.target.value)} required rows={6} className="mt-1 bg-background" />
-        </div>
+            <div>
+              <Label htmlFor="fullDescription" className="text-card-foreground">Полное описание</Label>
+              <Textarea id="fullDescription" name="fullDescription" defaultValue={caseToEdit.fullDescription} required rows={6} className="mt-1 bg-background" />
+            </div>
 
-        <div>
-          <Label htmlFor="tags" className="text-card-foreground">Теги (через запятую)</Label>
-          <Input id="tags" name="tags" type="text" value={tags} onChange={(e) => setTags(e.target.value)} placeholder="tag1, tag2, tag3" className="mt-1 bg-background" />
-        </div>
+            <div>
+              <Label htmlFor="tags" className="text-card-foreground">Теги (через запятую)</Label>
+              <Input id="tags" name="tags" type="text" defaultValue={caseToEdit.tags?.join(', ')} placeholder="tag1, tag2, tag3" className="mt-1 bg-background" />
+            </div>
+          </>
+        )}
         
         <div className="flex space-x-2">
             <Button type="submit" disabled={isProcessing}>
@@ -168,5 +252,3 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
     </div>
   );
 }
-
-    

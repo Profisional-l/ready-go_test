@@ -1,7 +1,7 @@
 
 'use server';
 
-import type { Case } from "@/types";
+import type { Case, MediaItem } from "@/types";
 import fs from 'fs/promises';
 import path from 'path';
 import { revalidatePath } from 'next/cache';
@@ -12,7 +12,7 @@ const casesFilePath = path.join(process.cwd(), 'src', 'data', 'cases.json');
 const UPLOADS_DIR_RELATIVE_TO_PUBLIC = 'uploads/cases';
 const UPLOADS_DIR_ABSOLUTE = path.join(process.cwd(), 'public', UPLOADS_DIR_RELATIVE_TO_PUBLIC);
 
-const AUTH_COOKIE_NAME = 'admin-auth-readygo-cases'; // Keeping original name for now
+const AUTH_COOKIE_NAME = 'admin-auth-readygo-cases';
 
 // --- Authentication ---
 export async function isAuthenticated(): Promise<boolean> {
@@ -33,12 +33,12 @@ export async function verifyPasswordAction(formData: FormData): Promise<{ succes
     cookies().set(AUTH_COOKIE_NAME, 'true', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      path: '/admin', // Changed path to /admin
+      path: '/',
       maxAge: 60 * 60 * 24, // 1 day
       sameSite: 'lax',
     });
-    revalidatePath('/admin');
-    return { success: true };
+    // Redirect to the admin dashboard on successful login
+    redirect('/admin');
   } else {
     return { success: false, error: 'Неверный пароль.' };
   }
@@ -48,7 +48,7 @@ export async function logoutAction(): Promise<void> {
   cookies().set(AUTH_COOKIE_NAME, '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    path: '/admin', // Changed path to /admin
+    path: '/',
     expires: new Date(0),
     sameSite: 'lax',
   });
@@ -84,30 +84,20 @@ async function writeCasesFile(cases: Case[]): Promise<void> {
 }
 
 export async function getCases(): Promise<Case[]> {
-  if (!(await isAuthenticated())) {
-    // Or throw error / return empty array depending on how you want to handle unauthorized access here
-    // For page display, the layout should prevent access. For direct action calls, this is a safeguard.
-    console.warn('getCases called without authentication.');
-    return []; 
-  }
   return readCasesFile();
 }
 
 export async function getCase(id: string): Promise<Case | undefined> {
-  if (!(await isAuthenticated())) {
-    console.warn(`getCase(${id}) called without authentication.`);
-    return undefined;
-  }
   const cases = await readCasesFile();
   return cases.find(c => c.id === id);
 }
 
 // --- File Operations ---
-async function saveUploadedFiles(formData: FormData): Promise<string[]> {
+async function saveUploadedMedia(formData: FormData): Promise<MediaItem[]> {
   await fs.mkdir(UPLOADS_DIR_ABSOLUTE, { recursive: true });
-  const imageFileObjects = formData.getAll('caseImages');
-  const uploadedImageUrls: string[] = [];
-  const validFiles = imageFileObjects.filter(file => file instanceof File && file.name && file.size > 0);
+  const mediaFileObjects = formData.getAll('caseMedia');
+  const uploadedMediaItems: MediaItem[] = [];
+  const validFiles = mediaFileObjects.filter(file => file instanceof File && file.name && file.size > 0);
 
   for (const file of validFiles) {
     const currentFile = file as File;
@@ -117,21 +107,27 @@ async function saveUploadedFiles(formData: FormData): Promise<string[]> {
     const uniqueFilename = `${Date.now()}_${originalFilename}`;
     const filePath = path.join(UPLOADS_DIR_ABSOLUTE, uniqueFilename);
     await fs.writeFile(filePath, buffer);
-    uploadedImageUrls.push(`/${UPLOADS_DIR_RELATIVE_TO_PUBLIC}/${uniqueFilename}`);
+    
+    const fileType = currentFile.type.startsWith('video') ? 'video' : 'image';
+    
+    uploadedMediaItems.push({
+      type: fileType,
+      url: `/${UPLOADS_DIR_RELATIVE_TO_PUBLIC}/${uniqueFilename}`
+    });
   }
-  return uploadedImageUrls;
+  return uploadedMediaItems;
 }
 
-async function deleteImageFiles(imageUrls: string[]): Promise<void> {
-  for (const url of imageUrls) {
-    if (url.startsWith(`/${UPLOADS_DIR_RELATIVE_TO_PUBLIC}/`)) {
-      const filename = path.basename(url);
+async function deleteMediaFiles(mediaItems: MediaItem[]): Promise<void> {
+  for (const item of mediaItems) {
+    if (item.url.startsWith(`/${UPLOADS_DIR_RELATIVE_TO_PUBLIC}/`)) {
+      const filename = path.basename(item.url);
       const filePath = path.join(UPLOADS_DIR_ABSOLUTE, filename);
       try {
         await fs.unlink(filePath);
-        console.log(`Deleted image file: ${filePath}`);
+        console.log(`Deleted media file: ${filePath}`);
       } catch (err) {
-        console.error(`Error deleting image file ${filePath}:`, err);
+        console.error(`Error deleting media file ${filePath}:`, err);
       }
     }
   }
@@ -139,125 +135,159 @@ async function deleteImageFiles(imageUrls: string[]): Promise<void> {
 
 // --- Case CRUD Actions ---
 export async function addCaseAction(formData: FormData): Promise<{ success: boolean; case?: Case; error?: string; }> {
-  if (!(await isAuthenticated())) {
-    return { success: false, error: 'Не авторизован.' };
-  }
-
   try {
+    const type = formData.get('type') as 'modal' | 'link';
     const title = formData.get('title') as string;
     const category = formData.get('category') as string;
-    const description = formData.get('description') as string;
-    const fullDescription = formData.get('fullDescription') as string;
-    const tagsString = formData.get('tags') as string;
-
-    if (!title || !category || !description || !fullDescription) {
-      return { success: false, error: 'Все текстовые поля обязательны.' };
+    
+    if (!title || !category) {
+      return { success: false, error: 'Название и категория обязательны.' };
     }
 
-    const uploadedImageUrls = await saveUploadedFiles(formData);
-    if (uploadedImageUrls.length === 0) {
-       const imageFiles = formData.getAll('caseImages').filter(f => f instanceof File && f.size > 0);
-       if (imageFiles.length > 0) {
-            return { success: false, error: 'Ошибка при загрузке изображений.' };
-       }
-       // If no files were submitted and it's a new case, this might be an error or allowed.
-       // For now, assume at least one image is typically expected for a new case.
-       // If allowing no images, this check needs adjustment.
-       // For this example, let's enforce at least one image for new cases from the form:
-       // The form has 'required' on file input, so this state implies an issue if files were meant to be there.
+    const uploadedMedia = await saveUploadedMedia(formData);
+    if (uploadedMedia.length === 0) {
+      return { success: false, error: 'Требуется как минимум один медиа-файл.' };
     }
+    
+    let newCase: Case;
 
-
-    const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
-    const newCase: Case = {
-      id: Date.now().toString(),
-      title,
-      category,
-      imageUrls: uploadedImageUrls,
-      description,
-      fullDescription,
-      tags,
-    };
+    if (type === 'modal') {
+      const description = formData.get('description') as string;
+      const fullDescription = formData.get('fullDescription') as string;
+      const tagsString = formData.get('tags') as string;
+      if (!description || !fullDescription) {
+        return { success: false, error: 'Краткое и полное описание обязательны.' };
+      }
+      const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(Boolean) : [];
+      newCase = {
+        id: Date.now().toString(),
+        title,
+        category,
+        media: uploadedMedia,
+        type: 'modal',
+        description,
+        fullDescription,
+        tags,
+      };
+    } else { // type === 'link'
+      const externalUrl = formData.get('externalUrl') as string;
+      if (!externalUrl) {
+        return { success: false, error: 'Внешняя ссылка обязательна.' };
+      }
+      newCase = {
+        id: Date.now().toString(),
+        title,
+        category,
+        media: uploadedMedia,
+        type: 'link',
+        externalUrl,
+        description: '',
+        fullDescription: '',
+        tags: [],
+      };
+    }
 
     const existingCases = await readCasesFile();
     await writeCasesFile([...existingCases, newCase]);
     
     revalidatePath('/');
+    revalidatePath('/cases');
     revalidatePath('/admin');
     
     return { success: true, case: newCase };
   } catch (error: unknown) {
-    const detail = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
-    console.error('Error in addCaseAction:', detail);
-    return { success: false, error: `Ошибка сервера: ${detail.substring(0,300)}` };
+    console.error('Error in addCaseAction:', error);
+    return { success: false, error: 'Произошла ошибка на сервере при добавлении кейса.' };
   }
 }
 
 export async function updateCaseAction(caseId: string, formData: FormData): Promise<{ success: boolean; case?: Case; error?: string; }> {
-  if (!(await isAuthenticated())) {
-    return { success: false, error: 'Не авторизован.' };
-  }
-
   try {
-    const existingCase = await getCase(caseId);
+    const allCases = await readCasesFile();
+    const existingCase = allCases.find(c => c.id === caseId);
+
     if (!existingCase) {
       return { success: false, error: 'Кейс не найден.' };
     }
 
+    const type = formData.get('type') as 'modal' | 'link';
     const title = formData.get('title') as string;
     const category = formData.get('category') as string;
-    const description = formData.get('description') as string;
-    const fullDescription = formData.get('fullDescription') as string;
-    const tagsString = formData.get('tags') as string;
 
-    if (!title || !category || !description || !fullDescription) {
-      return { success: false, error: 'Все текстовые поля обязательны.' };
+    if (!title || !category) {
+      return { success: false, error: 'Название и категория обязательны.' };
     }
     
-    let finalImageUrls = existingCase.imageUrls;
-    const imageFileObjects = formData.getAll('caseImages');
-    const newFilesProvided = imageFileObjects.some(file => file instanceof File && file.size > 0);
+    let finalMedia: MediaItem[];
+    const newFilesProvided = (formData.getAll('caseMedia').filter(f => f instanceof File && f.size > 0)).length > 0;
 
     if (newFilesProvided) {
-      await deleteImageFiles(existingCase.imageUrls); // Delete old images
-      finalImageUrls = await saveUploadedFiles(formData); // Save new images
-      if (finalImageUrls.length === 0) {
-        // This implies an error during new image upload if files were indeed provided.
-        return { success: false, error: 'Ошибка при загрузке новых изображений.' };
+      await deleteMediaFiles(existingCase.media);
+      finalMedia = await saveUploadedMedia(formData);
+      if (finalMedia.length === 0) {
+        return { success: false, error: 'Ошибка при загрузке новых медиа-файлов.' };
       }
+    } else {
+      const mediaOrderString = formData.get('mediaOrder') as string;
+      finalMedia = mediaOrderString ? JSON.parse(mediaOrderString) : existingCase.media;
     }
 
-    const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
-    const updatedCaseData: Case = {
-      ...existingCase,
-      title,
-      category,
-      description,
-      fullDescription,
-      tags,
-      imageUrls: finalImageUrls,
-    };
+    let updatedCaseData: Case;
 
-    const allCases = await readCasesFile();
+    if (type === 'modal') {
+      const description = formData.get('description') as string;
+      const fullDescription = formData.get('fullDescription') as string;
+      const tagsString = formData.get('tags') as string;
+      if (!description || !fullDescription) {
+        return { success: false, error: 'Краткое и полное описание обязательны.' };
+      }
+      const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(Boolean) : [];
+      updatedCaseData = {
+        ...existingCase,
+        title,
+        category,
+        media: finalMedia,
+        type: 'modal',
+        description,
+        fullDescription,
+        tags,
+        externalUrl: '',
+      };
+    } else { // type === 'link'
+      const externalUrl = formData.get('externalUrl') as string;
+      if (!externalUrl) {
+        return { success: false, error: 'Внешняя ссылка обязательна.' };
+      }
+      updatedCaseData = {
+        ...existingCase,
+        title,
+        category,
+        media: finalMedia,
+        type: 'link',
+        externalUrl,
+        description: '',
+        fullDescription: '',
+        tags: [],
+      };
+    }
+
+
     const updatedCases = allCases.map(c => c.id === caseId ? updatedCaseData : c);
     await writeCasesFile(updatedCases);
 
     revalidatePath('/');
+    revalidatePath('/cases');
     revalidatePath('/admin');
     revalidatePath(`/admin/edit-case/${caseId}`);
     
     return { success: true, case: updatedCaseData };
   } catch (error: unknown) {
-    const detail = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
-    console.error('Error in updateCaseAction:', detail);
-    return { success: false, error: `Ошибка сервера: ${detail.substring(0,300)}` };
+    console.error('Error in updateCaseAction:', error);
+    return { success: false, error: 'Произошла ошибка на сервере при обновлении кейса.' };
   }
 }
 
 export async function deleteCaseAction(caseId: string): Promise<{ success: boolean; error?: string }> {
-  if (!(await isAuthenticated())) {
-    return { success: false, error: 'Не авторизован.' };
-  }
   try {
     const cases = await readCasesFile();
     const caseToDelete = cases.find(c => c.id === caseId);
@@ -266,20 +296,18 @@ export async function deleteCaseAction(caseId: string): Promise<{ success: boole
       return { success: false, error: 'Кейс не найден.' };
     }
 
-    await deleteImageFiles(caseToDelete.imageUrls);
+    await deleteMediaFiles(caseToDelete.media);
 
     const updatedCases = cases.filter(c => c.id !== caseId);
     await writeCasesFile(updatedCases);
 
     revalidatePath('/');
+    revalidatePath('/cases');
     revalidatePath('/admin');
 
     return { success: true };
   } catch (error: unknown) {
-    const detail = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
-    console.error('Error in deleteCaseAction:', detail);
-    return { success: false, error: `Ошибка сервера: ${detail.substring(0,300)}` };
+    console.error('Error in deleteCaseAction:', error);
+    return { success: false, error: 'Произошла ошибка на сервере при удалении кейса.' };
   }
 }
-
-    

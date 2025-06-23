@@ -221,11 +221,11 @@ export function HeroSection() {
         // Фаза 2: мгновенное изменение позиции и изображений
         setImagePosition((prev) => !prev);
         
-      }, 300);
+      }, 400);
        // Фаза 3: плавное появление картинок
         setTimeout(() => {
            setImageOpacity(1);
-        }, 600)
+        }, 650)
     }, 3500);
     
     return () => clearInterval(interval);
@@ -247,17 +247,6 @@ export function HeroSection() {
   const currentImages = imageGroups[index % imageGroups.length];
   const nextImages = imageGroups[(index + 1) % imageGroups.length];
 
-  useEffect(() => {
-  // Предзагружаем все изображения
-  imageGroups.flat().forEach((img) => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = img.src;
-    document.head.appendChild(link);
-  });
-}, []);
-
   return (
     <section className="relative min-h-screen w-full bg-background">
       {/* Центрированный контент */}
@@ -278,7 +267,7 @@ export function HeroSection() {
               >
                 {isMobile ? (
                   <Image
-                    src="/images/eyes_Group127.png"
+                    src="/images/eyes_Group127.svg"
                     alt="глаза"
                     unoptimized={true}
                     layout="fill"
@@ -287,7 +276,7 @@ export function HeroSection() {
                 ) : (
                   <>
                     <Image
-                      src="/images/eyes0.png"
+                      src="/images/eyes0.svg"
                       alt="глаза"
                       unoptimized={true}
                       layout="fill"
@@ -318,7 +307,7 @@ export function HeroSection() {
                         }}
                       >
                         <Image
-                          src="/images/eyes1.png"
+                          src="/images/eyes1.svg"
                           alt="зрачки"
                           unoptimized={true}
                           layout="fill"

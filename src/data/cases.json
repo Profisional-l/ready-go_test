@@ -3,110 +3,183 @@
     "id": "1",
     "title": "МТБанк",
     "category": "Манички",
-    "imageUrls": [
-      "/uploads/cases/1749242977330_manchiki-main.png",
-      "/uploads/cases/1749242977332_manchiki-2.png",
-      "/uploads/cases/1749242977334_manchiki-4.png",
-      "/uploads/cases/1749242977337_manchiki-5.png",
-      "/uploads/cases/1749242977354_manchiki-1.png",
-      "/uploads/cases/1749242977360_manchiki-3.png"
+    "type": "modal",
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749242977330_manchiki-main.png"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749242977332_manchiki-2.png"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749242977334_manchiki-4.png"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749242977337_manchiki-5.png"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749242977354_manchiki-1.png"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749242977360_manchiki-3.png"
+      }
     ],
     "description": "Интерфейс для приложения.",
     "fullDescription": "Разработка интуитивно понятного интерфейса для мобильного приложения, сфокусированного на пользовательском опыте и легкости использования.",
-    "tags": [
-      "UX",
-      "UI",
-      "Mobile App"
-    ]
+    "tags": ["UX", "UI", "Mobile App"]
   },
   {
     "id": "2",
     "title": "Golden Design",
     "category": "Веб-сайт",
-    "imageUrls": [
-      "/uploads/cases/1749217285182_Free_Studio_Display_mockup_on_a_white_table__1__1.png"
+    "type": "link",
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749217285182_Free_Studio_Display_mockup_on_a_white_table__1__1.png"
+      }
     ],
-    "description": "Создание сайта.",
-    "fullDescription": "Комплексный редизайн веб-сайта для студии дизайна интерьеров GOLOD DESIGN, улучшение визуальной привлекательности и навигации.",
-    "tags": [
-      "Web Design",
-      "Redesign",
-      "Portfolio"
-    ]
+    "description": "",
+    "fullDescription": "",
+    "tags": [],
+    "externalUrl": "https://goloddesign.by/"
   },
   {
     "id": "3",
     "title": "Optimizing Technologies",
     "category": "Буклет",
-    "imageUrls": [
-      "/uploads/cases/1749290181893_c881d68b41c150d93db16a2ea916487149f67440.png"
+    "type": "modal",
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749290181893_c881d68b41c150d93db16a2ea916487149f67440.png"
+      }
     ],
     "description": "Постер для мероприятия.",
     "fullDescription": "Создание яркого и привлекающего внимание рекламного постера для музыкального мероприятия NEMGO.",
-    "tags": [
-      "Graphic Design",
-      "Poster",
-      "Event"
-    ]
+    "tags": ["Graphic Design", "Poster", "Event"]
   },
   {
     "id": "4",
     "title": "ARARAT",
     "category": "Контент-съемка",
-    "imageUrls": [
-      "/uploads/cases/1749248622419_ararat.png"
+    "type": "modal",
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749248622419_ararat.png"
+      }
     ],
     "description": "Промо-материалы.",
     "fullDescription": "Разработка серии промо-материалов для бренда ARARAT, подчеркивающих премиальность и традиции.",
-    "tags": [
-      "Marketing",
-      "Branding",
-      "Campaign"
-    ]
+    "tags": ["Marketing", "Branding", "Campaign"]
   },
   {
     "id": "5",
     "title": "Coca-Cola",
     "category": "Promo",
-    "imageUrls": [
-      "/uploads/cases/1749248687713_cocacola.png"
+    "type": "modal",
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749248687713_cocacola.png"
+      }
     ],
     "description": "Digital кампания.",
     "fullDescription": "Запуск интерактивной digital-кампании для Coca-Cola, нацеленной на молодежную аудиторию.",
-    "tags": [
-      "Digital Marketing",
-      "Social Media",
-      "Promo"
-    ]
+    "tags": ["Digital Marketing", "Social Media", "Promo"]
   },
   {
     "id": "6",
     "title": "МТБанк — NEMBO",
     "category": "Брендинг",
-    "imageUrls": [
-      "/uploads/cases/1749248936823_mtbank.png"
+    "type": "modal",
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749248936823_mtbank.png"
+      }
     ],
     "description": "Фирменный стиль.",
     "fullDescription": "Разработка фирменного стиля и брендбука для технологической компании Optimising Technologies.",
-    "tags": [
-      "Branding",
-      "Identity",
-      "Tech"
-    ]
+    "tags": ["Branding", "Identity", "Tech"]
   },
   {
     "id": "1749287912830",
     "title": "Sportmaster",
     "category": "SMM",
-    "imageUrls": [
-      "/uploads/cases/1749287967756_Frame_39700.png"
+    "type": "modal",
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749287967756_Frame_39700.png"
+      }
     ],
     "description": "SMM for Sportmaster ",
     "fullDescription": "SMM for Sportmaster in Instagram.",
+    "tags": ["Graphic Design", "Poster", "Event"]
+  },
+  {
+    "id": "1750533014003",
+    "title": "NEMBO",
+    "category": "web",
+    "type": "modal",
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1750533013950_Menu.png"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750533013974_Nembo_20_09_FINAL.mp4"
+      }
+    ],
+    "description": "NEMBONEMBONEMBO",
+    "fullDescription": "NEMBONEMBONEMBO",
     "tags": [
-      "Graphic Design",
-      "Poster",
-      "Event"
+      "web",
+      "gogogo"
     ]
+  },
+  {
+    "id": "1750548030645",
+    "title": "NEMBO",
+    "category": "NEMBONEMBO",
+    "type": "modal",
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1750548029469_e41e72c84c871bcec3195b663dabae22447a31d7.png"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750548029566_______Bq_Evgeniya_final_30sec_v3__1_.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750548030138_______BQ_Olga_final_30sec_1080__1_.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750548029566_______Bq_Evgeniya_final_30sec_v3__1_.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750548029566_______Bq_Evgeniya_final_30sec_v3__1_.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750548029566_______Bq_Evgeniya_final_30sec_v3__1_.mp4"
+      }
+    ],
+    "description": "NEMBONEMBONEMBO",
+    "fullDescription": "NEMBONEMBONEMBO",
+    "tags": ["Graphic Design", "Poster", "Event"]
   }
 ]
