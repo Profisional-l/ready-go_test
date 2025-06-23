@@ -35,7 +35,7 @@ export default async function AllCasesPage() {
   return (
     <>
       <div className="max-w-[1640px] mx-auto px-3 md:px-8">
-        <Header />
+        <Header showNav={false} />
       </div>
       <main className="bg-background text-foreground">
         <div className="max-w-[1640px] mx-auto px-4 md:px-8 py-16 md:py-24">
