@@ -15,7 +15,7 @@ export function ServiceBanner() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const imageSrc = "/images/Group103.png";
+  const imageSrc = "/images/Group103.svg";
   const imageHeight = isMobile ? 99 : 190;
 
   const BannerItem = () => (
