@@ -78,7 +78,7 @@ export function AboutSection() {
 
   return (
     <section id="about" className="py-16 md:py-24">
-      <div className="max-w-[1380px] mx-auto">
+      <div className="m-0 max-w-[1380px] mx-auto">
         <div className="flex flex-col md:flex-row md:items-start md:space-x-16">
           {/* Текстовый блок */}
           <div
@@ -88,12 +88,12 @@ export function AboutSection() {
             <h2 className="text-6xl md:text-[130px] font-mycustom mb-10">
               О НАС
             </h2>
-            <p className="text-[18px] md:text-[33px]">
-              Когда-то наша команда из Минска была частью Red Graphic —
-              агентства с 30-летней историей. <br />
-              Мы любим и умеем работать с крупными брендами. Однажды мы женили
-              людей в KFC, делали витрину для ТЦ в Витебске и запускали
-              шестиметровый дирижабль в центре Минска.
+            <p className="text-[18px] md:text-[33px] tight-spacing-3">
+              Когда-то наша команда из Минска <br /> была частью Red Graphic —
+              агентства <br /> с 30-летней историей. <br /> <br />
+              Мы любим и умеем работать с крупными <br /> брендами. Однажды мы женили
+              людей <br /> в KFC, делали витрину для ТЦ в Витебске <br /> и запускали
+              шестиметровый дирижабль <br /> в центре Минска.
             </p>
           </div>
 
@@ -109,9 +109,8 @@ export function AboutSection() {
                 alt={`About image ${index}`}
                 fill
                 unoptimized={true}
-                className={`object-cover absolute top-0 left-0 transition-opacity duration-1000 ease-in-out ${
-                  index === currentImage ? "opacity-100 z-10" : "opacity-0 z-0"
-                }`}
+                className={`object-cover absolute top-0 left-0 transition-opacity duration-1000 ease-in-out ${index === currentImage ? "opacity-100 z-10" : "opacity-0 z-0"
+                  }`}
               />
             ))}
           </div>

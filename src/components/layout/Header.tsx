@@ -36,24 +36,21 @@ export function Header() {
     <>
       {/* Затемнение фона (по желанию) */}
       <div
-        className={`fixed top-0 left-0 w-full h-full bg-black transition-opacity duration-500 z-30 pointer-events-none ${
-          isOpen ? "opacity-50" : "opacity-0"
-        }`}
+        className={`fixed top-0 left-0 w-full h-full bg-black transition-opacity duration-500 z-30 pointer-events-none ${isOpen ? "opacity-50" : "opacity-0"
+          }`}
       />
 
       {/* Мобильное меню */}
       <div
-        className={`fixed top-0 left-0 w-full h-[443px] bg-black text-white uppercase flex flex-col items-center justify-center text-[78px] font-mycustom transform transition-transform duration-500 ease-in-out z-40 ${
-          isOpen ? "translate-y-0" : "-translate-y-full"
-        }`}
+        className={`fixed top-0 left-0 w-full h-[443px] bg-black text-white uppercase flex flex-col items-center justify-center text-[78px] font-mycustom transform transition-transform duration-500 ease-in-out z-40 ${isOpen ? "translate-y-0" : "-translate-y-full"
+          }`}
         style={{ willChange: "transform" }}
       >
         {["#cases", "#about", "#contact"].map((id, i) => (
           <a
             key={id}
-            className={`h-[75px] opacity-0 animate-fade-in-up delay-[${
-              i * 100
-            }ms]`}
+            className={`h-[75px] opacity-0 animate-fade-in-up delay-[${i * 100
+              }ms]`}
             href={id}
             onClick={(e) => handleLinkClick(e, id)}
           >
@@ -73,9 +70,8 @@ export function Header() {
               fill
               unoptimized={true}
               quality={100}
-              className={`transition-opacity duration-500 object-contain ${
-                isOpen ? "opacity-100" : "opacity-0"
-              }`}
+              className={`transition-opacity duration-500 object-contain ${isOpen ? "opacity-100" : "opacity-0"
+                }`}
             />
             <Image
               src="/images/svg_logo.svg"
@@ -83,9 +79,8 @@ export function Header() {
               fill
               unoptimized={true}
               quality={100}
-              className={`absolute top-0 left-0 transition-opacity duration-500 object-contain ${
-                isOpen ? "opacity-0" : "opacity-100"
-              }`}
+              className={`absolute top-0 left-0 transition-opacity duration-500 object-contain ${isOpen ? "opacity-0" : "opacity-100"
+                }`}
             />
           </div>
         </Link>
@@ -98,13 +93,13 @@ export function Header() {
                 key={i}
                 href={`#${id}`}
                 onClick={(e) => handleLinkClick(e, `#${id}`)}
-                className="relative group text-[20px] font-medium tracking-wider text-foreground"
+                className="relative group text-[20px] tight-spacing-2 font-medium tracking-wider text-foreground"
               >
                 {id === "cases"
                   ? "Кейсы"
                   : id === "about"
-                  ? "О нас"
-                  : "Контакты"}
+                    ? "О нас"
+                    : "Контакты"}
                 <span className="absolute left-0 bottom-[-4px] h-[2px] w-0 bg-foreground transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
@@ -118,19 +113,16 @@ export function Header() {
             className="relative w-[30px] h-6 flex flex-col justify-between items-center focus:outline-none"
           >
             <span
-              className={`w-[28.87px] h-[3px] transform transition duration-300 ease-in-out ${
-                isOpen ? "rotate-45 translate-y-[11px] bg-white" : "bg-black"
-              }`}
+              className={`w-[28.87px] h-[3px] transform transition duration-300 ease-in-out ${isOpen ? "rotate-45 translate-y-[11px] bg-white" : "bg-black"
+                }`}
             />
             <span
-              className={`w-[28.87px] h-[3px] transition-opacity duration-300 ease-in-out ${
-                isOpen ? "opacity-0" : "opacity-100 bg-black"
-              }`}
+              className={`w-[28.87px] h-[3px] transition-opacity duration-300 ease-in-out ${isOpen ? "opacity-0" : "opacity-100 bg-black"
+                }`}
             />
             <span
-              className={`w-[28.87px] h-[3px] transform transition duration-300 ease-in-out ${
-                isOpen ? "-rotate-45 -translate-y-[10px] bg-white" : "bg-black"
-              }`}
+              className={`w-[28.87px] h-[3px] transform transition duration-300 ease-in-out ${isOpen ? "-rotate-45 -translate-y-[10px] bg-white" : "bg-black"
+                }`}
             />
           </button>
         </div>
