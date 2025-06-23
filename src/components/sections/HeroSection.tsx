@@ -14,120 +14,120 @@ export function HeroSection() {
     "ПРОДАКШЕНОМ",
     "МЕРЧОМ",
   ];
-  
+
   // Группируем изображения по 2 для каждого ключевого слова
- const imageGroups = [
+  const imageGroups = [
     [
-      { 
-        src: "/images/ForHeroSection/back-1.png", 
+      {
+        src: "/images/ForHeroSection/back-1.png",
         alt: "СТРАТЕГИЯМИ",
         width: 305,
         height: 352,
-        maxHeight: 352
+        maxHeight: 352,
       },
-      { 
-        src: "/images/ForHeroSection/back-2.png", 
+      {
+        src: "/images/ForHeroSection/back-2.png",
         alt: "СТРАТЕГИЯМИ",
         width: 308,
         height: 378,
-        maxHeight: 378
-      }
+        maxHeight: 378,
+      },
     ],
     [
-      { 
-        src: "/images/ForHeroSection/back-3.png", 
+      {
+        src: "/images/ForHeroSection/back-3.png",
         alt: "SMM",
         width: 288,
         height: 360,
-        maxHeight: 360
+        maxHeight: 360,
       },
-      { 
-        src: "/images/ForHeroSection/back-4.png", 
+      {
+        src: "/images/ForHeroSection/back-4.png",
         alt: "SMM",
         width: 302,
         height: 353,
-        maxHeight: 420
-      }
+        maxHeight: 420,
+      },
     ],
     [
-      { 
-        src: "/images/ForHeroSection/back-5.png", 
+      {
+        src: "/images/ForHeroSection/back-5.png",
         alt: "СТРАТЕГИЯМИ",
         width: 254,
         height: 351,
-        maxHeight: 351
+        maxHeight: 351,
       },
-      { 
-        src: "/images/ForHeroSection/back-6.png", 
+      {
+        src: "/images/ForHeroSection/back-6.png",
         alt: "СТРАТЕГИЯМИ",
         width: 396,
         height: 308,
-        maxHeight: 308
-      }
+        maxHeight: 308,
+      },
     ],
-        [
-      { 
-        src: "/images/ForHeroSection/back-7.png", 
+    [
+      {
+        src: "/images/ForHeroSection/back-7.webp",
         alt: "СТРАТЕГИЯМИ",
         width: 290,
         height: 364,
-        maxHeight: 364
+        maxHeight: 364,
       },
-      { 
-        src: "/images/ForHeroSection/back-8.png", 
+      {
+        src: "/images/ForHeroSection/back-8.png",
         alt: "СТРАТЕГИЯМИ",
         width: 338,
         height: 338,
-        maxHeight: 338
-      }
+        maxHeight: 338,
+      },
     ],
-            [
-      { 
-        src: "/images/ForHeroSection/back-9.png", 
+    [
+      {
+        src: "/images/ForHeroSection/back-9.png",
         alt: "СТРАТЕГИЯМИ",
         width: 387,
         height: 259,
-        maxHeight: 259
+        maxHeight: 259,
       },
-      { 
-        src: "/images/ForHeroSection/back-10.png", 
+      {
+        src: "/images/ForHeroSection/back-10.png",
         alt: "СТРАТЕГИЯМИ",
         width: 311,
         height: 311,
-        maxHeight: 311
-      }
+        maxHeight: 311,
+      },
     ],
-            [
-      { 
-        src: "/images/ForHeroSection/back-11.png", 
+    [
+      {
+        src: "/images/ForHeroSection/back-11.webp",
         alt: "СТРАТЕГИЯМИ",
         width: 290,
         height: 371,
-        maxHeight: 371
+        maxHeight: 371,
       },
-      { 
-        src: "/images/ForHeroSection/back-12.png", 
+      {
+        src: "/images/ForHeroSection/back-12.png",
         alt: "СТРАТЕГИЯМИ",
         width: 272,
         height: 338,
-        maxHeight: 338
-      }
+        maxHeight: 338,
+      },
     ],
-            [
-      { 
-        src: "/images/ForHeroSection/back-13.png", 
+    [
+      {
+        src: "/images/ForHeroSection/back-13.png",
         alt: "СТРАТЕГИЯМИ",
         width: 339,
         height: 339,
-        maxHeight: 339
+        maxHeight: 339,
       },
-      { 
-        src: "/images/ForHeroSection/back-14.png", 
+      {
+        src: "/images/ForHeroSection/back-14.webp",
         alt: "СТРАТЕГИЯМИ",
         width: 285,
         height: 359,
-        maxHeight: 359
-      }
+        maxHeight: 359,
+      },
     ],
   ];
 
@@ -135,9 +135,12 @@ export function HeroSection() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [imagePosition, setImagePosition] = useState(true);
   const [imageOpacity, setImageOpacity] = useState(1);
+  const imageCache = useRef<Record<string, HTMLImageElement>>({});
 
   const [leftImageStyle, setLeftImageStyle] = useState<React.CSSProperties>({});
-  const [rightImageStyle, setRightImageStyle] = useState<React.CSSProperties>({});
+  const [rightImageStyle, setRightImageStyle] = useState<React.CSSProperties>(
+    {}
+  );
   const [eyeStyle, setEyeStyle] = useState<React.CSSProperties>({});
   const mouse = useRef({ x: 0, y: 0 });
   const animFrame = useRef<number | null>(null);
@@ -195,7 +198,7 @@ export function HeroSection() {
 
         setEyeStyle({
           transform: `translate(${eyeX}px, ${eyeY}px)`,
-          transition: "transform 0.1s ease-out",
+          transition: "transform 0.22s ease-out",
         });
       }
 
@@ -216,30 +219,37 @@ export function HeroSection() {
     const interval = setInterval(() => {
       // Фаза 1: плавное исчезновение картинок
       setImageOpacity(0);
-      
+      setIsAnimating(true);
+      setTimeout(() => {
+        setImagePosition((prev) => !prev);
+      }, 360);
       setTimeout(() => {
         // Фаза 2: мгновенное изменение позиции и изображений
-        setImagePosition((prev) => !prev);
-        
-      }, 400);
-       // Фаза 3: плавное появление картинок
-        setTimeout(() => {
-           setImageOpacity(1);
-        }, 650)
-    }, 3500);
-    
+        setIndex((prev) => (prev + 1) % keywords.length);
+                setIsAnimating(false);
+
+      }, 700);
+      // Фаза 3: плавное появление картинок
+      setTimeout(() => {
+        setImageOpacity(1);
+      }, 700);
+    }, 3000);
+
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setIndex((prev) => (prev + 1) % keywords.length);
-        setIsAnimating(false);
-      }, 600);
-    }, 3500);
-    return () => clearInterval(interval);
+    if (typeof window === "undefined") return;
+
+    const cache: Record<string, HTMLImageElement> = {};
+    imageGroups.flat().forEach(({ src }) => {
+      if (!cache[src]) {
+        const img = new window.Image();
+        img.src = src;
+        cache[src] = img;
+      }
+    });
+    imageCache.current = cache;
   }, []);
 
   const currentWord = keywords[index];
@@ -319,11 +329,12 @@ export function HeroSection() {
                 )}
               </div>
             </span>{" "}
-            <span className="textToBorder">READY GO.</span> <span>К НАМ ПРИХОДЯТ ЗА</span>
+            <span className="textToBorder">READY GO.</span>{" "}
+            <span>К НАМ ПРИХОДЯТ ЗА</span>
           </div>
 
           {/* Слова с анимацией */}
-          <div className="relative h-[2em] mt-1 overflow-hidden">
+          <div className="relative h-[2em] mt-1">
             <div
               key={`word-${index}`}
               className={cn(
@@ -354,70 +365,97 @@ export function HeroSection() {
       </div>
 
       {/* Левая картинка с анимацией */}
-       <div
-        className={cn(
-          "absolute left-2 sm:left-4 z-10 transition-all duration-700",
-          imagePosition ? 'bottom-56' : 'top-10'
-        )}
-        style={{
-          ...leftImageStyle,
-          opacity: imageOpacity,
-          transition: 'opacity 0.35s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out'
-        }}
-      >
-        <div 
-          className="relative overflow-hidden hidden md:block"
-          style={{
-            width: `${currentImages[0].width}px`,
-            height: `${currentImages[0].height}px`
-          }}
-        >
-          <div className="w-full h-full rounded-[12px] overflow-hidden">
-            <Image
-              src={currentImages[0].src}
-              alt={currentImages[0].alt}
-              unoptimized={true}
-              width={currentImages[0].width}
-              height={currentImages[0].height}
-              className="w-full h-full object-cover"
-              style={{ maxHeight: `${currentImages[0].maxHeight}px` }}
-            />
+      {/* Отрисовываем все изображения сразу, но показываем только нужные */}
+      {imageGroups.map((group, groupIndex) => {
+        // Допустим, у тебя есть массив для позиции левых картинок
+         const leftImagePositionArray = [true, false, true, false];
+        const isBottomPosition = leftImagePositionArray[groupIndex]; // true => bottom-56, false => top-10
+
+        return (
+          <div
+            key={`left-image-${groupIndex}`}
+            className={cn(
+              "absolute left-2 sm:left-4 z-10 transition-all duration-700",
+              isBottomPosition ? "bottom-56" : "top-10"
+            )}
+            style={{
+              ...leftImageStyle,
+              opacity: index === groupIndex ? imageOpacity : 0,
+              pointerEvents: index === groupIndex ? "auto" : "none",
+              transition:
+                "opacity 0.35s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
+            }}
+          >
+            <div
+              className="relative overflow-hidden hidden md:block"
+              style={{
+                width: `${group[0].width}px`,
+                height: `${group[0].height}px`,
+              }}
+            >
+              <div className="w-full h-full rounded-[12px] overflow-hidden">
+                <Image
+                  src={group[0].src}
+                  alt={group[0].alt}
+                  unoptimized={true}
+                  priority
+                  loading="eager"
+                  width={group[0].width}
+                  height={group[0].height}
+                  className="w-full h-full object-cover"
+                  style={{ maxHeight: `${group[0].maxHeight}px` }}
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        );
+      })}
 
       {/* Правая картинка с анимацией */}
-      <div
-        className={cn(
-          "absolute -right-4 sm:-right-5 z-10 transition-all duration-700",
-          imagePosition ? 'top-10' : 'bottom-48'
-        )}
-        style={{
-          ...rightImageStyle,
-          opacity: imageOpacity,
-          transition: 'opacity 0.35s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out'
-        }}
-      >
-        <div 
-          className="relative overflow-hidden hidden md:block"
-          style={{
-            width: `${currentImages[1].width}px`,
-            height: `${currentImages[1].height}px`
-          }}
-        >
-          <div className="w-full h-full rounded-[12px] overflow-hidden">
-            <Image
-              src={currentImages[1].src}
-              alt={currentImages[1].alt}
-              unoptimized={true}
-              width={currentImages[1].width}
-              height={currentImages[1].height}
-              className="w-full h-full object-cover"
-              style={{ maxHeight: `${currentImages[1].maxHeight}px` }}
-            />
+      {imageGroups.map((group, groupIndex) => {
+        const imagePositionArray = [true, false, true, false]; // true — top-10, false — bottom-48
+
+        // Условие для позиции: меняем top/bottom в зависимости от imagePosition или чего-то подобного, для каждого индекса
+        const isTopPosition = imagePositionArray[groupIndex]; // например, булевый массив с позициями для каждого индекса
+        return (
+          <div
+            key={`right-image-${groupIndex}`}
+            className={cn(
+              "absolute -right-4 sm:-right-5 z-10 transition-all duration-500",
+              isTopPosition ? "top-10" : "bottom-48"
+            )}
+            style={{
+              ...rightImageStyle,
+              opacity: index === groupIndex ? imageOpacity : 0,
+              pointerEvents: index === groupIndex ? "auto" : "none", // Чтобы скрытые не мешали кликам
+              transition:
+                "opacity 0.35s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
+            }}
+          >
+            <div
+              className="relative overflow-hidden hidden md:block"
+              style={{
+                width: `${group[1].width}px`,
+                height: `${group[1].height}px`,
+              }}
+            >
+              <div className="w-full h-full rounded-[12px] overflow-hidden">
+                <Image
+                  src={group[1].src}
+                  alt={group[1].alt}
+                  unoptimized
+                  priority
+                  loading="eager"
+                  width={group[1].width}
+                  height={group[1].height}
+                  className="w-full h-full object-cover"
+                  style={{ maxHeight: `${group[1].maxHeight}px` }}
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        );
+      })}
     </section>
   );
 }
