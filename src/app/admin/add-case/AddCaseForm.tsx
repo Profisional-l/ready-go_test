@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { addCaseAction } from '@/app/admin/actions';
 import { useRouter } from "next/navigation";
 import { ArrowUp, ArrowDown, X } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 // MediaPreview component to render image or video
 const MediaPreview = ({ file }: { file: File }) => {
@@ -38,6 +39,7 @@ export default function AddCaseForm() {
   const { toast } = useToast();
   const router = useRouter();
   const [files, setFiles] = useState<File[]>([]);
+  const [caseType, setCaseType] = useState<'modal' | 'link'>('modal');
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -77,19 +79,15 @@ export default function AddCaseForm() {
     setIsProcessing(true);
 
     const form = event.currentTarget;
-    const serverActionFormData = new FormData();
-
-    // Explicitly append form fields
-    serverActionFormData.append('title', form.title.value);
-    serverActionFormData.append('category', form.category.value);
-    serverActionFormData.append('description', form.description.value);
-    serverActionFormData.append('fullDescription', form.fullDescription.value);
-    serverActionFormData.append('tags', form.tags.value);
+    const serverActionFormData = new FormData(form);
 
     // Append files from state
     files.forEach(file => {
       serverActionFormData.append('caseMedia', file);
     });
+    
+    // Ensure caseType is on the form data
+    serverActionFormData.set('type', caseType);
 
     try {
       const result = await addCaseAction(serverActionFormData);
@@ -123,6 +121,27 @@ export default function AddCaseForm() {
     <div className="max-w-2xl mx-auto">
       <h1 className="text-3xl font-bold mb-8 text-foreground">Добавить новый кейс</h1>
       <form onSubmit={handleSubmit} className="space-y-6 bg-card p-6 rounded-lg shadow-md">
+        
+        <div>
+          <Label className="text-card-foreground mb-2 block">Тип кейса</Label>
+          <RadioGroup
+            defaultValue="modal"
+            value={caseType}
+            onValueChange={(value: 'modal' | 'link') => setCaseType(value)}
+            className="flex items-center space-x-4"
+            name="type"
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="modal" id="r-modal" />
+              <Label htmlFor="r-modal">Модальное окно</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="link" id="r-link" />
+              <Label htmlFor="r-link">Внешняя ссылка</Label>
+            </div>
+          </RadioGroup>
+        </div>
+        
         <div>
           <Label htmlFor="title" className="text-card-foreground">Название</Label>
           <Input id="title" name="title" type="text" required className="mt-1 bg-background border-input text-foreground" />
@@ -133,11 +152,18 @@ export default function AddCaseForm() {
           <Input id="category" name="category" type="text" required className="mt-1 bg-background border-input text-foreground" />
         </div>
 
+        {caseType === 'link' && (
+          <div>
+            <Label htmlFor="externalUrl" className="text-card-foreground">Внешняя ссылка (URL)</Label>
+            <Input id="externalUrl" name="externalUrl" type="url" required className="mt-1 bg-background border-input text-foreground" placeholder="https://example.com" />
+          </div>
+        )}
+
         <div>
           <Label htmlFor="caseMedia" className="text-card-foreground">Медиа-файлы (Изображения и Видео)</Label>
           <Input
             id="caseMedia"
-            name="caseMediaInput"
+            name="caseMediaInput" // Name is different to not interfere with FormData
             type="file"
             multiple
             accept="image/*,video/*"
@@ -196,20 +222,24 @@ export default function AddCaseForm() {
             </div>
         )}
         
-        <div>
-          <Label htmlFor="description" className="text-card-foreground">Краткое описание (для карточки)</Label>
-          <Textarea id="description" name="description" required rows={3} className="mt-1 bg-background border-input text-foreground" />
-        </div>
+        {caseType === 'modal' && (
+          <>
+            <div>
+              <Label htmlFor="description" className="text-card-foreground">Краткое описание (для карточки)</Label>
+              <Textarea id="description" name="description" required rows={3} className="mt-1 bg-background border-input text-foreground" />
+            </div>
 
-        <div>
-          <Label htmlFor="fullDescription" className="text-card-foreground">Полное описание (для модального окна)</Label>
-          <Textarea id="fullDescription" name="fullDescription" required rows={6} className="mt-1 bg-background border-input text-foreground" />
-        </div>
+            <div>
+              <Label htmlFor="fullDescription" className="text-card-foreground">Полное описание (для модального окна)</Label>
+              <Textarea id="fullDescription" name="fullDescription" required rows={6} className="mt-1 bg-background border-input text-foreground" />
+            </div>
 
-        <div>
-          <Label htmlFor="tags" className="text-card-foreground">Теги (через запятую)</Label>
-          <Input id="tags" name="tags" type="text" placeholder="tag1, tag2, tag3" className="mt-1 bg-background border-input text-foreground" />
-        </div>
+            <div>
+              <Label htmlFor="tags" className="text-card-foreground">Теги (через запятую)</Label>
+              <Input id="tags" name="tags" type="text" placeholder="tag1, tag2, tag3" className="mt-1 bg-background border-input text-foreground" />
+            </div>
+          </>
+        )}
         
         <div className="flex space-x-2">
             <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90" disabled={isProcessing}>

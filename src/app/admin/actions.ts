@@ -60,19 +60,7 @@ export async function logoutAction(): Promise<void> {
 async function readCasesFile(): Promise<Case[]> {
   try {
     const jsonData = await fs.readFile(casesFilePath, 'utf-8');
-    let cases = JSON.parse(jsonData) as any[];
-
-    // Backward compatibility: convert old structure to new media structure
-    return cases.map(c => {
-      if (c.imageUrls && !c.media) {
-        const media = (c.imageUrls as string[]).map(url => ({ type: 'image', url } as MediaItem));
-        if (c.videoUrl) {
-          media.unshift({ type: 'video', url: c.videoUrl });
-        }
-        return { ...c, media, imageUrls: undefined, videoUrl: undefined };
-      }
-      return c;
-    });
+    return JSON.parse(jsonData) as Case[];
   } catch (error) {
     if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
       await writeCasesFile([]);
@@ -96,12 +84,10 @@ async function writeCasesFile(cases: Case[]): Promise<void> {
 }
 
 export async function getCases(): Promise<Case[]> {
-  // Authentication is handled by the layout, so the check here is removed.
   return readCasesFile();
 }
 
 export async function getCase(id: string): Promise<Case | undefined> {
-  // Authentication is handled by the layout.
   const cases = await readCasesFile();
   return cases.find(c => c.id === id);
 }
@@ -150,36 +136,62 @@ async function deleteMediaFiles(mediaItems: MediaItem[]): Promise<void> {
 // --- Case CRUD Actions ---
 export async function addCaseAction(formData: FormData): Promise<{ success: boolean; case?: Case; error?: string; }> {
   try {
+    const type = formData.get('type') as 'modal' | 'link';
     const title = formData.get('title') as string;
     const category = formData.get('category') as string;
-    const description = formData.get('description') as string;
-    const fullDescription = formData.get('fullDescription') as string;
-    const tagsString = formData.get('tags') as string;
-
-    if (!title || !category || !description || !fullDescription) {
-      return { success: false, error: 'Все текстовые поля обязательны.' };
+    
+    if (!title || !category) {
+      return { success: false, error: 'Название и категория обязательны.' };
     }
 
     const uploadedMedia = await saveUploadedMedia(formData);
     if (uploadedMedia.length === 0) {
       return { success: false, error: 'Требуется как минимум один медиа-файл.' };
     }
+    
+    let newCase: Case;
 
-    const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(Boolean) : [];
-    const newCase: Case = {
-      id: Date.now().toString(),
-      title,
-      category,
-      media: uploadedMedia,
-      description,
-      fullDescription,
-      tags,
-    };
+    if (type === 'modal') {
+      const description = formData.get('description') as string;
+      const fullDescription = formData.get('fullDescription') as string;
+      const tagsString = formData.get('tags') as string;
+      if (!description || !fullDescription) {
+        return { success: false, error: 'Краткое и полное описание обязательны.' };
+      }
+      const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(Boolean) : [];
+      newCase = {
+        id: Date.now().toString(),
+        title,
+        category,
+        media: uploadedMedia,
+        type: 'modal',
+        description,
+        fullDescription,
+        tags,
+      };
+    } else { // type === 'link'
+      const externalUrl = formData.get('externalUrl') as string;
+      if (!externalUrl) {
+        return { success: false, error: 'Внешняя ссылка обязательна.' };
+      }
+      newCase = {
+        id: Date.now().toString(),
+        title,
+        category,
+        media: uploadedMedia,
+        type: 'link',
+        externalUrl,
+        description: '',
+        fullDescription: '',
+        tags: [],
+      };
+    }
 
     const existingCases = await readCasesFile();
     await writeCasesFile([...existingCases, newCase]);
     
     revalidatePath('/');
+    revalidatePath('/cases');
     revalidatePath('/admin');
     
     return { success: true, case: newCase };
@@ -198,14 +210,12 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
       return { success: false, error: 'Кейс не найден.' };
     }
 
+    const type = formData.get('type') as 'modal' | 'link';
     const title = formData.get('title') as string;
     const category = formData.get('category') as string;
-    const description = formData.get('description') as string;
-    const fullDescription = formData.get('fullDescription') as string;
-    const tagsString = formData.get('tags') as string;
 
-    if (!title || !category || !description || !fullDescription) {
-      return { success: false, error: 'Все текстовые поля обязательны.' };
+    if (!title || !category) {
+      return { success: false, error: 'Название и категория обязательны.' };
     }
     
     let finalMedia: MediaItem[];
@@ -222,21 +232,51 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
       finalMedia = mediaOrderString ? JSON.parse(mediaOrderString) : existingCase.media;
     }
 
-    const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(Boolean) : [];
-    const updatedCaseData: Case = {
-      ...existingCase,
-      title,
-      category,
-      description,
-      fullDescription,
-      tags,
-      media: finalMedia,
-    };
+    let updatedCaseData: Case;
+
+    if (type === 'modal') {
+      const description = formData.get('description') as string;
+      const fullDescription = formData.get('fullDescription') as string;
+      const tagsString = formData.get('tags') as string;
+      if (!description || !fullDescription) {
+        return { success: false, error: 'Краткое и полное описание обязательны.' };
+      }
+      const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(Boolean) : [];
+      updatedCaseData = {
+        ...existingCase,
+        title,
+        category,
+        media: finalMedia,
+        type: 'modal',
+        description,
+        fullDescription,
+        tags,
+        externalUrl: '',
+      };
+    } else { // type === 'link'
+      const externalUrl = formData.get('externalUrl') as string;
+      if (!externalUrl) {
+        return { success: false, error: 'Внешняя ссылка обязательна.' };
+      }
+      updatedCaseData = {
+        ...existingCase,
+        title,
+        category,
+        media: finalMedia,
+        type: 'link',
+        externalUrl,
+        description: '',
+        fullDescription: '',
+        tags: [],
+      };
+    }
+
 
     const updatedCases = allCases.map(c => c.id === caseId ? updatedCaseData : c);
     await writeCasesFile(updatedCases);
 
     revalidatePath('/');
+    revalidatePath('/cases');
     revalidatePath('/admin');
     revalidatePath(`/admin/edit-case/${caseId}`);
     
@@ -262,6 +302,7 @@ export async function deleteCaseAction(caseId: string): Promise<{ success: boole
     await writeCasesFile(updatedCases);
 
     revalidatePath('/');
+    revalidatePath('/cases');
     revalidatePath('/admin');
 
     return { success: true };

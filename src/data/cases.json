@@ -3,6 +3,7 @@
     "id": "1",
     "title": "МТБанк",
     "category": "Манички",
+    "type": "modal",
     "media": [
       {
         "type": "image",
@@ -37,20 +38,23 @@
     "id": "2",
     "title": "Golden Design",
     "category": "Веб-сайт",
+    "type": "link",
     "media": [
       {
         "type": "image",
         "url": "/uploads/cases/1749217285182_Free_Studio_Display_mockup_on_a_white_table__1__1.png"
       }
     ],
-    "description": "Создание сайта.",
-    "fullDescription": "Комплексный редизайн веб-сайта для студии дизайна интерьеров GOLOD DESIGN, улучшение визуальной привлекательности и навигации.",
-    "tags": ["Web Design", "Redesign", "Portfolio"]
+    "description": "",
+    "fullDescription": "",
+    "tags": [],
+    "externalUrl": "https://goloddesign.by/"
   },
   {
     "id": "3",
     "title": "Optimizing Technologies",
     "category": "Буклет",
+    "type": "modal",
     "media": [
       {
         "type": "image",
@@ -65,6 +69,7 @@
     "id": "4",
     "title": "ARARAT",
     "category": "Контент-съемка",
+    "type": "modal",
     "media": [
       {
         "type": "image",
@@ -79,6 +84,7 @@
     "id": "5",
     "title": "Coca-Cola",
     "category": "Promo",
+    "type": "modal",
     "media": [
       {
         "type": "image",
@@ -93,6 +99,7 @@
     "id": "6",
     "title": "МТБанк — NEMBO",
     "category": "Брендинг",
+    "type": "modal",
     "media": [
       {
         "type": "image",
@@ -107,6 +114,7 @@
     "id": "1749287912830",
     "title": "Sportmaster",
     "category": "SMM",
+    "type": "modal",
     "media": [
       {
         "type": "image",
@@ -121,6 +129,7 @@
     "id": "1750533014003",
     "title": "NEMBO",
     "category": "web",
+    "type": "modal",
     "media": [
       {
         "type": "image",
@@ -132,13 +141,17 @@
       }
     ],
     "description": "NEMBONEMBONEMBO",
-    "fullDescription": "NEMBONEMBO",
-    "tags": ["web", "gogogo"]
+    "fullDescription": "NEMBONEMBONEMBO",
+    "tags": [
+      "web",
+      "gogogo"
+    ]
   },
   {
     "id": "1750548030645",
     "title": "NEMBO",
     "category": "NEMBONEMBO",
+    "type": "modal",
     "media": [
       {
         "type": "image",
