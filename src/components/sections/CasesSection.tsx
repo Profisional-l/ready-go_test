@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import Link from 'next/link';
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import { CaseCard } from "@/components/ui/CaseCard";
 import { CaseModal } from "@/components/ui/CaseModal";
 import { Button } from "@/components/ui/button";
@@ -10,8 +10,6 @@ import type { Case } from "@/types";
 interface CasesSectionProps {
   casesDataFromProps: Case[];
 }
-
-const INITIAL_CASES_TO_SHOW = 6;
 
 export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
   const [selectedCase, setSelectedCase] = useState<Case | null>(null);
@@ -27,15 +25,24 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
     setSelectedCase(null);
   };
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+  const [isMobile, setIsMobile] = useState(false);
+
+  const INITIAL_CASES_TO_SHOW = isMobile ? 3 : 6;
   const casesToDisplay = casesDataFromProps.slice(0, INITIAL_CASES_TO_SHOW);
 
   return (
-    <section
-      id="cases"
-      className="py-10 md:py-24 px-4 overflow-hidden"
-    >
+    <section id="cases" className="py-10 md:py-24 px-3 md:px-0 overflow-hidden">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12">
-        <h2 className="text-6xl md:text-[130px] font-mycustom text-foreground mb-4 md:mb-0">
+        <h2 className="text-6xl md:text-[130px] font-mycustom text-foreground mt-4 mb-0">
           КЕЙСЫ
         </h2>
       </div>

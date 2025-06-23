@@ -221,11 +221,11 @@ export function HeroSection() {
         // Фаза 2: мгновенное изменение позиции и изображений
         setImagePosition((prev) => !prev);
         
-      }, 300);
+      }, 400);
        // Фаза 3: плавное появление картинок
         setTimeout(() => {
            setImageOpacity(1);
-        }, 600)
+        }, 650)
     }, 3500);
     
     return () => clearInterval(interval);
@@ -246,17 +246,6 @@ export function HeroSection() {
   const nextWord = keywords[(index + 1) % keywords.length];
   const currentImages = imageGroups[index % imageGroups.length];
   const nextImages = imageGroups[(index + 1) % imageGroups.length];
-
-  useEffect(() => {
-  // Предзагружаем все изображения
-  imageGroups.flat().forEach((img) => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = img.src;
-    document.head.appendChild(link);
-  });
-}, []);
 
   return (
     <section className="relative min-h-screen w-full bg-background">

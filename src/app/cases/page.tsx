@@ -1,4 +1,5 @@
 import { Header } from '@/components/layout/Header';
+import { ProgressBar } from '@/components/layout/ProgressBar';
 import { Footer } from '@/components/layout/Footer';
 import AllCasesClient from './AllCasesClient';
 import type { Case, MediaItem } from '@/types';
@@ -34,12 +35,13 @@ export default async function AllCasesPage() {
 
   return (
     <>
+    <ProgressBar/>
       <div className="max-w-[1640px] mx-auto px-3 md:px-8">
         <Header showNav={false} />
       </div>
-      <main className="bg-background text-foreground">
-        <div className="max-w-[1640px] mx-auto px-4 md:px-8 py-16 md:py-24">
-            <h1 className="text-6xl md:text-[130px] font-mycustom text-foreground mb-8 md:mb-12">Все кейсы</h1>
+      <main className="bg-[#F1F0F0] md:bg-background text-foreground">
+        <div className="max-w-[1640px] mx-auto px-4 md:px-9 py-16 md:py-24">
+            <h1 className="text-6xl md:text-[130px] font-mycustom text-foreground mb-8 md:mb-12 uppercase">кейсы</h1>
             <AllCasesClient cases={allCases} />
         </div>
       </main>

@@ -86,37 +86,30 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
     return (
       <div className="mt-6 space-y-3">
         {/* Изображения */}
-        {images.length > 0 && (
-          <div
-            className={`grid gap-3 ${
-              images.length === 1
-                ? "grid-cols-1"
-                : images.length === 2
-                ? "grid-cols-1 sm:grid-cols-2"
-                : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-            }`}
-          >
-            {images.map((item, index) => (
-              <div key={`image-${index}`} className="w-full">
-                <Image
-                  src={item.url}
-                  alt={`${caseData.title} - Image ${index + 1}`}
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    maxWidth: "100%",
-                    objectFit: "cover",
-                  }}
-                  className="rounded-[10px]"
-                  unoptimized
-                />
-              </div>
-            ))}
-          </div>
-        )}
+{images.length > 0 && (
+  <div className="flex flex-col gap-3">
+    {images.map((item, index) => (
+      <div key={`image-${index}`} className="w-full">
+        <Image
+          src={item.url}
+          alt={`${caseData.title} - Image ${index + 1}`}
+          width={0}
+          height={0}
+          sizes="100vw"
+          style={{
+            width: "100%",
+            height: "auto",
+            maxWidth: "100%",
+            objectFit: "cover",
+          }}
+          className="rounded-[10px]"
+          unoptimized
+        />
+      </div>
+    ))}
+  </div>
+)}
+  
 
         {/* Видео с превью из первого кадра */}
         {videos.length > 0 && (
@@ -167,17 +160,11 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
                 {caseData.title}
               </DialogTitle>
             </DialogHeader>
-<<<<<<< HEAD
-            <p className="text-[20px] font-medium text-left md:text-center text-foreground mb-10 max-w-[600px] mx-auto ">
-              {caseData.fullDescription}
-            </p>
-=======
             {caseData.fullDescription && (
               <p className="text-[20px] font-medium text-center text-foreground mb-10 max-w-[600px] mx-auto ">
                 {caseData.fullDescription}
               </p>
             )}
->>>>>>> 3671e42 (также, надо немного обновить логику, смотри. Есть два типа кейсов: с поп)
             {caseData.tags && caseData.tags.length > 0 && (
               <div className="flex flex-wrap justify-center gap-2 mb-14">
                 {caseData.tags.map((tag, index) => (
