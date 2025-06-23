@@ -278,7 +278,7 @@ export function HeroSection() {
               >
                 {isMobile ? (
                   <Image
-                    src="/images/eyes_Group127.png"
+                    src="/images/eyes_Group127.svg"
                     alt="глаза"
                     unoptimized={true}
                     layout="fill"
@@ -287,7 +287,7 @@ export function HeroSection() {
                 ) : (
                   <>
                     <Image
-                      src="/images/eyes0.png"
+                      src="/images/eyes0.svg"
                       alt="глаза"
                       unoptimized={true}
                       layout="fill"
@@ -318,7 +318,7 @@ export function HeroSection() {
                         }}
                       >
                         <Image
-                          src="/images/eyes1.png"
+                          src="/images/eyes1.svg"
                           alt="зрачки"
                           unoptimized={true}
                           layout="fill"
