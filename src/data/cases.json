@@ -1,4 +1,3 @@
-
 [
   {
     "id": "1",
@@ -39,16 +38,17 @@
     "id": "2",
     "title": "Golden Design",
     "category": "Веб-сайт",
-    "type": "modal",
+    "type": "link",
     "media": [
       {
         "type": "image",
         "url": "/uploads/cases/1749217285182_Free_Studio_Display_mockup_on_a_white_table__1__1.png"
       }
     ],
-    "description": "Создание сайта.",
-    "fullDescription": "Комплексный редизайн веб-сайта для студии дизайна интерьеров GOLOD DESIGN, улучшение визуальной привлекательности и навигации.",
-    "tags": ["Web Design", "Redesign", "Portfolio"]
+    "description": "",
+    "fullDescription": "",
+    "tags": [],
+    "externalUrl": "https://goloddesign.by/"
   },
   {
     "id": "3",
@@ -141,16 +141,11 @@
       }
     ],
     "description": "NEMBONEMBONEMBO",
-<<<<<<< HEAD
-    "fullDescription": "NEMBONEMBO",
-    "tags": ["web", "gogogo"]
-=======
     "fullDescription": "NEMBONEMBONEMBO",
     "tags": [
       "web",
       "gogogo"
     ]
->>>>>>> 3671e42 (также, надо немного обновить логику, смотри. Есть два типа кейсов: с поп)
   },
   {
     "id": "1750548030645",
