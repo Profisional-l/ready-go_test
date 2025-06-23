@@ -75,7 +75,7 @@ function VideoWithPreview({ src }: { src: string }) {
 }
 
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
-  if (!caseData) return null;
+  if (!caseData || caseData.type !== 'modal') return null;
 
   const renderMediaGrid = () => {
     if (!caseData?.media || caseData.media.length === 0) return null;
@@ -167,9 +167,17 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
                 {caseData.title}
               </DialogTitle>
             </DialogHeader>
+<<<<<<< HEAD
             <p className="text-[20px] font-medium text-left md:text-center text-foreground mb-10 max-w-[600px] mx-auto ">
               {caseData.fullDescription}
             </p>
+=======
+            {caseData.fullDescription && (
+              <p className="text-[20px] font-medium text-center text-foreground mb-10 max-w-[600px] mx-auto ">
+                {caseData.fullDescription}
+              </p>
+            )}
+>>>>>>> 3671e42 (также, надо немного обновить логику, смотри. Есть два типа кейсов: с поп)
             {caseData.tags && caseData.tags.length > 0 && (
               <div className="flex flex-wrap justify-center gap-2 mb-14">
                 {caseData.tags.map((tag, index) => (

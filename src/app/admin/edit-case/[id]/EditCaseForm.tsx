@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { updateCaseAction } from '@/app/admin/actions';
 import { useRouter } from "next/navigation";
 import { ArrowUp, ArrowDown } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 interface EditCaseFormProps {
   caseToEdit: Case;
@@ -49,6 +50,7 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
   const router = useRouter();
   
   const [mediaItems, setMediaItems] = useState<(MediaItem | File)[]>(caseToEdit.media);
+  const [caseType, setCaseType] = useState<'modal' | 'link'>(caseToEdit.type || 'modal');
   const [isProcessing, setIsProcessing] = useState(false);
   
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -74,13 +76,7 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
     setIsProcessing(true);
 
     const form = event.currentTarget;
-    const serverActionFormData = new FormData();
-
-    serverActionFormData.append('title', form.title.value);
-    serverActionFormData.append('category', form.category.value);
-    serverActionFormData.append('description', form.description.value);
-    serverActionFormData.append('fullDescription', form.fullDescription.value);
-    serverActionFormData.append('tags', form.tags.value);
+    const serverActionFormData = new FormData(form);
 
     const newFiles = mediaItems.filter(item => item instanceof File) as File[];
     const existingMedia = mediaItems.filter(item => !(item instanceof File)) as MediaItem[];
@@ -92,6 +88,8 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
     } else {
         serverActionFormData.append('mediaOrder', JSON.stringify(existingMedia));
     }
+    
+    serverActionFormData.set('type', caseType);
 
     try {
       const result = await updateCaseAction(caseToEdit.id, serverActionFormData);
@@ -128,6 +126,26 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
     <div className="max-w-2xl mx-auto">
       <h1 className="text-3xl font-bold mb-8 text-foreground">Редактировать кейс</h1>
       <form onSubmit={handleSubmit} className="space-y-6 bg-card p-6 rounded-lg shadow-md">
+        
+        <div>
+          <Label className="text-card-foreground mb-2 block">Тип кейса</Label>
+          <RadioGroup
+            value={caseType}
+            onValueChange={(value: 'modal' | 'link') => setCaseType(value)}
+            className="flex items-center space-x-4"
+            name="type"
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="modal" id="r-modal" />
+              <Label htmlFor="r-modal">Модальное окно</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="link" id="r-link" />
+              <Label htmlFor="r-link">Внешняя ссылка</Label>
+            </div>
+          </RadioGroup>
+        </div>
+
         <div>
           <Label htmlFor="title" className="text-card-foreground">Название</Label>
           <Input id="title" name="title" type="text" defaultValue={caseToEdit.title} required className="mt-1 bg-background" />
@@ -138,6 +156,13 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
           <Input id="category" name="category" type="text" defaultValue={caseToEdit.category} required className="mt-1 bg-background" />
         </div>
         
+        {caseType === 'link' && (
+          <div>
+            <Label htmlFor="externalUrl">Внешняя ссылка (URL)</Label>
+            <Input id="externalUrl" name="externalUrl" type="url" defaultValue={caseToEdit.externalUrl} required className="mt-1 bg-background" />
+          </div>
+        )}
+
         <div>
             <Label>Порядок медиа</Label>
             <p className="text-sm text-muted-foreground">Первый элемент будет обложкой кейса. Используйте стрелки для сортировки.</p>
@@ -196,20 +221,24 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
            {isReplacingMedia && <p className="text-sm text-accent-foreground mt-2 p-2 bg-accent/20 rounded-md">Выбраны новые файлы. После сохранения они заменят все текущие медиа-файлы.</p>}
         </div>
 
-        <div>
-          <Label htmlFor="description" className="text-card-foreground">Краткое описание</Label>
-          <Textarea id="description" name="description" defaultValue={caseToEdit.description} required rows={3} className="mt-1 bg-background" />
-        </div>
+        {caseType === 'modal' && (
+          <>
+            <div>
+              <Label htmlFor="description" className="text-card-foreground">Краткое описание</Label>
+              <Textarea id="description" name="description" defaultValue={caseToEdit.description} required rows={3} className="mt-1 bg-background" />
+            </div>
 
-        <div>
-          <Label htmlFor="fullDescription" className="text-card-foreground">Полное описание</Label>
-          <Textarea id="fullDescription" name="fullDescription" defaultValue={caseToEdit.fullDescription} required rows={6} className="mt-1 bg-background" />
-        </div>
+            <div>
+              <Label htmlFor="fullDescription" className="text-card-foreground">Полное описание</Label>
+              <Textarea id="fullDescription" name="fullDescription" defaultValue={caseToEdit.fullDescription} required rows={6} className="mt-1 bg-background" />
+            </div>
 
-        <div>
-          <Label htmlFor="tags" className="text-card-foreground">Теги (через запятую)</Label>
-          <Input id="tags" name="tags" type="text" defaultValue={caseToEdit.tags.join(', ')} placeholder="tag1, tag2, tag3" className="mt-1 bg-background" />
-        </div>
+            <div>
+              <Label htmlFor="tags" className="text-card-foreground">Теги (через запятую)</Label>
+              <Input id="tags" name="tags" type="text" defaultValue={caseToEdit.tags?.join(', ')} placeholder="tag1, tag2, tag3" className="mt-1 bg-background" />
+            </div>
+          </>
+        )}
         
         <div className="flex space-x-2">
             <Button type="submit" disabled={isProcessing}>
