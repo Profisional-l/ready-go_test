@@ -101,7 +101,7 @@ export function CaseCard({
               type === 'link' && 'group-hover:opacity-100'
             )}
           />
-          <CardTitle className="text-[18px] md:text-[24px] font-inter font-medium tracking-normal text-foreground">
+          <CardTitle className="text-[18px] md:text-[24px] tight-spacing-2 font-inter font-medium tracking-normal text-foreground">
             {title} — {category}
           </CardTitle>
         </div>
