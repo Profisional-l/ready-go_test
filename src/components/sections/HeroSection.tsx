@@ -334,11 +334,11 @@ export function HeroSection() {
           </div>
 
           {/* Слова с анимацией */}
-          <div className="relative h-[2em] mt-1">
+          <div className="relative h-[3em] -mt-6">
             <div
               key={`word-${index}`}
               className={cn(
-                "absolute w-full text-center transition-all duration-700",
+                "absolute mt-8 w-full text-center transition-all duration-700",
                 isAnimating
                   ? "-translate-y-full opacity-0"
                   : "translate-y-0 opacity-100",
@@ -351,7 +351,7 @@ export function HeroSection() {
             <div
               key={`word-next-${index}`}
               className={cn(
-                "absolute w-full text-center transition-all duration-700",
+                "absolute mt-8 w-full text-center transition-all duration-700",
                 isAnimating
                   ? "translate-y-0 opacity-100"
                   : "translate-y-full opacity-0",
