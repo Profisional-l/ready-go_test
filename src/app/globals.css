@@ -154,6 +154,8 @@ body::-webkit-scrollbar {
   }
   .footer-top{
     background-color: #FFFDFB;
+    display: flex;
+    flex-direction: column-reverse;
   }
   .footer-groop{
     display: flex;
@@ -182,9 +184,12 @@ body::-webkit-scrollbar {
   .footer-adapt-subtitle{
     font-size: 16px;
     color: #0E0E0E;
+    margin-top: 43px;
+    font-weight: 700;
+    padding-bottom: 0;
   }
   .footer-input{
-    border: 2px solid #FFFDFB; 
+    border: 1px solid #FFFDFB; 
     border-radius: 10px;
     padding: 12.5px 15px;
   }
@@ -209,6 +214,17 @@ body::-webkit-scrollbar {
   .footer-button:hover{
     color: #0E0E0E;
     background-color: #04D6E3;
+  }
+  .footer-message{
+    min-width: 272px;
+    min-height: 228px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .footer-message p{
+    line-height: 1.25em
   }
 }
 

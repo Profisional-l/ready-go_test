@@ -327,8 +327,8 @@ export function Footer() {
                 />
               </svg>
             </button>
-            <h3 className="text-4xl font-bold mb-4 tight-spacing-1 text-black">Спасибо!</h3>
-            <p className="text-gray-600 text-lg">Ваше сообщение успешно отправлено</p>
+            <h3 className="text-[27px] font-bold tight-spacing-1 text-black">Спасибо!</h3>
+            <p className="text-[16px] text-[#0E0E0E80] text-600 text-lg">Ваше сообщение успешно <br></br> отправлено</p>
           </div>
         </div>
       )}
