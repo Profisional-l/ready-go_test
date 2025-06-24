@@ -8,6 +8,8 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { sendMessage } from "@/actions/sendMessage";
 
+// Validation logic (can be moved to a separate file if it grows)
+const validateName = (value: string) => value.trim().length < 2 ? "Введите корректное имя" : null;
 function ValidatedInput({
   type,
   name,
@@ -65,6 +67,7 @@ export function Footer() {
   const [isMobile, setIsMobile] = useState(false);
   const [eyeStyle, setEyeStyle] = useState<React.CSSProperties>({});
 
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   // Определяем мобильное устройство
   useEffect(() => {
     const checkMobile = () => {
@@ -119,6 +122,19 @@ export function Footer() {
     };
   }, []);
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    // Clear the form fields
+    const form = event.currentTarget;
+    (form.elements.namedItem('name') as HTMLInputElement).value = '';
+    (form.elements.namedItem('email') as HTMLInputElement).value = '';
+    (form.elements.namedItem('task') as HTMLInputElement).value = '';
+
+    // Show the success modal
+
+    setShowSuccessModal(true);
+  };
   return (
     <footer
       id="contact"
@@ -149,7 +165,7 @@ export function Footer() {
         </div>
 
         {/* Right Column - Form */}
-        <form action={sendMessage} className="w-full">
+        <form onSubmit={handleSubmit} className="w-full">
           <div className="mb-8">
             <h4 className="text-[20px] font-semibold uppercase tracking-wider pb-[55px] tight-spacing-1">
               ГОУ ЗНАКОМИТЬСЯ
@@ -287,6 +303,35 @@ export function Footer() {
           </h2>
         </div>
       </section>
+
+      {showSuccessModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-8 rounded-xl shadow-lg text-center relative footer-message">
+            <button
+              onClick={() => setShowSuccessModal(false)}
+              className="absolute top-4 right-4 rounded-full bg-gray-200 p-2 hover:bg-gray-300 transition-colors"
+              aria-label="Закрыть"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-gray-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <h3 className="text-4xl font-bold mb-4 tight-spacing-1 text-black">Спасибо!</h3>
+            <p className="text-gray-600 text-lg">Ваше сообщение успешно отправлено</p>
+          </div>
+        </div>
+      )}
     </footer>
   );
 }
