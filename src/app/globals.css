@@ -127,6 +127,9 @@ body::-webkit-scrollbar {
 .footerText {
   font-size: 110px;
 }
+.check-mark{
+  color: #04D6E3;
+}
 }
 @media (max-width: 404px) {
     .footerText {

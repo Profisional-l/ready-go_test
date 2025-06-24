@@ -65,7 +65,7 @@ function ValidatedInput({
 export function Footer() {
   const eyesRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
-   const [eyeStyle, setEyeStyle] = useState<React.CSSProperties>({});
+  const [eyeStyle, setEyeStyle] = useState<React.CSSProperties>({});
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   // Определяем мобильное устройство
@@ -73,7 +73,7 @@ export function Footer() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
- 
+
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
@@ -220,7 +220,7 @@ export function Footer() {
                 {isMobile ? (
                   <ArrowRight size={22} />
                 ) : showSuccessModal ? (
-                  <Check size={22} />
+                  <Check size={22} color="#04D6E3" />
                 ) : (<ArrowRight size={22} />)}
               </Button>
             </div>
@@ -317,11 +317,11 @@ export function Footer() {
               aria-label="Закрыть"
             >
               <Image
-          src="/images/close_Vector.png"
-          alt="close"
-          width={16}
-          height={16}
-        />
+                src="/images/close_Vector.png"
+                alt="close"
+                width={16}
+                height={16}
+              />
             </button>
             <h3 className="text-[27px] font-bold tight-spacing-1 text-black">Спасибо!</h3>
             <p className="text-[16px] text-[#0E0E0E80] text-600 text-lg">Ваше сообщение успешно <br></br> отправлено</p>
