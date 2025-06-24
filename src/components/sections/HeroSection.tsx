@@ -5,14 +5,24 @@ import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 export function HeroSection() {
-  const keywords = [
-    "СТРАТЕГИЯМИ",
-    "SMM",
-    "ВЕБ-РАЗРАБОТКОЙ",
-    "БРЕНДИНГОМ",
-    "КРЕАТИВОМ",
-    "ПРОДАКШЕНОМ",
-    "МЕРЧОМ",
+  // const keywords = [
+  //   "СТРАТЕГИЯМИ",
+  //   "SMM",
+  //   "ВЕБ-РАЗРАБОТКОЙ",
+  //   "БРЕНДИНГОМ",
+  //   "КРЕАТИВОМ",
+  //   "ПРОДАКШЕНОМ",
+  //   "МЕРЧОМ",
+  // ];
+
+  const keywordImages = [
+    "/images/svgWords/strategy.svg",
+    "/images/svgWords/smm.svg",
+    "/images/svgWords/web.svg",
+    "/images/svgWords/branding.svg",
+    "/images/svgWords/creative.svg",
+    "/images/svgWords/production.svg",
+    "/images/svgWords/merch.svg",
   ];
 
   // Группируем изображения по 2 для каждого ключевого слова
@@ -225,9 +235,8 @@ export function HeroSection() {
       }, 360);
       setTimeout(() => {
         // Фаза 2: мгновенное изменение позиции и изображений
-        setIndex((prev) => (prev + 1) % keywords.length);
-                setIsAnimating(false);
-
+        setIndex((prev) => (prev + 1) % keywordImages.length);
+        setIsAnimating(false);
       }, 700);
       // Фаза 3: плавное появление картинок
       setTimeout(() => {
@@ -252,11 +261,11 @@ export function HeroSection() {
     imageCache.current = cache;
   }, []);
 
-  const currentWord = keywords[index];
-  const nextWord = keywords[(index + 1) % keywords.length];
+  const currentWord = keywordImages[index];
+  const nextWord = keywordImages[(index + 1) % keywordImages.length];
   const currentImages = imageGroups[index % imageGroups.length];
   const nextImages = imageGroups[(index + 1) % imageGroups.length];
-
+  // const svgWidth = whatWidth ? 910 : 240
   return (
     <section className="relative min-h-screen w-full bg-background">
       {/* Центрированный контент */}
@@ -333,32 +342,51 @@ export function HeroSection() {
             <span>К НАМ ПРИХОДЯТ ЗА</span>
           </div>
 
-          {/* Слова с анимацией */}
-          <div className="relative h-[3em] -mt-10">
-            <div
-              key={`word-${index}`}
-              className={cn(
-                "absolute mt-14 w-full text-center transition-all duration-700",
-                isAnimating
-                  ? "-translate-y-full opacity-0"
-                  : "translate-y-0 opacity-100",
-                "ease-[cubic-bezier(0.77,0,0.175,1)]"
-              )}
-            >
-              {currentWord}
-            </div>
+          {/* Слова как SVG-изображения с той же анимацией */}
+          <div className="relative h-[125px] -mt-5 md:mt-5 flex items-center justify-center">
+            {/* Контейнер фиксированной ширины, например, 1000px */}
+            <div className="relative w-full max-w-[1000px] h-full">
+              {/* Текущий SVG */}
+              <div
+                key={`svg-word-${index}`}
+                className={cn(
+                  "absolute inset-0 transition-all duration-700",
+                  isAnimating
+                    ? "-translate-y-full opacity-0"
+                    : "translate-y-0 opacity-100",
+                  "ease-[cubic-bezier(0.77,0,0.175,1)]"
+                )}
+              >
+                <Image
+                  src={keywordImages[index]}
+                  alt="ключевое слово"
+                  fill
+                  unoptimized
+                  priority
+                  className="object-contain"
+                />
+              </div>
 
-            <div
-              key={`word-next-${index}`}
-              className={cn(
-                "absolute mt-14 w-full text-center transition-all duration-700",
-                isAnimating
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-full opacity-0",
-                "ease-[cubic-bezier(0.77,0,0.175,1)]"
-              )}
-            >
-              {nextWord}
+              {/* Следующий SVG */}
+              <div
+                key={`svg-word-next-${index}`}
+                className={cn(
+                  "absolute inset-0 transition-all duration-700",
+                  isAnimating
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-full opacity-0",
+                  "ease-[cubic-bezier(0.77,0,0.175,1)]"
+                )}
+              >
+                <Image
+                  src={keywordImages[(index + 1) % keywordImages.length]}
+                  alt="следующее ключевое слово"
+                  fill
+                  unoptimized
+                  priority
+                  className="object-contain"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -368,7 +396,7 @@ export function HeroSection() {
       {/* Отрисовываем все изображения сразу, но показываем только нужные */}
       {imageGroups.map((group, groupIndex) => {
         // Допустим, у тебя есть массив для позиции левых картинок
-         const leftImagePositionArray = [true, false, true, false];
+        const leftImagePositionArray = [true, false, true, false];
         const isBottomPosition = leftImagePositionArray[groupIndex]; // true => bottom-56, false => top-10
 
         return (
