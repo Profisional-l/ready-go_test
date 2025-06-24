@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -65,7 +65,7 @@ function ValidatedInput({
 export function Footer() {
   const eyesRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [eyeStyle, setEyeStyle] = useState<React.CSSProperties>({});
+   const [eyeStyle, setEyeStyle] = useState<React.CSSProperties>({});
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   // Определяем мобильное устройство
@@ -73,7 +73,7 @@ export function Footer() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
+ 
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
@@ -217,7 +217,11 @@ export function Footer() {
                 className="absolute right-0 top-1/2 transform -translate-y-1/2 text-muted-foreground/70 hover:text-accent h-auto p-1 focus:ring-0 focus:ring-offset-0 ft-button"
                 aria-label="Отправить"
               >
-                <ArrowRight size={22} />
+                {isMobile ? (
+                  <ArrowRight size={22} />
+                ) : showSuccessModal ? (
+                  <Check size={22} />
+                ) : (<ArrowRight size={22} />)}
               </Button>
             </div>
           </div>
@@ -233,7 +237,7 @@ export function Footer() {
         </form>
       </div>
 
-      <section className="bg-[#101010] text-background pt-20 md:pt-[170px]">
+      <section className="bg-[#101010] text-background pt-20 md:pt-[170px] pb-20">
         <div className="max-w-[1450px] mx-auto text-center">
           <h2 className="font-mycustom font-extrabold leading-tight uppercase footerText">
             ВЫ <span className="textToBorderBlack">READY</span> РАБОТАТЬ С НАМИ?{" "}
@@ -304,7 +308,7 @@ export function Footer() {
         </div>
       </section>
 
-      {showSuccessModal && (
+      {showSuccessModal && isMobile && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-8 rounded-xl shadow-lg text-center relative footer-message">
             <button
@@ -312,20 +316,12 @@ export function Footer() {
               className="absolute top-4 right-4 rounded-full bg-gray-200 p-2 hover:bg-gray-300 transition-colors"
               aria-label="Закрыть"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-gray-600"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <Image
+          src="/images/close_Vector.png"
+          alt="close"
+          width={16}
+          height={16}
+        />
             </button>
             <h3 className="text-[27px] font-bold tight-spacing-1 text-black">Спасибо!</h3>
             <p className="text-[16px] text-[#0E0E0E80] text-600 text-lg">Ваше сообщение успешно <br></br> отправлено</p>
