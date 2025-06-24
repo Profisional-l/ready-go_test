@@ -61,126 +61,126 @@
 /* InterDisplay fonts */
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-Black.ttf') format('truetype');
+  src: url('InterDisplay-Black.woff2') format('truetype');
   font-weight: 900;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-BlackItalic.ttf') format('truetype');
+  src: url('InterDisplay-BlackItalic.woff2') format('truetype');
   font-weight: 900;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-Bold.ttf') format('truetype');
+  src: url('InterDisplay-Bold.woff2') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-BoldItalic.ttf') format('truetype');
+  src: url('InterDisplay-BoldItalic.woff2') format('truetype');
   font-weight: bold;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-ExtraBold.ttf') format('truetype');
+  src: url('InterDisplay-ExtraBold.woff2') format('truetype');
   font-weight: 800;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-ExtraBoldItalic.ttf') format('truetype');
+  src: url('InterDisplay-ExtraBoldItalic.woff2') format('truetype');
   font-weight: 800;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-ExtraLight.ttf') format('truetype');
+  src: url('InterDisplay-ExtraLight.woff2') format('truetype');
   font-weight: 200;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-ExtraLightItalic.ttf') format('truetype');
+  src: url('InterDisplay-ExtraLightItalic.woff2') format('truetype');
   font-weight: 200;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-Italic.ttf') format('truetype');
+  src: url('InterDisplay-Italic.woff2') format('truetype');
   font-weight: normal;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-Light.ttf') format('truetype');
+  src: url('InterDisplay-Light.woff2') format('truetype');
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-LightItalic.ttf') format('truetype');
+  src: url('InterDisplay-LightItalic.woff2') format('truetype');
   font-weight: 300;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-Medium.ttf') format('truetype');
+  src: url('InterDisplay-Medium.woff2') format('truetype');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-MediumItalic.ttf') format('truetype');
+  src: url('InterDisplay-MediumItalic.woff2') format('truetype');
   font-weight: 500;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-Regular.ttf') format('truetype');
+  src: url('InterDisplay-Regular.woff2') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-SemiBold.ttf') format('truetype');
+  src: url('InterDisplay-SemiBold.woff2') format('truetype');
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-SemiBoldItalic.ttf') format('truetype');
+  src: url('InterDisplay-SemiBoldItalic.woff2') format('truetype');
   font-weight: 600;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-Thin.ttf') format('truetype');
+  src: url('InterDisplay-Thin.woff2') format('truetype');
   font-weight: 100;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter Display';
-  src: url('/public/fonts/InterDisplay/InterDisplay-ThinItalic.ttf') format('truetype');
+  src: url('InterDisplay-ThinItalic.woff2') format('truetype');
   font-weight: 100;
   font-style: italic;
 }

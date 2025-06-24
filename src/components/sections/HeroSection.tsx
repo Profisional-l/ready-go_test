@@ -15,16 +15,6 @@ export function HeroSection() {
   //   "МЕРЧОМ",
   // ];
 
-  const keywordImages = [
-    "/images/svgWords/strategy.svg",
-    "/images/svgWords/smm.svg",
-    "/images/svgWords/web.svg",
-    "/images/svgWords/branding.svg",
-    "/images/svgWords/creative.svg",
-    "/images/svgWords/production.svg",
-    "/images/svgWords/merch.svg",
-  ];
-
   // Группируем изображения по 2 для каждого ключевого слова
   const imageGroups = [
     [
@@ -261,18 +251,85 @@ export function HeroSection() {
     imageCache.current = cache;
   }, []);
 
+  const keywordImages = [
+    "/images/svgWords/strategy.svg",
+    "/images/svgWords/smm.svg",
+    "/images/svgWords/web.svg",
+    "/images/svgWords/branding.svg",
+    "/images/svgWords/creative.svg",
+    "/images/svgWords/production.svg",
+    "/images/svgWords/merch.svg",
+  ].map((image) =>
+    isMobile ? image.replace("/images/svgWords/", "/images/svgWords/m_") : image
+  );
+
+  // Теперь keywordImages содержит пути с приставкой m_ для мобильных устройств
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const svgCache: Record<string, HTMLImageElement> = {};
+    const imagesToCache = [
+      "/images/svgWords/strategy.svg",
+      "/images/svgWords/smm.svg",
+      "/images/svgWords/web.svg",
+      "/images/svgWords/branding.svg",
+      "/images/svgWords/creative.svg",
+      "/images/svgWords/production.svg",
+      "/images/svgWords/merch.svg",
+    ];
+
+    imagesToCache.forEach((image) => {
+      const path = isMobile
+        ? image.replace("/images/svgWords/", "/images/svgWords/m_")
+        : image;
+
+      if (!svgCache[path]) {
+        const img = new window.Image();
+        img.src = path;
+        svgCache[path] = img;
+      }
+    });
+
+    // Если хочешь использовать потом: svgCacheRef.current = svgCache
+  }, [isMobile]);
+
   const currentWord = keywordImages[index];
   const nextWord = keywordImages[(index + 1) % keywordImages.length];
   const currentImages = imageGroups[index % imageGroups.length];
   const nextImages = imageGroups[(index + 1) % imageGroups.length];
   // const svgWidth = whatWidth ? 910 : 240
+
   return (
     <section className="relative min-h-screen w-full bg-background">
       {/* Центрированный контент */}
       <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8">
-        <div className="text-[50px] sm:text-[100px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-40 mainScreenTextBlock max-w-[1000px]">
+        <div className="text-[60px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-40 mainScreenTextBlock max-w-[1000px]">
           <div className="whitespace-normal">
-            <span className="textToBorder">МЫ — </span>DIGITAL
+            <span>
+              <span
+                className="relative inline-block"
+                style={{ height: ".83em", width: "calc(303/124 * 1em)" }}
+                ref={eyesRef}
+              >
+                <div
+                  style={{
+                    position: "relative",
+                    height: "100%",
+                    width: "100%",
+                  }}
+                >
+                  <Image
+                    src="/images/svgWords/we-.svg"
+                    alt="глаза"
+                    unoptimized={true}
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </div>
+              </span>
+              DIGITAL
+            </span>
           </div>
           <div className="whitespace-normal mt-2">
             АГЕНТСТВО{" "}
@@ -338,55 +395,58 @@ export function HeroSection() {
                 )}
               </div>
             </span>{" "}
-            <span className="textToBorder">READY GO.</span>{" "}
+            <span>
+              <span
+                className="relative inline-block"
+                style={{ height: ".83em", width: "calc(390/124 * 1em)" }}
+                ref={eyesRef}
+              >
+                <div
+                  style={{
+                    position: "relative",
+                    height: "100%",
+                    width: "100%",
+                  }}
+                >
+                  <Image
+                    src="/images/svgWords/Ready Go..svg"
+                    alt="глаза"
+                    unoptimized={true}
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </div>
+              </span>
+            </span>{" "}
             <span>К НАМ ПРИХОДЯТ ЗА</span>
           </div>
 
           {/* Слова как SVG-изображения с той же анимацией */}
-          <div className="relative h-[125px] -mt-7 md:mt-5 flex items-center justify-center">
-            {/* Контейнер фиксированной ширины, например, 1000px */}
-            <div className="relative w-full max-w-[1000px] h-full">
-              {/* Текущий SVG */}
-              <div
-                key={`svg-word-${index}`}
-                className={cn(
-                  "absolute inset-0 transition-all duration-700",
-                  isAnimating
-                    ? "-translate-y-full opacity-0"
-                    : "translate-y-0 opacity-100",
-                  "ease-[cubic-bezier(0.77,0,0.175,1)]"
-                )}
-              >
-                <Image
-                  src={keywordImages[index]}
-                  alt="ключевое слово"
-                  fill
-                  unoptimized
-                  priority
-                  className="object-contain"
-                />
-              </div>
-
-              {/* Следующий SVG */}
-              <div
-                key={`svg-word-next-${index}`}
-                className={cn(
-                  "absolute inset-0 transition-all duration-700",
-                  isAnimating
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-full opacity-0",
-                  "ease-[cubic-bezier(0.77,0,0.175,1)]"
-                )}
-              >
-                <Image
-                  src={keywordImages[(index + 1) % keywordImages.length]}
-                  alt="следующее ключевое слово"
-                  fill
-                  unoptimized
-                  priority
-                  className="object-contain"
-                />
-              </div>
+          <div className="relative h-[160px] md:h-[135px] -mt-5 md:mt-5 flex items-center justify-center">
+            <div className="relative w-full max-w-[1550px] h-full min-h-[60px]">
+              {keywordImages.map((src, i) => (
+                <div
+                  key={`svg-word-${i}`}
+                  className={cn(
+                    "absolute inset-0 transition-all duration-700 ease-[cubic-bezier(0.77,0,0.175,1)]",
+                    index === i && !isAnimating && "translate-y-0 opacity-100",
+                    index === i && isAnimating && "-translate-y-full opacity-0",
+                    index !== i &&
+                      (i === (index + 1) % keywordImages.length && isAnimating
+                        ? "translate-y-0 opacity-100"
+                        : "translate-y-full opacity-0")
+                  )}
+                >
+                  <Image
+                    src={src}
+                    alt={`слово ${i}`}
+                    fill
+                    unoptimized
+                    priority
+                    className="object-contain"
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>

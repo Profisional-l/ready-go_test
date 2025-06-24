@@ -103,14 +103,14 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
                     key={i}
                     href={`#${id}`}
                     onClick={(e) => handleLinkClick(e, `#${id}`)}
-                    className="relative group text-[20px] font-medium tracking-wider text-foreground"
+                    className="relative group text-[20px] font-medium tracking-wider text-[#0E0E0E]"
                   >
                     {id === "cases"
                       ? "Кейсы"
                       : id === "about"
                         ? "О нас"
                         : "Контакты"}
-                    <span className="absolute left-0 bottom-[-4px] h-[2px] w-0 bg-foreground transition-all duration-300 group-hover:w-full" />
+                    <span className="absolute left-0 bottom-[0px] h-[2px] w-0 bg-[#0E0E0E] transition-all duration-300 group-hover:w-full" />
                   </a>
                 ))}
               </div>
