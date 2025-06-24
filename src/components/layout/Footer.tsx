@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { useState } from 'react';
-import { sendMessage } from '@/actions/sendMessage'; // ✅ Импорт server action
+import { useState, useEffect, useRef } from "react";
+import { sendMessage } from "@/actions/sendMessage";
 
 function ValidatedInput({
   type,
@@ -21,7 +21,7 @@ function ValidatedInput({
   validate: (value: string) => string | null;
   className?: string;
 }) {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [touched, setTouched] = useState(false);
 
@@ -61,17 +61,88 @@ function ValidatedInput({
 }
 
 export function Footer() {
+  const eyesRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [eyeStyle, setEyeStyle] = useState<React.CSSProperties>({});
+
+  // Определяем мобильное устройство
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Анимация глаз
+  useEffect(() => {
+    const mouse = { x: 0, y: 0 };
+    let animFrame: number | null = null;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    };
+
+    const update = () => {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const { x, y } = mouse;
+
+      if (eyesRef.current) {
+        const eyesRect = eyesRef.current.getBoundingClientRect();
+        const eyesCenterX = eyesRect.left + eyesRect.width / 2;
+        const eyesCenterY = eyesRect.top + eyesRect.height / 2;
+
+        const angle = Math.atan2(y - eyesCenterY, x - eyesCenterX);
+        const distance = 8;
+        const eyeX = Math.cos(angle) * distance;
+        const eyeY = Math.sin(angle) * distance * 1.7;
+
+        setEyeStyle({
+          transform: `translate(${eyeX}px, ${eyeY}px)`,
+          transition: "transform 0.22s ease-out",
+        });
+      }
+
+      animFrame = requestAnimationFrame(update);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    animFrame = requestAnimationFrame(update);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (animFrame) cancelAnimationFrame(animFrame);
+    };
+  }, []);
+
   return (
-    <footer id="contact" className="bg-[#101010] text-background p-7 m-3 rounded-xl">
+    <footer
+      id="contact"
+      className="bg-[#101010] text-background p-7 m-3 rounded-xl"
+    >
       <div className="max-w-[1450px] mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
         {/* Left Column */}
         <div className="pt-1 mb-8 md:mb-0 footer-top">
-          <p className="text-[#ffffff] text-[20px] pb-[55px] tight-spacing-1 footer-adapt-subtitle">&copy; READYGO 2025</p>
+          <p className="text-[#ffffff] text-[20px] pb-[55px] tight-spacing-1 footer-adapt-subtitle">
+            &copy; READYGO 2025
+          </p>
           <nav className="m-0 space-y-3">
-            <Link href="#" aria-label="Instagram" className="text-[24px] block underline hover:text-accent transition-colors tight-spacing-1 footer-adapt-title">
+            <Link
+              href="#"
+              aria-label="Instagram"
+              className="text-[24px] block underline hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
+            >
               Instagram
             </Link>
-            <Link href="mailto:hello@readygo.agency" aria-label="Email" className="text-[24px] underline block hover:text-accent transition-colors tight-spacing-1 footer-adapt-title">
+            <Link
+              href="mailto:hello@readygo.agency"
+              aria-label="Email"
+              className="text-[24px] underline block hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
+            >
               Email
             </Link>
           </nav>
@@ -80,9 +151,12 @@ export function Footer() {
         {/* Right Column - Form */}
         <form action={sendMessage} className="w-full">
           <div className="mb-8">
-            <h4 className="text-[20px] font-semibold uppercase tracking-wider pb-[55px] tight-spacing-1">ГОУ ЗНАКОМИТЬСЯ</h4>
+            <h4 className="text-[20px] font-semibold uppercase tracking-wider pb-[55px] tight-spacing-1">
+              ГОУ ЗНАКОМИТЬСЯ
+            </h4>
             <p className="text-[#ffffff] text-[24px] tight-spacing-1">
-              Опишите вашу задачу. Или оставьте контакты, <br /> мы с вами свяжемся и все узнаем
+              Опишите вашу задачу. Или оставьте контакты, <br /> мы с вами
+              свяжемся и все узнаем
             </p>
           </div>
 
@@ -93,7 +167,9 @@ export function Footer() {
                 name="name"
                 placeholder="Имя"
                 className="text-[24px] footer-input"
-                validate={(val) => val.trim().length < 2 ? "Введите корректное имя" : null}
+                validate={(val) =>
+                  val.trim().length < 2 ? "Введите корректное имя" : null
+                }
               />
               <ValidatedInput
                 type="email"
@@ -101,7 +177,9 @@ export function Footer() {
                 placeholder="Email"
                 className="text-[24px] footer-input"
                 validate={(val) =>
-                  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) ? null : "Введите корректный email"
+                  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)
+                    ? null
+                    : "Введите корректный email"
                 }
               />
             </div>
@@ -127,7 +205,7 @@ export function Footer() {
               </Button>
             </div>
           </div>
-          {/* Adaptive Button */}
+
           <Button
             type="submit"
             variant="ghost"
@@ -142,15 +220,69 @@ export function Footer() {
       <section className="bg-[#101010] text-background pt-20 md:pt-[170px]">
         <div className="max-w-[1450px] mx-auto text-center">
           <h2 className="font-mycustom font-extrabold leading-tight uppercase footerText">
-            ВЫ  <span className="textToBorderBlack">READY</span> РАБОТАТЬ  С НАМИ?
-            <span className="inline-block">
-              <Image
-                src="/images/smile-icon.png"
-                alt="Smile Icon"
-                width={99}
-                height={99}
-              />
-            </span>
+            ВЫ <span className="textToBorderBlack">READY</span> РАБОТАТЬ С НАМИ?{" "}
+            <span
+              className="relative inline-block"
+              style={{ height: ".83em", width: "calc(95/103 * 1em)" }}
+              ref={eyesRef}
+            >
+              <div
+                style={{ position: "relative", height: "100%", width: "100%" }}
+              >
+                {isMobile ? (
+                  <Image
+                    src="/images/eyes_Group127.svg"
+                    alt="глаза"
+                    unoptimized={true}
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                ) : (
+                  <>
+                    <Image
+                      src="/images/eyes0.svg"
+                      alt="глаза"
+                      unoptimized={true}
+                      layout="fill"
+                      objectFit="contain"
+                    />
+
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        width: "100%",
+                        height: "100%",
+                        transform: "translate(-50%, -50%)",
+                        pointerEvents: "none",
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "33%",
+                          left: "33%",
+                          width: "50%",
+                          height: "auto",
+                          aspectRatio: "59/35",
+                          transform: "translate(-50%, -50%)",
+                          ...eyeStyle,
+                        }}
+                      >
+                        <Image
+                          src="/images/eyes1.svg"
+                          alt="зрачки"
+                          unoptimized={true}
+                          layout="fill"
+                          objectFit="contain"
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </span>{" "}
             ТОГДА <span className="textToBorderBlack">GO!</span>
           </h2>
         </div>
