@@ -29,7 +29,7 @@ export function HeroSection() {
         src: "/images/ForHeroSection/back-2.png",
         alt: "СТРАТЕГИЯМИ",
         width: 308,
-        height: 378,
+        height: 388,
         maxHeight: 378,
       },
     ],
@@ -106,7 +106,7 @@ export function HeroSection() {
         maxHeight: 371,
       },
       {
-        src: "/images/ForHeroSection/back-12.png",
+        src: "/images/ForHeroSection/Comp-12.gif",
         alt: "СТРАТЕГИЯМИ",
         width: 272,
         height: 338,
@@ -331,7 +331,7 @@ export function HeroSection() {
               DIGITAL
             </span>
           </div>
-          <div className="whitespace-normal mt-2">
+          <div className="whitespace-normal">
             АГЕНТСТВО{" "}
             <span
               className="relative inline-block"
@@ -422,7 +422,7 @@ export function HeroSection() {
           </div>
 
           {/* Слова как SVG-изображения с той же анимацией */}
-          <div className="relative h-[160px] md:h-[135px] -mt-5 md:mt-5 flex items-center justify-center">
+          <div className="relative h-[160px] md:h-[135px] flex items-center justify-center overflow-y-hidden">
             <div className="relative w-full max-w-[1550px] h-full min-h-[60px]">
               {keywordImages.map((src, i) => (
                 <div
@@ -443,7 +443,7 @@ export function HeroSection() {
                     fill
                     unoptimized
                     priority
-                    className="object-contain"
+                    className="object-contain mt-3"
                   />
                 </div>
               ))}

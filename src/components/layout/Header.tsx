@@ -103,7 +103,7 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
                     key={i}
                     href={`#${id}`}
                     onClick={(e) => handleLinkClick(e, `#${id}`)}
-                    className="relative group text-[20px] font-medium tracking-wider text-[#0E0E0E]"
+                    className="relative group text-[20px] font-medium text-[#0E0E0E]"
                   >
                     {id === "cases"
                       ? "Кейсы"
