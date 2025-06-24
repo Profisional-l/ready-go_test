@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.footer-button{
+  display: none;
+}
+
 @layer base {
   :root {
     --background: 30, 100%, 99%; /* Near White #FAFAFA */
@@ -122,9 +126,6 @@ body::-webkit-scrollbar {
 }
 .footerText {
   font-size: 110px;
-}
-.footer-button{
-  display: none;
 }
 }
 @media (max-width: 404px) {

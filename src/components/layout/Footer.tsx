@@ -142,7 +142,7 @@ export function Footer() {
       <section className="bg-[#101010] text-background pt-20 md:pt-[170px]">
         <div className="max-w-[1450px] mx-auto text-center">
           <h2 className="font-mycustom font-extrabold leading-tight uppercase footerText">
-            ВЫ READY <span className="textToBorderBlack">РАБОТАТЬ</span>  С НАМИ?
+            ВЫ  <span className="textToBorderBlack">READY</span> РАБОТАТЬ  С НАМИ?
             <span className="inline-block">
               <Image
                 src="/images/smile-icon.png"
