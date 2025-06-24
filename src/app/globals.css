@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.footer-button{
+  display: none;
+}
+
 @layer base {
   :root {
     --background: 30, 100%, 99%; /* Near White #FAFAFA */
@@ -123,6 +127,7 @@ body::-webkit-scrollbar {
 .footerText {
   font-size: 110px;
 }
+}
 @media (max-width: 404px) {
     .footerText {
       font-size: 80px;
@@ -132,13 +137,79 @@ body::-webkit-scrollbar {
   color: white;
   -webkit-text-stroke: 3.3px black; /* Основное значение */
 }
+.textToBorderBlack {
+  color: #0E0E0E;
+  -webkit-text-stroke: 3.3px white; /* Основное значение */
+}
 
 @media (max-width: 700px) {
   .textToBorder {
     -webkit-text-stroke: 2px black; /* Измененное значение для маленьких экранов */
   }
-}
- 
+  .textToBorderBlack {
+    -webkit-text-stroke: 2px white; /* Измененное значение для маленьких экранов */
+  }
+  .footerText{
+    display: none;
+  }
+  .footer-top{
+    background-color: #FFFDFB;
+  }
+  .footer-groop{
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 0;
+  }
+  #contact{
+    background-color: #FFFDFB;
+    padding: 0;
+  }
+  #contact form{
+    background-color: #0E0E0E;
+    padding: 15px;
+    border-radius: 10px;
+  }
+  footer{
+    padding: 0;
+  }
+  footer section{
+    display: none;
+  }
+  .footer-adapt-title{
+    color: #0E0E0E;
+    font-size: 18px;
+  }
+  .footer-adapt-subtitle{
+    font-size: 16px;
+    color: #0E0E0E;
+  }
+  .footer-input{
+    border: 2px solid #FFFDFB; 
+    border-radius: 10px;
+    padding: 12.5px 15px;
+  }
+  .footer-input-text{
+    height: 150px;
+    padding-bottom: 4em;
+  }
+  .ft-button{
+    display: none;
+  }
+  .footer-button{
+    display: block;
+    height: 46px;
+    background-color: #FFFDFB;
+    border-radius: 10px;
+    color: #0E0E0E;
+    margin-top: 17px;
+    font-size: 18px;
+    text-align: center;
+    width: 100%;
+  }
+  .footer-button:hover{
+    color: #0E0E0E;
+    background-color: #04D6E3;
+  }
 }
 
 header nav{
@@ -154,6 +225,3 @@ header nav{
 .tight-spacing-3 {
   letter-spacing: -0.03em;
 }
-
-
-
