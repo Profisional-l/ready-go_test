@@ -270,7 +270,7 @@ export function HeroSection() {
     <section className="relative min-h-screen w-full bg-background">
       {/* Центрированный контент */}
       <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8">
-        <div className="text-[60px] sm:text-[100px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-40 mainScreenTextBlock max-w-[1000px]">
+        <div className="text-[50px] sm:text-[100px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-40 mainScreenTextBlock max-w-[1000px]">
           <div className="whitespace-normal">
             <span className="textToBorder">МЫ — </span>DIGITAL
           </div>
@@ -343,7 +343,7 @@ export function HeroSection() {
           </div>
 
           {/* Слова как SVG-изображения с той же анимацией */}
-          <div className="relative h-[125px] -mt-5 md:mt-5 flex items-center justify-center">
+          <div className="relative h-[125px] -mt-7 md:mt-5 flex items-center justify-center">
             {/* Контейнер фиксированной ширины, например, 1000px */}
             <div className="relative w-full max-w-[1000px] h-full">
               {/* Текущий SVG */}
