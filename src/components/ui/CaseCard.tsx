@@ -6,11 +6,13 @@ import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
 import { ImageIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import type { MediaItem } from '@/types';
 
 interface CaseCardProps {
   id: string;
   title: string;
-  coverUrl: string; // Changed from media
+  coverUrl: string;
+  media: MediaItem[];
   onClick: () => void;
   category: string;
   type: 'modal' | 'link';
@@ -20,12 +22,16 @@ interface CaseCardProps {
 export function CaseCard({
   title,
   coverUrl,
+  media,
   onClick,
   category,
   type,
   externalUrl,
 }: CaseCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+
+  // Находим первое изображение в медиа, чтобы использовать при наведении
+  const hoverImage = type === 'modal' ? media?.find(item => item.type === 'image') : undefined;
 
   const cardInnerContent = (
     <>
@@ -41,13 +47,32 @@ export function CaseCard({
           )}
         >
           {coverUrl ? (
-            <Image
-              src={coverUrl}
-              alt={title}
-              fill
-              unoptimized
-              className="absolute object-cover transition-opacity duration-500 ease-in-out"
-            />
+             <>
+              {/* Изображение обложки (по умолчанию) */}
+              <Image
+                src={coverUrl}
+                alt={title}
+                fill
+                unoptimized
+                className={cn(
+                  'absolute object-cover transition-opacity duration-500 ease-in-out',
+                  isHovered && hoverImage ? 'opacity-0' : 'opacity-100'
+                )}
+              />
+              {/* Изображение при наведении */}
+              {hoverImage && (
+                <Image
+                  src={hoverImage.url}
+                  alt={title}
+                  fill
+                  unoptimized
+                  className={cn(
+                    'absolute object-cover transition-opacity duration-500 ease-in-out',
+                    isHovered ? 'opacity-100' : 'opacity-0'
+                  )}
+                />
+              )}
+            </>
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-muted rounded-md">
               <ImageIcon className="h-12 w-12 text-muted-foreground" />
