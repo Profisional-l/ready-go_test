@@ -60,7 +60,7 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
           <Button
             asChild
             variant="outline"
-            className="text-sm md:text-base tracking-wider opacity-55 hover:opacity-100 transition-opacity duration-300  border-solid border-[1.5px] border-[#000000] rounded-[54px] bg-transparent hover:bg-transparent p-5 px-6  mx-auto"
+            className="text-sm md:text-base tracking-wider opacity-55 hover:opacity-100 transition-opacity duration-300  border-solid border-[1.5px] border-[#000000] rounded-[54px] bg-transparent hover:bg-transparent p-5 px-6  mx-auto "
           >
             <Link href="/cases">Показать все</Link>
           </Button>

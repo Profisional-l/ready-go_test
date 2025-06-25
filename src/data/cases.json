@@ -7,36 +7,27 @@
     "media": [
       {
         "type": "image",
-        "url": "/uploads/cases/1749242977330_manchiki-main.png"
+        "url": "/uploads/cases/1750842568285_353cf3feb02bfcb3fdc4e1977c9515c4cde8ce93.png"
       },
       {
         "type": "image",
-        "url": "/uploads/cases/1749242977332_manchiki-2.png"
-      },
-      {
-        "type": "image",
-        "url": "/uploads/cases/1749242977334_manchiki-4.png"
-      },
-      {
-        "type": "image",
-        "url": "/uploads/cases/1749242977337_manchiki-5.png"
-      },
-      {
-        "type": "image",
-        "url": "/uploads/cases/1749242977354_manchiki-1.png"
-      },
-      {
-        "type": "image",
-        "url": "/uploads/cases/1749242977360_manchiki-3.png"
+        "url": "/uploads/cases/1750842568348_Group_39594.png"
       }
     ],
     "description": "Интерфейс для приложения.",
     "fullDescription": "Разработка интуитивно понятного интерфейса для мобильного приложения, сфокусированного на пользовательском опыте и легкости использования.",
-    "tags": ["UX", "UI", "Mobile App"]
+    "tags": [
+      "visual identity",
+      "landing",
+      "key visual",
+      "naming",
+      "slogan"
+    ],
+    "externalUrl": ""
   },
   {
     "id": "2",
-    "title": "Golden Design",
+    "title": "Golod Design",
     "category": "Веб-сайт",
     "type": "link",
     "media": [
@@ -63,7 +54,11 @@
     ],
     "description": "Постер для мероприятия.",
     "fullDescription": "Создание яркого и привлекающего внимание рекламного постера для музыкального мероприятия NEMGO.",
-    "tags": ["Graphic Design", "Poster", "Event"]
+    "tags": [
+      "Graphic Design",
+      "Poster",
+      "Event"
+    ]
   },
   {
     "id": "4",
@@ -78,7 +73,11 @@
     ],
     "description": "Промо-материалы.",
     "fullDescription": "Разработка серии промо-материалов для бренда ARARAT, подчеркивающих премиальность и традиции.",
-    "tags": ["Marketing", "Branding", "Campaign"]
+    "tags": [
+      "Marketing",
+      "Branding",
+      "Campaign"
+    ]
   },
   {
     "id": "5",
@@ -93,7 +92,11 @@
     ],
     "description": "Digital кампания.",
     "fullDescription": "Запуск интерактивной digital-кампании для Coca-Cola, нацеленной на молодежную аудиторию.",
-    "tags": ["Digital Marketing", "Social Media", "Promo"]
+    "tags": [
+      "Digital Marketing",
+      "Social Media",
+      "Promo"
+    ]
   },
   {
     "id": "6",
@@ -108,7 +111,11 @@
     ],
     "description": "Фирменный стиль.",
     "fullDescription": "Разработка фирменного стиля и брендбука для технологической компании Optimising Technologies.",
-    "tags": ["Branding", "Identity", "Tech"]
+    "tags": [
+      "Branding",
+      "Identity",
+      "Tech"
+    ]
   },
   {
     "id": "1749287912830",
@@ -123,7 +130,11 @@
     ],
     "description": "SMM for Sportmaster ",
     "fullDescription": "SMM for Sportmaster in Instagram.",
-    "tags": ["Graphic Design", "Poster", "Event"]
+    "tags": [
+      "Graphic Design",
+      "Poster",
+      "Event"
+    ]
   },
   {
     "id": "1750533014003",
@@ -132,20 +143,23 @@
     "type": "modal",
     "media": [
       {
-        "type": "image",
-        "url": "/uploads/cases/1750533013950_Menu.png"
+        "type": "video",
+        "url": "/uploads/cases/1750842695326_Nembo_20_09_FINAL.mp4"
       },
       {
-        "type": "video",
-        "url": "/uploads/cases/1750533013974_Nembo_20_09_FINAL.mp4"
+        "type": "image",
+        "url": "/uploads/cases/1750842695358_Group_39595.png"
       }
     ],
-    "description": "NEMBONEMBONEMBO",
-    "fullDescription": "NEMBONEMBONEMBO",
+    "description": " ",
+    "fullDescription": "Для клиентов МТБанка",
     "tags": [
-      "web",
-      "gogogo"
-    ]
+      "landing",
+      "visual identity",
+      "production",
+      "key visual"
+    ],
+    "externalUrl": ""
   },
   {
     "id": "1750548030645",
@@ -180,6 +194,62 @@
     ],
     "description": "NEMBONEMBONEMBO",
     "fullDescription": "NEMBONEMBONEMBO",
-    "tags": ["Graphic Design", "Poster", "Event"]
+    "tags": [
+      "Graphic Design",
+      "Poster",
+      "Event"
+    ]
+  },
+  {
+    "id": "1750842400092",
+    "title": "LILLET",
+    "category": " ",
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1750842399923_194f9d43b4bede338bc77102866b2b53a5eb7325.jpg"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1750842399940_Group_39592.png"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1750842399969_8af4ee3c26ca2b7cda2f4283b5fbf308cdc9f456.jpg"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1750842399993_Group_39593.png"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1750842400066_529cc0661e9bd27fdc05b1ba69c17dd9ecf9a70d.png"
+      }
+    ],
+    "type": "modal",
+    "description": " ",
+    "fullDescription": "Придумали активность для спота Lillet на городском пикнике Vulitsa Ezha, сделали дизайн карт таро",
+    "tags": [
+      "creative idea",
+      "print card"
+    ]
+  },
+  {
+    "id": "1750843017191",
+    "title": "ЗАРАЗ",
+    "category": " ",
+    "media": [
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750843017186_MTBank_ZARAZ.mp4"
+      }
+    ],
+    "type": "modal",
+    "description": " ",
+    "fullDescription": " ",
+    "tags": [
+      "Key visual",
+      "Motion design"
+    ]
   }
 ]

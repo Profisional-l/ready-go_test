@@ -142,7 +142,7 @@ body::-webkit-scrollbar {
 }
 .textToBorderBlack {
   color: #0E0E0E;
-  -webkit-text-stroke: 3.3px white; /* Основное значение */
+  -webkit-text-stroke: 2px white; /* Основное значение */
 }
 
 @media (max-width: 700px) {
@@ -213,8 +213,9 @@ body::-webkit-scrollbar {
     font-size: 18px;
     text-align: center;
     width: 100%;
+    transition: all .33s;
   }
-  .footer-button:hover{
+  .footer-button:active{
     color: #0E0E0E;
     background-color: #04D6E3;
   }

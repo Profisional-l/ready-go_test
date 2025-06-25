@@ -142,7 +142,7 @@ export function Footer() {
     >
       <div className="max-w-[1450px] mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
         {/* Left Column */}
-        <div className="pt-1 mb-8 md:mb-0 footer-top">
+        <div className="pt-1 md:mb-0 footer-top">
           <p className="text-[#ffffff] text-[20px] pb-[55px] tight-spacing-1 footer-adapt-subtitle">
             &copy; READYGO 2025
           </p>
@@ -171,8 +171,7 @@ export function Footer() {
               ГОУ ЗНАКОМИТЬСЯ
             </h4>
             <p className="text-[#ffffff] text-[24px] tight-spacing-1">
-              Опишите вашу задачу. Или оставьте контакты, <br /> мы с вами
-              свяжемся и все узнаем
+              Опишите вашу задачу. Или оставьте контакты, мы с вами свяжемся и все узнаем
             </p>
           </div>
 
@@ -237,7 +236,7 @@ export function Footer() {
         </form>
       </div>
 
-      <section className="bg-[#101010] text-background pt-20 md:pt-[170px] pb-20">
+      <section className="bg-[#101010] text-background pt-20 md:pt-[170px]">
         <div className="max-w-[1450px] mx-auto text-center">
           <h2 className="font-mycustom font-extrabold leading-tight uppercase footerText">
             ВЫ <span className="textToBorderBlack">READY</span> РАБОТАТЬ С НАМИ?{" "}
@@ -303,7 +302,7 @@ export function Footer() {
                 )}
               </div>
             </span>{" "}
-            ТОГДА <span className="textToBorderBlack">GO!</span>
+            ТОГДА <span className="textToBorderBlack">GO</span>!
           </h2>
         </div>
       </section>
