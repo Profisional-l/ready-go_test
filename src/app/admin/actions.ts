@@ -8,9 +8,11 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
+const UPLOADS_BASE_DIR_RELATIVE = 'uploads';
+const COVERS_SUBDIR = 'covers';
+const CASES_SUBDIR = 'cases';
+const UPLOADS_DIR_ABSOLUTE = path.join(process.cwd(), 'public', UPLOADS_BASE_DIR_RELATIVE);
 const casesFilePath = path.join(process.cwd(), 'src', 'data', 'cases.json');
-const UPLOADS_DIR_RELATIVE_TO_PUBLIC = 'uploads/cases';
-const UPLOADS_DIR_ABSOLUTE = path.join(process.cwd(), 'public', UPLOADS_DIR_RELATIVE_TO_PUBLIC);
 
 const AUTH_COOKIE_NAME = 'admin-auth-readygo-cases';
 
@@ -37,7 +39,6 @@ export async function verifyPasswordAction(formData: FormData): Promise<{ succes
       maxAge: 60 * 60 * 24, // 1 day
       sameSite: 'lax',
     });
-    // Redirect to the admin dashboard on successful login
     redirect('/admin');
   } else {
     return { success: false, error: 'Неверный пароль.' };
@@ -52,13 +53,13 @@ export async function logoutAction(): Promise<void> {
     expires: new Date(0),
     sameSite: 'lax',
   });
-  revalidatePath('/admin');
   redirect('/admin');
 }
 
 // --- Case Data Access ---
 async function readCasesFile(): Promise<Case[]> {
   try {
+    await fs.mkdir(path.dirname(casesFilePath), { recursive: true });
     const jsonData = await fs.readFile(casesFilePath, 'utf-8');
     return JSON.parse(jsonData) as Case[];
   } catch (error) {
@@ -73,8 +74,6 @@ async function readCasesFile(): Promise<Case[]> {
 
 async function writeCasesFile(cases: Case[]): Promise<void> {
   try {
-    const casesDir = path.dirname(casesFilePath);
-    await fs.mkdir(casesDir, { recursive: true });
     const jsonData = JSON.stringify(cases, null, 2);
     await fs.writeFile(casesFilePath, jsonData, 'utf-8');
   } catch (error) {
@@ -93,42 +92,46 @@ export async function getCase(id: string): Promise<Case | undefined> {
 }
 
 // --- File Operations ---
+
+async function saveUploadedFile(file: File, subfolder: string): Promise<string> {
+    const uploadDir = path.join(UPLOADS_DIR_ABSOLUTE, subfolder);
+    await fs.mkdir(uploadDir, { recursive: true });
+
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    const originalFilename = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const uniqueFilename = `${Date.now()}_${originalFilename}`;
+    const filePath = path.join(uploadDir, uniqueFilename);
+    await fs.writeFile(filePath, buffer);
+    
+    return `/${UPLOADS_BASE_DIR_RELATIVE}/${subfolder}/${uniqueFilename}`;
+}
+
 async function saveUploadedMedia(formData: FormData): Promise<MediaItem[]> {
-  await fs.mkdir(UPLOADS_DIR_ABSOLUTE, { recursive: true });
   const mediaFileObjects = formData.getAll('caseMedia');
   const uploadedMediaItems: MediaItem[] = [];
   const validFiles = mediaFileObjects.filter(file => file instanceof File && file.name && file.size > 0);
 
   for (const file of validFiles) {
     const currentFile = file as File;
-    const bytes = await currentFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const originalFilename = currentFile.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const uniqueFilename = `${Date.now()}_${originalFilename}`;
-    const filePath = path.join(UPLOADS_DIR_ABSOLUTE, uniqueFilename);
-    await fs.writeFile(filePath, buffer);
-    
+    const url = await saveUploadedFile(currentFile, CASES_SUBDIR);
     const fileType = currentFile.type.startsWith('video') ? 'video' : 'image';
-    
-    uploadedMediaItems.push({
-      type: fileType,
-      url: `/${UPLOADS_DIR_RELATIVE_TO_PUBLIC}/${uniqueFilename}`
-    });
+    uploadedMediaItems.push({ type: fileType, url });
   }
   return uploadedMediaItems;
 }
 
-async function deleteMediaFiles(mediaItems: MediaItem[]): Promise<void> {
-  for (const item of mediaItems) {
-    if (item.url.startsWith(`/${UPLOADS_DIR_RELATIVE_TO_PUBLIC}/`)) {
-      const filename = path.basename(item.url);
-      const filePath = path.join(UPLOADS_DIR_ABSOLUTE, filename);
-      try {
-        await fs.unlink(filePath);
-        console.log(`Deleted media file: ${filePath}`);
-      } catch (err) {
-        console.error(`Error deleting media file ${filePath}:`, err);
-      }
+async function deleteFileByUrl(url: string | undefined | null) {
+  if (!url || !url.startsWith(`/${UPLOADS_BASE_DIR_RELATIVE}/`)) {
+    return;
+  }
+  try {
+    const relativePath = url.substring(1);
+    const absolutePath = path.join(process.cwd(), 'public', relativePath);
+    await fs.unlink(absolutePath);
+  } catch (err) {
+      if (err && typeof err === 'object' && 'code' in err && err.code !== 'ENOENT') {
+        console.error(`Error deleting file ${url}:`, err);
     }
   }
 }
@@ -144,10 +147,13 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
       return { success: false, error: 'Название и категория обязательны.' };
     }
 
-    const uploadedMedia = await saveUploadedMedia(formData);
-    if (uploadedMedia.length === 0) {
-      return { success: false, error: 'Требуется как минимум один медиа-файл.' };
+    const coverFile = formData.get('coverImage') as File;
+    if (!coverFile || coverFile.size === 0) {
+        return { success: false, error: 'Обложка обязательна.' };
     }
+    const coverUrl = await saveUploadedFile(coverFile, COVERS_SUBDIR);
+    
+    const uploadedMedia = await saveUploadedMedia(formData);
     
     let newCase: Case;
 
@@ -163,6 +169,7 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
         id: Date.now().toString(),
         title,
         category,
+        coverUrl,
         media: uploadedMedia,
         type: 'modal',
         description,
@@ -178,7 +185,8 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
         id: Date.now().toString(),
         title,
         category,
-        media: uploadedMedia,
+        coverUrl,
+        media: [], // Links don't have modal media
         type: 'link',
         externalUrl,
         description: '',
@@ -218,19 +226,28 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
       return { success: false, error: 'Название и категория обязательны.' };
     }
     
-    let finalMedia: MediaItem[];
+    // Handle cover update
+    let finalCoverUrl = existingCase.coverUrl;
+    const newCoverFile = formData.get('coverImage') as File;
+    if (newCoverFile && newCoverFile.size > 0) {
+      await deleteFileByUrl(existingCase.coverUrl);
+      finalCoverUrl = await saveUploadedFile(newCoverFile, COVERS_SUBDIR);
+    }
+
+    // Handle modal media update
+    let finalMedia: MediaItem[] = existingCase.media || [];
     const newFilesProvided = (formData.getAll('caseMedia').filter(f => f instanceof File && f.size > 0)).length > 0;
 
     if (newFilesProvided) {
-      await deleteMediaFiles(existingCase.media);
+      // Replace all old media if new files are uploaded
+      await Promise.all(finalMedia.map(item => deleteFileByUrl(item.url)));
       finalMedia = await saveUploadedMedia(formData);
-      if (finalMedia.length === 0) {
-        return { success: false, error: 'Ошибка при загрузке новых медиа-файлов.' };
-      }
     } else {
+      // Reorder existing media
       const mediaOrderString = formData.get('mediaOrder') as string;
       finalMedia = mediaOrderString ? JSON.parse(mediaOrderString) : existingCase.media;
     }
+
 
     let updatedCaseData: Case;
 
@@ -246,6 +263,7 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
         ...existingCase,
         title,
         category,
+        coverUrl: finalCoverUrl,
         media: finalMedia,
         type: 'modal',
         description,
@@ -262,13 +280,17 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
         ...existingCase,
         title,
         category,
-        media: finalMedia,
+        coverUrl: finalCoverUrl,
+        media: [], // Links don't have modal media. Delete old ones.
         type: 'link',
         externalUrl,
         description: '',
         fullDescription: '',
         tags: [],
       };
+      if (existingCase.type === 'modal' && existingCase.media.length > 0) {
+        await Promise.all(existingCase.media.map(item => deleteFileByUrl(item.url)));
+      }
     }
 
 
@@ -296,7 +318,9 @@ export async function deleteCaseAction(caseId: string): Promise<{ success: boole
       return { success: false, error: 'Кейс не найден.' };
     }
 
-    await deleteMediaFiles(caseToDelete.media);
+    await deleteFileByUrl(caseToDelete.coverUrl);
+    await Promise.all((caseToDelete.media || []).map(item => deleteFileByUrl(item.url)));
+
 
     const updatedCases = cases.filter(c => c.id !== caseId);
     await writeCasesFile(updatedCases);

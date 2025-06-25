@@ -1,7 +1,7 @@
 
 'use client';
 
-import type { Case, MediaItem } from '@/types';
+import type { Case } from '@/types';
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -28,31 +28,11 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { deleteCaseAction } from '@/app/admin/actions';
 import { useRouter } from 'next/navigation';
-import { PlusCircle, Edit, Trash2, Film } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, ImageIcon } from 'lucide-react';
 
 interface AdminDashboardClientProps {
   initialCases: Case[];
 }
-
-const MediaThumbnail = ({ item }: { item: MediaItem }) => {
-  if (item.type === 'image') {
-    return (
-      <Image
-        src={item.url}
-        alt="Thumbnail"
-        width={60}
-        height={40}
-        className="rounded object-cover"
-        data-ai-hint="case thumbnail"
-      />
-    );
-  }
-  return (
-    <div className="w-[60px] h-[40px] flex items-center justify-center bg-muted rounded">
-      <Film className="h-6 w-6 text-muted-foreground" />
-    </div>
-  );
-};
 
 export default function AdminDashboardClient({ initialCases }: AdminDashboardClientProps) {
   const [cases, setCases] = useState<Case[]>(initialCases);
@@ -101,10 +81,20 @@ export default function AdminDashboardClient({ initialCases }: AdminDashboardCli
               {cases.map((caseItem) => (
                 <TableRow key={caseItem.id}>
                   <TableCell>
-                    {caseItem.media.length > 0 ? (
-                      <MediaThumbnail item={caseItem.media[0]} />
+                    {caseItem.coverUrl ? (
+                      <Image
+                        src={caseItem.coverUrl}
+                        alt="Обложка"
+                        width={60}
+                        height={40}
+                        unoptimized
+                        className="rounded object-cover"
+                        data-ai-hint="case cover"
+                      />
                     ) : (
-                      <div className="w-[60px] h-[40px] bg-muted rounded" />
+                       <div className="w-[60px] h-[40px] flex items-center justify-center bg-muted rounded">
+                        <ImageIcon className="h-6 w-6 text-muted-foreground" />
+                       </div>
                     )}
                   </TableCell>
                   <TableCell className="font-medium">{caseItem.title}</TableCell>

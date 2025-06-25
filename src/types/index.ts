@@ -7,7 +7,8 @@ export interface Case {
   id: string;
   title: string;
   category: string;
-  media: MediaItem[];
+  coverUrl: string; // Обложка кейса
+  media: MediaItem[]; // Медиа для модального окна
   type: 'modal' | 'link';
 
   // Optional fields
