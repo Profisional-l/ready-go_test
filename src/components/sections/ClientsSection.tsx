@@ -1,12 +1,12 @@
 import Image from 'next/image';
 
 const clientLogos = [
-  { id: '1', name: 'CocaCola', src: 'https://placehold.co/150x80.png', aiHint: "CocaCola logo" },
-  { id: '2', name: 'KFC', src: 'https://placehold.co/150x80.png', aiHint: "KFC logo" },
-  { id: '3', name: 'MTBank', src: 'https://placehold.co/150x80.png', aiHint: "MTBank logo" },
-  { id: '4', name: 'ARARAT', src: 'https://placehold.co/150x80.png', aiHint: "ARARAT logo" },
-  { id: '5', name: 'Nivea', src: 'https://placehold.co/150x80.png', aiHint: "Nivea logo" },
-  { id: '6', name: 'BonAqua', src: 'https://placehold.co/150x80.png', aiHint: "BonAqua logo" },
+  { id: '1', name: 'CocaCola', src: '/images/companies/cocacola.svg', aiHint: "CocaCola logo" },
+  { id: '2', name: 'KFC', src: '/images/companies/kfc.svg', aiHint: "KFC logo" },
+  { id: '3', name: 'MTBank', src: '/images/companies/mtbank.svg', aiHint: "MTBank logo" },
+  { id: '4', name: 'ARARAT', src: '/images/companies/ararat.svg', aiHint: "ARARAT logo" },
+  { id: '5', name: 'Nivea', src: '/images/companies/nivea.svg', aiHint: "Nivea logo" },
+  { id: '6', name: 'BonAqua', src: '/images/companies/bonaqua.svg', aiHint: "BonAqua logo" },
 ];
 
 export function ClientsSection() {
@@ -21,7 +21,7 @@ export function ClientsSection() {
               alt={logo.name}
               layout="fill"
               objectFit="contain"
-              className="filter grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
+              className="filter"
               data-ai-hint={logo.aiHint}
             />
           </div>
