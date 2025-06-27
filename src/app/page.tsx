@@ -52,11 +52,11 @@ export default async function HomePage() {
           </div>
         </div>
         <ServiceBanner />
-        <div className="max-w-[1640px] mx-auto px-8">
+        <div className="max-w-[1640px] mx-auto px-3 md:px-8">
           <AboutSection />
         </div>
         {/* <PhotoGallery /> */}
-        <div className="max-w-[1640px] mx-auto px-8">
+        <div className="max-w-[1640px] mx-auto px-3 md:px-8">
           <ClientsSection />
         </div>
       </main>

@@ -49,7 +49,7 @@ function ValidatedInput({
         onBlur={handleBlur}
         onChange={handleChange}
         className={cn(
-          "w-full bg-transparent border-0 border-b text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-3 appearance-none rounded-none",
+          "w-full bg-transparent border-0 border-b text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-none",
           error
             ? "border-red-500 focus:border-red-500"
             : "border-white/40 focus:border-white",
@@ -167,11 +167,11 @@ export function Footer() {
         {/* Right Column - Form */}
         <form onSubmit={handleSubmit} className="w-full">
           <div className="mb-8">
-            <h4 className="text-[20px] font-semibold uppercase tracking-wider pb-[55px] tight-spacing-1">
+            <h4 className="text-[16px] md:text-[20px] font-semibold uppercase tracking-wider pb-[45px] tight-spacing-1">
               ГОУ ЗНАКОМИТЬСЯ
             </h4>
-            <p className="text-[#ffffff] text-[24px] tight-spacing-1">
-              Опишите вашу задачу. Или оставьте контакты, мы с вами свяжемся и все узнаем
+            <p className="text-[#ffffff] text-[18px] md:text-[24px] tight-spacing-1">
+              Опишите вашу задачу. Или оставьте контакты, <br className="hidden md:block" /> мы с вами свяжемся и все узнаем
             </p>
           </div>
 
@@ -181,7 +181,7 @@ export function Footer() {
                 type="text"
                 name="name"
                 placeholder="Имя"
-                className="text-[24px] footer-input"
+                className="text-[18px] md:text-[24px] footer-input"
                 validate={(val) =>
                   val.trim().length < 2 ? "Введите корректное имя" : null
                 }
@@ -190,7 +190,7 @@ export function Footer() {
                 type="email"
                 name="email"
                 placeholder="Email"
-                className="text-[24px] footer-input"
+                className="text-[18px] md:text-[24px] footer-input"
                 validate={(val) =>
                   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)
                     ? null
@@ -204,7 +204,7 @@ export function Footer() {
                 type="text"
                 name="task"
                 placeholder="Задача"
-                className="text-[24px] pr-10 footer-input footer-input-text"
+                className="text-[18px] md:text-[24px] pr-10 footer-input footer-input-text"
                 validate={(val) =>
                   val.trim().length < 5 ? "Опишите задачу подробнее" : null
                 }

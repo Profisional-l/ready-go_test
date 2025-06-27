@@ -219,7 +219,9 @@ export function HeroSection() {
     const interval = setInterval(() => {
       // Фаза 1: плавное исчезновение картинок
       setImageOpacity(0);
-      setIsAnimating(true);
+      setTimeout(() => {
+        setIsAnimating(true);
+      }, 60);
       setTimeout(() => {
         setImagePosition((prev) => !prev);
       }, 360);
@@ -304,8 +306,8 @@ export function HeroSection() {
     <section className="relative min-h-screen w-full bg-background">
       {/* Центрированный контент */}
       <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8">
-        <div className="text-[60px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-40 mainScreenTextBlock max-w-[1000px]">
-          <div className="whitespace-normal">
+        <div className="text-[60px] md:text-[130px] font-black font-mycustom text-center leading-[1] -mt-10 md:-mt-44 mainScreenTextBlock max-w-[1000px] text-[#0E0E0E]">
+          <div className="whitespace-normal md:-mb-3">
             <span>
               <span
                 className="relative inline-block"
@@ -333,7 +335,7 @@ export function HeroSection() {
               DIGITAL
             </span>
           </div>
-          <div className="whitespace-normal">
+          <div className="whitespace-normal ">
             АГЕНТСТВО{" "}
             <span
               className="relative inline-block"
@@ -423,7 +425,9 @@ export function HeroSection() {
                 </div>
               </span>
             </span>{" "}
-            <span>К НАМ ПРИХОДЯТ ЗА</span>
+            <div className="md:-mt-3">
+              <span>К НАМ ПРИХОДЯТ ЗА</span>
+            </div>
           </div>
 
           {/* Слова как SVG-изображения с той же анимацией */}
@@ -433,9 +437,11 @@ export function HeroSection() {
                 <div
                   key={`svg-word-${i}`}
                   className={cn(
-                    "absolute inset-0 transition-all duration-700 ease-[cubic-bezier(0.77,0,0.175,1)]",
+                    "absolute inset-0 transition-all duration-1000 ease-[cubic-bezier(0.77,0,0.175,1)]",
                     index === i && !isAnimating && "translate-y-0 opacity-100",
-                    index === i && isAnimating && "-translate-y-full opacity-0",
+                    index === i &&
+                      isAnimating &&
+                      "-translate-y-[140%] opacity-0",
                     index !== i &&
                       (i === (index + 1) % keywordImages.length && isAnimating
                         ? "translate-y-0 opacity-100"
@@ -449,7 +455,7 @@ export function HeroSection() {
                     unoptimized
                     priority
                     loading="eager"
-                    className="object-contain mt-3"
+                    className="object-contain mt-2 md:mt-3"
                   />
                 </div>
               ))}
@@ -477,7 +483,7 @@ export function HeroSection() {
               opacity: index === groupIndex ? imageOpacity : 0,
               pointerEvents: index === groupIndex ? "auto" : "none",
               transition:
-                "opacity 0.35s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
+                "opacity 0.22s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
             }}
           >
             <div
@@ -523,7 +529,7 @@ export function HeroSection() {
               opacity: index === groupIndex ? imageOpacity : 0,
               pointerEvents: index === groupIndex ? "auto" : "none", // Чтобы скрытые не мешали кликам
               transition:
-                "opacity 0.35s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
+                "opacity 0.22s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
             }}
           >
             <div

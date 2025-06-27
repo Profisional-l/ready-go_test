@@ -161,7 +161,7 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
               </DialogTitle>
             </DialogHeader>
             {caseData.fullDescription && (
-              <p className="text-[20px] font-medium text-center text-foreground mb-10 max-w-[600px] mx-auto ">
+              <p className="text-[18px] font-medium  text-left md:text-center text-foreground md:mb-10 max-w-[600px] mx-auto ">
                 {caseData.fullDescription}
               </p>
             )}
@@ -171,7 +171,7 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
                   <Badge
                     key={index}
                     variant="secondary"
-                    className="text-[#5D5D5D] text-sm bg-[#e9e9e9]"
+                    className="text-[#5D5D5D] text-sm bg-[#e9e9e9] hidden md:block"
                   >
                     {tag}
                   </Badge>

@@ -40,8 +40,8 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
   const casesToDisplay = casesDataFromProps.slice(0, INITIAL_CASES_TO_SHOW);
 
   return (
-    <section id="cases" className="py-10 md:py-24 px-3 md:px-0 overflow-hidden">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12">
+    <section id="cases" className="py-10 md:py-12 px-3 md:px-0 overflow-hidden">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-">
         <h2 className="text-6xl md:text-[130px] font-mycustom text-foreground mt-4 mb-0">
           КЕЙСЫ
         </h2>

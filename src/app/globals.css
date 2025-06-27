@@ -9,7 +9,7 @@
 @layer base {
   :root {
     --background: 30, 100%, 99%; /* Near White #FAFAFA */
-    --foreground: 0 0% 13%; /* Dark Gray / Near Black #212121 */
+    --foreground: 0 0% 5%; /* Dark Gray / Near Black #212121 */
 
     --card: 0 0% 100%; /* White */
     --card-foreground: 0 0% 13%; /* Dark Gray / Near Black */
