@@ -322,7 +322,7 @@ export function HeroSection() {
                   }}
                 >
                   <Image
-                    src="/images/svgWords/we.svg"
+                    src="/images/svgWords/we.png"
                     alt="глаза"
                     unoptimized={true}
                     quality={100}
@@ -413,7 +413,7 @@ export function HeroSection() {
                   }}
                 >
                   <Image
-                    src="/images/svgWords/readygo.svg"
+                    src="/images/svgWords/readygo.png"
                     alt="глаза"
                     unoptimized={true}
                     quality={100}
