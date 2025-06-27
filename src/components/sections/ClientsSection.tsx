@@ -1,27 +1,50 @@
+"use client";
+
 import Image from 'next/image';
 
 const clientLogos = [
-  { id: '1', name: 'CocaCola', src: 'https://placehold.co/150x80.png', aiHint: "CocaCola logo" },
-  { id: '2', name: 'KFC', src: 'https://placehold.co/150x80.png', aiHint: "KFC logo" },
-  { id: '3', name: 'MTBank', src: 'https://placehold.co/150x80.png', aiHint: "MTBank logo" },
-  { id: '4', name: 'ARARAT', src: 'https://placehold.co/150x80.png', aiHint: "ARARAT logo" },
-  { id: '5', name: 'Nivea', src: 'https://placehold.co/150x80.png', aiHint: "Nivea logo" },
-  { id: '6', name: 'BonAqua', src: 'https://placehold.co/150x80.png', aiHint: "BonAqua logo" },
+  { id: '1', name: 'CocaCola', src: '/images/companies/cocacola.svg', aiHint: "CocaCola logo" },
+  { id: '2', name: 'KFC', src: '/images/companies/kfc.svg', aiHint: "KFC logo" },
+  { id: '3', name: 'MTBank', src: '/images/companies/mtbank.svg', aiHint: "MTBank logo" },
+  { id: '4', name: 'ARARAT', src: '/images/companies/ararat.svg', aiHint: "ARARAT logo" },
+  { id: '5', name: 'Nivea', src: '/images/companies/nivea.svg', aiHint: "Nivea logo" },
+  { id: '6', name: 'BonAqua', src: '/images/companies/bonaqua.svg', aiHint: "BonAqua logo" },
+  // Duplicate logos to create a seamless loop
+  { id: '7', name: 'CocaCola', src: '/images/companies/cocacola.svg', aiHint: "CocaCola logo" },
+  { id: '8', name: 'KFC', src: '/images/companies/kfc.svg', aiHint: "KFC logo" },
+  { id: '9', name: 'MTBank', src: '/images/companies/mtbank.svg', aiHint: "MTBank logo" },
+  { id: '10', name: 'ARARAT', src: '/images/companies/ararat.svg', aiHint: "ARARAT logo" },
+  { id: '11', name: 'Nivea', src: '/images/companies/nivea.svg', aiHint: "Nivea logo" },
+  { id: '12', name: 'BonAqua', src: '/images/companies/bonaqua.svg', aiHint: "BonAqua logo" },
 ];
 
 export function ClientsSection() {
   return (
-    <section className="hidden md:block py-16 md:py-24 px-4">
-      {/* <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-8 md:mb-12 text-center">НАШИ КЛИЕНТЫ</h2> */}{" "}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 md:gap-12 items-center justify-items-center">
+    <section className="py-16 md:py-24 px-4 overflow-hidden">
+      <style jsx>{`
+        @keyframes carousel {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .carousel-container {
+          display: flex;
+          animation: carousel 20s linear infinite; /* Adjust time for speed */
+        }
+      `}</style>
+      <div className="carousel-container">
         {clientLogos.map((logo) => (
-          <div key={logo.id} className="relative w-[120px] h-[60px] md:w-[150px] md:h-[80px]">
+          <div key={logo.id} className="relative flex-shrink-0 w-[120px] h-[60px] md:w-[150px] md:h-[80px] mx-8 flex items-center justify-center">
             <Image
               src={logo.src}
               alt={logo.name}
-              layout="fill"
+              width={150}
+              height={80}
               objectFit="contain"
-              className="filter grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
+              className="filter"
               data-ai-hint={logo.aiHint}
             />
           </div>
