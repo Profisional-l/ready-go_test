@@ -86,10 +86,16 @@ export function AboutSection() {
             <h2 className="text-6xl md:text-[130px] font-mycustom mb-10">
               О НАС
             </h2>
-            <p className="text-[18px] md:text-[33px] tight-spacing-3">
-              Новое и креативное – наша стихия. <br /> Однажды мы женили людей в KFC,
+            <p className="leading-[1.21em] mb-[15px] text-[18px] md:text-[33px] tight-spacing-3">
+              Новое и креативное — наша стихия.
+            </p>
+            <p className="leading-[1.21em] mb-[15px] text-[18px] md:text-[33px] tight-spacing-3">
+              Однажды мы женили людей в KFC,
               делали витрину для ТЦ в Витебске и запускали шестиметровый
-              дирижабль в центре Минска. <br /><br /> Мы любим и умеем работать с крупными
+              дирижабль в центре Минска.
+            </p>
+            <p className="leading-[1.21em] text-[18px] md:text-[33px] tight-spacing-3">
+              Мы любим и умеем работать с крупными
               брендами. Наша команда из Минска была частью Red Graphic —
               агентства с 30-летней историей.
             </p>
@@ -107,9 +113,8 @@ export function AboutSection() {
                 alt={`About image ${index}`}
                 fill
                 unoptimized={true}
-                className={`object-cover absolute top-0 left-0 transition-opacity duration-1000 ease-in-out ${
-                  index === currentImage ? "opacity-100 z-10" : "opacity-0 z-0"
-                }`}
+                className={`object-cover absolute top-0 left-0 transition-opacity duration-1000 ease-in-out ${index === currentImage ? "opacity-100 z-10" : "opacity-0 z-0"
+                  }`}
               />
             ))}
           </div>
