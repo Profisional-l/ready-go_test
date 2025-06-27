@@ -148,14 +148,14 @@ export function Footer() {
           </p>
           <nav className="m-0 space-y-3">
             <Link
-              href="#"
+              href="https://www.instagram.com/ready.go.agency/"
               aria-label="Instagram"
               className="text-[24px] block underline hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
             >
               Instagram
             </Link>
             <Link
-              href="mailto:hello@readygo.agency"
+              href="mailto:go@rg.by"
               aria-label="Email"
               className="text-[24px] underline block hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
             >

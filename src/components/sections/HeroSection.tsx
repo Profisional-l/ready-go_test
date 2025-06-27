@@ -322,7 +322,8 @@ export function HeroSection() {
                   <Image
                     src="/images/svgWords/we-.svg"
                     alt="глаза"
-                    unoptimized={true}
+                    unoptimized
+                    priority
                     layout="fill"
                     objectFit="contain"
                   />
@@ -411,7 +412,9 @@ export function HeroSection() {
                   <Image
                     src="/images/svgWords/Ready Go..svg"
                     alt="глаза"
-                    unoptimized={true}
+                    unoptimized
+                    priority
+                    loading="eager"
                     layout="fill"
                     objectFit="contain"
                   />
@@ -443,6 +446,7 @@ export function HeroSection() {
                     fill
                     unoptimized
                     priority
+                    loading="eager"
                     className="object-contain mt-3"
                   />
                 </div>

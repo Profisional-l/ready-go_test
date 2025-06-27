@@ -140,7 +140,7 @@
   },
   {
     "id": "1750842400092",
-    "title": "LILLET",
+    "title": "LILLET Vulitsa Ezha",
     "category": "LILLET",
     "media": [
       {
@@ -171,12 +171,12 @@
       "creative idea",
       "print card"
     ],
-    "coverUrl": "/uploads/covers/1750844524012_194f9d43b4bede338bc77102866b2b53a5eb7325.jpg",
+    "coverUrl": "/uploads/covers/1751004106505_9e5476dac3291dabfbb959bcce8da8c2af78524e.webp",
     "externalUrl": ""
   },
   {
     "id": "1750843017191",
-    "title": "ЗАРАЗ",
+    "title": "Зараз",
     "category": "ЗАРАЗ",
     "media": [
       {
@@ -196,7 +196,7 @@
   },
   {
     "id": "1750844840648",
-    "title": "MOBY",
+    "title": "Moby",
     "category": "MOBY",
     "coverUrl": "/uploads/covers/1750844840545_Group_39597.png",
     "media": [
@@ -217,7 +217,8 @@
       "visual identity",
       "production",
       "key visual"
-    ]
+    ],
+    "externalUrl": ""
   },
   {
     "id": "1750998285826",
@@ -241,7 +242,7 @@
   },
   {
     "id": "1750998838044",
-    "title": "G.H.MUMM",
+    "title": "G.H.MUMM photoshooting",
     "category": "G.H.MUMM",
     "coverUrl": "/uploads/covers/1750998838032_a33b7bb51267b884331c2731e367a7c5d580691d.webp",
     "media": [
@@ -256,6 +257,7 @@
     "tags": [
       "SMM",
       "Prodaction"
-    ]
+    ],
+    "externalUrl": ""
   }
 ]
