@@ -157,7 +157,7 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
           <div className="p-3 md:p-20 md:px-48">
             <DialogHeader>
               <DialogTitle className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">
-                {caseData.title}
+                {caseData.category}
               </DialogTitle>
             </DialogHeader>
             {caseData.fullDescription && (

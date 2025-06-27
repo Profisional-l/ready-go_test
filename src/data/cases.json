@@ -1,7 +1,7 @@
 [
   {
     "id": "1",
-    "title": "МТБанк",
+    "title": "МТБанк — Манички",
     "category": "Манички",
     "type": "modal",
     "media": [
@@ -28,23 +28,19 @@
   },
   {
     "id": "2",
-    "title": "Golod Design",
+    "title": "Golod Design — Веб-сайт",
     "category": "Веб-сайт",
     "type": "link",
-    "media": [
-      {
-        "type": "image",
-        "url": "/uploads/cases/1749217285182_Free_Studio_Display_mockup_on_a_white_table__1__1.png"
-      }
-    ],
+    "media": [],
     "description": "",
     "fullDescription": "",
     "tags": [],
-    "externalUrl": "https://goloddesign.by/"
+    "externalUrl": "https://goloddesign.by/",
+    "coverUrl": "/uploads/covers/1750844895649_2b5e386d25989fc4280f9351726f09f1acbad945.png"
   },
   {
     "id": "3",
-    "title": "Optimizing Technologies",
+    "title": "Optimizing Technologies — Буклет",
     "category": "Буклет",
     "type": "modal",
     "media": [
@@ -59,17 +55,19 @@
       "Graphic Design",
       "Poster",
       "Event"
-    ]
+    ],
+    "coverUrl": "/uploads/covers/1750997211868_back-7__1_.webp",
+    "externalUrl": ""
   },
   {
     "id": "4",
-    "title": "ARARAT",
-    "category": "Контент-съемка",
+    "title": "ARARAT — Контент-съемка",
+    "category": "ARARAT",
     "type": "modal",
     "media": [
       {
         "type": "image",
-        "url": "/uploads/cases/1749248622419_ararat.png"
+        "url": "/uploads/cases/1750845079825_Group_39598.png"
       }
     ],
     "description": "Промо-материалы.",
@@ -78,36 +76,35 @@
       "Marketing",
       "Branding",
       "Campaign"
-    ]
+    ],
+    "coverUrl": "/uploads/covers/1750845079806_back-11.webp",
+    "externalUrl": ""
   },
   {
     "id": "5",
-    "title": "Coca-Cola",
+    "title": "Coca-Cola — Promo",
     "category": "Promo",
-    "type": "modal",
-    "media": [
-      {
-        "type": "image",
-        "url": "/uploads/cases/1749248687713_cocacola.png"
-      }
-    ],
-    "description": "Digital кампания.",
-    "fullDescription": "Запуск интерактивной digital-кампании для Coca-Cola, нацеленной на молодежную аудиторию.",
-    "tags": [
-      "Digital Marketing",
-      "Social Media",
-      "Promo"
-    ]
+    "type": "link",
+    "media": [],
+    "description": "",
+    "fullDescription": "",
+    "tags": [],
+    "coverUrl": "/uploads/covers/1750845165918_1749248687713_cocacola.png",
+    "externalUrl": "https://coca-cola-promo.by/"
   },
   {
     "id": "6",
     "title": "МТБанк — NEMBO",
-    "category": "Брендинг",
+    "category": "NEMBO",
     "type": "modal",
     "media": [
       {
         "type": "image",
-        "url": "/uploads/cases/1749248936823_mtbank.png"
+        "url": "/uploads/cases/1750845228130_image_2025-06-25_12-42-49.png"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1750845228132_Group_39595.png"
       }
     ],
     "description": "Фирменный стиль.",
@@ -116,17 +113,19 @@
       "Branding",
       "Identity",
       "Tech"
-    ]
+    ],
+    "coverUrl": "/uploads/covers/1750845227613_1749248936823_mtbank.png",
+    "externalUrl": ""
   },
   {
     "id": "1749287912830",
     "title": "Sportmaster",
-    "category": "SMM",
+    "category": "Sportmaster",
     "type": "modal",
     "media": [
       {
         "type": "image",
-        "url": "/uploads/cases/1749287967756_Frame_39700.png"
+        "url": "/uploads/cases/1750845314717_Frame_39721.png"
       }
     ],
     "description": "SMM for Sportmaster ",
@@ -135,76 +134,14 @@
       "Graphic Design",
       "Poster",
       "Event"
-    ]
-  },
-  {
-    "id": "1750533014003",
-    "title": "NEMBO",
-    "category": "web",
-    "type": "modal",
-    "media": [
-      {
-        "type": "video",
-        "url": "/uploads/cases/1750842695326_Nembo_20_09_FINAL.mp4"
-      },
-      {
-        "type": "image",
-        "url": "/uploads/cases/1750842695358_Group_39595.png"
-      }
     ],
-    "description": " ",
-    "fullDescription": "Для клиентов МТБанка",
-    "tags": [
-      "landing",
-      "visual identity",
-      "production",
-      "key visual"
-    ],
+    "coverUrl": "/uploads/covers/1750845314193_1749287967756_Frame_39700.png",
     "externalUrl": ""
-  },
-  {
-    "id": "1750548030645",
-    "title": "NEMBO",
-    "category": "NEMBONEMBO",
-    "type": "modal",
-    "media": [
-      {
-        "type": "image",
-        "url": "/uploads/cases/1750548029469_e41e72c84c871bcec3195b663dabae22447a31d7.png"
-      },
-      {
-        "type": "video",
-        "url": "/uploads/cases/1750548029566_______Bq_Evgeniya_final_30sec_v3__1_.mp4"
-      },
-      {
-        "type": "video",
-        "url": "/uploads/cases/1750548030138_______BQ_Olga_final_30sec_1080__1_.mp4"
-      },
-      {
-        "type": "video",
-        "url": "/uploads/cases/1750548029566_______Bq_Evgeniya_final_30sec_v3__1_.mp4"
-      },
-      {
-        "type": "video",
-        "url": "/uploads/cases/1750548029566_______Bq_Evgeniya_final_30sec_v3__1_.mp4"
-      },
-      {
-        "type": "video",
-        "url": "/uploads/cases/1750548029566_______Bq_Evgeniya_final_30sec_v3__1_.mp4"
-      }
-    ],
-    "description": "NEMBONEMBONEMBO",
-    "fullDescription": "NEMBONEMBONEMBO",
-    "tags": [
-      "Graphic Design",
-      "Poster",
-      "Event"
-    ]
   },
   {
     "id": "1750842400092",
     "title": "LILLET",
-    "category": " ",
+    "category": "LILLET",
     "media": [
       {
         "type": "image",
@@ -233,12 +170,14 @@
     "tags": [
       "creative idea",
       "print card"
-    ]
+    ],
+    "coverUrl": "/uploads/covers/1750844524012_194f9d43b4bede338bc77102866b2b53a5eb7325.jpg",
+    "externalUrl": ""
   },
   {
     "id": "1750843017191",
     "title": "ЗАРАЗ",
-    "category": " ",
+    "category": "ЗАРАЗ",
     "media": [
       {
         "type": "video",
@@ -251,6 +190,87 @@
     "tags": [
       "Key visual",
       "Motion design"
+    ],
+    "coverUrl": "/uploads/covers/1750844714234_3d9c119c1885f190a85727b078bf2eeed1473abd.png",
+    "externalUrl": ""
+  },
+  {
+    "id": "1750844840648",
+    "title": "MOBY",
+    "category": "MOBY",
+    "coverUrl": "/uploads/covers/1750844840545_Group_39597.png",
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1750844840550_Group_39596.png"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750844840601_______Moby_1_ProRes_2511.mp4.mp4"
+      }
+    ],
+    "type": "modal",
+    "description": " ",
+    "fullDescription": "Для клиентов МТБанка",
+    "tags": [
+      "landing",
+      "visual identity",
+      "production",
+      "key visual"
+    ]
+  },
+  {
+    "id": "1750998285826",
+    "title": "BONAQUA",
+    "category": "BONAQUA",
+    "coverUrl": "/uploads/covers/1750998285270_images.png",
+    "media": [
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750998285354_______Alexey_full__1_.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750998285443_______Angelina_full__1_.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750998285508_______Bq_Evgeniya_final_30sec_v3__1_.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750998285669_______BQ_Nina_final_30sec__1___1_.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1750998285799_______BQ_Olga_final_30sec_1080__1_.mp4"
+      }
+    ],
+    "type": "modal",
+    "description": " ",
+    "fullDescription": " ",
+    "tags": [
+      "Creative idea",
+      "Prodaction"
+    ]
+  },
+  {
+    "id": "1750998838044",
+    "title": "G.H.MUMM",
+    "category": "G.H.MUMM",
+    "coverUrl": "/uploads/covers/1750998838032_a33b7bb51267b884331c2731e367a7c5d580691d.webp",
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1750998838039_Frame_39721.png"
+      }
+    ],
+    "type": "modal",
+    "description": " ",
+    "fullDescription": " ",
+    "tags": [
+      "SMM",
+      "Prodaction"
     ]
   }
 ]

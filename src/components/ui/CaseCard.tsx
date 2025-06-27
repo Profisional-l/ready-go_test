@@ -99,7 +99,7 @@ export function CaseCard({
             )}
           />
           <CardTitle className="text-[18px] md:text-[24px] tight-spacing-2 font-inter font-medium tracking-normal text-foreground">
-            {title} — {category}
+            {title}
           </CardTitle>
         </div>
       </CardFooter>
