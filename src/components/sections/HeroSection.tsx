@@ -301,7 +301,8 @@ export function HeroSection() {
   const currentImages = imageGroups[index % imageGroups.length];
   const nextImages = imageGroups[(index + 1) % imageGroups.length];
   // const svgWidth = whatWidth ? 910 : 240
-
+  const rgSrc = isMobile ? "/images/svgWords/readygo.png" : "/images/svgWords/readygo.svg" 
+  const weSrc = isMobile ? "/images/svgWords/we.png" : "/images/svgWords/we.svg" 
   return (
     <section className="relative min-h-screen w-full bg-background">
       {/* Центрированный контент */}
@@ -322,8 +323,8 @@ export function HeroSection() {
                   }}
                 >
                   <Image
-                    src="/images/svgWords/we.png"
-                    alt="глаза"
+                    src={weSrc}
+                    alt="мы"
                     unoptimized={true}
                     quality={100}
                     priority
@@ -413,7 +414,7 @@ export function HeroSection() {
                   }}
                 >
                   <Image
-                    src="/images/svgWords/readygo.png"
+                    src={rgSrc}
                     alt="глаза"
                     unoptimized={true}
                     quality={100}
