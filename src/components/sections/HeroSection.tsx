@@ -320,9 +320,10 @@ export function HeroSection() {
                   }}
                 >
                   <Image
-                    src="/images/svgWords/we-.svg"
+                    src="/images/svgWords/we.svg"
                     alt="глаза"
-                    unoptimized
+                    unoptimized={true}
+                    quality={100}
                     priority
                     layout="fill"
                     objectFit="contain"
@@ -410,9 +411,10 @@ export function HeroSection() {
                   }}
                 >
                   <Image
-                    src="/images/svgWords/Ready Go..svg"
+                    src="/images/svgWords/readygo.svg"
                     alt="глаза"
-                    unoptimized
+                    unoptimized={true}
+                    quality={100}
                     priority
                     loading="eager"
                     layout="fill"
