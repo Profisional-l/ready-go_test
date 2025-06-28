@@ -469,7 +469,7 @@ export function HeroSection() {
       {/* Отрисовываем все изображения сразу, но показываем только нужные */}
       {imageGroups.map((group, groupIndex) => {
         // Допустим, у тебя есть массив для позиции левых картинок
-        const leftImagePositionArray = [true, false, true, false];
+        const leftImagePositionArray = [true, false, true, false, false, false, true];
         const isBottomPosition = leftImagePositionArray[groupIndex]; // true => bottom-56, false => top-10
 
         return (
@@ -477,7 +477,7 @@ export function HeroSection() {
             key={`left-image-${groupIndex}`}
             className={cn(
               "absolute left-2 sm:left-4 z-10 transition-all duration-700",
-              isBottomPosition ? "bottom-56" : "top-10"
+              isBottomPosition ? "bottom-20" : "top-24"
             )}
             style={{
               ...leftImageStyle,
@@ -514,7 +514,7 @@ export function HeroSection() {
 
       {/* Правая картинка с анимацией */}
       {imageGroups.map((group, groupIndex) => {
-        const imagePositionArray = [true, false, true, false]; // true — top-10, false — bottom-48
+        const imagePositionArray = [true, false, true, false, false, false, true]; // true — top-10, false — bottom-48
 
         // Условие для позиции: меняем top/bottom в зависимости от imagePosition или чего-то подобного, для каждого индекса
         const isTopPosition = imagePositionArray[groupIndex]; // например, булевый массив с позициями для каждого индекса
@@ -523,7 +523,7 @@ export function HeroSection() {
             key={`right-image-${groupIndex}`}
             className={cn(
               "absolute -right-4 sm:-right-5 z-10 transition-all duration-500",
-              isTopPosition ? "top-10" : "bottom-48"
+              isTopPosition ? "top-24" : "bottom-24"
             )}
             style={{
               ...rightImageStyle,
