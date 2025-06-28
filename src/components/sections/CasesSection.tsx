@@ -28,7 +28,7 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
 
   return (
     <div className="bg-[#F1F0F0] md:bg-background h-full w-full">
-        <section id="cases" className="max-w-[1640px] mx-auto w-full px-3 md:px-8 py-10 md:py-12">
+        <section className="max-w-[1640px] mx-auto w-full px-3 md:px-8 py-10 md:py-12">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12">
                 <h2 className="text-6xl md:text-[130px] font-mycustom text-foreground mt-4 mb-0">
                 КЕЙСЫ

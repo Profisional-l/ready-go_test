@@ -144,7 +144,6 @@ export function Footer() {
         <ClientsSection />
       </div>
       <footer
-        id="contact"
         className="bg-[#101010] text-background p-2 pt-4 m-3 rounded-xl"
       >
         <div className="max-w-[1450px] mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
