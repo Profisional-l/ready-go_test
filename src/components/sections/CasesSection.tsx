@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { CaseCard } from "@/components/ui/CaseCard";
 import { CaseModal } from "@/components/ui/CaseModal";
+import { Button } from "@/components/ui/button";
 import type { Case } from "@/types";
 
 interface CasesSectionProps {
@@ -23,8 +25,7 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
     setSelectedCase(null);
   };
   
-  // No more slicing, display all cases
-  const casesToDisplay = casesDataFromProps;
+  const casesToDisplay = casesDataFromProps.slice(0, 6);
 
   return (
     <div className="bg-[#F1F0F0] md:bg-background h-full w-full">
@@ -43,6 +44,19 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
                 />
                 ))}
             </div>
+
+            {casesDataFromProps.length > 6 && (
+                <div className="text-center mt-12">
+                     <Button
+                        asChild
+                        variant="outline"
+                        className="text-sm md:text-base tracking-wider opacity-55 hover:opacity-100 transition-opacity duration-300  border-solid border-[1.5px] border-[#000000] rounded-[54px] bg-transparent hover:bg-transparent p-5 px-6"
+                      >
+                        <Link href="/cases">Посмотреть все кейсы</Link>
+                    </Button>
+                </div>
+            )}
+
             <CaseModal
                 isOpen={isModalOpen}
                 onClose={closeModal}

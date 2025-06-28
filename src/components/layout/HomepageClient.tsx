@@ -44,8 +44,8 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
               </div>
             </div>
             
-            {/* Section 2: Cases (long, scrollable block) */}
-            <div className="section">
+            {/* Section 2: Cases (short preview) */}
+            <div className="section fp-auto-height">
                <CasesSection casesDataFromProps={casesData} />
             </div>
 
