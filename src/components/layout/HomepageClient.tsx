@@ -11,7 +11,6 @@ import { ServiceBanner } from "@/components/sections/ServiceBanner";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { Footer } from "@/components/layout/Footer";
 
-// It's crucial to import the fullpage.js CSS for it to work
 import 'fullpage.js/dist/fullpage.min.css';
 
 interface HomepageClientProps {
@@ -26,11 +25,13 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
     <ReactFullpage
       licenseKey={licenseKey}
       scrollingSpeed={1000}
-      scrollOverflow={true} // Enable scroll for sections taller than the viewport
+      scrollOverflow={true}
       anchors={anchors}
       navigation
       navigationTooltips={anchors}
-      
+      credits={{
+        enabled: false, // ✅ Отключили "Powered by fullPage.js"
+      }}
       render={({ state, fullpageApi }) => {
         return (
           <ReactFullpage.Wrapper>
@@ -43,19 +44,18 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
                 </div>
               </div>
             </div>
-            
-            {/* Section 2: Cases (short preview) */}
+
+            {/* Section 2: Cases */}
             <div className="section fp-auto-height">
-               <CasesSection casesDataFromProps={casesData} />
+              <CasesSection casesDataFromProps={casesData} />
             </div>
 
             {/* Section 3: About */}
             <div className="section">
-                {/* This section will scroll if content overflows */}
-                <ServiceBanner />
-                <div className="max-w-[1640px] mx-auto px-3 md:px-8">
-                  <AboutSection />
-                </div>
+              <ServiceBanner />
+              <div className="max-w-[1640px] mx-auto px-3 md:px-8">
+                <AboutSection />
+              </div>
             </div>
 
             {/* Section 4: Footer */}

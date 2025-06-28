@@ -134,6 +134,24 @@ body::-webkit-scrollbar {
 .check-mark{
   color: #04D6E3;
 }
+.fp-watermark {
+    display: none;
+}
+#fp-nav {
+  display: none;
+}
+
+html,
+body {
+  overflow: hidden !important;
+  scrollbar-width: none; /* Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+
 }
 @media (max-width: 404px) {
     .footerText {
