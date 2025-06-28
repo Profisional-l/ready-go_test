@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { ProgressBar } from "@/components/layout/ProgressBar";
 
 export const metadata: Metadata = {
   title: "READY GO",
@@ -30,6 +31,7 @@ export default function RootLayout({
           <link rel="stylesheet" href="/fonts/stylesheet.css" />
         </head>
         <body className="font-body antialiased bg-background text-foreground">
+          <ProgressBar />
           {children}
           <Toaster />
           <script>
