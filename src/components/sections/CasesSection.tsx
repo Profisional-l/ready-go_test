@@ -6,6 +6,7 @@ import { CaseCard } from "@/components/ui/CaseCard";
 import { CaseModal } from "@/components/ui/CaseModal";
 import { Button } from "@/components/ui/button";
 import type { Case } from "@/types";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface CasesSectionProps {
   casesDataFromProps: Case[];
@@ -14,6 +15,7 @@ interface CasesSectionProps {
 export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
   const [selectedCase, setSelectedCase] = useState<Case | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   const openModal = (caseItem: Case) => {
     setSelectedCase(caseItem);
@@ -25,7 +27,8 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
     setSelectedCase(null);
   };
   
-  const casesToDisplay = casesDataFromProps.slice(0, 6);
+  const casesToShow = isMobile ? 3 : 6;
+  const casesToDisplay = casesDataFromProps.slice(0, casesToShow);
 
   return (
     <div className="bg-[#F1F0F0] md:bg-background h-full w-full">
@@ -45,7 +48,7 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
                 ))}
             </div>
 
-            {casesDataFromProps.length > 6 && (
+            {casesDataFromProps.length > casesToShow && (
                 <div className="text-center mt-12">
                      <Button
                         asChild
