@@ -135,9 +135,8 @@
     display: none;
   }
 
-  html,
-  body {
-    overflow: hidden !important;
+  /* Скрытие скроллбаров */
+  html, body {
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE, Edge */
   }
@@ -179,15 +178,6 @@
     display: flex;
     flex-direction: column-reverse;
     padding: 0;
-  }
-  #contact{
-    background-color: #FFFDFB;
-    padding: 0;
-  }
-  #contact form{
-    background-color: #0E0E0E;
-    padding: 15px;
-    border-radius: 10px;
   }
   footer{
     padding: 0;
