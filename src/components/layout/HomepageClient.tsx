@@ -26,7 +26,7 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
     <ReactFullpage
       licenseKey={licenseKey}
       scrollingSpeed={1000}
-      scrollOverflow={true}
+      scrollOverflow={true} // Enable scroll for sections taller than the viewport
       anchors={anchors}
       navigation
       navigationTooltips={anchors}
@@ -44,17 +44,14 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
               </div>
             </div>
             
-            {/* Section 2: Cases */}
+            {/* Section 2: Cases (long, scrollable block) */}
             <div className="section">
-              <div className="bg-[#F1F0F0] md:bg-background h-full w-full flex items-center justify-center">
-                <div className="max-w-[1640px] mx-auto w-full px-3 md:px-8">
-                  <CasesSection casesDataFromProps={casesData} />
-                </div>
-              </div>
+               <CasesSection casesDataFromProps={casesData} />
             </div>
 
-            {/* Section 3: Service Banner + About */}
+            {/* Section 3: About */}
             <div className="section">
+                {/* This section will scroll if content overflows */}
                 <ServiceBanner />
                 <div className="max-w-[1640px] mx-auto px-3 md:px-8">
                   <AboutSection />
