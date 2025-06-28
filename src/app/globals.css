@@ -113,11 +113,10 @@
   }
   body {
     @apply bg-background text-foreground;
-    @apply font-body;  
-    overflow-x: hidden;
+    @apply font-body;
   }
   html {
-    overflow-x: hidden;
+
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline;

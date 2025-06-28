@@ -304,7 +304,7 @@ export function HeroSection() {
   const rgSrc = isMobile ? "/images/svgWords/readygo.png" : "/images/svgWords/readygo.svg" 
   const weSrc = isMobile ? "/images/svgWords/we.png" : "/images/svgWords/we.svg" 
   return (
-    <section className="relative h-full w-full bg-background flex items-center justify-center">
+    <section className="relative min-h-screen w-full bg-background flex items-center justify-center">
       {/* Центрированный контент */}
       <div className="relative px-4 sm:px-8">
         <div className="text-[60px] md:text-[130px] font-black font-mycustom text-center leading-[1] mainScreenTextBlock max-w-[1000px] text-[#0E0E0E]">
