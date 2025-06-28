@@ -36,7 +36,7 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
         return (
           <ReactFullpage.Wrapper>
             {/* Section 1: Hero */}
-            <div className="section">
+            <div className="section fp-noscroll">
               <div className="max-w-[1640px] mx-auto px-3 md:px-8 h-full flex flex-col">
                 <Header />
                 <div className="flex-grow">
