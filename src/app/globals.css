@@ -114,44 +114,37 @@
   body {
     @apply bg-background text-foreground;
     @apply font-body;  
-    overflow-x: hidden
+    overflow-x: hidden;
   }
   html {
-    overflow-x: hidden
+    overflow-x: hidden;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline;
   }
-body::-webkit-scrollbar {
-  display: none;
-}
-.scrollArea::-webkit-scrollbar {
-  display: none;
-}
-.footerText {
-  font-size: 110px;
-}
-.check-mark{
-  color: #04D6E3;
-}
-.fp-watermark {
+  .footerText {
+    font-size: 110px;
+  }
+  .check-mark{
+    color: #04D6E3;
+  }
+  .fp-watermark {
     display: none;
-}
-#fp-nav {
-  display: none;
-}
+  }
+  #fp-nav {
+    display: none;
+  }
 
-html,
-body {
-  overflow: hidden !important;
-  scrollbar-width: none; /* Firefox */
-}
-
-body::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-}
-
-
+  html,
+  body {
+    overflow: hidden !important;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE, Edge */
+  }
+  
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 }
 @media (max-width: 404px) {
     .footerText {
