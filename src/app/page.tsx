@@ -1,12 +1,4 @@
-import { ProgressBar } from "@/components/layout/ProgressBar";
-import { Header } from "@/components/layout/Header";
-import { HeroSection } from "@/components/sections/HeroSection";
-import { CasesSection } from "@/components/sections/CasesSection";
-import { ServiceBanner } from "@/components/sections/ServiceBanner";
-import { AboutSection } from "@/components/sections/AboutSection";
-import { PhotoGallery } from "@/components/sections/PhotoGallery";
-import { ClientsSection } from "@/components/sections/ClientsSection";
-import { Footer } from "@/components/layout/Footer";
+import { HomepageClient } from "@/components/layout/HomepageClient";
 import type { Case, MediaItem } from "@/types";
 import fs from "fs/promises";
 import path from "path";
@@ -39,29 +31,5 @@ async function getCasesData(): Promise<Case[]> {
 export default async function HomePage() {
   const casesData = await getCasesData();
 
-  return (
-    <>
-      <ProgressBar />
-      <div className="max-w-[1640px] mx-auto px-3 md:px-8">
-        <Header />
-      </div>
-
-      <main className="bg-background text-foreground">
-        <div className="max-w-[1640px] mx-auto md:px-8">
-          <HeroSection />
-        </div>
-    
-        <div className="bg-[#F1F0F0] md:bg-background max-w-[1640px] mx-auto md:px-8">
-          <CasesSection casesDataFromProps={casesData} />
-        </div>
-
-        <ServiceBanner />
-
-        <div className="max-w-[1640px] mx-auto px-3 md:px-8">
-          <AboutSection />
-        </div>
-      </main>
-      <Footer />
-    </>
-  );
+  return <HomepageClient casesData={casesData} />;
 }
