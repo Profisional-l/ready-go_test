@@ -6,6 +6,11 @@
   display: none;
 }
 
+/* Allow content to overflow from fullpage.js sections to prevent cropping */
+.fp-section {
+  overflow: visible !important;
+}
+
 .footer-button{
   display: none;
 }
