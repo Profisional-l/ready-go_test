@@ -34,6 +34,7 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
       render={({ state, fullpageApi }) => {
         return (
           <ReactFullpage.Wrapper>
+            {/* Section 1: Hero */}
             <div className="section">
               <div className="max-w-[1640px] mx-auto px-3 md:px-8 h-full flex flex-col">
                 <Header />
@@ -42,19 +43,25 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
                 </div>
               </div>
             </div>
+            
+            {/* Section 2: Cases */}
             <div className="section">
-              <div className="bg-[#F1F0F0] md:bg-background py-10 md:py-12 h-full flex items-center">
-                <div className="max-w-[1640px] mx-auto md:px-8 w-full">
+              <div className="bg-[#F1F0F0] md:bg-background h-full w-full flex items-center justify-center">
+                <div className="max-w-[1640px] mx-auto w-full px-3 md:px-8">
                   <CasesSection casesDataFromProps={casesData} />
                 </div>
               </div>
             </div>
+
+            {/* Section 3: Service Banner + About */}
             <div className="section">
                 <ServiceBanner />
                 <div className="max-w-[1640px] mx-auto px-3 md:px-8">
                   <AboutSection />
                 </div>
             </div>
+
+            {/* Section 4: Footer */}
             <div className="section fp-auto-height">
               <Footer />
             </div>
