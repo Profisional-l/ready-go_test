@@ -1,5 +1,4 @@
 import { Header } from '@/components/layout/Header';
-import { ProgressBar } from '@/components/layout/ProgressBar';
 import { Footer } from '@/components/layout/Footer';
 import AllCasesClient from './AllCasesClient';
 import type { Case, MediaItem } from '@/types';
@@ -37,7 +36,6 @@ export default async function AllCasesPage() {
 
   return (
     <>
-    <ProgressBar/>
       <div className="max-w-[1640px] mx-auto px-3 md:px-8">
         <Header showNav={false} />
       </div>

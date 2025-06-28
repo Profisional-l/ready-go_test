@@ -16,7 +16,7 @@ export function ClientsSection() {
   const logosLoop = [...clientLogos, ...clientLogos];
 
   return (
-    <section className="py-16 md:py-24 px-4 bg-transparent ">
+    <section className="py-16 md:py-24 px-4 bg-transparent overflow-hidden">
       <div className="flex w-max animate-scroll">
         {logosLoop.map((logo, idx) => (
           <div

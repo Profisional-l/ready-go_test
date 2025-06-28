@@ -19,27 +19,27 @@ interface HomepageClientProps {
 }
 
 export function HomepageClient({ casesData }: HomepageClientProps) {
-  // NOTE: fullPagejs license key is required for commercial projects.
-  // You can get one at https://alvarotrigo.com/fullPage/
   const licenseKey = 'OPEN-SOURCE-GPLV3-LICENSE';
+  const anchors = ['home', 'cases', 'about', 'contact'];
 
   return (
     <ReactFullpage
       licenseKey={licenseKey}
       scrollingSpeed={1000}
       scrollOverflow={true}
-      anchors={['home', 'cases', 'about', 'contact']}
+      anchors={anchors}
       navigation
+      navigationTooltips={anchors}
       
       render={({ state, fullpageApi }) => {
         return (
           <ReactFullpage.Wrapper>
             <div className="section">
-              <div className="max-w-[1640px] mx-auto px-3 md:px-8">
+              <div className="max-w-[1640px] mx-auto px-3 md:px-8 h-full flex flex-col">
                 <Header />
-              </div>
-              <div className="max-w-[1640px] mx-auto md:px-8">
-                <HeroSection />
+                <div className="flex-grow">
+                  <HeroSection />
+                </div>
               </div>
             </div>
             <div className="section">
