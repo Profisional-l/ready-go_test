@@ -174,7 +174,7 @@
     display: none;
   }
   .footer-top{
-    background-color: #FFFDFB;
+    background-color: #0E0E0E;
     display: flex;
     flex-direction: column-reverse;
   }
@@ -190,12 +190,12 @@
     display: none;
   }
   .footer-adapt-title{
-    color: #0E0E0E;
+    color: #FFFDFB;
     font-size: 18px;
   }
   .footer-adapt-subtitle{
     font-size: 16px;
-    color: #0E0E0E;
+    color: #FFFDFB;
     margin-top: 43px;
     font-weight: 700;
     padding-bottom: 0;
@@ -207,7 +207,7 @@
   }
   .footer-input-text{
     height: 150px;
-    padding-bottom: 4em;
+    padding-bottom: 6em;
   }
   .ft-button{
     display: none;

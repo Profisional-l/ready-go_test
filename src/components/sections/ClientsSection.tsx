@@ -13,7 +13,7 @@ const clientLogos = [
 
 export function ClientsSection() {
   // Дублируем массив, чтобы получить бесшовный цикл
-  const logosLoop = [...clientLogos, ...clientLogos];
+  const logosLoop = [...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos];
 
   return (
     <section className="py-16 md:py-24 px-4 bg-transparent overflow-hidden">
@@ -47,7 +47,7 @@ export function ClientsSection() {
 
         .animate-scroll {
           /* 20s — время, за которое карточки пройдут расстояние одного полного набора */
-          animation: scroll 10s linear infinite;
+          animation: scroll 100s linear infinite;
         }
       `}</style>
     </section>
