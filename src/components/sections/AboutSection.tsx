@@ -75,8 +75,8 @@ export function AboutSection() {
   }, []);
 
   return (
-    <section className="py-16 md:py-24">
-      <div className="m-0 max-w-[1380px] mx-auto">
+    <section className="py-16 md:py-24 mt-[30px]">
+      <div className="m-0 max-w-[100%]">
         <div className="flex flex-col md:flex-row md:items-start md:space-x-16">
           {/* Текстовый блок */}
           <div
@@ -86,18 +86,18 @@ export function AboutSection() {
             <h2 className="text-6xl md:text-[130px] font-mycustom mb-10">
               О НАС
             </h2>
-            <p className="leading-[1.21em] mb-[15px] text-[18px] md:text-[33px] tight-spacing-3">
+            <p className="leading-[1.21em] mb-[15px] text-[18px] md:text-[33px] font-medium tight-spacing-3">
               Новое и креативное — наша стихия.
             </p>
-            <p className="leading-[1.21em] mb-[15px] text-[18px] md:text-[33px] tight-spacing-3">
+            <p className="leading-[1.21em] mb-[15px] text-[18px] md:text-[33px] font-medium tight-spacing-3">
               Однажды мы женили людей в KFC,
-              делали витрину для ТЦ в Витебске и запускали шестиметровый
+              делали <br /> витрину для ТЦ в Витебске и запускали <br /> шестиметровый
               дирижабль в центре Минска.
             </p>
-            <p className="leading-[1.21em] text-[18px] md:text-[33px] tight-spacing-3">
-              Мы любим и умеем работать с крупными
-              брендами. Наша команда из Минска была частью Red Graphic —
-              агентства с 30-летней историей.
+            <p className="leading-[1.21em] text-[18px] md:text-[33px] font-medium tight-spacing-3">
+              Мы любим и умеем работать с крупными <br />
+              брендами. Наша команда из Минска была <br /> частью Red Graphic —
+              агентства с 30-летней <br /> историей.
             </p>
           </div>
 

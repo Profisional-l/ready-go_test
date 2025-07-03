@@ -140,16 +140,16 @@ export function Footer() {
   };
   return (
     <>
-      <div className="max-w-[1640px] mx-auto px-3 md:px-8">
+      <div className="max-w-[100%]">
         <ClientsSection />
       </div>
       <footer
-        className="bg-[#101010] text-background p-2 pt-4 m-3 rounded-xl"
+        className="bg-[#101010] text-background p-6 pt-4 m-3 rounded-xl"
       >
-        <div className="max-w-[1450px] mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
+        <div className="max-w-[1450px] mx-autopx-4 bg-transparent overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
           {/* Left Column */}
           <div className="pt-1 md:mb-0 footer-top">
-            <p className="text-[#ffffff] text-[20px] pb-[55px] tight-spacing-1 footer-adapt-subtitle">
+            <p className="text-[#ffffff] text-[20px] pb-[55px] font-semibold tight-spacing-1 footer-adapt-subtitle">
               &copy; READYGO 2025
             </p>
             <nav className="m-0 space-y-3">

@@ -16,19 +16,19 @@ export function ClientsSection() {
   const logosLoop = [...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos];
 
   return (
-    <section className="py-16 md:py-24 px-4 bg-transparent overflow-hidden">
+    <section className="px-4 bg-transparent overflow-hidden">
       <div className="flex w-max animate-scroll">
         {logosLoop.map((logo, idx) => (
           <div
             key={idx}
             className="flex items-center justify-center mx-8"
-            style={{ width: 120, height: 60 }}
+            style={{ width: 253, height: 253 }}
           >
             <Image
               src={logo.src}
               alt={logo.name}
-              width={120}
-              height={60}
+              width={253}
+              height={253}
               style={{ objectFit: "contain" }}
             />
           </div>

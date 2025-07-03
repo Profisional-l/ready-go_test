@@ -301,8 +301,8 @@ export function HeroSection() {
   const currentImages = imageGroups[index % imageGroups.length];
   const nextImages = imageGroups[(index + 1) % imageGroups.length];
   // const svgWidth = whatWidth ? 910 : 240
-  const rgSrc = isMobile ? "/images/svgWords/readygo.png" : "/images/svgWords/readygo.svg" 
-  const weSrc = isMobile ? "/images/svgWords/we.png" : "/images/svgWords/we.svg" 
+  const rgSrc = isMobile ? "/images/svgWords/readygo.png" : "/images/svgWords/readygo.svg"
+  const weSrc = isMobile ? "/images/svgWords/we.png" : "/images/svgWords/we.svg"
   return (
     <section className="relative h-full w-full bg-background flex items-center justify-center">
       {/* Центрированный контент */}
@@ -432,7 +432,7 @@ export function HeroSection() {
           </div>
 
           {/* Слова как SVG-изображения с той же анимацией */}
-          <div className="relative h-[160px] md:h-[135px] flex items-center justify-center overflow-y-hidden">
+          <div className="relative h-[160px] md:h-[125px] flex items-center justify-center overflow-y-hidden">
             <div className="relative w-full max-w-[1550px] h-full min-h-[60px]">
               {keywordImages.map((src, i) => (
                 <div
@@ -441,12 +441,12 @@ export function HeroSection() {
                     "absolute inset-0 transition-all duration-1000 ease-[cubic-bezier(0.77,0,0.175,1)]",
                     index === i && !isAnimating && "translate-y-0 opacity-100",
                     index === i &&
-                      isAnimating &&
-                      "-translate-y-[140%] opacity-0",
+                    isAnimating &&
+                    "-translate-y-[140%] opacity-0",
                     index !== i &&
-                      (i === (index + 1) % keywordImages.length && isAnimating
-                        ? "translate-y-0 opacity-100"
-                        : "translate-y-full opacity-0")
+                    (i === (index + 1) % keywordImages.length && isAnimating
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-full opacity-0")
                   )}
                 >
                   <Image
@@ -476,7 +476,7 @@ export function HeroSection() {
           <div
             key={`left-image-${groupIndex}`}
             className={cn(
-              "absolute left-2 sm:left-4 z-10 transition-all duration-700",
+              "absolute left-2 sm:left-4 z-100 transition-all duration-700",
               isBottomPosition ? "bottom-20" : "top-24"
             )}
             style={{
@@ -522,7 +522,7 @@ export function HeroSection() {
           <div
             key={`right-image-${groupIndex}`}
             className={cn(
-              "absolute -right-4 sm:-right-5 z-10 transition-all duration-500",
+              "absolute -right-4 sm:-right-2 z-100 transition-all duration-500",
               isTopPosition ? "top-24" : "bottom-24"
             )}
             style={{
