@@ -9,7 +9,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    
+    "deploy": "git pull && npm install && npm run build && pm2 restart next-app"
   },
   "dependencies": {
     "@fullpage/react-fullpage": "^0.1.48",
