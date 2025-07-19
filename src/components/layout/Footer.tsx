@@ -171,7 +171,7 @@ export function Footer() {
           {/* Right Column - Form */}
           <form onSubmit={handleSubmit} className="w-full">
             <div className="mb-8">
-              <h4 className="text-[16px] md:text-[20px] font-semibold uppercase tracking-wider pb-[45px] tight-spacing-1">
+              <h4 className="text-[16px] md:text-[20px] font-semibold uppercase tracking-wider pb-[42px] tight-spacing-1">
                 ГОУ ЗНАКОМИТЬСЯ
               </h4>
               <p className="text-[#ffffff] text-[18px] md:text-[24px] tight-spacing-1">
@@ -181,8 +181,8 @@ export function Footer() {
               </p>
             </div>
 
-            <div className="mt-10 space-y-10">
-              <div className="grid sm:grid-cols-2 gap-x-8 gap-y-10">
+            <div className="mt-10 space-y-6 max-w-[555px]">
+              <div className="grid sm:grid-cols-2 gap-x-8 gap-y-5">
                 <ValidatedInput
                   type="text"
                   name="name"
@@ -205,7 +205,7 @@ export function Footer() {
                 />
               </div>
 
-              <div className="relative">
+              <div className="relative task-adapt">
                 <ValidatedInput
                   type="text"
                   name="task"

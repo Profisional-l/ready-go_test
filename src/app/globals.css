@@ -19,6 +19,12 @@
   display: none;
 }
 
+footer{
+  background-color: #0E0E0E;
+  padding-top: 1rem;
+  padding: 1.5rem;
+}
+
 @layer base {
   :root {
     --background: 30, 100%, 99%; /* Near White #FAFAFA */
@@ -178,7 +184,7 @@
     display: none;
   }
   .footer-top{
-    background-color: #0E0E0E;
+    background-color: #FFFDFB;
     display: flex;
     flex-direction: column-reverse;
   }
@@ -187,19 +193,25 @@
     flex-direction: column-reverse;
     padding: 0;
   }
+  .footer-groop form{
+    background-color: #0E0E0E;
+    border-radius: .75rem;
+    padding: 1rem;
+  }
   footer{
     padding: 0;
+    background-color: transparent;
   }
   footer section{
     display: none;
   }
   .footer-adapt-title{
-    color: #FFFDFB;
+    color: #0E0E0E;
     font-size: 18px;
   }
   .footer-adapt-subtitle{
     font-size: 16px;
-    color: #FFFDFB;
+    color: #0E0E0E;
     font-weight: 700;
     margin-top: 43px;
     padding-bottom: 0;
@@ -222,7 +234,8 @@
     background-color: #FFFDFB;
     border-radius: 10px;
     color: #0E0E0E;
-    margin-top: 17px;
+    margin-top: 24px;
+    margin-bottom: 4px;
     font-size: 18px;
     text-align: center;
     width: 100%;
