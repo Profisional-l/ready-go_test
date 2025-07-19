@@ -36,7 +36,7 @@ export function CaseCard({
   const cardInnerContent = (
     <>
       <CardContent
-        className="p-0 aspect-square md:aspect-[280/220] relative md:mt-8"
+        className="p-0 aspect-square md:aspect-[280/220] relative md:mt-16"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >

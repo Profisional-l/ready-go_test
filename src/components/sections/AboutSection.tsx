@@ -90,9 +90,9 @@ export function AboutSection() {
               Новое и креативное — наша стихия.
             </p>
             <p className="leading-[1.21em] mb-[15px] text-[18px] md:text-[33px] font-medium tight-spacing-3">
-              Однажды мы женили людей в KFC,
-              делали <br /> витрину для ТЦ в Витебске и запускали <br /> шестиметровый
-              дирижабль в центре Минска.
+              Однажды мы женили людей в KFC, делали <br /> витрину для ТЦ в
+              Витебске и запускали <br /> шестиметровый дирижабль в центре
+              Минска.
             </p>
             <p className="leading-[1.21em] text-[18px] md:text-[33px] font-medium tight-spacing-3">
               Мы любим и умеем работать с крупными <br />
@@ -104,7 +104,7 @@ export function AboutSection() {
           {/* Блок с картинкой */}
           <div
             className="m-0 mt-10 md:mt-[0px] md:w-3/6 w-full aspect-square relative overflow-hidden rounded-xl"
-            style={hoverStyle}
+            style={{ ...hoverStyle, maxWidth: "578px" }} // Добавлено maxWidth
           >
             {images.map((src, index) => (
               <Image
@@ -113,8 +113,9 @@ export function AboutSection() {
                 alt={`About image ${index}`}
                 fill
                 unoptimized={true}
-                className={`object-cover absolute top-0 left-0 transition-opacity duration-1000 ease-in-out ${index === currentImage ? "opacity-100 z-10" : "opacity-0 z-0"
-                  }`}
+                className={`object-cover absolute top-0 left-0 transition-opacity duration-1000 ease-in-out ${
+                  index === currentImage ? "opacity-100 z-10" : "opacity-0 z-0"
+                }`}
               />
             ))}
           </div>

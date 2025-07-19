@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import ReactFullpage from '@fullpage/react-fullpage';
-import type { Case } from '@/types';
+import React from "react";
+import ReactFullpage from "@fullpage/react-fullpage";
+import type { Case } from "@/types";
 
 import { Header } from "@/components/layout/Header";
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -10,16 +10,17 @@ import { CasesSection } from "@/components/sections/CasesSection";
 import { ServiceBanner } from "@/components/sections/ServiceBanner";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { Footer } from "@/components/layout/Footer";
+import { ClientsSection } from "@/components/sections/ClientsSection";
 
-import 'fullpage.js/dist/fullpage.min.css';
+import "fullpage.js/dist/fullpage.min.css";
 
 interface HomepageClientProps {
   casesData: Case[];
 }
 
 export function HomepageClient({ casesData }: HomepageClientProps) {
-  const licenseKey = 'OPEN-SOURCE-GPLV3-LICENSE';
-  const anchors = ['home', 'cases', 'about', 'contact'];
+  const licenseKey = "OPEN-SOURCE-GPLV3-LICENSE";
+  const anchors = ["home", "cases", "about", "contact"];
 
   return (
     <ReactFullpage
@@ -55,6 +56,9 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
               <ServiceBanner />
               <div className="max-w-[1640px] mx-auto px-3 md:px-8">
                 <AboutSection />
+              </div>
+              <div className="max-w-[100%]">
+                <ClientsSection />
               </div>
             </div>
 

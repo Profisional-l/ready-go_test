@@ -84,7 +84,7 @@ export function ProgressBar() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-1 z-[1000] bg-transparent">
+    <div className="fixed top-0 left-0 w-full h-[7.2px] z-[1000] bg-transparent">
       <div
         className="h-full bg-accent transition-all duration-75 ease-out"
         style={{

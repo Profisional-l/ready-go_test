@@ -140,9 +140,7 @@ export function Footer() {
   };
   return (
     <>
-      <div className="max-w-[100%]">
-        <ClientsSection />
-      </div>
+
       <footer
         className="bg-[#101010] text-background p-6 pt-4 m-3 rounded-xl"
       >

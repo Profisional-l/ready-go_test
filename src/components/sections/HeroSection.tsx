@@ -432,7 +432,7 @@ export function HeroSection() {
           </div>
 
           {/* Слова как SVG-изображения с той же анимацией */}
-          <div className="relative h-[160px] md:h-[125px] flex items-center justify-center overflow-y-hidden">
+          <div className="relative h-[160px] md:h-[145px] flex items-center justify-center overflow-y-hidden">
             <div className="relative w-full max-w-[1550px] h-full min-h-[60px]">
               {keywordImages.map((src, i) => (
                 <div
@@ -456,7 +456,7 @@ export function HeroSection() {
                     unoptimized
                     priority
                     loading="eager"
-                    className="object-contain mt-2 md:mt-3"
+                    className="object-contain mt-2 md:mt-0"
                   />
                 </div>
               ))}
