@@ -8,7 +8,7 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { sendMessage } from "@/actions/sendMessage";
 
-import { ClientsSection } from '@/components/sections/ClientsSection';
+import { ClientsSection } from "@/components/sections/ClientsSection";
 
 // Validation logic (can be moved to a separate file if it grows)
 const validateName = (value: string) =>
@@ -140,10 +140,7 @@ export function Footer() {
   };
   return (
     <>
-
-      <footer
-        className="bg-[#101010] text-background p-6 pt-4 m-3 rounded-xl"
-      >
+      <footer className="text-background m-3 rounded-xl">
         <div className="max-w-[1450px] mx-autopx-4 bg-transparent overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
           {/* Left Column */}
           <div className="pt-1 md:mb-0 footer-top">
@@ -244,7 +241,7 @@ export function Footer() {
           </form>
         </div>
 
-        <section className="bg-[#101010] text-background pt-20 md:pt-[170px]">
+        <section className="bg-[#0E0E0E] text-background pt-20 md:pt-[170px]">
           <div className="max-w-[1450px] mx-auto text-center">
             <h2 className="font-mycustom font-extrabold leading-tight uppercase footerText">
               ВЫ <span className="textToBorderBlack">READY</span> РАБОТАТЬ С
