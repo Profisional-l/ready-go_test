@@ -183,7 +183,7 @@ export function Footer() {
               </p>
             </div>
 
-            <div className="mt-10 space-y-10">
+            <div className="mt-10 space-y-10 max-w-[555px]">
               <div className="grid sm:grid-cols-2 gap-x-8 gap-y-10">
                 <ValidatedInput
                   type="text"
