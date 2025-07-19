@@ -141,7 +141,7 @@ export function Footer() {
   return (
     <>
       <footer className="text-background m-3 rounded-xl">
-        <div className="max-w-[1450px] mx-autopx-4 bg-transparent overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
+        <div className="max-w-[1450px] mx-auto px-4 bg-transparent overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
           {/* Left Column */}
           <div className="pt-1 md:mb-0 footer-top">
             <p className="text-[#ffffff] text-[20px] pb-[55px] font-semibold tight-spacing-1 footer-adapt-subtitle">
