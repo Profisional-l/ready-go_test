@@ -39,7 +39,7 @@
     --muted: 0 0% 90%; /* Lighter Gray #E6E6E6 */
     --muted-foreground: 0 0% 45.1%; /* Medium Gray #737373 */
 
-    --accent: 183, 92.8%, 45.3%; /* Light Cyan #00E6F6 */
+    --accent: 183, 96.3%, 45%; 
     --accent-foreground: 0 0% 13%; /* Dark Gray / Near Black for text on accent */
 
     --destructive: 0 84.2% 60.2%;

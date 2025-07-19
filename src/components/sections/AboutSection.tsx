@@ -103,7 +103,7 @@ export function AboutSection() {
 
           {/* Блок с картинкой */}
           <div
-            className="m-0 mt-10 md:mt-[30px] md:w-3/6 w-full aspect-square relative overflow-hidden rounded-xl"
+            className="m-0 mt-10 md:mt-[0px] md:w-3/6 w-full aspect-square relative overflow-hidden rounded-xl"
             style={hoverStyle}
           >
             {images.map((src, index) => (
