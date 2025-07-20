@@ -17,7 +17,8 @@
 
 /* Apply smooth scrolling inside scrollable fullpage.js sections */
 .fp-scrollable {
-  scroll-behavior: smooth;
+  -webkit-transition: transform 0.7s ease-out;
+  transition: transform 0.7s ease-out;
 }
 
 .footer-button{
