@@ -238,7 +238,7 @@ export function Footer() {
           </form>
         </div>
 
-        <section className="bg-transparent text-background pt-20 md:pt-[170px]">
+        <section className="bg-transparent text-background pt-20 md:pt-[170px] overflow-hidden">
           <div className="max-w-[1450px] mx-auto text-center">
             <h2 className="font-mycustom font-extrabold leading-tight uppercase footerText text-white">
               ВЫ <span className="textToBorderBlack">READY</span> РАБОТАТЬ С
