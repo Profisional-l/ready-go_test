@@ -15,9 +15,11 @@ export function ProgressBar() {
   return (
     <div className="fixed top-0 left-0 w-full h-[7.2px] z-[1000] bg-transparent">
       <div
-        className="h-full bg-accent transition-all duration-100 ease-linear"
+        className="h-full bg-accent transition-transform duration-200 ease-out"
         style={{
-          width: `${progress}%`,
+          transform: `scaleX(${progress / 100})`,
+          transformOrigin: 'left',
+          width: '100%',
         }}
       />
     </div>
