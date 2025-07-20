@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { SmoothScrollProvider } from "@/components/layout/SmoothScrollProvider";
 
 export const metadata: Metadata = {
   title: "READY GO",
@@ -30,7 +31,9 @@ export default function RootLayout({
           <link rel="stylesheet" href="/fonts/stylesheet.css" />
         </head>
         <body className="font-body antialiased bg-background text-foreground">
-          {children}
+          <SmoothScrollProvider>
+            {children}
+          </SmoothScrollProvider>
           <Toaster />
         </body>
       </html>

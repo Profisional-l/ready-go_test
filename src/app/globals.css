@@ -7,7 +7,6 @@
 }
 
 .fp-scrollable {
-  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -124,9 +123,7 @@
     @apply bg-background text-foreground;
     @apply font-body;
   }
-  html {
-    scroll-behavior: smooth;
-  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline;
   }
@@ -138,6 +135,16 @@
   }
 
   /* Скрытие скроллбаров */
+  html.lenis {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  
   html, body {
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE, Edge */
@@ -171,11 +178,23 @@
   .footerText{
     display: none;
   }
+  
   .footer-groop{
     display: flex;
     flex-direction: column;
     padding: 0;
   }
+
+  /* Main wrapper for mobile footer */
+  #contact .footer-content-wrapper {
+      background-color: transparent;
+      border-radius: 0;
+      margin: 0;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+  }
+  
   .form-container {
     order: 1; /* Form first */
     background-color: #0E0E0E;
@@ -183,26 +202,14 @@
     padding: 15px;
     width: 100%;
   }
-  .footer-top {
+
+  .links-container {
     order: 2; /* Links second */
     background-color: hsl(var(--background));
     padding: 15px;
-    margin-top: -10px; /* Pulls it up slightly to overlap rounded corners */
-    padding-top: 25px; /* Adds space so content is below the form */
+    margin-top: -10px; 
+    padding-top: 25px; 
     border-radius: 10px;
-  }
-  
-  #contact {
-    background-color: transparent;
-    padding: 0;
-  }
-
-  /* The main wrapper on mobile should not have its own background or rounded corners */
-  #contact .footer-content-wrapper {
-      background-color: transparent;
-      border-radius: 0;
-      margin: 0;
-      padding: 1rem;
   }
   
   #contact section{
