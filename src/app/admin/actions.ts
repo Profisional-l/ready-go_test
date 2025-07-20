@@ -356,11 +356,6 @@ export async function deleteCaseAction(caseId: string): Promise<{ success: boole
 
 export async function updateCasesOrderAction(orderedCases: Case[]): Promise<{ success: boolean; error?: string }> {
   try {
-    const authed = await isAuthenticated();
-    if (!authed) {
-        return { success: false, error: 'Необходима авторизация.' };
-    }
-
     // Basic validation
     if (!Array.isArray(orderedCases)) {
         return { success: false, error: 'Неверный формат данных.' };
