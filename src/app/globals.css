@@ -2,19 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body.fp-noscroll {
-  overflow: hidden !important;
-}
-
-.fp-scrollable {
-  overflow-y: scroll !important;
-  -webkit-overflow-scrolling: touch;
-}
-
-#fp-watermark {
-  display: none;
-}
-
 .footer-button{
   display: none;
 }
@@ -151,7 +138,7 @@ body.fp-noscroll {
     scroll-behavior: auto !important;
   }
   .lenis.lenis-stopped {
-    overflow: hidden;
+    overflow: hidden !important;
   }
   
   html, body {

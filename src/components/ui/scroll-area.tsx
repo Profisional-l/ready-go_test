@@ -15,7 +15,8 @@ const ScrollArea = React.forwardRef<
     {...props}
   >
     <ScrollAreaPrimitive.Viewport
-      className="h-full w-full rounded-[inherit] fp-scrollable"
+      className="h-full w-full rounded-[inherit]"
+      style={{ overflowY: 'auto' }}
     >
       {children}
     </ScrollAreaPrimitive.Viewport>

@@ -77,17 +77,15 @@ function VideoWithPreview({ src }: { src: string }) {
 }
 
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
+  const lenis = useLenis();
+  
   useEffect(() => {
     if (isOpen) {
-      document.body.classList.add('fp-noscroll');
+      lenis?.stop();
     } else {
-      document.body.classList.remove('fp-noscroll');
+      lenis?.start();
     }
-
-    return () => {
-      document.body.classList.remove('fp-noscroll');
-    };
-  }, [isOpen]);
+  }, [isOpen, lenis]);
 
   if (!caseData || caseData.type !== 'modal') return null;
 
