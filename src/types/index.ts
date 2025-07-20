@@ -1,3 +1,4 @@
+
 export interface MediaItem {
   type: 'image' | 'video';
   url: string;
@@ -7,14 +8,16 @@ export interface Case {
   id: string;
   title: string;
   category: string;
-  coverUrl: string; // Обложка кейса
-  hoverImageUrl?: string; // Изображение для ховера
-  media: MediaItem[]; // Медиа для модального окна
+  coverUrl: string; 
+  hoverImageUrl?: string; 
+  media: MediaItem[]; 
   type: 'modal' | 'link';
 
-  // Optional fields
+  // Fields for 'modal' type
   description?: string;
   fullDescription?: string;
   tags?: string[];
+
+  // Fields for 'link' type
   externalUrl?: string;
 }

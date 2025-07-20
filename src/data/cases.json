@@ -24,7 +24,8 @@
       "slogan"
     ],
     "externalUrl": "",
-    "coverUrl": "/uploads/covers/1750844233557_e7486be2a5aa6c28e8c63f9774179b3e0e750250.png"
+    "coverUrl": "/uploads/covers/1750844233557_e7486be2a5aa6c28e8c63f9774179b3e0e750250.png",
+    "hoverImageUrl": "/uploads/hovers/1753009120552_353cf3feb02bfcb3fdc4e1977c9515c4cde8ce93.png"
   },
   {
     "id": "2",
@@ -78,7 +79,8 @@
       "Campaign"
     ],
     "coverUrl": "/uploads/covers/1750845079806_back-11.webp",
-    "externalUrl": ""
+    "externalUrl": "",
+    "hoverImageUrl": "/uploads/hovers/1753009194836_371d2e12cd175a7de78f07f5c32ad5c348190c84.png"
   },
   {
     "id": "5",

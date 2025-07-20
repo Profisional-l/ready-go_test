@@ -62,7 +62,9 @@ async function readCasesFile(): Promise<Case[]> {
   try {
     await fs.mkdir(path.dirname(casesFilePath), { recursive: true });
     const jsonData = await fs.readFile(casesFilePath, 'utf-8');
-    return JSON.parse(jsonData) as Case[];
+    // Ensure all cases have a media property
+    const cases = (JSON.parse(jsonData) as Case[]).map(c => ({ media: [], ...c }));
+    return cases;
   } catch (error) {
     if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
       await writeCasesFile([]);
@@ -198,9 +200,6 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
         media: [], // Links don't have modal media
         type: 'link',
         externalUrl,
-        description: '',
-        fullDescription: '',
-        tags: [],
       };
     }
 
@@ -267,7 +266,7 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
     }
 
 
-    let updatedCaseData: Case;
+    let updatedCaseData: Partial<Case>;
 
     if (type === 'modal') {
       const description = formData.get('description') as string;
@@ -278,7 +277,6 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
       }
       const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(Boolean) : [];
       updatedCaseData = {
-        ...existingCase,
         title,
         category,
         coverUrl: finalCoverUrl,
@@ -288,7 +286,7 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
         description,
         fullDescription,
         tags,
-        externalUrl: '',
+        externalUrl: undefined,
       };
     } else { // type === 'link'
       const externalUrl = formData.get('externalUrl') as string;
@@ -296,7 +294,6 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
         return { success: false, error: 'Внешняя ссылка обязательна.' };
       }
       updatedCaseData = {
-        ...existingCase,
         title,
         category,
         coverUrl: finalCoverUrl,
@@ -304,17 +301,17 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
         media: [], // Links don't have modal media. Delete old ones.
         type: 'link',
         externalUrl,
-        description: '',
-        fullDescription: '',
-        tags: [],
+        description: undefined,
+        fullDescription: undefined,
+        tags: undefined,
       };
       if (existingCase.type === 'modal' && existingCase.media.length > 0) {
         await Promise.all(existingCase.media.map(item => deleteFileByUrl(item.url)));
       }
     }
 
-
-    const updatedCases = allCases.map(c => c.id === caseId ? updatedCaseData : c);
+    const fullUpdatedCase = { ...existingCase, ...updatedCaseData };
+    const updatedCases = allCases.map(c => c.id === caseId ? fullUpdatedCase : c);
     await writeCasesFile(updatedCases);
 
     revalidatePath('/');
@@ -322,7 +319,7 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
     revalidatePath('/admin');
     revalidatePath(`/admin/edit-case/${caseId}`);
     
-    return { success: true, case: updatedCaseData };
+    return { success: true, case: fullUpdatedCase };
   } catch (error: unknown) {
     console.error('Error in updateCaseAction:', error);
     return { success: false, error: 'Произошла ошибка на сервере при обновлении кейса.' };
@@ -354,5 +351,32 @@ export async function deleteCaseAction(caseId: string): Promise<{ success: boole
   } catch (error: unknown) {
     console.error('Error in deleteCaseAction:', error);
     return { success: false, error: 'Произошла ошибка на сервере при удалении кейса.' };
+  }
+}
+
+export async function updateCasesOrderAction(orderedCases: Case[]): Promise<{ success: boolean; error?: string }> {
+  try {
+    const authed = await isAuthenticated();
+    if (!authed) {
+        return { success: false, error: 'Необходима авторизация.' };
+    }
+
+    // Basic validation
+    if (!Array.isArray(orderedCases)) {
+        return { success: false, error: 'Неверный формат данных.' };
+    }
+
+    // Overwrite the file with the new order
+    await writeCasesFile(orderedCases);
+
+    // Revalidate paths to reflect changes
+    revalidatePath('/');
+    revalidatePath('/cases');
+    revalidatePath('/admin');
+
+    return { success: true };
+  } catch (error: unknown) {
+    console.error('Error in updateCasesOrderAction:', error);
+    return { success: false, error: 'Произошла ошибка на сервере при сохранении порядка.' };
   }
 }
