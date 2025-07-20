@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-.fp-table .fp-overflow{
-  height: 100%;
+.fp-noscroll .fp-scrollable {
+  overflow: hidden !important;
+}
+
+.fp-scrollable {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 #fp-watermark {
@@ -167,7 +172,6 @@
     display: none;
   }
   .footer-top{
-    background-color: #FFFDFB;
     display: flex;
     flex-direction: column-reverse;
   }
@@ -177,7 +181,7 @@
     padding: 0;
   }
   footer#contact {
-    background-color: #FFFDFB;
+    background-color: transparent;
     padding: 0;
   }
   footer#contact .footer-content-wrapper {
@@ -191,12 +195,12 @@
     display: none;
   }
   .footer-adapt-title{
-    color: #0E0E0E;
+    color: #ffffff;
     font-size: 18px;
   }
   .footer-adapt-subtitle{
     font-size: 16px;
-    color: #0E0E0E;
+    color: #ffffff;
     font-weight: 700;
     margin-top: 43px;
     padding-bottom: 0;
