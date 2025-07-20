@@ -99,6 +99,15 @@
   }
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
+[data-radix-dialog-content] [data-radix-scroll-area-viewport] {
+  overflow-y: scroll;
+}
+
+
 @layer base {
   * {
     @apply border-border;

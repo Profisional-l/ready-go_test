@@ -77,15 +77,17 @@ function VideoWithPreview({ src }: { src: string }) {
 }
 
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
-  const lenis = useLenis();
-  
   useEffect(() => {
     if (isOpen) {
-      lenis?.stop();
+      document.body.classList.add('modal-open');
     } else {
-      lenis?.start();
+      document.body.classList.remove('modal-open');
     }
-  }, [isOpen, lenis]);
+    // Cleanup on component unmount
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [isOpen]);
 
   if (!caseData || caseData.type !== 'modal') return null;
 
