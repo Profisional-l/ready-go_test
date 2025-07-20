@@ -2,93 +2,58 @@
 
 import { useState, useEffect, useRef } from 'react';
 
-export function ProgressBar() {
+export function ProgressBar({ progress }: { progress: number }) {
   const [displayProgress, setDisplayProgress] = useState(0);
-  const targetProgress = useRef(0);
   const animationRef = useRef<number | null>(null);
   const velocity = useRef(0);
-  const observerRef = useRef<IntersectionObserver | null>(null);
-
-  const animate = () => {
-    const stiffness = 0.1;
-    const damping = 0.8;
-
-    const distance = targetProgress.current - displayProgress;
-    const acceleration = distance * stiffness;
-
-    velocity.current = velocity.current * damping + acceleration;
-
-    const newProgress = displayProgress + velocity.current;
-    setDisplayProgress(newProgress);
-
-    if (Math.abs(velocity.current) > 0.01 || Math.abs(distance) > 0.1) {
-      animationRef.current = requestAnimationFrame(animate);
-    } else {
-      setDisplayProgress(targetProgress.current);
-      animationRef.current = null;
-    }
-  };
+  const targetProgress = useRef(progress);
 
   useEffect(() => {
-    const sections = document.querySelectorAll('.section');
-    if (sections.length === 0) return;
+    targetProgress.current = progress;
+  }, [progress]);
 
-    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const currentSection = Array.from(sections).indexOf(entry.target);
-          const totalSections = sections.length;
+  useEffect(() => {
+    const animate = () => {
+      const stiffness = 0.1;
+      const damping = 0.9;
 
-          // Ключевое изменение: добавляем +1 для полного заполнения на последней секции
-          const progress = currentSection === totalSections - 1
-            ? 100
-            : (currentSection / (totalSections - 1)) * 100;
+      const distance = targetProgress.current - displayProgress;
+      const acceleration = distance * stiffness;
 
-          targetProgress.current = progress;
-
-          if (!animationRef.current) {
-            animationRef.current = requestAnimationFrame(animate);
-          }
+      velocity.current = velocity.current * damping + acceleration;
+      const newProgress = displayProgress + velocity.current;
+      
+      // Stop animation when it's close enough to prevent infinite loop
+      if (Math.abs(distance) < 0.01 && Math.abs(velocity.current) < 0.01) {
+        setDisplayProgress(targetProgress.current);
+        if (animationRef.current) {
+            cancelAnimationFrame(animationRef.current);
+            animationRef.current = null;
         }
-      });
+        return;
+      }
+      
+      setDisplayProgress(newProgress);
+      animationRef.current = requestAnimationFrame(animate);
     };
 
-    observerRef.current = new IntersectionObserver(handleIntersection, {
-      threshold: 0.5,
-      rootMargin: "0px 0px -15% 0px"
-    });
-
-    sections.forEach(section => observerRef.current?.observe(section));
-
-    // Инициализация
-    const visibleSection = Array.from(sections).find(section => {
-      const rect = section.getBoundingClientRect();
-      return rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
-    });
-
-    if (visibleSection) {
-      const currentSection = Array.from(sections).indexOf(visibleSection);
-      const totalSections = sections.length;
-      targetProgress.current = currentSection === totalSections - 1
-        ? 100
-        : (currentSection / (totalSections - 1)) * 100;
-      setDisplayProgress(targetProgress.current);
-    }
+    // Start animation loop
+    animationRef.current = requestAnimationFrame(animate);
 
     return () => {
-      observerRef.current?.disconnect();
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, []);
+  }, [displayProgress]); // Rerun effect when displayProgress changes to continue animation
+
 
   return (
     <div className="fixed top-0 left-0 w-full h-[7.2px] z-[1000] bg-transparent">
       <div
-        className="h-full bg-accent transition-all duration-75 ease-out"
+        className="h-full bg-accent"
         style={{
-          width: `${displayProgress * 2}%`,
+          width: `${displayProgress}%`,
         }}
       />
     </div>
