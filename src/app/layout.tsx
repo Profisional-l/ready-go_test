@@ -37,6 +37,7 @@ export default function RootLayout({
             {children}
           </SmoothScrollProvider>
           <Toaster />
+          
         </body>
       </html>
     </>
