@@ -137,25 +137,25 @@ export function Footer() {
     setShowSuccessModal(true);
   };
   return (
-      <div className="md:bg-[#0E0E0E] text-background m-3 rounded-xl footer-content-wrapper">
+      <footer id="contact" className="md:bg-[#0E0E0E] text-background m-3 rounded-xl footer-content-wrapper">
         <div className="max-w-[1450px] mx-auto px-4 bg-transparent overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
-          {/* Left Column */}
+          {/* Left Column (Links & Copyright) - now rendered after the form on mobile via CSS flex order */}
           <div className="pt-1 md:mb-0 footer-top">
-            <p className="text-[#ffffff] md:text-white text-[20px] pb-[55px] font-semibold tight-spacing-1 footer-adapt-subtitle">
+            <p className="text-foreground md:text-white text-[20px] pb-[55px] font-semibold tight-spacing-1 footer-adapt-subtitle">
               &copy; READYGO 2025
             </p>
             <nav className="m-0 space-y-3">
               <Link
                 href="https://www.instagram.com/ready.go.agency/"
                 aria-label="Instagram"
-                className="text-[24px] block underline hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
+                className="text-foreground md:text-white text-[24px] block underline hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
               >
                 Instagram
               </Link>
               <Link
                 href="mailto:go@rg.by"
                 aria-label="Email"
-                className="text-[24px] underline block hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
+                className="text-foreground md:text-white text-[24px] underline block hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
               >
                 Email
               </Link>
@@ -165,7 +165,7 @@ export function Footer() {
           {/* Right Column - Form */}
           <form onSubmit={handleSubmit} className="w-full form-container">
             <div className="mb-8">
-              <h4 className="text-[16px] md:text-[20px] font-semibold uppercase tracking-wider pb-[42px] tight-spacing-1">
+              <h4 className="text-[16px] md:text-[20px] font-semibold uppercase tracking-wider pb-[42px] tight-spacing-1 text-white">
                 ГОУ ЗНАКОМИТЬСЯ
               </h4>
               <p className="text-[#ffffff] text-[18px] md:text-[24px] tight-spacing-1">
@@ -338,6 +338,6 @@ export function Footer() {
             </div>
           </div>
         )}
-      </div>
+      </footer>
   );
 }

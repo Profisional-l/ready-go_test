@@ -171,36 +171,51 @@
   .footerText{
     display: none;
   }
-  .footer-top{
-    display: flex;
-    flex-direction: column-reverse;
-  }
   .footer-groop{
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     padding: 0;
   }
-  footer#contact {
+  .form-container {
+    order: 1; /* Form first */
+    background-color: #0E0E0E;
+    border-radius: 10px;
+    padding: 15px;
+    width: 100%;
+  }
+  .footer-top {
+    order: 2; /* Links second */
+    background-color: hsl(var(--background));
+    padding: 15px;
+    margin-top: -10px; /* Pulls it up slightly to overlap rounded corners */
+    padding-top: 25px; /* Adds space so content is below the form */
+    border-radius: 10px;
+  }
+  
+  #contact {
     background-color: transparent;
     padding: 0;
   }
-  footer#contact .footer-content-wrapper {
-    background-color: #0E0E0E;
-    border-radius: 10px;
+
+  /* The main wrapper on mobile should not have its own background or rounded corners */
+  #contact .footer-content-wrapper {
+      background-color: transparent;
+      border-radius: 0;
+      margin: 0;
+      padding: 1rem;
   }
-  footer#contact .form-container{
-    padding: 15px;
-  }
-  footer#contact section{
+  
+  #contact section{
     display: none;
   }
-  .footer-adapt-title{
-    color: #ffffff;
+
+  .footer-adapt-title {
+    color: hsl(var(--foreground)); /* black text on white bg */
     font-size: 18px;
   }
-  .footer-adapt-subtitle{
+  .footer-adapt-subtitle {
     font-size: 16px;
-    color: #ffffff;
+    color: hsl(var(--foreground)); /* black text on white bg */
     font-weight: 700;
     margin-top: 43px;
     padding-bottom: 0;
