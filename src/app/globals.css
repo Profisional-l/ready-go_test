@@ -2,15 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-.fp-noscroll {
-  overflow: hidden !important;
-}
-
-.fp-noscroll .fp-scrollable {
+body.fp-noscroll {
   overflow: hidden !important;
 }
 
 .fp-scrollable {
+  overflow-y: scroll !important;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -132,10 +129,10 @@
     @apply font-headline;
   }
 .footerText {
-  font-size: clamp(1.5rem, 9vw, 6.7rem); /* Адаптивный размер текста */
+  font-size: clamp(3rem, 7.5vw, 6rem);
   line-height: 1.1;
   display: inline-block;
-  white-space: nowrap; /* Оставим это, чтобы точно не переносилось */
+  white-space: nowrap;
   width: 100%;
   text-align: center;
   overflow: hidden;
