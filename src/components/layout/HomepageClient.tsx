@@ -36,7 +36,7 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
         content: section.querySelector('.fp-scroller') as HTMLElement, // The content element
         smoothWheel: true,
         smoothTouch: true,
-        lerp: 0.08, // Lower values are smoother
+        lerp: 0.05, // Lower values are smoother and slower
       });
       lenisInstances.push(lenis);
     });
