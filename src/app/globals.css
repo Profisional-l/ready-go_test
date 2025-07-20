@@ -128,7 +128,7 @@
     @apply font-headline;
   }
   .footerText {
-    font-size: clamp(3rem, 8vw, 6.8rem);
+    font-size: clamp(3rem, 7.5vw, 6rem);
     white-space: nowrap;
   }
   .check-mark{
