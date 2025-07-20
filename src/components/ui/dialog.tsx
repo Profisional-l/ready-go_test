@@ -7,7 +7,22 @@ import Image from "next/image";
 
 import { cn } from "@/lib/utils";
 
-const Dialog = DialogPrimitive.Root;
+const Dialog = (props: DialogPrimitive.DialogProps) => {
+    const { onOpenChange } = props;
+
+    const handleOpenChange = (open: boolean) => {
+        if (open) {
+            document.body.classList.add('modal-open');
+        } else {
+            document.body.classList.remove('modal-open');
+        }
+        if (onOpenChange) {
+            onOpenChange(open);
+        }
+    };
+
+    return <DialogPrimitive.Root {...props} onOpenChange={handleOpenChange} />;
+};
 
 const DialogTrigger = DialogPrimitive.Trigger;
 
