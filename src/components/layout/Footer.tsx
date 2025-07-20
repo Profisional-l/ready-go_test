@@ -238,79 +238,41 @@ export function Footer() {
           </form>
         </div>
 
-        <section className="bg-transparent text-background text-center pt-20 md:pt-[170px] overflow-hidden">
-            <h2 className="font-mycustom font-extrabold leading-tight uppercase footerText text-white">
-              ВЫ <span className="textToBorderBlack">READY</span> РАБОТАТЬ С
-              НАМИ?{" "}
-              <span
-                className="relative inline-block"
-                style={{ height: ".83em", width: "calc(95/103 * 1em)" }}
-                ref={eyesRef}
-              >
-                <div
-                  style={{
-                    position: "relative",
-                    height: "100%",
-                    width: "100%",
-                  }}
-                >
-                  {isMobile ? (
-                    <Image
-                      src="/images/eyes_Group127.svg"
-                      alt="глаза"
-                      unoptimized={true}
-                      layout="fill"
-                      objectFit="contain"
-                    />
-                  ) : (
-                    <>
-                      <Image
-                        src="/images/eyes0.svg"
-                        alt="глаза"
-                        unoptimized={true}
-                        layout="fill"
-                        objectFit="contain"
-                      />
-
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          width: "100%",
-                          height: "100%",
-                          transform: "translate(-50%, -50%)",
-                          pointerEvents: "none",
-                        }}
-                      >
-                        <div
-                          style={{
-                            position: "absolute",
-                            top: "33%",
-                            left: "33%",
-                            width: "50%",
-                            height: "auto",
-                            aspectRatio: "59/35",
-                            transform: "translate(-50%, -50%)",
-                            ...eyeStyle,
-                          }}
-                        >
-                          <Image
-                            src="/images/eyes1.svg"
-                            alt="зрачки"
-                            unoptimized={true}
-                            layout="fill"
-                            objectFit="contain"
-                          />
-                        </div>
+      <section className="text-center pt-20 md:pt-[170px] overflow-hidden">
+        <div className="w-full max-w-[1600px] mx-auto px-4">
+          <h2
+            className="font-mycustom font-extrabold uppercase text-white whitespace-nowrap w-full"
+            style={{ fontSize: "7.5vw", lineHeight: 1.1 }}
+          >
+            ВЫ <span className="textToBorderBlack">READY</span> РАБОТАТЬ С НАМИ?
+            <span className="inline-block relative align-middle -mt-5" style={{ height: ".83em", width: "calc(95/103 * 1em)" }} ref={eyesRef}>
+              <div className="relative w-full h-full">
+                {isMobile ? (
+                  <Image src="/images/eyes_Group127.svg" alt="глаза" unoptimized layout="fill" objectFit="contain" />
+                ) : (
+                  <>
+                    <Image src="/images/eyes0.svg" alt="глаза" unoptimized layout="fill" objectFit="contain" />
+                    <div className="absolute top-1/2 left-1/2 w-full h-full transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                      <div style={{
+                        position: "absolute",
+                        top: "33%",
+                        left: "33%",
+                        width: "50%",
+                        aspectRatio: "59/35",
+                        transform: "translate(-50%, -50%)",
+                        ...eyeStyle,
+                      }}>
+                        <Image src="/images/eyes1.svg" alt="зрачки" unoptimized layout="fill" objectFit="contain" />
                       </div>
-                    </>
-                  )}
-                </div>
-              </span>{" "}
-              ТОГДА <span className="textToBorderBlack">GO</span>!
-            </h2>
-        </section>
+                    </div>
+                  </>
+                )}
+              </div>
+            </span>
+            ТОГДА <span className="textToBorderBlack">GO</span>!
+          </h2>
+        </div>
+      </section>
 
         {showSuccessModal && isMobile && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">

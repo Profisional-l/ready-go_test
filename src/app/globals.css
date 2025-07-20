@@ -127,10 +127,17 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline;
   }
-  .footerText {
-    font-size: clamp(3rem, 7.5vw, 6rem);
-    white-space: nowrap;
-  }
+.footerText {
+  font-size: clamp(1.5rem, 9vw, 6.7rem); /* Адаптивный размер текста */
+  line-height: 1.1;
+  display: inline-block;
+  white-space: nowrap; /* Оставим это, чтобы точно не переносилось */
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
   .check-mark{
     color: #04D6E3;
   }
