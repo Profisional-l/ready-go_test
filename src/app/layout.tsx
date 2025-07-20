@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { SmoothScrollProvider } from "@/components/layout/SmoothScrollProvider";
+import { ProgressBar } from "@/components/layout/ProgressBar";
 
 export const metadata: Metadata = {
   title: "READY GO",
@@ -32,6 +33,7 @@ export default function RootLayout({
         </head>
         <body className="font-body antialiased bg-background text-foreground">
           <SmoothScrollProvider>
+            <ProgressBar />
             {children}
           </SmoothScrollProvider>
           <Toaster />
