@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -29,6 +30,7 @@ function VideoWithPreview({ src }: { src: string }) {
 
     // Функция захвата кадра в canvas и генерация dataURL
     const captureFrame = () => {
+      if (!video.videoWidth || !video.videoHeight) return;
       const canvas = document.createElement("canvas");
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
@@ -86,29 +88,23 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
     return (
       <div className="mt-6 space-y-3">
         {/* Изображения */}
-{images.length > 0 && (
-  <div className="flex flex-col gap-3">
-    {images.map((item, index) => (
-      <div key={`image-${index}`} className="w-full">
-        <Image
-          src={item.url}
-          alt={`${caseData.title} - Image ${index + 1}`}
-          width={0}
-          height={0}
-          sizes="100vw"
-          style={{
-            width: "100%",
-            height: "auto",
-            maxWidth: "100%",
-            objectFit: "cover",
-          }}
-          className="rounded-[10px]"
-          unoptimized
-        />
-      </div>
-    ))}
-  </div>
-)}
+        {images.length > 0 && (
+          <div className="flex flex-col gap-3">
+            {images.map((item, index) => (
+              <div key={`image-${index}`} className="relative w-full h-auto aspect-auto">
+                <Image
+                  src={item.url}
+                  alt={`${caseData.title} - Image ${index + 1}`}
+                  width={1200} // Provide a base width for optimization
+                  height={800} // Provide a base height for optimization
+                  sizes="(max-width: 768px) 100vw, 80vw"
+                  className="w-full h-auto rounded-[10px] object-contain"
+                  unoptimized={item.url.endsWith('.gif')} // Keep GIFs unoptimized
+                />
+              </div>
+            ))}
+          </div>
+        )}
   
 
         {/* Видео с превью из первого кадра */}
@@ -153,7 +149,7 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-[95%] md:max-w-[98%] max-h-[96vh] flex flex-col p-0 rounded-lg bg-[#F0EFEE]">
-        <ScrollArea className="flex-grow overflow-y-auto scrollArea">
+        <ScrollArea className="flex-grow">
           <div className="p-3 md:p-20 md:px-48">
             <DialogHeader>
               <DialogTitle className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">

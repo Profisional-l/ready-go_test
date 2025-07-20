@@ -1,23 +1,28 @@
+
 "use client";
 
-import { useState } from 'react';
+import { useRef } from 'react';
 import { useLenis } from '@studio-freight/react-lenis';
 
 export function ProgressBar() {
-  const [progress, setProgress] = useState(0);
-  
+  const progressBarRef = useRef<HTMLDivElement>(null);
+
   useLenis(({ progress }) => {
-    setProgress(progress); // progress is a value from 0 to 1
+    // Directly manipulate the style via a ref to avoid React state updates on every frame,
+    // which is a major performance boost.
+    if (progressBarRef.current) {
+      progressBarRef.current.style.transform = `scaleX(${progress})`;
+    }
   });
 
   return (
     <div className="fixed top-0 left-0 w-full h-[7.2px] z-[1000] bg-transparent transform-gpu">
       <div
-        className="h-full bg-accent origin-left"
+        ref={progressBarRef}
+        className="h-full bg-accent"
         style={{
-          transform: `scaleX(${progress})`,
-          transformOrigin: 'left', // Ensure scaling happens from the left
-          willChange: 'transform', // Hint to the browser for optimization
+          transformOrigin: 'left',
+          willChange: 'transform',
         }}
       />
     </div>
