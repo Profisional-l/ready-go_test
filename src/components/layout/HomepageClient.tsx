@@ -1,8 +1,10 @@
+
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import ReactFullpage from "@fullpage/react-fullpage";
 import type { Case } from "@/types";
+import Lenis from '@studio-freight/lenis';
 
 import { Header } from "@/components/layout/Header";
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -22,6 +24,39 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
   const licenseKey = "OPEN-SOURCE-GPLV3-LICENSE";
   const anchors = ["home", "cases", "about", "contact"];
 
+  useEffect(() => {
+    // This effect runs after fullpage.js has initialized and created the scrollable sections.
+    // We find all scrollable sections and apply Lenis to them.
+    const scrollableSections = document.querySelectorAll('.fp-scrollable');
+    const lenisInstances: Lenis[] = [];
+
+    scrollableSections.forEach(section => {
+      const lenis = new Lenis({
+        wrapper: section, // The scrollable container
+        content: section.querySelector('.fp-scroller') as HTMLElement, // The content element
+        smoothWheel: true,
+        smoothTouch: true,
+        lerp: 0.08, // Lower values are smoother
+      });
+      lenisInstances.push(lenis);
+    });
+
+    let animationFrameId: number;
+
+    function raf(time: number) {
+      lenisInstances.forEach(lenis => lenis.raf(time));
+      animationFrameId = requestAnimationFrame(raf);
+    }
+
+    animationFrameId = requestAnimationFrame(raf);
+
+    // Cleanup function to destroy Lenis instances when the component unmounts
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      lenisInstances.forEach(lenis => lenis.destroy());
+    };
+  }, []); // Empty dependency array ensures this runs only once on mount
+
   return (
     <ReactFullpage
       licenseKey={licenseKey}
@@ -31,14 +66,14 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
       navigation
       navigationTooltips={anchors}
       credits={{
-        enabled: false, // ✅ Отключили "Powered by fullPage.js"
+        enabled: false,
       }}
       render={({ state, fullpageApi }) => {
         return (
           <ReactFullpage.Wrapper>
             {/* Section 1: Hero */}
             <div className="section fp-noscroll">
-              <div className="max-w-[1640px] mx-auto px-3 md:px-8 h-full flex flex-col">
+              <div className="h-full flex flex-col">
                 <Header />
                 <div className="flex-grow">
                   <HeroSection />
