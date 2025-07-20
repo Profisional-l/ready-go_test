@@ -16,10 +16,17 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
     }
   }, [isOpen]);
 
-  // Обработчик для закрытия меню. Навигацию выполнит fullpage.js через href.
-  const handleLinkClick = () => {
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetElement = document.querySelector(href);
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
     setIsOpen(false);
   };
+
 
   return (
     <>
@@ -43,7 +50,7 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
                 className={`h-[75px] opacity-0 animate-fade-in-up delay-[${i * 100
                   }ms]`}
                 href={id}
-                onClick={handleLinkClick}
+                onClick={(e) => handleLinkClick(e, id)}
               >
                 {id === "#cases"
                   ? "Кейсы"
@@ -91,6 +98,7 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
                   <a
                     key={i}
                     href={`#${id}`}
+                    onClick={(e) => handleLinkClick(e, `#${id}`)}
                     className="relative group text-[20px] font-medium text-[#0E0E0E]"
                   >
                     {id === "cases"

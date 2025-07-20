@@ -2,7 +2,6 @@
 "use client";
 
 import React from "react";
-import ReactFullpage from "@fullpage/react-fullpage";
 import type { Case } from "@/types";
 
 import { Header } from "@/components/layout/Header";
@@ -13,63 +12,39 @@ import { AboutSection } from "@/components/sections/AboutSection";
 import { Footer } from "@/components/layout/Footer";
 import { ClientsSection } from "@/components/sections/ClientsSection";
 
-import "fullpage.js/dist/fullpage.min.css";
-
 interface HomepageClientProps {
   casesData: Case[];
 }
 
 export function HomepageClient({ casesData }: HomepageClientProps) {
-  const licenseKey = "OPEN-SOURCE-GPLV3-LICENSE";
-  const anchors = ["home", "cases", "about", "contact"];
 
   return (
-    <ReactFullpage
-      licenseKey={licenseKey}
-      scrollingSpeed={1000}
-      scrollOverflow={true}
-      anchors={anchors}
-      navigation
-      navigationTooltips={anchors}
-      credits={{
-        enabled: false,
-      }}
-      render={({ state, fullpageApi }) => {
-        return (
-          <ReactFullpage.Wrapper>
-            {/* Section 1: Hero */}
-            <div className="section fp-noscroll">
-              <div className="h-full flex flex-col">
-                <Header />
-                <div className="flex-grow">
-                  <HeroSection />
-                </div>
-              </div>
+    <main>
+        <Header />
+        
+        <section id="home" className="h-screen flex flex-col">
+            <div className="flex-grow">
+                <HeroSection />
             </div>
+        </section>
 
-            {/* Section 2: Cases */}
-            <div className="section fp-auto-height">
-              <CasesSection casesDataFromProps={casesData} />
-            </div>
+        <section id="cases">
+            <CasesSection casesDataFromProps={casesData} />
+        </section>
 
-            {/* Section 3: About */}
-            <div className="section">
-              <ServiceBanner />
-              <div className="max-w-[1640px] mx-auto px-3 md:px-8">
-                <AboutSection />
-              </div>
-              <div className="max-w-[100%]">
-                <ClientsSection />
-              </div>
+        <section id="about">
+            <ServiceBanner />
+            <div className="max-w-[1640px] mx-auto px-3 md:px-8">
+            <AboutSection />
             </div>
-
-            {/* Section 4: Footer */}
-            <div className="section fp-auto-height">
-              <Footer />
+            <div className="max-w-[100%]">
+            <ClientsSection />
             </div>
-          </ReactFullpage.Wrapper>
-        );
-      }}
-    />
+        </section>
+        
+        <section id="contact">
+            <Footer />
+        </section>
+    </main>
   );
 }
