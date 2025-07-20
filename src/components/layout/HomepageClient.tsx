@@ -1,10 +1,9 @@
 
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import ReactFullpage from "@fullpage/react-fullpage";
 import type { Case } from "@/types";
-import Lenis from '@studio-freight/lenis';
 
 import { Header } from "@/components/layout/Header";
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -23,39 +22,6 @@ interface HomepageClientProps {
 export function HomepageClient({ casesData }: HomepageClientProps) {
   const licenseKey = "OPEN-SOURCE-GPLV3-LICENSE";
   const anchors = ["home", "cases", "about", "contact"];
-
-  useEffect(() => {
-    // This effect runs after fullpage.js has initialized and created the scrollable sections.
-    // We find all scrollable sections and apply Lenis to them.
-    const scrollableSections = document.querySelectorAll('.fp-scrollable');
-    const lenisInstances: Lenis[] = [];
-
-    scrollableSections.forEach(section => {
-      const lenis = new Lenis({
-        wrapper: section, // The scrollable container
-        content: section.querySelector('.fp-scroller') as HTMLElement, // The content element
-        smoothWheel: true,
-        smoothTouch: true,
-        lerp: 0.05, // Lower values are smoother and slower
-      });
-      lenisInstances.push(lenis);
-    });
-
-    let animationFrameId: number;
-
-    function raf(time: number) {
-      lenisInstances.forEach(lenis => lenis.raf(time));
-      animationFrameId = requestAnimationFrame(raf);
-    }
-
-    animationFrameId = requestAnimationFrame(raf);
-
-    // Cleanup function to destroy Lenis instances when the component unmounts
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      lenisInstances.forEach(lenis => lenis.destroy());
-    };
-  }, []); // Empty dependency array ensures this runs only once on mount
 
   return (
     <ReactFullpage
