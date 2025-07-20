@@ -17,7 +17,7 @@
 
 /* Apply smooth scrolling inside scrollable fullpage.js sections */
 .fp-scrollable {
-  scroll-behavior: smooth;
+  /* This is now handled by Lenis, so we remove the CSS rule */
 }
 
 .footer-button{
