@@ -128,8 +128,7 @@
     @apply font-headline;
   }
   .footerText {
-    font-size: clamp(3rem, 8vw, 6.875rem);
-    white-space: nowrap;
+    font-size: clamp(3rem, 8vw, 6.8rem);
   }
   .check-mark{
     color: #04D6E3;
