@@ -139,7 +139,30 @@ export function Footer() {
   return (
       <footer id="contact" className="md:bg-[#0E0E0E] text-background m-3 rounded-xl footer-content-wrapper">
         <div className="max-w-[1450px] mx-auto px-4 bg-transparent overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
-          {/* Right Column - Form */}
+          {/* Left Column (Links & Copyright) - shows on left on desktop */}
+          <div className="pt-1 md:mb-0 links-container">
+            <p className="text-foreground md:text-white text-[20px] pb-[55px] font-semibold tight-spacing-1 footer-adapt-subtitle">
+              &copy; READYGO 2025
+            </p>
+            <nav className="m-0 space-y-3">
+              <Link
+                href="https://www.instagram.com/ready.go.agency/"
+                aria-label="Instagram"
+                className="text-foreground md:text-white text-[24px] block underline hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
+              >
+                Instagram
+              </Link>
+              <Link
+                href="mailto:go@rg.by"
+                aria-label="Email"
+                className="text-foreground md:text-white text-[24px] underline block hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
+              >
+                Email
+              </Link>
+            </nav>
+          </div>
+
+          {/* Right Column - Form - shows on right on desktop */}
           <form onSubmit={handleSubmit} className="w-full form-container">
             <div className="mb-8">
               <h4 className="text-[16px] md:text-[20px] font-semibold uppercase tracking-wider pb-[42px] tight-spacing-1 text-white">
@@ -213,29 +236,6 @@ export function Footer() {
               Отправить
             </Button>
           </form>
-
-          {/* Left Column (Links & Copyright) */}
-          <div className="pt-1 md:mb-0 links-container">
-            <p className="text-foreground md:text-white text-[20px] pb-[55px] font-semibold tight-spacing-1 footer-adapt-subtitle">
-              &copy; READYGO 2025
-            </p>
-            <nav className="m-0 space-y-3">
-              <Link
-                href="https://www.instagram.com/ready.go.agency/"
-                aria-label="Instagram"
-                className="text-foreground md:text-white text-[24px] block underline hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
-              >
-                Instagram
-              </Link>
-              <Link
-                href="mailto:go@rg.by"
-                aria-label="Email"
-                className="text-foreground md:text-white text-[24px] underline block hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
-              >
-                Email
-              </Link>
-            </nav>
-          </div>
         </div>
 
         <section className="bg-transparent text-background pt-20 md:pt-[170px]">

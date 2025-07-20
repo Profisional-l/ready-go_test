@@ -181,7 +181,7 @@
   
   .footer-groop{
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse; /* Reverses the order of items: form will be on top */
     padding: 0;
   }
 
@@ -196,7 +196,6 @@
   }
   
   .form-container {
-    order: 1; /* Form first */
     background-color: #0E0E0E;
     border-radius: 10px;
     padding: 15px;
@@ -204,7 +203,6 @@
   }
 
   .links-container {
-    order: 2; /* Links second */
     background-color: hsl(var(--background));
     padding: 15px;
     margin-top: -10px; 
