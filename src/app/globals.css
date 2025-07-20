@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.fp-noscroll {
+  overflow: hidden !important;
+}
+
 .fp-noscroll .fp-scrollable {
   overflow: hidden !important;
 }

@@ -1,9 +1,5 @@
 [
   {
-    "id": "1",
-    "title": "МТБанк — Манички",
-    "category": "Манички",
-    "type": "modal",
     "media": [
       {
         "type": "image",
@@ -14,6 +10,10 @@
         "url": "/uploads/cases/1750842568348_Group_39594.png"
       }
     ],
+    "id": "1",
+    "title": "МТБанк — Манички",
+    "category": "Манички",
+    "type": "modal",
     "description": "Интерфейс для приложения.",
     "fullDescription": "Разработка интуитивно понятного интерфейса для мобильного приложения, сфокусированного на пользовательском опыте и легкости использования.",
     "tags": [
@@ -28,11 +28,11 @@
     "hoverImageUrl": "/uploads/hovers/1753009120552_353cf3feb02bfcb3fdc4e1977c9515c4cde8ce93.png"
   },
   {
+    "media": [],
     "id": "2",
     "title": "Golod Design — Веб-сайт",
     "category": "Веб-сайт",
     "type": "link",
-    "media": [],
     "description": "",
     "fullDescription": "",
     "tags": [],
@@ -40,37 +40,16 @@
     "coverUrl": "/uploads/covers/1750844895649_2b5e386d25989fc4280f9351726f09f1acbad945.png"
   },
   {
-    "id": "3",
-    "title": "Optimizing Technologies — Буклет",
-    "category": "Буклет",
-    "type": "modal",
-    "media": [
-      {
-        "type": "image",
-        "url": "/uploads/cases/1749290181893_c881d68b41c150d93db16a2ea916487149f67440.png"
-      }
-    ],
-    "description": "Постер для мероприятия.",
-    "fullDescription": "Создание яркого и привлекающего внимание рекламного постера для музыкального мероприятия NEMGO.",
-    "tags": [
-      "Graphic Design",
-      "Poster",
-      "Event"
-    ],
-    "coverUrl": "/uploads/covers/1750997211868_back-7__1_.webp",
-    "externalUrl": ""
-  },
-  {
-    "id": "4",
-    "title": "ARARAT — Контент-съемка",
-    "category": "ARARAT",
-    "type": "modal",
     "media": [
       {
         "type": "image",
         "url": "/uploads/cases/1750845079825_Group_39598.png"
       }
     ],
+    "id": "4",
+    "title": "ARARAT — Контент-съемка",
+    "category": "ARARAT",
+    "type": "modal",
     "description": "Промо-материалы.",
     "fullDescription": "Разработка серии промо-материалов для бренда ARARAT, подчеркивающих премиальность и традиции.",
     "tags": [
@@ -83,11 +62,32 @@
     "hoverImageUrl": "/uploads/hovers/1753009194836_371d2e12cd175a7de78f07f5c32ad5c348190c84.png"
   },
   {
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1749290181893_c881d68b41c150d93db16a2ea916487149f67440.png"
+      }
+    ],
+    "id": "3",
+    "title": "Optimizing Technologies — Буклет",
+    "category": "Буклет",
+    "type": "modal",
+    "description": "Постер для мероприятия.",
+    "fullDescription": "Создание яркого и привлекающего внимание рекламного постера для музыкального мероприятия NEMGO.",
+    "tags": [
+      "Graphic Design",
+      "Poster",
+      "Event"
+    ],
+    "coverUrl": "/uploads/covers/1750997211868_back-7__1_.webp",
+    "externalUrl": ""
+  },
+  {
+    "media": [],
     "id": "5",
     "title": "Coca-Cola — Promo",
     "category": "Promo",
     "type": "link",
-    "media": [],
     "description": "",
     "fullDescription": "",
     "tags": [],
@@ -95,10 +95,6 @@
     "externalUrl": "https://coca-cola-promo.by/"
   },
   {
-    "id": "6",
-    "title": "МТБанк — NEMBO",
-    "category": "NEMBO",
-    "type": "modal",
     "media": [
       {
         "type": "image",
@@ -109,6 +105,10 @@
         "url": "/uploads/cases/1750845228132_Group_39595.png"
       }
     ],
+    "id": "6",
+    "title": "МТБанк — NEMBO",
+    "category": "NEMBO",
+    "type": "modal",
     "description": "Фирменный стиль.",
     "fullDescription": "Разработка фирменного стиля и брендбука для технологической компании Optimising Technologies.",
     "tags": [
@@ -120,16 +120,16 @@
     "externalUrl": ""
   },
   {
-    "id": "1749287912830",
-    "title": "Sportmaster",
-    "category": "Sportmaster",
-    "type": "modal",
     "media": [
       {
         "type": "image",
         "url": "/uploads/cases/1750845314717_Frame_39721.png"
       }
     ],
+    "id": "1749287912830",
+    "title": "Sportmaster",
+    "category": "Sportmaster",
+    "type": "modal",
     "description": "SMM for Sportmaster ",
     "fullDescription": "SMM for Sportmaster in Instagram.",
     "tags": [
@@ -141,9 +141,6 @@
     "externalUrl": ""
   },
   {
-    "id": "1750842400092",
-    "title": "LILLET Vulitsa Ezha",
-    "category": "LILLET",
     "media": [
       {
         "type": "image",
@@ -166,6 +163,9 @@
         "url": "/uploads/cases/1750842400066_529cc0661e9bd27fdc05b1ba69c17dd9ecf9a70d.png"
       }
     ],
+    "id": "1750842400092",
+    "title": "LILLET Vulitsa Ezha",
+    "category": "LILLET",
     "type": "modal",
     "description": " ",
     "fullDescription": "Придумали активность для спота Lillet на городском пикнике Vulitsa Ezha, сделали дизайн карт таро",
@@ -177,15 +177,15 @@
     "externalUrl": ""
   },
   {
-    "id": "1750843017191",
-    "title": "Зараз",
-    "category": "ЗАРАЗ",
     "media": [
       {
         "type": "video",
         "url": "/uploads/cases/1750843017186_MTBank_ZARAZ.mp4"
       }
     ],
+    "id": "1750843017191",
+    "title": "Зараз",
+    "category": "ЗАРАЗ",
     "type": "modal",
     "description": " ",
     "fullDescription": " ",
@@ -197,10 +197,6 @@
     "externalUrl": ""
   },
   {
-    "id": "1750844840648",
-    "title": "Moby",
-    "category": "MOBY",
-    "coverUrl": "/uploads/covers/1750844840545_Group_39597.png",
     "media": [
       {
         "type": "image",
@@ -211,6 +207,10 @@
         "url": "/uploads/cases/1750844840601_______Moby_1_ProRes_2511.mp4.mp4"
       }
     ],
+    "id": "1750844840648",
+    "title": "Moby",
+    "category": "MOBY",
+    "coverUrl": "/uploads/covers/1750844840545_Group_39597.png",
     "type": "modal",
     "description": " ",
     "fullDescription": "Для клиентов МТБанка",
@@ -223,16 +223,16 @@
     "externalUrl": ""
   },
   {
-    "id": "1750998285826",
-    "title": "BONAQUA",
-    "category": "BONAQUA",
-    "coverUrl": "/uploads/covers/1750998285270_images.png",
     "media": [
       {
         "type": "video",
         "url": "/uploads/cases/1751003746327_o5.mp4"
       }
     ],
+    "id": "1750998285826",
+    "title": "BONAQUA",
+    "category": "BONAQUA",
+    "coverUrl": "/uploads/covers/1750998285270_images.png",
     "type": "modal",
     "description": " ",
     "fullDescription": " ",
@@ -243,16 +243,16 @@
     "externalUrl": ""
   },
   {
-    "id": "1750998838044",
-    "title": "G.H.MUMM photoshooting",
-    "category": "G.H.MUMM",
-    "coverUrl": "/uploads/covers/1750998838032_a33b7bb51267b884331c2731e367a7c5d580691d.webp",
     "media": [
       {
         "type": "image",
         "url": "/uploads/cases/1750998838039_Frame_39721.png"
       }
     ],
+    "id": "1750998838044",
+    "title": "G.H.MUMM photoshooting",
+    "category": "G.H.MUMM",
+    "coverUrl": "/uploads/covers/1750998838032_a33b7bb51267b884331c2731e367a7c5d580691d.webp",
     "type": "modal",
     "description": " ",
     "fullDescription": " ",

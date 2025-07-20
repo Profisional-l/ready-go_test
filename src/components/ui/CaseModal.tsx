@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Case } from "@/types";
 import { useState, useRef, useEffect } from "react";
+import { useLenis } from "@studio-freight/react-lenis";
 
 interface CaseModalProps {
   isOpen: boolean;
@@ -77,6 +78,23 @@ function VideoWithPreview({ src }: { src: string }) {
 }
 
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
+  const lenis = useLenis();
+
+  useEffect(() => {
+    if (isOpen) {
+      lenis?.stop();
+      document.body.classList.add('fp-noscroll');
+    } else {
+      lenis?.start();
+      document.body.classList.remove('fp-noscroll');
+    }
+
+    return () => {
+      lenis?.start();
+      document.body.classList.remove('fp-noscroll');
+    };
+  }, [isOpen, lenis]);
+
   if (!caseData || caseData.type !== 'modal') return null;
 
   const renderMediaGrid = () => {
