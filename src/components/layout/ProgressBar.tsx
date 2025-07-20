@@ -18,7 +18,7 @@ export function ProgressBar() {
         className="h-full bg-accent"
         style={{
           width: `${progress}%`,
-          transition: 'width 0.02s linear',
+          transition: 'width 0.1s ease-out',
         }}
       />
     </div>
