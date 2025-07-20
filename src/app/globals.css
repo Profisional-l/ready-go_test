@@ -14,12 +14,6 @@
   display: none;
 }
 
-footer{
-  background-color: #0E0E0E;
-  padding-top: 1rem;
-  padding: 1.5rem;
-}
-
 @layer base {
   :root {
     --background: 30, 100%, 99%; /* Near White #FAFAFA */
@@ -182,11 +176,18 @@ footer{
     flex-direction: column-reverse;
     padding: 0;
   }
-  footer{
+  footer#contact {
+    background-color: #FFFDFB;
     padding: 0;
-    background-color: transparent;
   }
-  footer section{
+  footer#contact .footer-content-wrapper {
+    background-color: #0E0E0E;
+    border-radius: 10px;
+  }
+  footer#contact .form-container{
+    padding: 15px;
+  }
+  footer#contact section{
     display: none;
   }
   .footer-adapt-title{

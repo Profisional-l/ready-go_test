@@ -8,8 +8,6 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { sendMessage } from "@/actions/sendMessage";
 
-import { ClientsSection } from "@/components/sections/ClientsSection";
-
 // Validation logic (can be moved to a separate file if it grows)
 const validateName = (value: string) =>
   value.trim().length < 2 ? "Введите корректное имя" : null;
@@ -139,12 +137,11 @@ export function Footer() {
     setShowSuccessModal(true);
   };
   return (
-    <>
-      <footer className="text-background m-3 rounded-xl">
+      <div className="md:bg-[#0E0E0E] text-background m-3 rounded-xl footer-content-wrapper">
         <div className="max-w-[1450px] mx-auto px-4 bg-transparent overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
           {/* Left Column */}
           <div className="pt-1 md:mb-0 footer-top">
-            <p className="text-[#ffffff] text-[20px] pb-[55px] font-semibold tight-spacing-1 footer-adapt-subtitle">
+            <p className="text-[#ffffff] md:text-white text-[20px] pb-[55px] font-semibold tight-spacing-1 footer-adapt-subtitle">
               &copy; READYGO 2025
             </p>
             <nav className="m-0 space-y-3">
@@ -166,7 +163,7 @@ export function Footer() {
           </div>
 
           {/* Right Column - Form */}
-          <form onSubmit={handleSubmit} className="w-full">
+          <form onSubmit={handleSubmit} className="w-full form-container">
             <div className="mb-8">
               <h4 className="text-[16px] md:text-[20px] font-semibold uppercase tracking-wider pb-[42px] tight-spacing-1">
                 ГОУ ЗНАКОМИТЬСЯ
@@ -241,9 +238,9 @@ export function Footer() {
           </form>
         </div>
 
-        <section className="bg-[#0E0E0E] text-background pt-20 md:pt-[170px]">
+        <section className="bg-transparent text-background pt-20 md:pt-[170px]">
           <div className="max-w-[1450px] mx-auto text-center">
-            <h2 className="font-mycustom font-extrabold leading-tight uppercase footerText">
+            <h2 className="font-mycustom font-extrabold leading-tight uppercase footerText text-white">
               ВЫ <span className="textToBorderBlack">READY</span> РАБОТАТЬ С
               НАМИ?{" "}
               <span
@@ -341,7 +338,6 @@ export function Footer() {
             </div>
           </div>
         )}
-      </footer>
-    </>
+      </div>
   );
 }

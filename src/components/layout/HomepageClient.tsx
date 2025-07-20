@@ -42,9 +42,9 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
             </div>
         </section>
         
-        <section id="contact">
+        <footer id="contact">
             <Footer />
-        </section>
+        </footer>
     </main>
   );
 }
