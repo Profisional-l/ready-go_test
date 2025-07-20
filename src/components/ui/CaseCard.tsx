@@ -6,32 +6,22 @@ import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
 import { ImageIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import type { MediaItem } from '@/types';
+import type { Case, MediaItem } from '@/types';
 
-interface CaseCardProps {
-  id: string;
-  title: string;
-  coverUrl: string;
-  media: MediaItem[];
+interface CaseCardProps extends Case {
   onClick: () => void;
-  category: string;
-  type: 'modal' | 'link';
-  externalUrl?: string;
 }
 
 export function CaseCard({
   title,
   coverUrl,
-  media,
+  hoverImageUrl,
   onClick,
-  category,
   type,
   externalUrl,
 }: CaseCardProps) {
   const [isHovered, setIsHovered] = useState(false);
-
-  // Находим первое изображение в медиа, чтобы использовать при наведении
-  const hoverImage = type === 'modal' ? media?.find(item => item.type === 'image') : undefined;
+  const hoverImage = hoverImageUrl;
 
   const cardInnerContent = (
     <>
@@ -62,7 +52,7 @@ export function CaseCard({
               {/* Изображение при наведении */}
               {hoverImage && (
                 <Image
-                  src={hoverImage.url}
+                  src={hoverImage}
                   alt={title}
                   fill
                   unoptimized

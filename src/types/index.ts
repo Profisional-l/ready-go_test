@@ -8,6 +8,7 @@ export interface Case {
   title: string;
   category: string;
   coverUrl: string; // Обложка кейса
+  hoverImageUrl?: string; // Изображение для ховера
   media: MediaItem[]; // Медиа для модального окна
   type: 'modal' | 'link';
 

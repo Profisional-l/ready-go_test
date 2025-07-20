@@ -50,6 +50,7 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
   const router = useRouter();
   
   const [coverPreview, setCoverPreview] = useState<string | null>(caseToEdit.coverUrl);
+  const [hoverPreview, setHoverPreview] = useState<string | null>(caseToEdit.hoverImageUrl || null);
   const [mediaItems, setMediaItems] = useState<(MediaItem | File)[]>(caseToEdit.media || []);
   const [caseType, setCaseType] = useState<'modal' | 'link'>(caseToEdit.type || 'modal');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -58,11 +59,14 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
   const handleCoverChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setCoverPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setCoverPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleHoverChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+        setHoverPreview(URL.createObjectURL(file));
     }
   };
 
@@ -91,6 +95,11 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
 
     const form = event.currentTarget;
     const serverActionFormData = new FormData(form);
+
+    const newHoverFile = (form.elements.namedItem('hoverImage') as HTMLInputElement).files?.[0];
+    if (newHoverFile) {
+        serverActionFormData.set('hoverImage', newHoverFile);
+    }
 
     if (replacingMedia) {
         const newFiles = mediaItems.filter(item => item instanceof File) as File[];
@@ -179,6 +188,20 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
         <div>
             <Label htmlFor="coverImage">Заменить обложку (необязательно)</Label>
             <Input id="coverImage" name="coverImage" type="file" accept="image/*" onChange={handleCoverChange} className="mt-1 bg-background" />
+        </div>
+
+        <div>
+            <Label>Текущее изображение при наведении</Label>
+            {hoverPreview ? (
+                <div className="mt-2 relative w-32 h-32">
+                    <Image src={hoverPreview} alt="Предпросмотр изображения при наведении" fill unoptimized className="rounded-md object-cover" />
+                </div>
+            ) : <p className="text-sm text-muted-foreground">Изображение для наведения не задано.</p>}
+        </div>
+
+        <div>
+            <Label htmlFor="hoverImage">Заменить изображение при наведении</Label>
+            <Input id="hoverImage" name="hoverImage" type="file" accept="image/*" onChange={handleHoverChange} className="mt-1 bg-background" />
         </div>
 
         {caseType === 'link' && (

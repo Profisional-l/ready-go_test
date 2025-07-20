@@ -40,6 +40,8 @@ export default function AddCaseForm() {
   const router = useRouter();
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
+  const [hoverFile, setHoverFile] = useState<File | null>(null);
+  const [hoverPreview, setHoverPreview] = useState<string | null>(null);
   const [mediaFiles, setMediaFiles] = useState<File[]>([]);
   const [caseType, setCaseType] = useState<'modal' | 'link'>('modal');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -48,11 +50,15 @@ export default function AddCaseForm() {
     const file = event.target.files?.[0];
     if (file) {
       setCoverFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setCoverPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setCoverPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleHoverChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setHoverFile(file);
+      setHoverPreview(URL.createObjectURL(file));
     }
   };
 
@@ -95,6 +101,10 @@ export default function AddCaseForm() {
     const serverActionFormData = new FormData(form);
 
     serverActionFormData.set('coverImage', coverFile);
+
+    if (hoverFile) {
+        serverActionFormData.set('hoverImage', hoverFile);
+    }
     
     mediaFiles.forEach(file => {
       serverActionFormData.append('caseMedia', file);
@@ -185,6 +195,27 @@ export default function AddCaseForm() {
               <Image src={coverPreview} alt="Предпросмотр обложки" fill className="rounded-md object-cover" />
             </div>
           </div>
+        )}
+
+        <div>
+            <Label htmlFor="hoverImage" className="text-card-foreground">Изображение при наведении (необязательно)</Label>
+            <Input
+                id="hoverImage"
+                name="hoverImageInput"
+                type="file"
+                accept="image/*"
+                onChange={handleHoverChange}
+                className="mt-1 bg-background border-input text-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+            />
+        </div>
+        
+        {hoverPreview && (
+            <div>
+                <Label>Предпросмотр изображения при наведении</Label>
+                <div className="mt-2 relative w-32 h-32">
+                    <Image src={hoverPreview} alt="Предпросмотр изображения при наведении" fill className="rounded-md object-cover" />
+                </div>
+            </div>
         )}
 
         {caseType === 'link' && (

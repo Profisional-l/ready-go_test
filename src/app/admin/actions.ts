@@ -10,6 +10,7 @@ import { redirect } from 'next/navigation';
 
 const UPLOADS_BASE_DIR_RELATIVE = 'uploads';
 const COVERS_SUBDIR = 'covers';
+const HOVERS_SUBDIR = 'hovers';
 const CASES_SUBDIR = 'cases';
 const UPLOADS_DIR_ABSOLUTE = path.join(process.cwd(), 'public', UPLOADS_BASE_DIR_RELATIVE);
 const casesFilePath = path.join(process.cwd(), 'src', 'data', 'cases.json');
@@ -152,6 +153,12 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
         return { success: false, error: 'Обложка обязательна.' };
     }
     const coverUrl = await saveUploadedFile(coverFile, COVERS_SUBDIR);
+
+    const hoverFile = formData.get('hoverImage') as File;
+    let hoverImageUrl: string | undefined = undefined;
+    if (hoverFile && hoverFile.size > 0) {
+        hoverImageUrl = await saveUploadedFile(hoverFile, HOVERS_SUBDIR);
+    }
     
     const uploadedMedia = await saveUploadedMedia(formData);
     
@@ -170,6 +177,7 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
         title,
         category,
         coverUrl,
+        hoverImageUrl,
         media: uploadedMedia,
         type: 'modal',
         description,
@@ -186,6 +194,7 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
         title,
         category,
         coverUrl,
+        hoverImageUrl,
         media: [], // Links don't have modal media
         type: 'link',
         externalUrl,
@@ -234,6 +243,15 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
       finalCoverUrl = await saveUploadedFile(newCoverFile, COVERS_SUBDIR);
     }
 
+    // Handle hover image update
+    let finalHoverImageUrl = existingCase.hoverImageUrl;
+    const newHoverFile = formData.get('hoverImage') as File;
+    if (newHoverFile && newHoverFile.size > 0) {
+        await deleteFileByUrl(existingCase.hoverImageUrl);
+        finalHoverImageUrl = await saveUploadedFile(newHoverFile, HOVERS_SUBDIR);
+    }
+
+
     // Handle modal media update
     let finalMedia: MediaItem[] = existingCase.media || [];
     const newFilesProvided = (formData.getAll('caseMedia').filter(f => f instanceof File && f.size > 0)).length > 0;
@@ -264,6 +282,7 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
         title,
         category,
         coverUrl: finalCoverUrl,
+        hoverImageUrl: finalHoverImageUrl,
         media: finalMedia,
         type: 'modal',
         description,
@@ -281,6 +300,7 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
         title,
         category,
         coverUrl: finalCoverUrl,
+        hoverImageUrl: finalHoverImageUrl,
         media: [], // Links don't have modal media. Delete old ones.
         type: 'link',
         externalUrl,
@@ -319,6 +339,7 @@ export async function deleteCaseAction(caseId: string): Promise<{ success: boole
     }
 
     await deleteFileByUrl(caseToDelete.coverUrl);
+    await deleteFileByUrl(caseToDelete.hoverImageUrl);
     await Promise.all((caseToDelete.media || []).map(item => deleteFileByUrl(item.url)));
 
 
