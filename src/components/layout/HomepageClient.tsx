@@ -25,14 +25,28 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
   return (
     <ReactFullpage
       licenseKey={licenseKey}
-      scrollingSpeed={1000}
+      scrollingSpeed={1200}
       scrollOverflow={true}
       anchors={anchors}
-      navigation
+      navigation={true}
       navigationTooltips={anchors}
       credits={{
-        enabled: false, // ✅ Отключили "Powered by fullPage.js"
+        enabled: false,
       }}
+      easing="easeInOutCubic"
+      easingcss3="cubic-bezier(0.645, 0.045, 0.355, 1)"
+      touchSensitivity={15}
+      normalScrollElementTouchThreshold={5}
+      keyboardScrolling={true}
+      recordHistory={false}
+      css3={true}
+      fitToSection={true}
+      fitToSectionDelay={300}
+      scrollBar={false}
+      continuousVertical={false}
+      dragAndMove={true}
+      offsetSections={false}
+      resetSliders={false}
       render={({ state, fullpageApi }) => {
         return (
           <ReactFullpage.Wrapper>
