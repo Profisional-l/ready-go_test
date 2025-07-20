@@ -11,7 +11,6 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Case } from "@/types";
 import { useState, useRef, useEffect } from "react";
-import { useLenis } from "@studio-freight/react-lenis";
 
 interface CaseModalProps {
   isOpen: boolean;
