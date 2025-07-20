@@ -138,7 +138,7 @@ export function Footer() {
   };
   return (
       <footer id="contact" className="md:bg-[#0E0E0E] text-background m-3 rounded-xl footer-content-wrapper">
-        <div className="max-w-[1450px] mx-auto px-4 bg-transparent overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
+        <div className="max-w-[1450px] mx-auto px-4 bg-transparent grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
           {/* Left Column (Links & Copyright) - shows on left on desktop */}
           <div className="pt-1 md:mb-0 links-container">
             <p className="text-foreground md:text-white text-[20px] pb-[55px] font-semibold tight-spacing-1 footer-adapt-subtitle">
@@ -238,8 +238,7 @@ export function Footer() {
           </form>
         </div>
 
-        <section className="bg-transparent text-background pt-20 md:pt-[170px] overflow-hidden">
-          <div className="max-w-[1450px] mx-auto text-center">
+        <section className="bg-transparent text-background text-center pt-20 md:pt-[170px] overflow-hidden">
             <h2 className="font-mycustom font-extrabold leading-tight uppercase footerText text-white">
               ВЫ <span className="textToBorderBlack">READY</span> РАБОТАТЬ С
               НАМИ?{" "}
@@ -311,7 +310,6 @@ export function Footer() {
               </span>{" "}
               ТОГДА <span className="textToBorderBlack">GO</span>!
             </h2>
-          </div>
         </section>
 
         {showSuccessModal && isMobile && (
