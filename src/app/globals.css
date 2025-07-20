@@ -15,6 +15,11 @@
   overflow: visible !important;
 }
 
+/* Apply smooth scrolling inside scrollable fullpage.js sections */
+.fp-scrollable {
+  scroll-behavior: smooth;
+}
+
 .footer-button{
   display: none;
 }
