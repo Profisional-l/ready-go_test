@@ -203,6 +203,8 @@ body.modal-open {
   }
 
   .links-container {
+    display: flex;
+    flex-direction: column-reverse;
     background-color: hsl(var(--background));
     padding: 15px;
     margin-top: -10px; 

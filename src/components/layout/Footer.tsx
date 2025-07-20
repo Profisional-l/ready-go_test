@@ -137,111 +137,111 @@ export function Footer() {
     setShowSuccessModal(true);
   };
   return (
-      <footer id="contact" className="md:bg-[#0E0E0E] text-background m-3 rounded-xl footer-content-wrapper">
-        <div className="max-w-[1450px] mx-auto px-4 bg-transparent grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
-          {/* Left Column (Links & Copyright) - shows on left on desktop */}
-          <div className="pt-1 md:mb-0 links-container">
-            <p className="text-foreground md:text-white text-[20px] pb-[55px] font-semibold tight-spacing-1 footer-adapt-subtitle">
-              &copy; READYGO 2025
+    <footer id="contact" className="md:bg-[#0E0E0E] text-background m-3 rounded-xl footer-content-wrapper">
+      <div className="max-w-[1450px] mx-auto pt-5 bg-transparent grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
+        {/* Left Column (Links & Copyright) - shows on left on desktop */}
+        <div className="pt-1 md:mb-0 links-container">
+          <p className="text-foreground md:text-white text-[20px] pb-[55px] font-semibold tight-spacing-1 footer-adapt-subtitle">
+            &copy; READYGO 2025
+          </p>
+          <nav className="m-0 space-y-3">
+            <Link
+              href="https://www.instagram.com/ready.go.agency/"
+              aria-label="Instagram"
+              className="text-foreground md:text-white text-[24px] block underline hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
+            >
+              Instagram
+            </Link>
+            <Link
+              href="mailto:go@rg.by"
+              aria-label="Email"
+              className="text-foreground md:text-white text-[24px] underline block hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
+            >
+              Email
+            </Link>
+          </nav>
+        </div>
+
+        {/* Right Column - Form - shows on right on desktop */}
+        <form onSubmit={handleSubmit} className="w-full form-container">
+          <div className="mb-8">
+            <h4 className="text-[16px] md:text-[20px] font-semibold uppercase tracking-wider pb-[42px] tight-spacing-1 text-white">
+              ГОУ ЗНАКОМИТЬСЯ
+            </h4>
+            <p className="text-[#ffffff] text-[18px] md:text-[24px] tight-spacing-1">
+              Опишите вашу задачу. Или оставьте контакты,{" "}
+              <br className="hidden md:block" /> мы с вами свяжемся и все
+              узнаем
             </p>
-            <nav className="m-0 space-y-3">
-              <Link
-                href="https://www.instagram.com/ready.go.agency/"
-                aria-label="Instagram"
-                className="text-foreground md:text-white text-[24px] block underline hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
-              >
-                Instagram
-              </Link>
-              <Link
-                href="mailto:go@rg.by"
-                aria-label="Email"
-                className="text-foreground md:text-white text-[24px] underline block hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
-              >
-                Email
-              </Link>
-            </nav>
           </div>
 
-          {/* Right Column - Form - shows on right on desktop */}
-          <form onSubmit={handleSubmit} className="w-full form-container">
-            <div className="mb-8">
-              <h4 className="text-[16px] md:text-[20px] font-semibold uppercase tracking-wider pb-[42px] tight-spacing-1 text-white">
-                ГОУ ЗНАКОМИТЬСЯ
-              </h4>
-              <p className="text-[#ffffff] text-[18px] md:text-[24px] tight-spacing-1">
-                Опишите вашу задачу. Или оставьте контакты,{" "}
-                <br className="hidden md:block" /> мы с вами свяжемся и все
-                узнаем
-              </p>
+          <div className="mt-10 space-y-6 max-w-[555px]">
+            <div className="grid sm:grid-cols-2 gap-x-8 gap-y-5">
+              <ValidatedInput
+                type="text"
+                name="name"
+                placeholder="Имя"
+                className="text-[18px] md:text-[24px] footer-input"
+                validate={(val) =>
+                  val.trim().length < 2 ? "Введите корректное имя" : null
+                }
+              />
+              <ValidatedInput
+                type="email"
+                name="email"
+                placeholder="Email"
+                className="text-[18px] md:text-[24px] footer-input"
+                validate={(val) =>
+                  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)
+                    ? null
+                    : "Введите корректный email"
+                }
+              />
             </div>
 
-            <div className="mt-10 space-y-6 max-w-[555px]">
-              <div className="grid sm:grid-cols-2 gap-x-8 gap-y-5">
-                <ValidatedInput
-                  type="text"
-                  name="name"
-                  placeholder="Имя"
-                  className="text-[18px] md:text-[24px] footer-input"
-                  validate={(val) =>
-                    val.trim().length < 2 ? "Введите корректное имя" : null
-                  }
-                />
-                <ValidatedInput
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  className="text-[18px] md:text-[24px] footer-input"
-                  validate={(val) =>
-                    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)
-                      ? null
-                      : "Введите корректный email"
-                  }
-                />
-              </div>
-
-              <div className="relative task-adapt">
-                <ValidatedInput
-                  type="text"
-                  name="task"
-                  placeholder="Задача"
-                  className="text-[18px] md:text-[24px] pr-10 footer-input footer-input-text"
-                  validate={(val) =>
-                    val.trim().length < 5 ? "Опишите задачу подробнее" : null
-                  }
-                />
-                <Button
-                  type="submit"
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-0 top-1/2 transform -translate-y-1/2 text-muted-foreground/70 hover:text-accent h-auto p-1 focus:ring-0 focus:ring-offset-0 ft-button"
-                  aria-label="Отправить"
-                >
-                  {isMobile ? (
-                    <ArrowRight size={22} />
-                  ) : showSuccessModal ? (
-                    <Check size={22} color="#04D6E3" />
-                  ) : (
-                    <ArrowRight size={22} />
-                  )}
-                </Button>
-              </div>
+            <div className="relative task-adapt">
+              <ValidatedInput
+                type="text"
+                name="task"
+                placeholder="Задача"
+                className="text-[18px] md:text-[24px] pr-10 footer-input footer-input-text"
+                validate={(val) =>
+                  val.trim().length < 5 ? "Опишите задачу подробнее" : null
+                }
+              />
+              <Button
+                type="submit"
+                variant="ghost"
+                size="icon"
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 text-muted-foreground/70 hover:text-accent h-auto p-1 focus:ring-0 focus:ring-offset-0 ft-button"
+                aria-label="Отправить"
+              >
+                {isMobile ? (
+                  <ArrowRight size={22} />
+                ) : showSuccessModal ? (
+                  <Check size={22} color="#04D6E3" />
+                ) : (
+                  <ArrowRight size={22} />
+                )}
+              </Button>
             </div>
+          </div>
 
-            <Button
-              type="submit"
-              variant="ghost"
-              className="footer-button"
-              aria-label="Отправить"
-            >
-              Отправить
-            </Button>
-          </form>
-        </div>
+          <Button
+            type="submit"
+            variant="ghost"
+            className="footer-button"
+            aria-label="Отправить"
+          >
+            Отправить
+          </Button>
+        </form>
+      </div>
 
       <section className="text-center pt-20 md:pt-[170px] overflow-hidden">
         <div className="w-full max-w-[1600px] mx-auto px-4">
           <h2
-            className="font-mycustom font-extrabold uppercase text-white whitespace-nowrap w-full"
+            className="font-mycustom mb-5 font-extrabold uppercase text-white whitespace-nowrap w-full"
             style={{ fontSize: "7.5vw", lineHeight: 1.1 }}
           >
             ВЫ <span className="textToBorderBlack">READY</span> РАБОТАТЬ С НАМИ?
@@ -274,30 +274,30 @@ export function Footer() {
         </div>
       </section>
 
-        {showSuccessModal && isMobile && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-8 rounded-xl shadow-lg text-center relative footer-message">
-              <button
-                onClick={() => setShowSuccessModal(false)}
-                className="absolute top-4 right-4 rounded-full bg-gray-200 p-2 hover:bg-gray-300 transition-colors"
-                aria-label="Закрыть"
-              >
-                <Image
-                  src="/images/close_Vector.png"
-                  alt="close"
-                  width={16}
-                  height={16}
-                />
-              </button>
-              <h3 className="text-[27px] font-bold tight-spacing-1 text-black">
-                Спасибо!
-              </h3>
-              <p className="text-[16px] text-[#0E0E0E80] text-600 text-lg">
-                Ваше сообщение успешно <br></br> отправлено
-              </p>
-            </div>
+      {showSuccessModal && isMobile && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-8 rounded-xl shadow-lg text-center relative footer-message">
+            <button
+              onClick={() => setShowSuccessModal(false)}
+              className="absolute top-4 right-4 rounded-full bg-gray-200 p-2 hover:bg-gray-300 transition-colors"
+              aria-label="Закрыть"
+            >
+              <Image
+                src="/images/close_Vector.png"
+                alt="close"
+                width={16}
+                height={16}
+              />
+            </button>
+            <h3 className="text-[27px] font-bold tight-spacing-1 text-black">
+              Спасибо!
+            </h3>
+            <p className="text-[16px] text-[#0E0E0E80] text-600 text-lg">
+              Ваше сообщение успешно <br></br> отправлено
+            </p>
           </div>
-        )}
-      </footer>
+        </div>
+      )}
+    </footer>
   );
 }
