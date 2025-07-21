@@ -109,7 +109,7 @@ html.lenis {
   overflow: hidden !important;
 }
 
-body.modal-active {
+body.modal-open {
   overflow: hidden;
 }
 

@@ -79,10 +79,15 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
   useEffect(() => {
     if (isOpen) {
       scrollPositionRef.current = window.scrollY;
-      document.body.classList.add('modal-active');
+      document.body.classList.add('modal-open');
+      // Scroll to top of page to show modal
+      window.scrollTo({ top: 0, behavior: 'instant' });
     } else {
-      document.body.classList.remove('modal-active');
-      window.scrollTo({ top: scrollPositionRef.current, behavior: 'auto' });
+      document.body.classList.remove('modal-open');
+       // Only scroll back if a valid position was saved
+      if (typeof scrollPositionRef.current === 'number') {
+        window.scrollTo({ top: scrollPositionRef.current, behavior: 'instant' });
+      }
     }
   }, [isOpen]);
 
@@ -90,36 +95,26 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
 
   const renderMediaGrid = () => {
     if (!caseData?.media || caseData.media.length === 0) return null;
-    const images = caseData.media.filter((item) => item.type === "image");
-    const videos = caseData.media.filter((item) => item.type === "video");
+  
     return (
       <div className="mt-6 space-y-3">
-        {images.length > 0 && (
-          <div className="flex flex-col gap-3">
-            {images.map((item, index) => (
-              <div key={`image-${index}`} className="relative w-full h-auto aspect-auto">
-                <Image
-                  src={item.url}
-                  alt={`${caseData.title} - Image ${index + 1}`}
-                  width={1200}
-                  height={800}
-                  sizes="(max-width: 768px) 100vw, 80vw"
-                  className="w-full h-auto rounded-[10px] object-contain"
-                  unoptimized={item.url.endsWith('.gif')}
-                />
-              </div>
-            ))}
+        {caseData.media.map((item, index) => (
+          <div key={`${item.type}-${index}`} className="relative w-full h-auto">
+            {item.type === 'image' ? (
+              <Image
+                src={item.url}
+                alt={`${caseData.title} - Media ${index + 1}`}
+                width={1200}
+                height={800}
+                sizes="(max-width: 768px) 100vw, 80vw"
+                className="w-full h-auto rounded-[10px] object-contain"
+                unoptimized={item.url.endsWith('.gif')}
+              />
+            ) : (
+              <VideoWithPreview src={item.url} />
+            )}
           </div>
-        )}
-        {videos.length > 0 && (
-          <div className="space-y-3">
-            {videos.map((item, index) => (
-              <div key={`video-${index}`} className="w-full">
-                <VideoWithPreview src={item.url} />
-              </div>
-            ))}
-          </div>
-        )}
+        ))}
       </div>
     );
   };
