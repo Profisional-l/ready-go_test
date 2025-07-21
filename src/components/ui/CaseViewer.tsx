@@ -4,7 +4,7 @@
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import type { Case } from "@/types";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface CaseViewerProps {
@@ -69,20 +69,26 @@ function VideoWithPreview({ src }: { src: string }) {
 
 export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
   useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+    
     if (caseData) {
       document.documentElement.classList.add('modal-open');
+      window.addEventListener('keydown', handleKeyDown);
     } else {
       document.documentElement.classList.remove('modal-open');
     }
     
-    // Cleanup on component unmount
     return () => {
       document.documentElement.classList.remove('modal-open');
+      window.removeEventListener('keydown', handleKeyDown);
     }
-  }, [caseData]);
+  }, [caseData, onClose]);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Only close if the click is on the backdrop itself, not on its children
     if (e.target === e.currentTarget) {
         onClose();
     }
@@ -121,11 +127,16 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[1001] bg-black/80"
+                transition={{ duration: 0.3 }}
+                className="fixed inset-0 z-[1001] bg-black/80 flex items-center justify-center"
                 onClick={handleBackdropClick}
             >
-                <div 
-                    className="fixed inset-0 z-[1002] overflow-y-auto bg-[#F0EFEE] sm:rounded-[35px]"
+                <motion.div
+                    initial={{ scale: 0.95, y: 20 }}
+                    animate={{ scale: 1, y: 0 }}
+                    exit={{ scale: 0.95, y: 20, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="relative w-full h-full bg-[#F0EFEE] overflow-y-auto sm:rounded-[35px]"
                 >
                     <button
                         onClick={onClose}
@@ -165,7 +176,7 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
                         )}
                     </div>
                     {renderMediaGrid()}
-                </div>
+                </motion.div>
             </motion.div>
         )}
     </AnimatePresence>

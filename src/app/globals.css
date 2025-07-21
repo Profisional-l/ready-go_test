@@ -101,7 +101,7 @@
 
 
 html.modal-open {
-  overflow-y: hidden;
+  overflow: hidden !important;
 }
 
 @layer base {
@@ -135,16 +135,6 @@ html.modal-open {
     color: #04D6E3;
   }
 
-  /* Скрытие скроллбаров */
-  
-  html, body {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE, Edge */
-  }
-  
-  ::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-  }
 }
 @media (max-width: 404px) {
     .footerText {

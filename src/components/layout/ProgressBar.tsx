@@ -14,7 +14,8 @@ export function ProgressBar() {
       setProgress(scrollProgress);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    // Слушаем нативное событие, так как наш кастомный скролл обновляет window.scrollY
+    window.addEventListener('scroll', handleScroll, { passive: true });
     
     // Initial call
     handleScroll();
