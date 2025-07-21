@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import type { Case } from "@/types";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLenis } from "@studio-freight/react-lenis";
 
 interface CaseViewerProps {
   caseData: Case | null;
@@ -68,19 +69,23 @@ function VideoWithPreview({ src }: { src: string }) {
 
 
 export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
-  
+  const lenis = useLenis();
+
   useEffect(() => {
     if (caseData) {
+      lenis?.stop();
       document.documentElement.classList.add('modal-open');
     } else {
+      lenis?.start();
       document.documentElement.classList.remove('modal-open');
     }
     
     // Cleanup on component unmount
     return () => {
+      lenis?.start();
       document.documentElement.classList.remove('modal-open');
     }
-  }, [caseData]);
+  }, [caseData, lenis]);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Only close if the click is on the backdrop itself, not on its children
