@@ -175,8 +175,21 @@ body.modal-open {
   .textToBorderBlack {
     -webkit-text-stroke: 2px white; /* Измененное значение для маленьких экранов */
   }
+
   .footerText{
     display: none;
+  }
+
+  .footer-lable {
+      font-size: 7.5vw;
+      line-height: 1.1;
+    }
+
+  @media (min-width: 1600px) {
+    .footer-lable {
+      font-size: 120px;
+    }
+
   }
   
   .footer-groop{

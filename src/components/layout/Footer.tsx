@@ -66,6 +66,8 @@ function ValidatedInput({
 export function Footer() {
   const eyesRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isBig, setIsBig] = useState(false);
+
   const [eyeStyle, setEyeStyle] = useState<React.CSSProperties>({});
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -78,6 +80,16 @@ export function Footer() {
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+    useEffect(() => {
+    const checkBig = () => {
+      setIsBig(window.innerWidth > 1600);
+    };
+
+    checkBig();
+    window.addEventListener("resize", checkBig);
+    return () => window.removeEventListener("resize", checkBig);
   }, []);
 
   // Анимация глаз
@@ -241,8 +253,8 @@ export function Footer() {
       <section className="text-center pt-20 md:pt-[170px] overflow-hidden">
         <div className="w-full max-w-[1600px] mx-auto px-4">
           <h2
-            className="font-mycustom mb-5 font-extrabold uppercase text-white whitespace-nowrap w-full"
-            style={{ fontSize: "7.5vw", lineHeight: 1.1 }}
+            className="font-mycustom mb-5 font-extrabold uppercase text-white whitespace-nowrap w-full footer-lable"
+            style={isBig ? ({ fontSize: "120px", lineHeight: 1.1 }) : ({ fontSize: "7.5vw", lineHeight: 1.1 })}
           >
             ВЫ <span className="textToBorderBlack">READY</span> РАБОТАТЬ С НАМИ?
             <span className="inline-block relative align-middle -mt-5" style={{ height: ".83em", width: "calc(95/103 * 1em)" }} ref={eyesRef}>
