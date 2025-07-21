@@ -107,6 +107,7 @@ html.modal-open {
 @layer base {
   * {
     @apply border-border;
+    scrollbar-width: none;
     /* cursor: url("../components/assets/CURSOR_01.png"), auto; */
   }
   button:hover, a:hover, .caseCard:hover {
