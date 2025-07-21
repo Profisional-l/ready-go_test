@@ -41,14 +41,14 @@ export default async function AllCasesPage() {
       </div>
       <main className="bg-[#F1F0F0] md:bg-background text-foreground pb-10 ">
         <div className="max-w-[1640px] mx-auto px-4 md:px-9 py-16 md:py-24">
-            <h1 className="text-6xl md:text-[130px] font-mycustom text-foreground mb-8 md:mb-12 uppercase">кейсы</h1>
-            <AllCasesClient cases={allCases} />
+          <h1 className="text-6xl md:text-[130px] font-mycustom text-foreground mb-8 md:mb-12 uppercase">кейсы</h1>
+          <AllCasesClient cases={allCases} />
         </div>
-                <div className="self-end md:self-auto text-center">
+        <div className="self-end md:self-auto text-center">
           <Button
             asChild
             variant="outline"
-            className="text-sm md:text-base tracking-wider opacity-55 hover:opacity-100 transition-opacity duration-300  border-solid border-[1.5px] border-[#000000] rounded-[54px] bg-transparent hover:bg-transparent p-5 px-6  mx-auto -mt-32"
+            className="text-[20px] tracking-wider tight-spacing-2 opacity-55 hover:opacity-100 transition-opacity duration-300  border-solid border-[2px] border-[#101010] rounded-[54px] bg-transparent hover:bg-transparent p-[25.5px] px-[30.13px]"
           >
             <Link href="/">Назад</Link>
           </Button>

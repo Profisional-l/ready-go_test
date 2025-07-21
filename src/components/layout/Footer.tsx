@@ -50,7 +50,7 @@ function ValidatedInput({
         onBlur={handleBlur}
         onChange={handleChange}
         className={cn(
-          "w-full bg-transparent border-0 border-b text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-none",
+          "w-full bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-none",
           error
             ? "border-red-500 focus:border-red-500"
             : "border-white/40 focus:border-white",
@@ -82,7 +82,7 @@ export function Footer() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     const checkBig = () => {
       setIsBig(window.innerWidth > 1600);
     };
@@ -180,9 +180,9 @@ export function Footer() {
             <h4 className="text-[16px] md:text-[20px] font-semibold uppercase tracking-wider pb-[42px] tight-spacing-1 text-white">
               ГОУ ЗНАКОМИТЬСЯ
             </h4>
-            <p className="text-[#ffffff] text-[18px] md:text-[24px] tight-spacing-1">
-              Опишите вашу задачу. Или оставьте контакты,{" "}
-              <br className="hidden md:block" /> мы с вами свяжемся и все
+            <p className="text-[#ffffff] text-[18px] md:text-[24px] tight-spacing-1 footer-subtitle">
+              Опишите вашу задачу. Или <br className="block md:hidden" /> оставьте контакты,{" "}
+              <br className="hidden md:block" /> мы с вами <br className="block md:hidden" /> свяжемся и все
               узнаем
             </p>
           </div>

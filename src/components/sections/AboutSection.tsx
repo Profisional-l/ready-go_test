@@ -75,7 +75,7 @@ export function AboutSection() {
   }, []);
 
   return (
-    <section className="py-16 md:py-24 mt-[30px]">
+    <section className="py-16 md:py-24 mt-[30px] mb-[30px]">
       <div className="m-0 max-w-[100%]">
         <div className="flex flex-col md:flex-row md:items-start md:space-x-16">
           {/* Текстовый блок */}
@@ -113,9 +113,8 @@ export function AboutSection() {
                 alt={`About image ${index}`}
                 fill
                 unoptimized={true}
-                className={`object-cover absolute top-0 left-0 transition-opacity duration-1000 ease-in-out ${
-                  index === currentImage ? "opacity-100 z-10" : "opacity-0 z-0"
-                }`}
+                className={`object-cover absolute top-0 left-0 transition-opacity duration-1000 ease-in-out ${index === currentImage ? "opacity-100 z-10" : "opacity-0 z-0"
+                  }`}
               />
             ))}
           </div>

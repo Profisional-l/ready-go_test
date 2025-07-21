@@ -132,9 +132,13 @@ html.modal-open {
   text-overflow: ellipsis;
 }
 
-  .check-mark{
-    color: #04D6E3;
-  }
+.footer-form{
+  border-bottom-width: 2px;
+}
+
+.check-mark{
+  color: #04D6E3;
+}
 
 }
 @media (max-width: 404px) {
@@ -222,6 +226,10 @@ html.modal-open {
     font-weight: 700;
     margin-top: 43px;
     padding-bottom: 0;
+  }
+  .footer-subtitle{
+    font-size: 18px;
+    line-height: 1.19em
   }
   .footer-input{
     border: 1px solid #FFFDFB; 
