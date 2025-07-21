@@ -99,15 +99,6 @@
   }
 }
 
-html.lenis {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-stopped {
-  overflow: hidden !important;
-}
 
 html.modal-open {
   overflow-y: hidden;
@@ -295,9 +286,4 @@ header nav{
 }
 .tight-spacing-3 {
   letter-spacing: -0.03em;
-}
-
-html.lenis-stopped,
-html.modal-open {
-  overflow: hidden !important;
 }

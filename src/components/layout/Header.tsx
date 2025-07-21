@@ -10,13 +10,13 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
   // Блокировка прокрутки body при открытом меню
   useEffect(() => {
     if (isOpen) {
-      document.documentElement.classList.add('lenis-stopped');
+      document.documentElement.classList.add('modal-open');
     } else {
-      document.documentElement.classList.remove('lenis-stopped');
+      document.documentElement.classList.remove('modal-open');
     }
     // Cleanup function to remove class when component unmounts
     return () => {
-      document.documentElement.classList.remove('lenis-stopped');
+      document.documentElement.classList.remove('modal-open');
     };
   }, [isOpen]);
 
