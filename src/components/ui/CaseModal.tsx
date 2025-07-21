@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Case } from "@/types";
 import { useState, useRef, useEffect } from "react";
+import { useLenis } from "@studio-freight/react-lenis";
 
 interface CaseModalProps {
   isOpen: boolean;
@@ -77,17 +78,20 @@ function VideoWithPreview({ src }: { src: string }) {
 }
 
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
+  const lenis = useLenis();
+  
   useEffect(() => {
     if (isOpen) {
-      document.documentElement.classList.add('lenis-stopped');
+      lenis?.stop();
     } else {
-      document.documentElement.classList.remove('lenis-stopped');
+      lenis?.start();
     }
-    // Cleanup function to remove class when component unmounts or isOpen changes
+    // Cleanup function to ensure scrolling is re-enabled if component unmounts while open
     return () => {
-      document.documentElement.classList.remove('lenis-stopped');
+      lenis?.start();
     };
-  }, [isOpen]);
+  }, [isOpen, lenis]);
+
 
   if (!caseData || caseData.type !== 'modal') return null;
 
@@ -194,5 +198,3 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
     </Dialog>
   );
 }
-
-
