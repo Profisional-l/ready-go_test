@@ -77,17 +77,21 @@ function VideoWithPreview({ src }: { src: string }) {
 }
 
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
+  const lenis = useLenis();
+  
   useEffect(() => {
     if (isOpen) {
-      document.documentElement.classList.add('lenis-stopped');
+      lenis?.stop();
     } else {
-      document.documentElement.classList.remove('lenis-stopped');
+      lenis?.start();
     }
-    // Cleanup function to remove class when component unmounts
+    
+    // Cleanup on component unmount
     return () => {
-      document.documentElement.classList.remove('lenis-stopped');
-    };
-  }, [isOpen]);
+        lenis?.start();
+    }
+  }, [isOpen, lenis]);
+
 
   if (!caseData || caseData.type !== 'modal') return null;
 
@@ -160,9 +164,9 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-[95%] md:max-w-[98%] bg-[#F0EFEE] p-0 grid grid-rows-[auto_1fr]">
-        <ScrollArea className="h-full row-start-1 row-end-3">
-          <div className="p-3 md:p-20 md:px-48">
+      <DialogContent className="max-w-[95%] md:max-w-[98%] bg-[#F0EFEE] p-0">
+        <div className="relative h-full w-full flex flex-col">
+          <div className="p-3 md:p-20 md:px-48 flex-shrink-0">
             <DialogHeader>
               <DialogTitle className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">
                 {caseData.category}
@@ -186,10 +190,13 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
                 ))}
               </div>
             )}
-
-            {renderMediaGrid()}
           </div>
-        </ScrollArea>
+          <ScrollArea className="flex-grow min-h-0">
+            <div className="px-3 md:px-48 pb-10">
+              {renderMediaGrid()}
+            </div>
+          </ScrollArea>
+        </div>
       </DialogContent>
     </Dialog>
   );
