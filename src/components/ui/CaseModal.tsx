@@ -12,6 +12,8 @@ import { Badge } from "@/components/ui/badge";
 import type { Case } from "@/types";
 import { useState, useRef, useEffect } from "react";
 import { useLenis } from "@studio-freight/react-lenis";
+import { ScrollArea } from "@/components/ui/scroll-area";
+
 
 interface CaseModalProps {
   isOpen: boolean;
@@ -74,22 +76,15 @@ function VideoWithPreview({ src }: { src: string }) {
 }
 
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
-  const scrollPositionRef = useRef(0);
+  const lenis = useLenis();
 
   useEffect(() => {
     if (isOpen) {
-      scrollPositionRef.current = window.scrollY;
-      document.body.classList.add('modal-open');
-      // Scroll to top of page to show modal
-      window.scrollTo({ top: 0, behavior: 'instant' });
+      lenis?.stop();
     } else {
-      document.body.classList.remove('modal-open');
-       // Only scroll back if a valid position was saved
-      if (typeof scrollPositionRef.current === 'number') {
-        window.scrollTo({ top: scrollPositionRef.current, behavior: 'instant' });
-      }
+      lenis?.start();
     }
-  }, [isOpen]);
+  }, [isOpen, lenis]);
 
   if (!caseData || caseData.type !== 'modal') return null;
 
@@ -97,7 +92,7 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
     if (!caseData?.media || caseData.media.length === 0) return null;
   
     return (
-      <div className="mt-6 space-y-3">
+      <div className="mt-6 space-y-3 px-3 md:px-48 pb-10">
         {caseData.media.map((item, index) => (
           <div key={`${item.type}-${index}`} className="relative w-full h-auto">
             {item.type === 'image' ? (
@@ -121,36 +116,37 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-[95%] md:max-w-[98%] bg-[#F0EFEE] p-0">
-        <div className="p-3 md:p-20 md:px-48">
-          <DialogHeader>
-            <DialogTitle className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">
-              {caseData.category}
-            </DialogTitle>
-          </DialogHeader>
-          {caseData.fullDescription && (
-            <p className="text-[18px] font-medium  text-left md:text-center text-foreground md:mb-10 max-w-[600px] mx-auto ">
-              {caseData.fullDescription}
-            </p>
-          )}
-          {caseData.tags && caseData.tags.length > 0 && (
-            <div className="flex flex-wrap justify-center gap-2 mb-14">
-              {caseData.tags.map((tag, index) => (
-                <Badge
-                  key={index}
-                  variant="secondary"
-                  className="text-[#5D5D5D] text-sm bg-[#e9e9e9] hidden md:block"
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          )}
-          <div className="px-3 md:px-48 pb-10">
-            {renderMediaGrid()}
+      <DialogContent className="max-w-[95%] md:max-w-[98%] bg-[#F0EFEE] p-0 flex flex-col">
+        <ScrollArea className="flex-grow">
+          <div className="p-3 md:pt-20 md:px-48">
+            <DialogHeader>
+              <DialogTitle className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">
+                {caseData.category}
+              </DialogTitle>
+            </DialogHeader>
+            {caseData.fullDescription && (
+              <p className="text-[18px] font-medium  text-left md:text-center text-foreground md:mb-10 max-w-[600px] mx-auto ">
+                {caseData.fullDescription}
+              </p>
+            )}
+            {caseData.tags && caseData.tags.length > 0 && (
+              <div className="flex flex-wrap justify-center gap-2 mb-14">
+                {caseData.tags.map((tag, index) => (
+                  <Badge
+                    key={index}
+                    variant="secondary"
+                    className="text-[#5D5D5D] text-sm bg-[#e9e9e9] hidden md:block"
+                  >
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
+          {renderMediaGrid()}
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
 }
+
