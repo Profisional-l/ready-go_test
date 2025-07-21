@@ -86,7 +86,6 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
     } else {
       lenis?.start();
     }
-    // Cleanup function to ensure scrolling is re-enabled if component unmounts while open
     return () => {
       lenis?.start();
     };
