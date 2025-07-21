@@ -10,10 +10,14 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
   // Блокировка прокрутки body при открытом меню
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.documentElement.classList.add('lenis-stopped');
     } else {
-      document.body.style.overflow = "";
+      document.documentElement.classList.remove('lenis-stopped');
     }
+    // Cleanup function to remove class when component unmounts
+    return () => {
+      document.documentElement.classList.remove('lenis-stopped');
+    };
   }, [isOpen]);
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {

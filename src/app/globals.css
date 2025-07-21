@@ -99,8 +99,18 @@
   }
 }
 
-body.modal-open {
-  overflow: hidden;
+html.lenis-stopped {
+  overflow: hidden !important;
+}
+
+html.lenis {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden !important;
 }
 
 @layer base {
@@ -135,15 +145,6 @@ body.modal-open {
   }
 
   /* Скрытие скроллбаров */
-  html.lenis {
-    height: auto;
-  }
-  .lenis.lenis-smooth {
-    scroll-behavior: auto !important;
-  }
-  .lenis.lenis-stopped {
-    overflow: hidden !important;
-  }
   
   html, body {
     scrollbar-width: none; /* Firefox */

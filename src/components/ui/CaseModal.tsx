@@ -77,7 +77,18 @@ function VideoWithPreview({ src }: { src: string }) {
 }
 
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
-  
+  useEffect(() => {
+    if (isOpen) {
+      document.documentElement.classList.add('lenis-stopped');
+    } else {
+      document.documentElement.classList.remove('lenis-stopped');
+    }
+    // Cleanup function to remove class when component unmounts or isOpen changes
+    return () => {
+      document.documentElement.classList.remove('lenis-stopped');
+    };
+  }, [isOpen]);
+
   if (!caseData || caseData.type !== 'modal') return null;
 
   const renderMediaGrid = () => {
@@ -183,4 +194,5 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
     </Dialog>
   );
 }
+
 
