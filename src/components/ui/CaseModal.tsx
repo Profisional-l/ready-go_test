@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogOverlay
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import type { Case } from "@/types";
@@ -76,15 +77,8 @@ function VideoWithPreview({ src }: { src: string }) {
 }
 
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
-  const lenis = useLenis();
-
-  useEffect(() => {
-    if (isOpen) {
-      lenis?.stop();
-    } else {
-      lenis?.start();
-    }
-  }, [isOpen, lenis]);
+  // We don't need to stop/start Lenis anymore.
+  // We will control scrolling via data attributes.
 
   if (!caseData || caseData.type !== 'modal') return null;
 
@@ -116,37 +110,37 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-[95%] md:max-w-[98%] bg-[#F0EFEE] p-0 flex flex-col">
-        <ScrollArea className="flex-grow">
-          <div className="p-3 md:pt-20 md:px-48">
-            <DialogHeader>
-              <DialogTitle className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">
-                {caseData.category}
-              </DialogTitle>
-            </DialogHeader>
-            {caseData.fullDescription && (
-              <p className="text-[18px] font-medium  text-left md:text-center text-foreground md:mb-10 max-w-[600px] mx-auto ">
-                {caseData.fullDescription}
-              </p>
-            )}
-            {caseData.tags && caseData.tags.length > 0 && (
-              <div className="flex flex-wrap justify-center gap-2 mb-14">
-                {caseData.tags.map((tag, index) => (
-                  <Badge
-                    key={index}
-                    variant="secondary"
-                    className="text-[#5D5D5D] text-sm bg-[#e9e9e9] hidden md:block"
-                  >
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            )}
-          </div>
-          {renderMediaGrid()}
-        </ScrollArea>
-      </DialogContent>
+        <DialogOverlay data-lenis-prevent />
+        <DialogContent>
+            <div data-lenis-scroll className="w-full h-full overflow-y-auto">
+                <div className="p-3 md:pt-20 md:px-48">
+                    <DialogHeader>
+                    <DialogTitle className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">
+                        {caseData.category}
+                    </DialogTitle>
+                    </DialogHeader>
+                    {caseData.fullDescription && (
+                    <p className="text-[18px] font-medium  text-left md:text-center text-foreground md:mb-10 max-w-[600px] mx-auto ">
+                        {caseData.fullDescription}
+                    </p>
+                    )}
+                    {caseData.tags && caseData.tags.length > 0 && (
+                    <div className="flex flex-wrap justify-center gap-2 mb-14">
+                        {caseData.tags.map((tag, index) => (
+                        <Badge
+                            key={index}
+                            variant="secondary"
+                            className="text-[#5D5D5D] text-sm bg-[#e9e9e9] hidden md:block"
+                        >
+                            {tag}
+                        </Badge>
+                        ))}
+                    </div>
+                    )}
+                </div>
+                {renderMediaGrid()}
+            </div>
+        </DialogContent>
     </Dialog>
   );
 }
-
