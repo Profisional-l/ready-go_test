@@ -24,7 +24,7 @@ export const useSmoothScroll = () => {
     const animateScroll = () => {
       const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
 
-      // Если нечего скроллить (например, модальное окно открыто с overflow: hidden), ничего не делаем
+      // Если нечего скроллить, ничего не делаем
       if (scrollableHeight <= 0) {
         animationFrameId.current = requestAnimationFrame(animateScroll);
         return;
@@ -46,9 +46,17 @@ export const useSmoothScroll = () => {
     };
 
     const handleWheel = (e: WheelEvent) => {
+      // *** THE FIX IS HERE ***
+      // Если модальное окно открыто (определяем по классу на html),
+      // то полностью игнорируем событие и не вызываем preventDefault.
+      // Это позволяет браузеру обрабатывать скролл нативно (внутри модального окна).
+      if (document.documentElement.classList.contains('modal-open')) {
+        return;
+      }
+      
       const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
       
-       // Если нечего скроллить, игнорируем событие
+      // Если нечего скроллить, игнорируем событие
       if (scrollableHeight <= 0) return;
 
       e.preventDefault();
