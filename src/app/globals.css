@@ -109,8 +109,8 @@ html.lenis {
   overflow: hidden !important;
 }
 
-body.modal-open {
-  overflow: hidden;
+html.modal-open {
+  overflow-y: hidden !important;
 }
 
 @layer base {
