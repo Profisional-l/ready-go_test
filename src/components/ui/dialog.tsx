@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -45,7 +44,7 @@ const DialogContent = React.forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#E9E9E9] transition-all duration-300  hover:opacity-100 focus:outline-none shadow-xl hover:shadow-gray-400">
+      <DialogPrimitive.Close className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#E9E9E9] transition-all duration-300  hover:opacity-100 focus:outline-none shadow-xl hover:shadow-gray-400 z-10">
         {" "}
         {/* <X className="h-6 w-6 text-black" /> */}
         <Image

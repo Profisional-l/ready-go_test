@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -78,19 +77,17 @@ function VideoWithPreview({ src }: { src: string }) {
 }
 
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
-  const lenis = useLenis();
-  
   useEffect(() => {
     if (isOpen) {
-      lenis?.stop();
+      document.documentElement.classList.add('lenis-stopped');
     } else {
-      lenis?.start();
+      document.documentElement.classList.remove('lenis-stopped');
     }
+    // Cleanup function to remove class when component unmounts
     return () => {
-      lenis?.start();
+      document.documentElement.classList.remove('lenis-stopped');
     };
-  }, [isOpen, lenis]);
-
+  }, [isOpen]);
 
   if (!caseData || caseData.type !== 'modal') return null;
 
@@ -163,8 +160,8 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-[95%] md:max-w-[98%] bg-[#F0EFEE] p-0">
-        <ScrollArea className="h-full">
+      <DialogContent className="max-w-[95%] md:max-w-[98%] bg-[#F0EFEE] p-0 grid grid-rows-[auto_1fr]">
+        <ScrollArea className="h-full row-start-1 row-end-3">
           <div className="p-3 md:p-20 md:px-48">
             <DialogHeader>
               <DialogTitle className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">
