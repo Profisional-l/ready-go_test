@@ -83,11 +83,11 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
   }, [caseData]);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Only close if the click is on the backdrop itself, not on its children
     if (e.target === e.currentTarget) {
         onClose();
     }
   }
-
 
   const renderMediaGrid = () => {
     if (!caseData?.media || caseData.media.length === 0) return null;
