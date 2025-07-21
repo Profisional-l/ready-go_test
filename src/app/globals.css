@@ -296,3 +296,8 @@ header nav{
 .tight-spacing-3 {
   letter-spacing: -0.03em;
 }
+
+html.lenis-stopped,
+html.modal-open {
+  overflow: hidden !important;
+}
