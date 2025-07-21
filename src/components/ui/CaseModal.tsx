@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -8,7 +9,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Case } from "@/types";
 import { useState, useRef, useEffect } from "react";
 import { useLenis } from "@studio-freight/react-lenis";
@@ -19,7 +19,6 @@ interface CaseModalProps {
   caseData: Case | null;
 }
 
-// Новый компонент для видео с превью из первого кадра
 function VideoWithPreview({ src }: { src: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [poster, setPoster] = useState<string | undefined>(undefined);
@@ -28,7 +27,6 @@ function VideoWithPreview({ src }: { src: string }) {
     const video = videoRef.current;
     if (!video) return;
 
-    // Функция захвата кадра в canvas и генерация dataURL
     const captureFrame = () => {
       if (!video.videoWidth || !video.videoHeight) return;
       const canvas = document.createElement("canvas");
@@ -42,13 +40,12 @@ function VideoWithPreview({ src }: { src: string }) {
     };
 
     const onLoadedMetadata = () => {
-      // Прокручиваем на 0.1 секунды, чтобы гарантированно получить кадр
       video.currentTime = 0.1;
     };
 
     const onSeeked = () => {
       captureFrame();
-      video.currentTime = 0; // Вернуть в начало, чтобы не "подергивалось"
+      video.currentTime = 0;
       video.removeEventListener("seeked", onSeeked);
     };
 
@@ -77,33 +74,26 @@ function VideoWithPreview({ src }: { src: string }) {
 }
 
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
-  const lenis = useLenis();
-  
+  const scrollPositionRef = useRef(0);
+
   useEffect(() => {
     if (isOpen) {
-      lenis?.stop();
+      scrollPositionRef.current = window.scrollY;
+      document.body.classList.add('modal-active');
     } else {
-      lenis?.start();
+      document.body.classList.remove('modal-active');
+      window.scrollTo({ top: scrollPositionRef.current, behavior: 'auto' });
     }
-    
-    // Cleanup on component unmount
-    return () => {
-        lenis?.start();
-    }
-  }, [isOpen, lenis]);
-
+  }, [isOpen]);
 
   if (!caseData || caseData.type !== 'modal') return null;
 
   const renderMediaGrid = () => {
     if (!caseData?.media || caseData.media.length === 0) return null;
-
     const images = caseData.media.filter((item) => item.type === "image");
     const videos = caseData.media.filter((item) => item.type === "video");
-
     return (
       <div className="mt-6 space-y-3">
-        {/* Изображения */}
         {images.length > 0 && (
           <div className="flex flex-col gap-3">
             {images.map((item, index) => (
@@ -111,51 +101,23 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
                 <Image
                   src={item.url}
                   alt={`${caseData.title} - Image ${index + 1}`}
-                  width={1200} // Provide a base width for optimization
-                  height={800} // Provide a base height for optimization
+                  width={1200}
+                  height={800}
                   sizes="(max-width: 768px) 100vw, 80vw"
                   className="w-full h-auto rounded-[10px] object-contain"
-                  unoptimized={item.url.endsWith('.gif')} // Keep GIFs unoptimized
+                  unoptimized={item.url.endsWith('.gif')}
                 />
               </div>
             ))}
           </div>
         )}
-  
-
-        {/* Видео с превью из первого кадра */}
         {videos.length > 0 && (
           <div className="space-y-3">
-            {Array.from({ length: Math.ceil(videos.length / 3) }).map(
-              (_, rowIndex) => {
-                const rowVideos = videos.slice(
-                  rowIndex * 3,
-                  rowIndex * 3 + 3
-                );
-                const colClass =
-                  rowVideos.length === 1
-                    ? "grid-cols-1"
-                    : rowVideos.length === 2
-                    ? "grid-cols-1 sm:grid-cols-2"
-                    : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
-
-                return (
-                  <div
-                    key={rowIndex}
-                    className={`grid ${colClass} gap-3`}
-                  >
-                    {rowVideos.map((item, index) => (
-                      <div
-                        key={`video-${rowIndex}-${index}`}
-                        className="w-full"
-                      >
-                        <VideoWithPreview src={item.url} />
-                      </div>
-                    ))}
-                  </div>
-                );
-              }
-            )}
+            {videos.map((item, index) => (
+              <div key={`video-${index}`} className="w-full">
+                <VideoWithPreview src={item.url} />
+              </div>
+            ))}
           </div>
         )}
       </div>
@@ -165,37 +127,33 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-[95%] md:max-w-[98%] bg-[#F0EFEE] p-0">
-        <div className="relative h-full w-full flex flex-col">
-          <div className="p-3 md:p-20 md:px-48 flex-shrink-0">
-            <DialogHeader>
-              <DialogTitle className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">
-                {caseData.category}
-              </DialogTitle>
-            </DialogHeader>
-            {caseData.fullDescription && (
-              <p className="text-[18px] font-medium  text-left md:text-center text-foreground md:mb-10 max-w-[600px] mx-auto ">
-                {caseData.fullDescription}
-              </p>
-            )}
-            {caseData.tags && caseData.tags.length > 0 && (
-              <div className="flex flex-wrap justify-center gap-2 mb-14">
-                {caseData.tags.map((tag, index) => (
-                  <Badge
-                    key={index}
-                    variant="secondary"
-                    className="text-[#5D5D5D] text-sm bg-[#e9e9e9] hidden md:block"
-                  >
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            )}
-          </div>
-          <ScrollArea className="flex-grow min-h-0">
-            <div className="px-3 md:px-48 pb-10">
-              {renderMediaGrid()}
+        <div className="p-3 md:p-20 md:px-48">
+          <DialogHeader>
+            <DialogTitle className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">
+              {caseData.category}
+            </DialogTitle>
+          </DialogHeader>
+          {caseData.fullDescription && (
+            <p className="text-[18px] font-medium  text-left md:text-center text-foreground md:mb-10 max-w-[600px] mx-auto ">
+              {caseData.fullDescription}
+            </p>
+          )}
+          {caseData.tags && caseData.tags.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-2 mb-14">
+              {caseData.tags.map((tag, index) => (
+                <Badge
+                  key={index}
+                  variant="secondary"
+                  className="text-[#5D5D5D] text-sm bg-[#e9e9e9] hidden md:block"
+                >
+                  {tag}
+                </Badge>
+              ))}
             </div>
-          </ScrollArea>
+          )}
+          <div className="px-3 md:px-48 pb-10">
+            {renderMediaGrid()}
+          </div>
         </div>
       </DialogContent>
     </Dialog>

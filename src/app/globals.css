@@ -99,10 +99,6 @@
   }
 }
 
-html.lenis-stopped {
-  overflow: hidden !important;
-}
-
 html.lenis {
   height: auto;
 }
@@ -111,6 +107,10 @@ html.lenis {
 }
 .lenis.lenis-stopped {
   overflow: hidden !important;
+}
+
+body.modal-active {
+  overflow: hidden;
 }
 
 @layer base {

@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -37,16 +38,13 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed left-[50%] top-[50%] z-50 w-full translate-x-[-50%] translate-y-[-50%] gap-4 bg-background p-0 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] sm:rounded-[35px]",
-        "max-h-[96vh] flex flex-col", // Use flex-col to structure content
+        "absolute top-0 left-1/2 z-50 w-full -translate-x-1/2 gap-4 bg-background p-0 shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=open]:slide-in-from-left-1/2 sm:rounded-[35px]",
         className
       )}
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#E9E9E9] transition-all duration-300  hover:opacity-100 focus:outline-none shadow-xl hover:shadow-gray-400 z-10">
-        {" "}
-        {/* <X className="h-6 w-6 text-black" /> */}
+      <DialogPrimitive.Close className="fixed right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#E9E9E9] transition-all duration-300 hover:opacity-100 focus:outline-none shadow-xl hover:shadow-gray-400 z-10">
         <Image
           src="/images/close_Vector.png"
           alt="close"
