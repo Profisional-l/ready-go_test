@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -7,27 +8,22 @@ import Image from "next/image";
 
 import { cn } from "@/lib/utils";
 
-const Dialog = (props: DialogPrimitive.DialogProps) => {
-    const { onOpenChange } = props;
+const DialogRoot = ({ ...props }: DialogPrimitive.DialogProps) => {
+  const handleOpenChange = (open: boolean) => {
+    if (open) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+    props.onOpenChange?.(open);
+  };
 
-    const handleOpenChange = (open: boolean) => {
-        if (open) {
-            document.body.classList.add('modal-open');
-        } else {
-            document.body.classList.remove('modal-open');
-        }
-        if (onOpenChange) {
-            onOpenChange(open);
-        }
-    };
-
-    return <DialogPrimitive.Root {...props} onOpenChange={handleOpenChange} />;
+  return <DialogPrimitive.Root {...props} onOpenChange={handleOpenChange} />;
 };
 
+const Dialog = DialogRoot;
 const DialogTrigger = DialogPrimitive.Trigger;
-
 const DialogPortal = DialogPrimitive.Portal;
-
 const DialogClose = DialogPrimitive.Close;
 
 const DialogOverlay = React.forwardRef<

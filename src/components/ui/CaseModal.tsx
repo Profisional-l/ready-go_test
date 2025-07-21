@@ -150,7 +150,7 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-[95%] md:max-w-[98%] max-h-[96vh] flex flex-col p-0 rounded-lg bg-[#F0EFEE]">
-        <ScrollArea className="flex-grow h-full">
+        <ScrollArea className="flex-grow">
           <div className="p-3 md:p-20 md:px-48">
             <DialogHeader>
               <DialogTitle className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">
@@ -183,3 +183,4 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
     </Dialog>
   );
 }
+
