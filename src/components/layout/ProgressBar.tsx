@@ -1,25 +1,35 @@
 
 "use client";
 
-import { useLenis } from '@studio-freight/react-lenis';
-import { useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 export function ProgressBar() {
-  const progressBarRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
 
-  useLenis(({ scroll, limit }) => {
-    const progress = scroll / limit;
-    if (progressBarRef.current) {
-      progressBarRef.current.style.transform = `scaleX(${progress})`;
-    }
-  });
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrollPosition = window.scrollY;
+      const scrollProgress = totalHeight > 0 ? scrollPosition / totalHeight : 0;
+      setProgress(scrollProgress);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    
+    // Initial call
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <div className="fixed top-0 left-0 w-full h-[7.2px] z-[1000] bg-transparent transform-gpu">
       <div
-        ref={progressBarRef}
         className="h-full bg-accent"
         style={{
+          transform: `scaleX(${progress})`,
           transformOrigin: 'left',
           willChange: 'transform',
         }}

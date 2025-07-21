@@ -4,9 +4,8 @@
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import type { Case } from "@/types";
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLenis } from "@studio-freight/react-lenis";
 
 interface CaseViewerProps {
   caseData: Case | null;
@@ -69,23 +68,18 @@ function VideoWithPreview({ src }: { src: string }) {
 
 
 export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
-  const lenis = useLenis();
-
   useEffect(() => {
     if (caseData) {
-      lenis?.stop();
       document.documentElement.classList.add('modal-open');
     } else {
-      lenis?.start();
       document.documentElement.classList.remove('modal-open');
     }
     
     // Cleanup on component unmount
     return () => {
-      lenis?.start();
       document.documentElement.classList.remove('modal-open');
     }
-  }, [caseData, lenis]);
+  }, [caseData]);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Only close if the click is on the backdrop itself, not on its children
@@ -127,11 +121,11 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 z-50 bg-black/80"
+                className="fixed inset-0 z-[1001] bg-black/80"
                 onClick={handleBackdropClick}
             >
                 <div 
-                    className="fixed inset-0 z-[60] overflow-y-auto bg-[#F0EFEE] sm:rounded-[35px]"
+                    className="fixed inset-0 z-[1002] overflow-y-auto bg-[#F0EFEE] sm:rounded-[35px]"
                 >
                     <button
                         onClick={onClose}
