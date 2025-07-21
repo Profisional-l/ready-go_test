@@ -34,7 +34,7 @@ const DialogContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
   <DialogPortal>
-    {/* The overlay is now rendered by the CaseModal to attach data-lenis-prevent */}
+    <DialogOverlay />
     <DialogPrimitive.Content
       ref={ref}
       className={cn(

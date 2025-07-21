@@ -77,8 +77,14 @@ function VideoWithPreview({ src }: { src: string }) {
 }
 
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
-  // We don't need to stop/start Lenis anymore.
-  // We will control scrolling via data attributes.
+  const lenis = useLenis();
+  useEffect(() => {
+    if (isOpen) {
+      lenis?.stop();
+    } else {
+      lenis?.start();
+    }
+  }, [isOpen, lenis]);
 
   if (!caseData || caseData.type !== 'modal') return null;
 
@@ -110,9 +116,9 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogOverlay data-lenis-prevent />
+        <DialogOverlay />
         <DialogContent>
-            <div data-lenis-scroll className="w-full h-full overflow-y-auto">
+            <ScrollArea className="w-full h-full">
                 <div className="p-3 md:pt-20 md:px-48">
                     <DialogHeader>
                     <DialogTitle className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">
@@ -139,7 +145,7 @@ export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
                     )}
                 </div>
                 {renderMediaGrid()}
-            </div>
+            </ScrollArea>
         </DialogContent>
     </Dialog>
   );
