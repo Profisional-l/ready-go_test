@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import type { Case } from "@/types";
 import { useState, useRef, useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useLenis } from "@studio-freight/react-lenis";
 
 
 interface CaseModalProps {
@@ -76,17 +77,21 @@ function VideoWithPreview({ src }: { src: string }) {
 }
 
 export function CaseModal({ isOpen, onClose, caseData }: CaseModalProps) {
+  const lenis = useLenis();
+
   useEffect(() => {
     if (isOpen) {
-      document.documentElement.classList.add('modal-open');
+      lenis?.stop();
     } else {
-      document.documentElement.classList.remove('modal-open');
+      lenis?.start();
     }
+    
     // Cleanup on component unmount
     return () => {
-        document.documentElement.classList.remove('modal-open');
+        lenis?.start();
     }
-  }, [isOpen]);
+  }, [isOpen, lenis]);
+
 
   if (!caseData || caseData.type !== 'modal') return null;
 
