@@ -1,12 +1,13 @@
+
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { CaseCard } from "@/components/ui/CaseCard";
-import { CaseModal } from "@/components/ui/CaseModal";
 import { Button } from "@/components/ui/button";
 import type { Case } from "@/types";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { CaseViewer } from "@/components/ui/CaseViewer";
 
 interface CasesSectionProps {
   casesDataFromProps: Case[];
@@ -14,16 +15,15 @@ interface CasesSectionProps {
 
 export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
   const [selectedCase, setSelectedCase] = useState<Case | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const isMobile = useIsMobile();
 
-  const openModal = (caseItem: Case) => {
-    setSelectedCase(caseItem);
-    setIsModalOpen(true);
+  const openCase = (caseItem: Case) => {
+    if (caseItem.type === 'modal') {
+        setSelectedCase(caseItem);
+    }
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const closeCase = () => {
     setSelectedCase(null);
   };
 
@@ -54,7 +54,7 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
             <CaseCard
               key={caseItem.id}
               {...caseItem}
-              onClick={() => openModal(caseItem)}
+              onClick={() => openCase(caseItem)}
             />
           ))}
         </div>
@@ -71,11 +71,12 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
           </div>
         )}
 
-        <CaseModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          caseData={selectedCase}
-        />
+        {selectedCase && (
+            <CaseViewer 
+                caseData={selectedCase}
+                onClose={closeCase}
+            />
+        )}
       </section>
     </div>
   );

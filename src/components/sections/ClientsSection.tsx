@@ -9,6 +9,9 @@ const clientLogos = [
   { id: "4", name: "ARARAT", src: "/images/companies/ararat.svg" },
   { id: "5", name: "Nivea", src: "/images/companies/nivea.svg" },
   { id: "6", name: "BonAqua", src: "/images/companies/bonaqua.svg" },
+  { id: "7", name: "Sportmaster", src: "/images/companies/sportmaster.svg" },
+  { id: "8", name: "Aps", src: "/images/companies/aps.svg" },
+  { id: "9", name: "Glenlivent", src: "/images/companies/glenlivent.svg" },
 ];
 
 export function ClientsSection() {
@@ -16,12 +19,12 @@ export function ClientsSection() {
   const logosLoop = [...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos];
 
   return (
-    <section className="px-4 bg-transparent overflow-hidden">
+    <section className="bg-transparent overflow-hidden">
       <div className="flex w-max animate-scroll">
         {logosLoop.map((logo, idx) => (
           <div
             key={idx}
-            className="flex items-center justify-center mx-8"
+            className="flex items-center justify-center"
             style={{ width: 253, height: 253 }}
           >
             <Image

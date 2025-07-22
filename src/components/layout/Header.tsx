@@ -10,16 +10,27 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
   // Блокировка прокрутки body при открытом меню
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.documentElement.classList.add('modal-open');
     } else {
-      document.body.style.overflow = "";
+      document.documentElement.classList.remove('modal-open');
     }
+    // Cleanup function to remove class when component unmounts
+    return () => {
+      document.documentElement.classList.remove('modal-open');
+    };
   }, [isOpen]);
 
-  // Обработчик для закрытия меню. Навигацию выполнит fullpage.js через href.
-  const handleLinkClick = () => {
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetElement = document.querySelector(href);
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
     setIsOpen(false);
   };
+
 
   return (
     <>
@@ -43,7 +54,7 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
                 className={`h-[75px] opacity-0 animate-fade-in-up delay-[${i * 100
                   }ms]`}
                 href={id}
-                onClick={handleLinkClick}
+                onClick={(e) => handleLinkClick(e, id)}
               >
                 {id === "#cases"
                   ? "Кейсы"
@@ -57,7 +68,7 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
       )}
 
       {/* Хедер */}
-      <header className="absolute top-0 left-0 w-full z-50 flex items-center justify-between py-4 px-8  bg-transparent">
+      <header className="absolute top-0 left-[50%] w-full max-w-[1640px] -translate-x-[50%] z-50 flex items-center justify-between py-4 px-4 md:px-8  bg-transparent">
         {/* Логотип с переходом */}
         <Link href="/" className="relative w-[95px] h-[55px] z-50">
           <div className="relative w-full h-full">
@@ -91,6 +102,7 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
                   <a
                     key={i}
                     href={`#${id}`}
+                    onClick={(e) => handleLinkClick(e, `#${id}`)}
                     className="relative group text-[20px] font-medium text-[#0E0E0E]"
                   >
                     {id === "cases"

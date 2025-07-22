@@ -1,9 +1,10 @@
+
 'use client';
 
 import { useState } from 'react';
 import { CaseCard } from '@/components/ui/CaseCard';
-import { CaseModal } from '@/components/ui/CaseModal';
 import type { Case } from '@/types';
+import { CaseViewer } from '@/components/ui/CaseViewer';
 
 interface AllCasesClientProps {
     cases: Case[];
@@ -11,15 +12,14 @@ interface AllCasesClientProps {
 
 export default function AllCasesClient({ cases }: AllCasesClientProps) {
     const [selectedCase, setSelectedCase] = useState<Case | null>(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const openModal = (caseItem: Case) => {
-        setSelectedCase(caseItem);
-        setIsModalOpen(true);
+    const openCase = (caseItem: Case) => {
+        if (caseItem.type === 'modal') {
+            setSelectedCase(caseItem);
+        }
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
+    const closeCase = () => {
         setSelectedCase(null);
     };
 
@@ -30,15 +30,16 @@ export default function AllCasesClient({ cases }: AllCasesClientProps) {
                     <CaseCard
                         key={caseItem.id}
                         {...caseItem}
-                        onClick={() => openModal(caseItem)}
+                        onClick={() => openCase(caseItem)}
                     />
                 ))}
             </div>
-            <CaseModal
-                isOpen={isModalOpen}
-                onClose={closeModal}
-                caseData={selectedCase}
-            />
+            {selectedCase && (
+                 <CaseViewer
+                    caseData={selectedCase}
+                    onClose={closeCase}
+                />
+            )}
         </>
     );
 }

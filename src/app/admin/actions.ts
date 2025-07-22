@@ -10,6 +10,7 @@ import { redirect } from 'next/navigation';
 
 const UPLOADS_BASE_DIR_RELATIVE = 'uploads';
 const COVERS_SUBDIR = 'covers';
+const HOVERS_SUBDIR = 'hovers';
 const CASES_SUBDIR = 'cases';
 const UPLOADS_DIR_ABSOLUTE = path.join(process.cwd(), 'public', UPLOADS_BASE_DIR_RELATIVE);
 const casesFilePath = path.join(process.cwd(), 'src', 'data', 'cases.json');
@@ -61,7 +62,9 @@ async function readCasesFile(): Promise<Case[]> {
   try {
     await fs.mkdir(path.dirname(casesFilePath), { recursive: true });
     const jsonData = await fs.readFile(casesFilePath, 'utf-8');
-    return JSON.parse(jsonData) as Case[];
+    // Ensure all cases have a media property
+    const cases = (JSON.parse(jsonData) as Case[]).map(c => ({ media: [], ...c }));
+    return cases;
   } catch (error) {
     if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
       await writeCasesFile([]);
@@ -152,6 +155,12 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
         return { success: false, error: 'Обложка обязательна.' };
     }
     const coverUrl = await saveUploadedFile(coverFile, COVERS_SUBDIR);
+
+    const hoverFile = formData.get('hoverImage') as File;
+    let hoverImageUrl: string | undefined = undefined;
+    if (hoverFile && hoverFile.size > 0) {
+        hoverImageUrl = await saveUploadedFile(hoverFile, HOVERS_SUBDIR);
+    }
     
     const uploadedMedia = await saveUploadedMedia(formData);
     
@@ -170,6 +179,7 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
         title,
         category,
         coverUrl,
+        hoverImageUrl,
         media: uploadedMedia,
         type: 'modal',
         description,
@@ -186,12 +196,10 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
         title,
         category,
         coverUrl,
+        hoverImageUrl,
         media: [], // Links don't have modal media
         type: 'link',
         externalUrl,
-        description: '',
-        fullDescription: '',
-        tags: [],
       };
     }
 
@@ -234,6 +242,15 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
       finalCoverUrl = await saveUploadedFile(newCoverFile, COVERS_SUBDIR);
     }
 
+    // Handle hover image update
+    let finalHoverImageUrl = existingCase.hoverImageUrl;
+    const newHoverFile = formData.get('hoverImage') as File;
+    if (newHoverFile && newHoverFile.size > 0) {
+        await deleteFileByUrl(existingCase.hoverImageUrl);
+        finalHoverImageUrl = await saveUploadedFile(newHoverFile, HOVERS_SUBDIR);
+    }
+
+
     // Handle modal media update
     let finalMedia: MediaItem[] = existingCase.media || [];
     const newFilesProvided = (formData.getAll('caseMedia').filter(f => f instanceof File && f.size > 0)).length > 0;
@@ -249,7 +266,7 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
     }
 
 
-    let updatedCaseData: Case;
+    let updatedCaseData: Partial<Case>;
 
     if (type === 'modal') {
       const description = formData.get('description') as string;
@@ -260,16 +277,16 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
       }
       const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(Boolean) : [];
       updatedCaseData = {
-        ...existingCase,
         title,
         category,
         coverUrl: finalCoverUrl,
+        hoverImageUrl: finalHoverImageUrl,
         media: finalMedia,
         type: 'modal',
         description,
         fullDescription,
         tags,
-        externalUrl: '',
+        externalUrl: undefined,
       };
     } else { // type === 'link'
       const externalUrl = formData.get('externalUrl') as string;
@@ -277,24 +294,24 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
         return { success: false, error: 'Внешняя ссылка обязательна.' };
       }
       updatedCaseData = {
-        ...existingCase,
         title,
         category,
         coverUrl: finalCoverUrl,
+        hoverImageUrl: finalHoverImageUrl,
         media: [], // Links don't have modal media. Delete old ones.
         type: 'link',
         externalUrl,
-        description: '',
-        fullDescription: '',
-        tags: [],
+        description: undefined,
+        fullDescription: undefined,
+        tags: undefined,
       };
       if (existingCase.type === 'modal' && existingCase.media.length > 0) {
         await Promise.all(existingCase.media.map(item => deleteFileByUrl(item.url)));
       }
     }
 
-
-    const updatedCases = allCases.map(c => c.id === caseId ? updatedCaseData : c);
+    const fullUpdatedCase = { ...existingCase, ...updatedCaseData };
+    const updatedCases = allCases.map(c => c.id === caseId ? fullUpdatedCase : c);
     await writeCasesFile(updatedCases);
 
     revalidatePath('/');
@@ -302,7 +319,7 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
     revalidatePath('/admin');
     revalidatePath(`/admin/edit-case/${caseId}`);
     
-    return { success: true, case: updatedCaseData };
+    return { success: true, case: fullUpdatedCase };
   } catch (error: unknown) {
     console.error('Error in updateCaseAction:', error);
     return { success: false, error: 'Произошла ошибка на сервере при обновлении кейса.' };
@@ -319,6 +336,7 @@ export async function deleteCaseAction(caseId: string): Promise<{ success: boole
     }
 
     await deleteFileByUrl(caseToDelete.coverUrl);
+    await deleteFileByUrl(caseToDelete.hoverImageUrl);
     await Promise.all((caseToDelete.media || []).map(item => deleteFileByUrl(item.url)));
 
 
@@ -333,5 +351,27 @@ export async function deleteCaseAction(caseId: string): Promise<{ success: boole
   } catch (error: unknown) {
     console.error('Error in deleteCaseAction:', error);
     return { success: false, error: 'Произошла ошибка на сервере при удалении кейса.' };
+  }
+}
+
+export async function updateCasesOrderAction(orderedCases: Case[]): Promise<{ success: boolean; error?: string }> {
+  try {
+    // Basic validation
+    if (!Array.isArray(orderedCases)) {
+        return { success: false, error: 'Неверный формат данных.' };
+    }
+
+    // Overwrite the file with the new order
+    await writeCasesFile(orderedCases);
+
+    // Revalidate paths to reflect changes
+    revalidatePath('/');
+    revalidatePath('/cases');
+    revalidatePath('/admin');
+
+    return { success: true };
+  } catch (error: unknown) {
+    console.error('Error in updateCasesOrderAction:', error);
+    return { success: false, error: 'Произошла ошибка на сервере при сохранении порядка.' };
   }
 }

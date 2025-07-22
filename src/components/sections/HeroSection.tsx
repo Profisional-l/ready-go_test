@@ -476,7 +476,7 @@ export function HeroSection() {
           <div
             key={`left-image-${groupIndex}`}
             className={cn(
-              "absolute left-2 sm:left-4 z-100 transition-all duration-700",
+              "absolute left-6 md:left-16 z-100 transition-all duration-700",
               isBottomPosition ? "bottom-20" : "top-24"
             )}
             style={{
@@ -522,7 +522,7 @@ export function HeroSection() {
           <div
             key={`right-image-${groupIndex}`}
             className={cn(
-              "absolute -right-4 sm:-right-2 z-100 transition-all duration-500",
+              "absolute -right-4 md:right-12 z-100 transition-all duration-500",
               isTopPosition ? "top-24" : "bottom-24"
             )}
             style={{

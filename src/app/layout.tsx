@@ -1,7 +1,9 @@
+
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ProgressBar } from "@/components/layout/ProgressBar";
+import { SmoothScrollProvider } from "@/components/layout/SmoothScrollProvider";
 
 export const metadata: Metadata = {
   title: "READY GO",
@@ -31,19 +33,11 @@ export default function RootLayout({
           <link rel="stylesheet" href="/fonts/stylesheet.css" />
         </head>
         <body className="font-body antialiased bg-background text-foreground">
-          <ProgressBar />
-          {children}
-          <Toaster />
-          <script>
-            {`
-              document.addEventListener("DOMContentLoaded", function() {
-                var watermark = document.querySelector('.fp-watermark');
-                if (watermark) {
-                    watermark.style.display = 'none';
-                }
-              });
-            `}
-          </script>
+          <SmoothScrollProvider>
+            <ProgressBar />
+            {children}
+            <Toaster />
+          </SmoothScrollProvider>
         </body>
       </html>
     </>
