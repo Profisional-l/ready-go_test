@@ -8,6 +8,7 @@ import { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { ArrowUpRight } from "lucide-react";
 
 interface CaseViewerProps {
   caseData: Case | null;
@@ -79,10 +80,11 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
 
     if (caseData) {
       document.documentElement.classList.add('modal-open');
-      window.addEventListener('keydown', handleKeyDown);
     } else {
       document.documentElement.classList.remove('modal-open');
     }
+
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
       document.documentElement.classList.remove('modal-open');
@@ -166,11 +168,11 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
 
               {caseData.externalUrl && (
                 <div className="text-center md:mb-10">
-                   <Button asChild variant="link" className="text-accent-foreground text-[18px]">
-                      <Link href={caseData.externalUrl} target="_blank" rel="noopener noreferrer">
-                          Перейти на сайт
-                      </Link>
-                   </Button>
+                   <Link href={caseData.externalUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center text-[18px] font-medium text-foreground transition-colors hover:text-accent">
+                      <span>Перейти на&nbsp;</span>
+                      <span className="text-accent group-hover:underline">сайт</span>
+                      <ArrowUpRight className="ml-1 h-5 w-5 text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                   </Link>
                 </div>
               )}
 
