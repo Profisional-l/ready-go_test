@@ -5,6 +5,16 @@
 .footer-button{
   display: none;
 }
+/* Отключаем стандартные стили автозаполнения */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: white !important; /* Цвет текста */
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important; /* Прозрачный фон */
+  transition: background-color 5000s ease-in-out 0s; /* Отключаем анимацию */
+  caret-color: white; /* Цвет курсора */
+}
 
 @layer base {
   :root {
@@ -138,6 +148,15 @@ html.modal-open {
 
 .check-mark{
   color: #04D6E3;
+}
+
+.link-underline{
+  display: flex;
+  border-bottom: 2px solid #04D6E3;
+  line-height: 25px;
+}
+.link-underline:hover{
+  opacity: 0.5;
 }
 
 }

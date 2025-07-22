@@ -168,8 +168,9 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
 
               {caseData.externalUrl && (
                 <div className="md:text-center md:mb-7">
-                   <Link href={caseData.externalUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-flex items-center text-[20px] font-medium text-foreground">
-                      <span>Перейти на&nbsp;</span>
+                  <Link href={caseData.externalUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-flex items-center text-[20px] font-medium text-foreground">
+                    <span>Перейти на&nbsp;</span>
+                    <div className="link-underline">
                       <span className="text-accent">сайт</span>
                       <Image
                         src="/images/link-arrow.svg"
@@ -178,8 +179,9 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
                         height={12}
                         className="mt-[4.5px] ml-1"
                       />
-                      <span className="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 transform bg-gradient-to-r from-foreground from-65% to-accent to-35% transition-transform duration-300 ease-out group-hover:scale-x-100 rounded-lg"></span>
-                   </Link>
+                    </div>
+                    {/* <span className="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 transform bg-gradient-to-r from-foreground from-65% to-accent to-35% transition-transform duration-300 ease-out group-hover:scale-x-100 rounded-lg"></span> */}
+                  </Link>
                 </div>
               )}
 
