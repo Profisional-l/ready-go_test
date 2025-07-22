@@ -19,14 +19,14 @@ export function HeroSection() {
   const imageGroups = [
     [
       {
-        src: "/images/ForHeroSection/back-1.png",
+        src: "/images/ForHeroSection/back-1.webp",
         alt: "СТРАТЕГИЯМИ",
         width: 305,
         height: 352,
         maxHeight: 352,
       },
       {
-        src: "/images/ForHeroSection/back-2.png",
+        src: "/images/ForHeroSection/back-2.webp",
         alt: "СТРАТЕГИЯМИ",
         width: 308,
         height: 388,
@@ -35,14 +35,14 @@ export function HeroSection() {
     ],
     [
       {
-        src: "/images/ForHeroSection/back-3.png",
+        src: "/images/ForHeroSection/back-3.webp",
         alt: "SMM",
         width: 288,
         height: 360,
         maxHeight: 360,
       },
       {
-        src: "/images/ForHeroSection/back-4.png",
+        src: "/images/ForHeroSection/back-4.webp",
         alt: "SMM",
         width: 302,
         height: 353,
@@ -51,7 +51,7 @@ export function HeroSection() {
     ],
     [
       {
-        src: "/images/ForHeroSection/back-5.png",
+        src: "/images/ForHeroSection/back-5.webp",
         alt: "СТРАТЕГИЯМИ",
         width: 254,
         height: 351,

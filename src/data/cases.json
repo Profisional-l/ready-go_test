@@ -3,11 +3,11 @@
     "media": [
       {
         "type": "image",
-        "url": "/uploads/cases/1750842568285_353cf3feb02bfcb3fdc4e1977c9515c4cde8ce93.png"
+        "url": "/uploads/cases/1753184852463_353cf3feb02bfcb3fdc4e1977c9515c4cde8ce93.webp"
       },
       {
         "type": "image",
-        "url": "/uploads/cases/1750842568348_Group_39594.png"
+        "url": "/uploads/cases/1753184852468_Group_39594.webp"
       }
     ],
     "id": "1",
@@ -23,9 +23,8 @@
       "naming",
       "slogan"
     ],
-    "externalUrl": "",
-    "coverUrl": "/uploads/covers/1750844233557_e7486be2a5aa6c28e8c63f9774179b3e0e750250.png",
-    "hoverImageUrl": "/uploads/hovers/1753009120552_353cf3feb02bfcb3fdc4e1977c9515c4cde8ce93.png"
+    "coverUrl": "/uploads/covers/1753184852434_e7486be2a5aa6c28e8c63f9774179b3e0e750250.webp",
+    "hoverImageUrl": "/uploads/hovers/1753184852453_353cf3feb02bfcb3fdc4e1977c9515c4cde8ce93.webp"
   },
   {
     "media": [],
@@ -38,28 +37,6 @@
     "tags": [],
     "externalUrl": "https://goloddesign.by/",
     "coverUrl": "/uploads/covers/1750844895649_2b5e386d25989fc4280f9351726f09f1acbad945.png"
-  },
-  {
-    "media": [
-      {
-        "type": "image",
-        "url": "/uploads/cases/1750845079825_Group_39598.png"
-      }
-    ],
-    "id": "4",
-    "title": "ARARAT — Контент-съемка",
-    "category": "ARARAT",
-    "type": "modal",
-    "description": "Промо-материалы.",
-    "fullDescription": "Разработка серии промо-материалов для бренда ARARAT, подчеркивающих премиальность и традиции.",
-    "tags": [
-      "Marketing",
-      "Branding",
-      "Campaign"
-    ],
-    "coverUrl": "/uploads/covers/1750845079806_back-11.webp",
-    "externalUrl": "",
-    "hoverImageUrl": "/uploads/hovers/1753009194836_371d2e12cd175a7de78f07f5c32ad5c348190c84.png"
   },
   {
     "media": [
@@ -83,26 +60,44 @@
     "externalUrl": ""
   },
   {
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1753185013637_Group_39598.webp"
+      }
+    ],
+    "id": "4",
+    "title": "ARARAT — Контент-съемка",
+    "category": "ARARAT",
+    "type": "modal",
+    "description": "Промо-материалы.",
+    "fullDescription": "Разработка серии промо-материалов для бренда ARARAT, подчеркивающих премиальность и традиции.",
+    "tags": [
+      "Marketing",
+      "Branding",
+      "Campaign"
+    ],
+    "coverUrl": "/uploads/covers/1750845079806_back-11.webp",
+    "hoverImageUrl": "/uploads/hovers/1753185013633_371d2e12cd175a7de78f07f5c32ad5c348190c84.webp"
+  },
+  {
     "media": [],
     "id": "5",
     "title": "Coca-Cola — Promo",
     "category": "Promo",
     "type": "link",
-    "description": "",
-    "fullDescription": "",
-    "tags": [],
-    "coverUrl": "/uploads/covers/1750845165918_1749248687713_cocacola.png",
+    "coverUrl": "/uploads/covers/1753185210931_490742599412872738e8cd0d536afcd582e291aa.webp",
     "externalUrl": "https://coca-cola-promo.by/"
   },
   {
     "media": [
       {
         "type": "image",
-        "url": "/uploads/cases/1750845228130_image_2025-06-25_12-42-49.png"
+        "url": "/uploads/cases/1753185445221_image_2025-06-25_12-42-49.webp"
       },
       {
         "type": "image",
-        "url": "/uploads/cases/1750845228132_Group_39595.png"
+        "url": "/uploads/cases/1753185445222_Group_39595.webp"
       }
     ],
     "id": "6",
@@ -116,8 +111,8 @@
       "Identity",
       "Tech"
     ],
-    "coverUrl": "/uploads/covers/1750845227613_1749248936823_mtbank.png",
-    "externalUrl": ""
+    "coverUrl": "/uploads/covers/1753185445216_Free_outdoor_billboard_mockup_on_a_black_grid__1__1.webp",
+    "hoverImageUrl": "/uploads/hovers/1753185445218_image_2025-06-25_12-42-49.webp"
   },
   {
     "media": [

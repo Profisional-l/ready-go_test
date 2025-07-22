@@ -155,7 +155,7 @@ export function Footer() {
   return (
     <footer
       id="contact"
-      className="md:bg-[#0E0E0E] text-background m-3 rounded-xl footer-content-wrapper"
+      className="md:bg-[#0E0E0E] text-background m-3 rounded-xl footer-content-wrapper md:mt-52"
     >
       <div className="max-w-[1640px] px-8 md:mx-auto pt-5 bg-transparent grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
         <div className="md:pt-1 md:mb-0 links-container">
