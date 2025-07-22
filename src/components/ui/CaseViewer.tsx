@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import type { Case } from "@/types";
 import { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 interface CaseViewerProps {
   caseData: Case | null;
@@ -157,10 +159,21 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
               </h2>
 
               {caseData.fullDescription && (
-                <p className="text-[18px] font-medium  text-left md:text-center text-foreground md:mb-10 max-w-[600px] mx-auto ">
+                <p className="text-[18px] font-medium  text-left md:text-center text-foreground md:mb-4 max-w-[600px] mx-auto ">
                   {caseData.fullDescription}
                 </p>
               )}
+
+              {caseData.externalUrl && (
+                <div className="text-center md:mb-10">
+                   <Button asChild variant="link" className="text-accent-foreground text-[18px]">
+                      <Link href={caseData.externalUrl} target="_blank" rel="noopener noreferrer">
+                          Перейти на сайт
+                      </Link>
+                   </Button>
+                </div>
+              )}
+
               {caseData.tags && caseData.tags.length > 0 && (
                 <div className="flex flex-wrap justify-center gap-2 mb-14">
                   {caseData.tags.map((tag, index) => (

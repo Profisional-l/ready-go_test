@@ -264,6 +264,11 @@ export default function EditCaseForm({ caseToEdit }: EditCaseFormProps) {
               <Label htmlFor="tags" className="text-card-foreground">Теги (через запятую)</Label>
               <Input id="tags" name="tags" type="text" defaultValue={caseToEdit.tags?.join(', ')} placeholder="tag1, tag2, tag3" className="mt-1 bg-background" />
             </div>
+
+            <div>
+              <Label htmlFor="externalUrl">Внешняя ссылка (URL, необязательно)</Label>
+              <Input id="externalUrl" name="externalUrl" type="url" defaultValue={caseToEdit.externalUrl} className="mt-1 bg-background" />
+            </div>
           </>
         )}
         

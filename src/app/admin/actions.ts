@@ -170,6 +170,8 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
       const description = formData.get('description') as string;
       const fullDescription = formData.get('fullDescription') as string;
       const tagsString = formData.get('tags') as string;
+      const externalUrl = formData.get('externalUrl') as string | null;
+
       if (!description || !fullDescription) {
         return { success: false, error: 'Краткое и полное описание обязательны.' };
       }
@@ -185,6 +187,7 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
         description,
         fullDescription,
         tags,
+        externalUrl: externalUrl || undefined
       };
     } else { // type === 'link'
       const externalUrl = formData.get('externalUrl') as string;
@@ -272,6 +275,8 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
       const description = formData.get('description') as string;
       const fullDescription = formData.get('fullDescription') as string;
       const tagsString = formData.get('tags') as string;
+      const externalUrl = formData.get('externalUrl') as string | null;
+
       if (!description || !fullDescription) {
         return { success: false, error: 'Краткое и полное описание обязательны.' };
       }
@@ -286,7 +291,7 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
         description,
         fullDescription,
         tags,
-        externalUrl: undefined,
+        externalUrl: externalUrl || undefined,
       };
     } else { // type === 'link'
       const externalUrl = formData.get('externalUrl') as string;

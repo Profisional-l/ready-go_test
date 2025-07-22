@@ -277,6 +277,11 @@ export default function AddCaseForm() {
               <Label htmlFor="tags" className="text-card-foreground">Теги (через запятую)</Label>
               <Input id="tags" name="tags" type="text" placeholder="tag1, tag2, tag3" className="mt-1 bg-background border-input text-foreground" />
             </div>
+
+            <div>
+              <Label htmlFor="externalUrl" className="text-card-foreground">Внешняя ссылка (URL, необязательно)</Label>
+              <Input id="externalUrl" name="externalUrl" type="url" className="mt-1 bg-background border-input text-foreground" placeholder="https://example.com" />
+            </div>
           </>
         )}
         
