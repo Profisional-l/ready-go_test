@@ -157,7 +157,7 @@ export function Footer() {
       id="contact"
       className="md:bg-[#0E0E0E] text-background m-3 rounded-xl footer-content-wrapper"
     >
-      <div className="max-w-[1600px] pl-7 md:mx-auto pt-5 bg-transparent grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
+      <div className="max-w-[1640px] px-8 md:mx-auto pt-5 bg-transparent grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
         <div className="md:pt-1 md:mb-0 links-container">
           <p className="text-foreground md:text-white text-[20px] pb-[55px] font-semibold tight-spacing-1 footer-adapt-subtitle">
             &copy; READYGO 2025
