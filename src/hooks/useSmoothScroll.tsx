@@ -1,41 +1,59 @@
-
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useEffect, useRef } from 'react';
 
-const LERP_FACTOR = 0.1; // Чем меньше, тем более плавно и "желейно"
-const STOP_THRESHOLD = 0.5; // Порог для остановки анимации
+const LERP_FACTOR    = 0.075;
+const STOP_THRESHOLD = 0.33;
 
 export const useSmoothScroll = () => {
-  const targetScroll = useRef(0);
-  const currentScroll = useRef(0);
-  const isScrolling = useRef(false);
+  const targetScroll     = useRef(0);
+  const currentScroll    = useRef(0);
+  const isScrolling      = useRef(false);
   const animationFrameId = useRef<number | null>(null);
 
-  useEffect(() => {
-    // Инициализация при монтировании
-    targetScroll.current = window.scrollY;
-    currentScroll.current = window.scrollY;
+  // 1) полная синхронизация рефов
+  const syncScroll = () => {
+    const pos = window.scrollY;
+    targetScroll.current  = pos;
+    currentScroll.current = pos;
+  };
 
-    const lerp = (start: number, end: number, factor: number) => {
-      return start + (end - start) * factor;
+  // 2) отменяем native scroll-restoration и обнуляем скролл ДО рендера
+  useLayoutEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    // прямо перед первым рендером сбрасываем позицию в 0
+    window.scrollTo(0, 0);
+    syncScroll();
+  }, []);
+
+  // 3) слушаем hashchange (для якорей)
+  useEffect(() => {
+    window.addEventListener('hashchange', syncScroll);
+    return () => {
+      window.removeEventListener('hashchange', syncScroll);
     };
+  }, []);
+
+  // 4) основной эффект для плавного скролла
+  useEffect(() => {
+    const lerp = (start: number, end: number, f: number) => start + (end - start) * f;
 
     const animateScroll = () => {
-      const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
-
-      // Если нечего скроллить, ничего не делаем
-      if (scrollableHeight <= 0) {
+      const maxY = document.documentElement.scrollHeight - window.innerHeight;
+      if (maxY <= 0) {
         animationFrameId.current = requestAnimationFrame(animateScroll);
         return;
       }
-      
+
       currentScroll.current = lerp(currentScroll.current, targetScroll.current, LERP_FACTOR);
 
       if (Math.abs(targetScroll.current - currentScroll.current) < STOP_THRESHOLD) {
         currentScroll.current = targetScroll.current;
+        window.scrollTo(0, currentScroll.current);
         isScrolling.current = false;
-        if (animationFrameId.current) {
+        if (animationFrameId.current !== null) {
           cancelAnimationFrame(animationFrameId.current);
           animationFrameId.current = null;
         }
@@ -46,39 +64,36 @@ export const useSmoothScroll = () => {
     };
 
     const handleWheel = (e: WheelEvent) => {
-      // *** THE FIX IS HERE ***
-      // Если модальное окно открыто (определяем по классу на html),
-      // то полностью игнорируем событие и не вызываем preventDefault.
-      // Это позволяет браузеру обрабатывать скролл нативно (внутри модального окна).
-      if (document.documentElement.classList.contains('modal-open')) {
-        return;
-      }
-      
-      const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
-      
-      // Если нечего скроллить, игнорируем событие
-      if (scrollableHeight <= 0) return;
+      if (document.documentElement.classList.contains('modal-open')) return;
+
+      const maxY = document.documentElement.scrollHeight - window.innerHeight;
+      if (maxY <= 0) return;
 
       e.preventDefault();
-      targetScroll.current += e.deltaY;
 
-      // Ограничиваем целевую прокрутку границами страницы
-      targetScroll.current = Math.max(0, Math.min(targetScroll.current, scrollableHeight));
-      
+      if (!isScrolling.current) {
+        syncScroll();
+      }
+
+      targetScroll.current = Math.max(
+        0,
+        Math.min(targetScroll.current + e.deltaY, maxY)
+      );
+
       if (!isScrolling.current) {
         isScrolling.current = true;
         animationFrameId.current = requestAnimationFrame(animateScroll);
       }
     };
-    
-    // Используем опцию { passive: false }, чтобы иметь возможность вызвать e.preventDefault()
-    window.addEventListener('wheel', handleWheel, { passive: false });
 
+    window.addEventListener('wheel', handleWheel, { passive: false });
     return () => {
       window.removeEventListener('wheel', handleWheel);
-      if (animationFrameId.current) {
+      if (animationFrameId.current !== null) {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
   }, []);
+
+  return null;
 };

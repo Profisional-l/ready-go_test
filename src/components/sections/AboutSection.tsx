@@ -75,7 +75,7 @@ export function AboutSection() {
   }, []);
 
   return (
-    <section className="py-16 md:py-24 mt-[30px] mb-[30px]">
+    <section className="py-16 md:py-24 mt-[45px] mb-[30px]">
       <div className="m-0 max-w-[100%]">
         <div className="flex flex-col md:flex-row md:items-start md:space-x-16">
           {/* Текстовый блок */}

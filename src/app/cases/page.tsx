@@ -41,7 +41,7 @@ export default async function AllCasesPage() {
       </div>
       <main className="bg-[#F1F0F0] md:bg-background text-foreground pb-10 ">
         <div className="max-w-[1640px] mx-auto px-4 md:px-9 py-16 md:py-24">
-          <h1 className="text-6xl md:text-[130px] font-mycustom text-foreground mb-8 md:mb-12 uppercase">кейсы</h1>
+          <h1 className="text-6xl md:text-[130px] font-mycustom text-foreground mt-16 mb:mt-0 mb-8 md:mb-1 uppercase">кейсы</h1>
           <AllCasesClient cases={allCases} />
         </div>
         <div className="self-end md:self-auto text-center">

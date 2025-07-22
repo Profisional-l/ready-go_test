@@ -68,7 +68,7 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
       )}
 
       {/* Хедер */}
-      <header className="absolute top-0 left-0 w-full z-50 flex items-center justify-between py-4 px-8  bg-transparent">
+      <header className="absolute top-0 left-[50%] w-full max-w-[1640px] -translate-x-[50%] z-50 flex items-center justify-between py-4 px-4 md:px-8  bg-transparent">
         {/* Логотип с переходом */}
         <Link href="/" className="relative w-[95px] h-[55px] z-50">
           <div className="relative w-full h-full">

@@ -206,9 +206,7 @@ html.modal-open {
     display: flex;
     flex-direction: column-reverse;
     background-color: hsl(var(--background));
-    padding: 15px;
     margin-top: -10px; 
-    padding-top: 25px; 
     border-radius: 10px;
   }
   
