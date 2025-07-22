@@ -44,11 +44,11 @@ export default async function AllCasesPage() {
           <h1 className="text-6xl md:text-[130px] font-mycustom text-foreground mt-16 mb:mt-0 mb-8 md:mb-1 uppercase">кейсы</h1>
           <AllCasesClient cases={allCases} />
         </div>
-        <div className="self-end md:self-auto px-4 md:px-9">
+        <div className="self-end md:self-auto px-4 md:px-9 max-w-[1640px] md:mx-auto">
           <Button
             asChild
             variant="outline"
-            className="text-[20px] tracking-wider tight-spacing-2 opacity-55 hover:opacity-100 transition-opacity duration-300  border-solid border-[2px] border-[#101010] rounded-[54px] bg-transparent hover:bg-transparent p-[25.5px] px-[30.13px]"
+            className="text-[20px]  tracking-wider tight-spacing-2 opacity-55 hover:opacity-100 transition-opacity duration-300  border-solid border-[2px] border-[#101010] rounded-[54px] bg-transparent hover:bg-transparent p-[25.5px] px-[30.13px]"
           >
             <Link href="/">На главную</Link>
           </Button>

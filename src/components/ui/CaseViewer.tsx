@@ -161,24 +161,30 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
               </h2>
 
               {caseData.fullDescription && (
-                <p className="text-[18px] font-medium  text-left md:text-center text-foreground md:mb-4 max-w-[600px] mx-auto ">
+                <p className="text-[20px] font-medium  text-left md:text-center text-foreground max-w-[550px] mx-auto ">
                   {caseData.fullDescription}
                 </p>
               )}
 
               {caseData.externalUrl && (
-                <div className="text-center md:mb-10">
-                   <Link href={caseData.externalUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-flex items-center text-[18px] font-medium text-foreground">
+                <div className="md:text-center md:mb-7">
+                   <Link href={caseData.externalUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-flex items-center text-[20px] font-medium text-foreground">
                       <span>Перейти на&nbsp;</span>
                       <span className="text-accent">сайт</span>
-                      <ArrowUpRight className="ml-1 h-5 w-5 text-accent" />
-                      <span className="absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 transform bg-gradient-to-r from-foreground from-60% to-accent to-40% transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
+                      <Image
+                        src="/images/link-arrow.svg"
+                        alt="arrow"
+                        width={12}
+                        height={12}
+                        className="mt-[4.5px] ml-1"
+                      />
+                      <span className="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 transform bg-gradient-to-r from-foreground from-65% to-accent to-35% transition-transform duration-300 ease-out group-hover:scale-x-100 rounded-lg"></span>
                    </Link>
                 </div>
               )}
 
               {caseData.tags && caseData.tags.length > 0 && (
-                <div className="flex flex-wrap justify-center gap-2 mb-14">
+                <div className="flex flex-wrap justify-center gap-2 mb-6 mt-8">
                   {caseData.tags.map((tag, index) => (
                     <Badge
                       key={index}

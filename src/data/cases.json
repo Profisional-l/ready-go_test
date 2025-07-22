@@ -27,16 +27,33 @@
     "hoverImageUrl": "/uploads/hovers/1753184852453_353cf3feb02bfcb3fdc4e1977c9515c4cde8ce93.webp"
   },
   {
-    "media": [],
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1753191244021_2b5e386d25989fc4280f9351726f09f1acbad945.webp"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1753191244026_Group_39599.webp"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1753191244024_Free_MacBook_Pro_silver_simple_mockup_scene_7__1__1.webp"
+      }
+    ],
     "id": "2",
     "title": "Golod Design — Веб-сайт",
-    "category": "Веб-сайт",
+    "category": "GOLOD Design",
     "type": "modal",
     "externalUrl": "https://goloddesign.by/",
-    "coverUrl": "/uploads/covers/1753188848531_2b5e386d25989fc4280f9351726f09f1acbad945.webp",
+    "coverUrl": "/uploads/covers/1753191870057____2_3_.webp",
     "description": " ",
-    "fullDescription": " ",
-    "tags": []
+    "fullDescription": "Придумали активность для спота Lillet на городском пикнике Vulitsa Ezha, сделали дизайн карт таро.",
+    "tags": [
+      "creative idea",
+      "print card"
+    ],
+    "hoverImageUrl": "/uploads/hovers/1753191244017_Free_MacBook_Pro_silver_simple_mockup_scene_7__1__1.webp"
   },
   {
     "media": [
@@ -58,6 +75,31 @@
     ],
     "coverUrl": "/uploads/covers/1750997211868_back-7__1_.webp",
     "externalUrl": ""
+  },
+  {
+    "media": [
+      {
+        "type": "video",
+        "url": "/uploads/cases/1753192404646_Nembo_20_09_FINAL.mp4"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1753192404652_Group_39595.webp"
+      }
+    ],
+    "id": "6",
+    "title": "МТБанк — NEMBO",
+    "category": "NEMBO",
+    "type": "modal",
+    "description": "Фирменный стиль.",
+    "fullDescription": "Разработка фирменного стиля и брендбука для технологической компании Optimising Technologies.",
+    "tags": [
+      "Branding",
+      "Identity",
+      "Tech"
+    ],
+    "coverUrl": "/uploads/covers/1753185445216_Free_outdoor_billboard_mockup_on_a_black_grid__1__1.webp",
+    "hoverImageUrl": "/uploads/hovers/1753185445218_image_2025-06-25_12-42-49.webp"
   },
   {
     "media": [
@@ -88,31 +130,6 @@
     "type": "link",
     "coverUrl": "/uploads/covers/1753185210931_490742599412872738e8cd0d536afcd582e291aa.webp",
     "externalUrl": "https://coca-cola-promo.by/"
-  },
-  {
-    "media": [
-      {
-        "type": "image",
-        "url": "/uploads/cases/1753185445221_image_2025-06-25_12-42-49.webp"
-      },
-      {
-        "type": "image",
-        "url": "/uploads/cases/1753185445222_Group_39595.webp"
-      }
-    ],
-    "id": "6",
-    "title": "МТБанк — NEMBO",
-    "category": "NEMBO",
-    "type": "modal",
-    "description": "Фирменный стиль.",
-    "fullDescription": "Разработка фирменного стиля и брендбука для технологической компании Optimising Technologies.",
-    "tags": [
-      "Branding",
-      "Identity",
-      "Tech"
-    ],
-    "coverUrl": "/uploads/covers/1753185445216_Free_outdoor_billboard_mockup_on_a_black_grid__1__1.webp",
-    "hoverImageUrl": "/uploads/hovers/1753185445218_image_2025-06-25_12-42-49.webp"
   },
   {
     "media": [
