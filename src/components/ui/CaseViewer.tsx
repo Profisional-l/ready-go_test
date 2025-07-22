@@ -168,10 +168,11 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
 
               {caseData.externalUrl && (
                 <div className="text-center md:mb-10">
-                   <Link href={caseData.externalUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center text-[18px] font-medium text-foreground transition-colors hover:text-accent">
+                   <Link href={caseData.externalUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-flex items-center text-[18px] font-medium text-foreground">
                       <span>Перейти на&nbsp;</span>
-                      <span className="text-accent group-hover:underline">сайт</span>
-                      <ArrowUpRight className="ml-1 h-5 w-5 text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                      <span className="text-accent">сайт</span>
+                      <ArrowUpRight className="ml-1 h-5 w-5 text-accent" />
+                      <span className="absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 transform bg-gradient-to-r from-foreground from-60% to-accent to-40% transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
                    </Link>
                 </div>
               )}
