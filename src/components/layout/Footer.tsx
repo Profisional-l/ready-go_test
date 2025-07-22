@@ -61,7 +61,7 @@ function ValidatedInput({
           "w-full bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-none",
           error
             ? "border-red-500 focus:border-red-500"
-            : "border-white/40 focus:border-white",
+            : "[&:not(:placeholder-shown)]:border-white border-white/40 focus:border-white",
           className
         )}
       />
