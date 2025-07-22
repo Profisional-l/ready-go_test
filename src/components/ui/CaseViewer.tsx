@@ -74,14 +74,14 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
         onClose();
       }
     };
-    
+
     if (caseData) {
       document.documentElement.classList.add('modal-open');
       window.addEventListener('keydown', handleKeyDown);
     } else {
       document.documentElement.classList.remove('modal-open');
     }
-    
+
     return () => {
       document.documentElement.classList.remove('modal-open');
       window.removeEventListener('keydown', handleKeyDown);
@@ -90,13 +90,13 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
-        onClose();
+      onClose();
     }
   }
 
   const renderMediaGrid = () => {
     if (!caseData?.media || caseData.media.length === 0) return null;
-  
+
     return (
       <div className="mt-6 space-y-3 px-3 md:px-48 pb-10">
         {caseData.media.map((item, index) => (
@@ -122,63 +122,63 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
 
   return (
     <AnimatePresence>
-        {caseData && (
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="fixed inset-0 z-[1001] bg-black/80 flex items-center justify-center"
-                onClick={handleBackdropClick}
+      {caseData && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="fixed inset-0 z-[1001] bg-black/80 flex items-center justify-center py-[14px] px-[12px]"
+          onClick={handleBackdropClick}
+        >
+          <motion.div
+            initial={{ scale: 0.95, y: 20 }}
+            animate={{ scale: 1, y: 0 }}
+            exit={{ scale: 0.95, y: 20, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="relative w-full h-full bg-[#F0EFEE] overflow-y-auto sm:rounded-[35px]"
+          >
+            <button
+              onClick={onClose}
+              className="fixed right-8 top-8 flex h-10 w-10 items-center justify-center rounded-full bg-[#E9E9E9] transition-all duration-300 hover:opacity-100 focus:outline-none shadow-xl hover:shadow-gray-400 z-50"
+              aria-label="Close"
             >
-                <motion.div
-                    initial={{ scale: 0.95, y: 20 }}
-                    animate={{ scale: 1, y: 0 }}
-                    exit={{ scale: 0.95, y: 20, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="relative w-full h-full bg-[#F0EFEE] overflow-y-auto sm:rounded-[35px]"
-                >
-                    <button
-                        onClick={onClose}
-                        className="fixed right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#E9E9E9] transition-all duration-300 hover:opacity-100 focus:outline-none shadow-xl hover:shadow-gray-400 z-50"
-                        aria-label="Close"
+              <Image
+                src="/images/close_Vector.png"
+                alt="close"
+                width={16}
+                height={16}
+              />
+            </button>
+
+            <div className="p-3 md:pt-20 md:px-48">
+              <h2 className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">
+                {caseData.category}
+              </h2>
+
+              {caseData.fullDescription && (
+                <p className="text-[18px] font-medium  text-left md:text-center text-foreground md:mb-10 max-w-[600px] mx-auto ">
+                  {caseData.fullDescription}
+                </p>
+              )}
+              {caseData.tags && caseData.tags.length > 0 && (
+                <div className="flex flex-wrap justify-center gap-2 mb-14">
+                  {caseData.tags.map((tag, index) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="text-[#5D5D5D] text-sm bg-[#e9e9e9] hidden md:block"
                     >
-                        <Image
-                            src="/images/close_Vector.png"
-                            alt="close"
-                            width={16}
-                            height={16}
-                        />
-                    </button>
-                    
-                    <div className="p-3 md:pt-20 md:px-48">
-                        <h2 className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">
-                            {caseData.category}
-                        </h2>
-                        
-                        {caseData.fullDescription && (
-                        <p className="text-[18px] font-medium  text-left md:text-center text-foreground md:mb-10 max-w-[600px] mx-auto ">
-                            {caseData.fullDescription}
-                        </p>
-                        )}
-                        {caseData.tags && caseData.tags.length > 0 && (
-                        <div className="flex flex-wrap justify-center gap-2 mb-14">
-                            {caseData.tags.map((tag, index) => (
-                            <Badge
-                                key={index}
-                                variant="secondary"
-                                className="text-[#5D5D5D] text-sm bg-[#e9e9e9] hidden md:block"
-                            >
-                                {tag}
-                            </Badge>
-                            ))}
-                        </div>
-                        )}
-                    </div>
-                    {renderMediaGrid()}
-                </motion.div>
-            </motion.div>
-        )}
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              )}
+            </div>
+            {renderMediaGrid()}
+          </motion.div>
+        </motion.div>
+      )}
     </AnimatePresence>
   );
 }
