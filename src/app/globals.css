@@ -171,6 +171,11 @@ html.modal-open {
         .mainScreenTextBlock {
       margin-top: -20%
     }
+
+    
+    .HeroImgAdapt {
+      margin-top: -7%;
+    }
   }
 
   @media (min-width: 1921px) {
