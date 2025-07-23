@@ -75,6 +75,9 @@ export function Footer() {
   const [isMobile, setIsMobile] = useState(false);
   const [isBig, setIsBig] = useState(false);
   const [isSoBig, setIsSoBig] = useState(false);
+  const [isExtraBig, setIsExtraBig] = useState(false);
+  const [isXExtraBig, setIsXExtraBig] = useState(false);
+
   const [eyeStyle, setEyeStyle] = useState<React.CSSProperties>({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -89,20 +92,38 @@ export function Footer() {
 
   useEffect(() => {
     const checkBig = () => {
-      setIsBig(window.innerWidth > 1660 && window.innerWidth < 1921);
+      setIsBig(window.innerWidth > 1650 && window.innerWidth < 1921);
     };
     checkBig();
     window.addEventListener("resize", checkBig);
     return () => window.removeEventListener("resize", checkBig);
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     const checkSoBig = () => {
-      setIsSoBig(window.innerWidth > 1921);
+      setIsSoBig(window.innerWidth > 1921 && window.innerWidth < 2200);
     };
     checkSoBig();
     window.addEventListener("resize", checkSoBig);
     return () => window.removeEventListener("resize", checkSoBig);
+  }, []);
+
+  useEffect(() => {
+    const checkExtraBig = () => {
+      setIsExtraBig(window.innerWidth > 2200 && window.innerWidth < 2516);
+    };
+    checkExtraBig();
+    window.addEventListener("resize", checkExtraBig);
+    return () => window.removeEventListener("resize", checkExtraBig);
+  }, []);
+
+    useEffect(() => {
+    const checkXExtraBig = () => {
+      setIsXExtraBig(window.innerWidth > 2516);
+    };
+    checkXExtraBig();
+    window.addEventListener("resize", checkXExtraBig);
+    return () => window.removeEventListener("resize", checkXExtraBig);
   }, []);
 
   useEffect(() => {
@@ -268,14 +289,17 @@ export function Footer() {
           <h2
             className="font-mycustom mb-4 font-extrabold uppercase text-white whitespace-nowrap w-full footer-lable"
             style={
-                isBig
-                  ? { fontSize: "124.5px", lineHeight: 1.1 }
-                  : isSoBig
-                    ? { fontSize: "5.6vw", lineHeight: 1.1 }
-                    : { fontSize: "7.6vw", lineHeight: 1.1 }
-              }
-              >
-
+              isBig
+                ? { fontSize: "6.2vw", lineHeight: 1.1 }
+                : isSoBig
+                ? { fontSize: "5.6vw", lineHeight: 1.1 }
+                : isExtraBig
+                ? { fontSize: "5vw", lineHeight: 1.1 }
+                : isXExtraBig
+                ? { fontSize: "4.42vw", lineHeight: 1.1 }
+                : { fontSize: "7.6vw", lineHeight: 1.1 }
+            }
+          >
             ВЫ <span className="textToBorderBlack">READY</span> РАБОТАТЬ С НАМИ?
             <span
               className="inline-block relative align-middle -mt-7"
