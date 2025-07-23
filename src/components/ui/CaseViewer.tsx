@@ -132,7 +132,7 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-[1001] bg-black/80 flex items-center justify-center py-[14px] px-[12px]"
+          className="fixed inset-0 z-[1001] bg-black/80 flex items-center justify-center sm:py-[14px] sm:px-[12px]"
           onClick={handleBackdropClick}
         >
           <motion.div
@@ -144,7 +144,7 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
           >
             <button
               onClick={onClose}
-              className="fixed right-8 top-8 flex h-10 w-10 items-center justify-center rounded-full bg-[#E9E9E9] transition-all duration-300 hover:opacity-100 focus:outline-none shadow-xl hover:shadow-gray-400 z-50"
+              className="fixed right-3 sm:right-8 top-9 sm:top-8 flex h-10 w-10 items-center justify-center rounded-full bg-[#E9E9E9] transition-all duration-300 hover:opacity-100 focus:outline-none shadow-xl hover:shadow-gray-400 z-50"
               aria-label="Close"
             >
               <Image

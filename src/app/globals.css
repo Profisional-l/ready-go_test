@@ -127,7 +127,7 @@ html.modal-open {
     @apply bg-background text-foreground;
     @apply font-body;
   }
-@media (min-width: 1880px) {
+@media (min-width: 1921px) {
   html {
     zoom: 1.35; /* Увеличит весь контент на 20% */
     /* или transform: scale(1.2); */
@@ -202,12 +202,18 @@ html.modal-open {
       line-height: 1.1;
     }
 
-  @media (min-width: 1600px) {
+@media (min-width: 1600px) and (max-width: 1920px) {
     .footer-lable {
-      font-size: 120px;
+        font-size: 120px;
     }
+}
 
-  }
+@media (min-width: 1920px) {
+    .footer-lable {
+        font-size: 80px;
+    }
+}
+
   
   .footer-groop{
     display: flex;

@@ -212,6 +212,27 @@
     "media": [
       {
         "type": "image",
+        "url": "/uploads/cases/1753254891691_Fram_e_39721.webp"
+      }
+    ],
+    "id": "1753254891694",
+    "title": "Optimitech",
+    "category": " optimitech",
+    "coverUrl": "/uploads/covers/1753254891685_7eeef5c11e0687446adae8f9955a597406bcae2f.webp",
+    "hoverImageUrl": "/uploads/hovers/1753254891687_ab77cb40e2612ee496c88484899e860be406cf02.webp",
+    "type": "modal",
+    "description": " ",
+    "fullDescription": " ",
+    "tags": [
+      "Copywriting",
+      "Editorial design",
+      "Print"
+    ]
+  },
+  {
+    "media": [
+      {
+        "type": "image",
         "url": "/uploads/cases/1750844840550_Group_39596.png"
       },
       {

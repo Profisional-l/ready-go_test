@@ -74,6 +74,7 @@ export function Footer() {
   const eyesRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [isBig, setIsBig] = useState(false);
+  const [isSoBig, setIsSoBig] = useState(false);
   const [eyeStyle, setEyeStyle] = useState<React.CSSProperties>({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -88,11 +89,20 @@ export function Footer() {
 
   useEffect(() => {
     const checkBig = () => {
-      setIsBig(window.innerWidth > 1660);
+      setIsBig(window.innerWidth > 1660 && window.innerWidth < 1921);
     };
     checkBig();
     window.addEventListener("resize", checkBig);
     return () => window.removeEventListener("resize", checkBig);
+  }, []);
+
+    useEffect(() => {
+    const checkSoBig = () => {
+      setIsSoBig(window.innerWidth > 1921);
+    };
+    checkSoBig();
+    window.addEventListener("resize", checkSoBig);
+    return () => window.removeEventListener("resize", checkSoBig);
   }, []);
 
   useEffect(() => {
@@ -258,11 +268,14 @@ export function Footer() {
           <h2
             className="font-mycustom mb-4 font-extrabold uppercase text-white whitespace-nowrap w-full footer-lable"
             style={
-              isBig
-                ? { fontSize: "124.5px", lineHeight: 1.1 }
-                : { fontSize: "7.6vw", lineHeight: 1.1 }
-            }
-          >
+                isBig
+                  ? { fontSize: "124.5px", lineHeight: 1.1 }
+                  : isSoBig
+                    ? { fontSize: "5.6vw", lineHeight: 1.1 }
+                    : { fontSize: "7.6vw", lineHeight: 1.1 }
+              }
+              >
+
             ВЫ <span className="textToBorderBlack">READY</span> РАБОТАТЬ С НАМИ?
             <span
               className="inline-block relative align-middle -mt-7"
