@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "READY GO",
   description:
     "Digital agency focused on strategies, branding, and digital solutions.",
+    viewport: "width=device-width, initial-scale=1"
 };
 
 export default function RootLayout({
