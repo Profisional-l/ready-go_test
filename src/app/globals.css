@@ -164,12 +164,12 @@ html.modal-open {
     overflow-x: hidden;
   }
 
-  @media (min-width: 1715px) {
+  @media (min-width: 1650px) {
     html {
-      zoom: 1.11;
+      zoom: 1.21;
     }
         .mainScreenTextBlock {
-      margin-top: -8%
+      margin-top: -20%
     }
   }
 
@@ -218,6 +218,22 @@ html.modal-open {
 
     .HeroImgAdapt {
       margin-top: -20%;
+    }
+  }
+
+        @media (min-width: 2770px) {
+    html {
+      zoom: 1.88;
+      /* Увеличит весь контент на 20% */
+      /* или transform: scale(1.2); */
+    }
+
+    .mainScreenTextBlock {
+      margin-top: -63%
+    }
+
+    .HeroImgAdapt {
+      margin-top: -25%;
     }
   }
 
