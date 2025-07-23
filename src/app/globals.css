@@ -167,8 +167,6 @@ html.modal-open {
   @media (min-width: 1715px) {
     html {
       zoom: 1.11;
-      /* Увеличит весь контент на 20% */
-      /* или transform: scale(1.2); */
     }
         .mainScreenTextBlock {
       margin-top: -8%
@@ -188,6 +186,38 @@ html.modal-open {
 
     .HeroImgAdapt {
       margin-top: -10%;
+    }
+  }
+
+    @media (min-width: 2200px) {
+    html {
+      zoom: 1.5;
+      /* Увеличит весь контент на 20% */
+      /* или transform: scale(1.2); */
+    }
+
+    .mainScreenTextBlock {
+      margin-top: -50%
+    }
+
+    .HeroImgAdapt {
+      margin-top: -15%;
+    }
+  }
+
+      @media (min-width: 2516px) {
+    html {
+      zoom: 1.7;
+      /* Увеличит весь контент на 20% */
+      /* или transform: scale(1.2); */
+    }
+
+    .mainScreenTextBlock {
+      margin-top: -56%
+    }
+
+    .HeroImgAdapt {
+      margin-top: -20%;
     }
   }
 

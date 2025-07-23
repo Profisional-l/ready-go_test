@@ -146,6 +146,7 @@ export function HeroSection() {
   const animFrame = useRef<number | null>(null);
   const eyesRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isMid, setIsMid] = useState(false);
 
   const imgSizeIndex = 1.2;
 
@@ -158,6 +159,16 @@ export function HeroSection() {
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+    useEffect(() => {
+    const checkMid = () => {
+      setIsMid(window.innerWidth < 1400);
+    };
+
+    checkMid();
+    window.addEventListener("resize", checkMid);
+    return () => window.removeEventListener("resize", checkMid);
   }, []);
 
   // Плавное движение изображений и глаз
@@ -309,7 +320,7 @@ export function HeroSection() {
     <section className="relative h-full w-full bg-background flex items-center justify-center">
       {/* Центрированный контент */}
       <div className="relative px-4 sm:px-8 md:mt-28 lg:mt-0">
-        <div className="text-[60px] md:text-[100px] lg:text-[130px] font-black font-mycustom text-center leading-[1] mainScreenTextBlock max-w-[1000px] text-[#0E0E0E]">
+        <div className="text-[60px] md:text-[80px] lg:text-[100px] xl:text-[130px] font-black font-mycustom text-center leading-[1] mainScreenTextBlock max-w-[1000px] text-[#0E0E0E]">
           <div className="whitespace-normal lg:-mb-3">
             <span>
               <span
@@ -434,7 +445,7 @@ export function HeroSection() {
           </div>
 
           {/* Слова как SVG-изображения с той же анимацией */}
-          <div className="relative h-[160px] md:h-[280px] lg:h-[145px] flex items-center justify-center overflow-y-hidden">
+          <div className="relative h-[160px] md:h-[220px] lg:h-[110px] xl:h-[145px] flex items-center justify-center overflow-y-hidden">
             <div className="relative w-full max-w-[1550px] h-full min-h-[60px]">
               {keywordImages.map((src, i) => (
                 <div
@@ -458,7 +469,7 @@ export function HeroSection() {
                     unoptimized
                     priority
                     loading="eager"
-                    className="object-contain mt-2 md:mt-4 lg:mt-0"
+                    className="object-contain mt-2 md:mt-3 lg:-mt-1 xl:mt-0"
                   />
                 </div>
               ))}
@@ -478,7 +489,7 @@ export function HeroSection() {
           <div
             key={`left-image-${groupIndex}`}
             className={cn(
-              "absolute left-9 lg:left-16 z-100 transition-all duration-700",
+              "absolute left-9 lg:left-10 z-100 transition-all duration-700 HeroLeftImg",
               isBottomPosition ? "top-[53%] HeroImgAdapt" : "top-24"
             )}
             style={{
@@ -492,8 +503,8 @@ export function HeroSection() {
             <div
               className="relative overflow-hidden hidden md:block"
               style={{
-                  width: `${isMobile ? group[0].width / imgSizeIndex : group[0].width}px`,
-                  height: `${isMobile ? group[0].height / imgSizeIndex : group[0].height}px`,
+                  width: `${isMid ? group[0].width / imgSizeIndex : group[0].width}px`,
+                  height: `${isMid ? group[0].height / imgSizeIndex : group[0].height}px`,
               }}
             >
               <div className="w-full h-full rounded-[12px] overflow-hidden">
@@ -524,8 +535,8 @@ export function HeroSection() {
           <div
             key={`right-image-${groupIndex}`}
             className={cn(
-              "absolute md:right-7 lg:right-12 z-100 transition-all duration-500",
-              isTopPosition ? "top-24  RightTopHeroImgAdapt" : "top-[53%] HeroImgAdapt"
+              "absolute md:right-7 lg:right-12 z-100 transition-all duration-500 HeroRightImg",
+              isTopPosition ? "top-24  RightHeroImgAdapt" : "top-[53%] HeroImgAdapt"
             )}
             style={{
               ...rightImageStyle,
@@ -538,8 +549,8 @@ export function HeroSection() {
             <div
               className="relative overflow-hidden hidden md:block"
               style={{
-                width: `${isMobile ? group[1].width / imgSizeIndex : group[1].width}px`,
-                height: `${isMobile ? group[1].height / imgSizeIndex : group[1].height}px`,
+                width: `${isMid ? group[1].width / imgSizeIndex : group[1].width}px`,
+                height: `${isMid ? group[1].height / imgSizeIndex : group[1].height}px`,
               }}
             >
               <div className="w-full h-full rounded-[12px] overflow-hidden">
