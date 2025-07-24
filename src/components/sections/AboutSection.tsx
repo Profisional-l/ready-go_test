@@ -4,12 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 const images = [
-  "/images/ForAbout/about1.webp",
-  "/images/ForAbout/about2.webp",
-  "/images/ForAbout/about4.webp",
-  "/images/ForAbout/about5.webp",
-  "/images/ForAbout/about6.webp",
-  "/images/ForAbout/about8.webp",
+  "/images/ForAbout/about1 (1).webp",
+  "/images/ForAbout/about2 (1).webp",
+  "/images/ForAbout/about4 (1).webp",
+  "/images/ForAbout/about5 (1).webp",
+  "/images/ForAbout/about6 (1).webp",
+  "/images/ForAbout/about8 (1).webp",
 ];
 
 export function AboutSection() {
