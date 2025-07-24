@@ -106,7 +106,7 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
     }
   }
 
-  const renderMediaRows = (items: MediaItem[]) => {
+  const renderVideoRows = (items: MediaItem[]) => {
     if (!items || items.length === 0) return null;
 
     const chunkSize = 3;
@@ -122,28 +122,32 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
               const itemWidthClass = rowItemCount === 1 ? 'md:w-full' :
                                    rowItemCount === 2 ? 'md:w-1/2' : 'md:w-1/3';
               
-              const isVideo = item.type === 'video';
-
               return (
-                  <div key={`${item.type}-${rowIndex}-${itemIndex}`} className={`relative w-full ${itemWidthClass} ${!isVideo ? 'aspect-[4/3]' : ''}`}>
-                      {isVideo ? (
-                           <VideoWithPreview src={item.url} />
-                      ) : (
-                          <Image
-                              src={item.url}
-                              alt={`${caseData?.title} - Media ${itemIndex + 1}`}
-                              fill
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                              className="w-full h-full rounded-[10px] object-cover"
-                              unoptimized={item.url.endsWith('.gif')}
-                          />
-                      )}
+                  <div key={`${item.type}-${rowIndex}-${itemIndex}`} className={`relative w-full ${itemWidthClass}`}>
+                     <VideoWithPreview src={item.url} />
                   </div>
               );
           })}
       </div>
     ));
   };
+
+  const renderImageRows = (items: MediaItem[]) => {
+    if (!items || items.length === 0) return null;
+
+    return items.map((item, index) => (
+      <div key={`image-row-${index}`} className="relative w-full aspect-[4/3]">
+        <Image
+            src={item.url}
+            alt={`${caseData?.title} - Media ${index + 1}`}
+            fill
+            sizes="100vw"
+            className="w-full h-full rounded-[10px] object-cover"
+            unoptimized={item.url.endsWith('.gif')}
+        />
+      </div>
+    ));
+  }
 
 
   const renderMediaGrid = () => {
@@ -154,9 +158,9 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
 
     return (
       <div className="mt-6 space-y-3 px-3 md:px-48 pb-10">
-        {renderMediaRows(videos)}
+        {renderVideoRows(videos)}
         {videos.length > 0 && images.length > 0 && <div className="py-2"></div>}
-        {renderMediaRows(images)}
+        {renderImageRows(images)}
       </div>
     );
   };
