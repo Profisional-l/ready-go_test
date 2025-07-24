@@ -274,21 +274,36 @@
     "media": [
       {
         "type": "video",
-        "url": "/uploads/cases/1751003746327_o5.mp4"
+        "url": "/uploads/cases/1753342574626_o1.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1753342574758_o2.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1753342574934_o3.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1753342575096_o4.mp4"
+      },
+      {
+        "type": "video",
+        "url": "/uploads/cases/1753342575146_o5.mp4"
       }
     ],
     "id": "1750998285826",
     "title": "BONAQUA",
     "category": "BONAQUA",
-    "coverUrl": "/uploads/covers/1750998285270_images.png",
+    "coverUrl": "/uploads/covers/1753342488470_e2.webp",
     "type": "modal",
     "description": " ",
     "fullDescription": " ",
     "tags": [
       "Creative idea",
       "Prodaction"
-    ],
-    "externalUrl": ""
+    ]
   },
   {
     "media": [
