@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import type { Case } from "@/types";
+import type { Case, MediaItem } from "@/types";
 import { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from 'next/link';
@@ -23,8 +23,11 @@ function VideoWithPreview({ src }: { src: string }) {
     const video = videoRef.current;
     if (!video) return;
 
+    // Reset poster when src changes
+    setPoster(undefined);
+
     const captureFrame = () => {
-      if (!video.videoWidth || !video.videoHeight) return;
+      if (!video.videoWidth || !video.videoHeight || video.readyState < 1) return;
       const canvas = document.createElement("canvas");
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
@@ -36,15 +39,16 @@ function VideoWithPreview({ src }: { src: string }) {
     };
 
     const onLoadedMetadata = () => {
+      // Seek to a specific time to capture a frame, 0.1s is usually safe
       video.currentTime = 0.1;
     };
 
     const onSeeked = () => {
       captureFrame();
+      // Reset time back to the start
       video.currentTime = 0;
-      video.removeEventListener("seeked", onSeeked);
     };
-
+    
     video.addEventListener("loadedmetadata", onLoadedMetadata);
     video.addEventListener("seeked", onSeeked);
 
@@ -61,7 +65,8 @@ function VideoWithPreview({ src }: { src: string }) {
       playsInline
       preload="metadata"
       poster={poster}
-      className="w-full h-full rounded-[10px] object-cover"
+      muted // Mute for autoplay possibility and to prevent audio conflicts
+      className="w-full h-auto rounded-[10px] object-contain bg-black/10"
     >
       <source src={src} type={`video/${src.split(".").pop()}`} />
       Your browser does not support the video tag.
@@ -95,52 +100,67 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
   }, [caseData, onClose]);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
+    // Only close if the click is on the backdrop itself, not on its children
+    if (contentRef.current && !contentRef.current.contains(e.target as Node)) {
+        onClose();
     }
   }
+
+  const renderMediaRows = (items: MediaItem[]) => {
+    if (!items || items.length === 0) return null;
+
+    const chunkSize = 3;
+    const rows = [];
+    for (let i = 0; i < items.length; i += chunkSize) {
+        rows.push(items.slice(i, i + chunkSize));
+    }
+
+    return rows.map((rowItems, rowIndex) => (
+      <div key={rowIndex} className="flex flex-col md:flex-row md:space-x-3 space-y-3 md:space-y-0">
+          {rowItems.map((item, itemIndex) => {
+              const rowItemCount = rowItems.length;
+              const itemWidthClass = rowItemCount === 1 ? 'md:w-full' :
+                                   rowItemCount === 2 ? 'md:w-1/2' : 'md:w-1/3';
+              
+              const isVideo = item.type === 'video';
+
+              return (
+                  <div key={`${item.type}-${rowIndex}-${itemIndex}`} className={`relative w-full ${itemWidthClass} ${!isVideo ? 'aspect-[4/3]' : ''}`}>
+                      {isVideo ? (
+                           <VideoWithPreview src={item.url} />
+                      ) : (
+                          <Image
+                              src={item.url}
+                              alt={`${caseData?.title} - Media ${itemIndex + 1}`}
+                              fill
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              className="w-full h-full rounded-[10px] object-cover"
+                              unoptimized={item.url.endsWith('.gif')}
+                          />
+                      )}
+                  </div>
+              );
+          })}
+      </div>
+    ));
+  };
+
 
   const renderMediaGrid = () => {
     if (!caseData?.media || caseData.media.length === 0) return null;
 
-    const mediaItems = caseData.media;
-    const chunkSize = 3;
-    const mediaRows = [];
-    for (let i = 0; i < mediaItems.length; i += chunkSize) {
-        mediaRows.push(mediaItems.slice(i, i + chunkSize));
-    }
+    const videos = caseData.media.filter(item => item.type === 'video');
+    const images = caseData.media.filter(item => item.type === 'image');
 
     return (
       <div className="mt-6 space-y-3 px-3 md:px-48 pb-10">
-        {mediaRows.map((rowItems, rowIndex) => (
-            <div key={rowIndex} className="flex flex-col md:flex-row md:space-x-3 space-y-3 md:space-y-0">
-                {rowItems.map((item, itemIndex) => {
-                    const rowItemCount = rowItems.length;
-                    const itemWidthClass = rowItemCount === 1 ? 'md:w-full' :
-                                           rowItemCount === 2 ? 'md:w-1/2' : 'md:w-1/3';
-
-                    return (
-                        <div key={`${item.type}-${rowIndex}-${itemIndex}`} className={`relative w-full aspect-[4/3] ${itemWidthClass}`}>
-                            {item.type === 'image' ? (
-                                <Image
-                                    src={item.url}
-                                    alt={`${caseData.title} - Media ${itemIndex + 1}`}
-                                    fill
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                    className="w-full h-full rounded-[10px] object-cover"
-                                    unoptimized={item.url.endsWith('.gif')}
-                                />
-                            ) : (
-                                <VideoWithPreview src={item.url} />
-                            )}
-                        </div>
-                    );
-                })}
-            </div>
-        ))}
+        {renderMediaRows(videos)}
+        {videos.length > 0 && images.length > 0 && <div className="py-2"></div>}
+        {renderMediaRows(images)}
       </div>
     );
   };
+
 
   return (
     <AnimatePresence>
@@ -150,23 +170,23 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-[1001] bg-black/80 flex items-center justify-center sm:py-[14px] sm:px-[12px]"
+          className="fixed inset-0 z-[1001] bg-black/80 flex items-start justify-center"
           onClick={handleBackdropClick}
         >
           <div
             ref={contentRef}
-            className="relative w-full h-full bg-[#F0EFEE] overflow-y-auto sm:rounded-[35px]"
+            className="relative w-full h-full bg-[#F0EFEE] overflow-y-auto sm:rounded-[35px] sm:my-[14px] sm:w-[calc(100%-24px)]"
           >
              <motion.div
                 initial={{ scale: 0.95, y: 20 }}
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.95, y: 20, opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full"
+                className="w-full"
             >
               <button
                 onClick={onClose}
-                className="fixed right-3 sm:right-8 top-9 sm:top-8 flex h-10 w-10 items-center justify-center rounded-full bg-[#E9E9E9] transition-all duration-300 hover:opacity-100 focus:outline-none shadow-xl hover:shadow-gray-400 z-50"
+                className="sticky right-3 sm:right-8 top-3 sm:top-8 flex h-10 w-10 items-center justify-center rounded-full bg-[#E9E9E9] transition-all duration-300 hover:opacity-100 focus:outline-none shadow-xl hover:shadow-gray-400 z-50 float-right mr-3 mt-3"
                 aria-label="Close"
               >
                 <Image
@@ -177,7 +197,7 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
                 />
               </button>
 
-              <div className="p-3 md:pt-20 md:px-48">
+              <div className="p-3 pt-16 md:pt-20 md:px-48 clear-both">
                 <h2 className="text-[60px] md:text-[90px] font-mycustom text-left md:text-center uppercase tracking-normal md:-mt-10">
                   {caseData.category}
                 </h2>
@@ -189,23 +209,18 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
                 )}
 
                 {caseData.externalUrl && (
-                  <div className="md:text-center md:mb-7">
-                  <Link href={caseData.externalUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-flex items-center text-[20px] font-medium text-foreground">
-                    <span>Перейти на&nbsp;</span>
-                    <div className="inline-flex items-center">
-                      <span className="text-accent">сайт</span>
-                      <Image
-                        src="/images/link-arrow.svg"
-                        alt="arrow"
-                        width={12}
-                        height={12}
-                        className="ml-1"
-                      />
-                    </div>
-                    <span className="absolute bottom-[-2px] left-0 h-[2px] w-full origin-left scale-x-0 transform bg-gradient-to-r from-foreground from-65% to-accent to-65% transition-transform duration-300 ease-out group-hover:scale-x-100 rounded-lg"></span>
-                  </Link>
-                </div>
+                  <div className="md:text-center mt-4 md:mb-7">
+                    <Link href={caseData.externalUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-flex items-center text-[20px] font-medium text-foreground">
+                      <span>Перейти на&nbsp;</span>
+                      <div className="inline-flex items-center">
+                        <span className="text-accent">сайт</span>
+                         <ArrowUpRight className="ml-1 h-5 w-5 text-accent" />
+                      </div>
+                      <span className="absolute bottom-[-2px] left-0 h-[2px] w-full origin-left scale-x-0 transform bg-gradient-to-r from-foreground from-65% to-accent to-65% transition-transform duration-300 ease-out group-hover:scale-x-100 rounded-lg"></span>
+                    </Link>
+                  </div>
                 )}
+
 
                 {caseData.tags && caseData.tags.length > 0 && (
                   <div className="flex flex-wrap justify-center gap-2 mb-6 mt-8">
