@@ -136,13 +136,14 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
     if (!items || items.length === 0) return null;
 
     return items.map((item, index) => (
-      <div key={`image-row-${index}`} className="relative w-full aspect-[4/3]">
+      <div key={`image-row-${index}`} className="relative w-full">
         <Image
             src={item.url}
             alt={`${caseData?.title} - Media ${index + 1}`}
-            fill
+            width={0}
+            height={0}
             sizes="100vw"
-            className="w-full h-full rounded-[10px] object-cover"
+            className="w-full h-auto rounded-[10px]"
             unoptimized={item.url.endsWith('.gif')}
         />
       </div>
