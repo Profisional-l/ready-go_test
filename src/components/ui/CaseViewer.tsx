@@ -18,42 +18,55 @@ interface CaseViewerProps {
 function VideoWithPreview({ src }: { src: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [poster, setPoster] = useState<string | undefined>(undefined);
+  const posterGenerated = useRef(false);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
-
-    // Reset poster when src changes
+    if (!video || posterGenerated.current) return;
+    
+    // Reset state for new src
+    posterGenerated.current = false;
     setPoster(undefined);
 
     const captureFrame = () => {
-      if (!video.videoWidth || !video.videoHeight || video.readyState < 1) return;
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const dataUrl = canvas.toDataURL("image/png");
-      setPoster(dataUrl);
-    };
-
-    const onLoadedMetadata = () => {
-      // Seek to a specific time to capture a frame, 0.1s is usually safe
-      video.currentTime = 0.1;
-    };
-
-    const onSeeked = () => {
-      captureFrame();
-      // Reset time back to the start
-      video.currentTime = 0;
+        if (!video.videoWidth || !video.videoHeight || video.readyState < 2 || posterGenerated.current) return;
+        
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        
+        try {
+            const dataUrl = canvas.toDataURL("image/png");
+            setPoster(dataUrl);
+            posterGenerated.current = true; // Mark as generated
+        } catch (e) {
+            console.error("Error generating poster:", e);
+        }
     };
     
-    video.addEventListener("loadedmetadata", onLoadedMetadata);
+    const onSeeked = () => {
+        captureFrame();
+        // We MUST remove the listener to prevent it from firing again on user interaction
+        video.removeEventListener("seeked", onSeeked); 
+    };
+
+    const onLoadedData = () => {
+        // Seek to a specific time to capture a frame. 0.1s is usually safe.
+        if (video.duration > 0.1) {
+            video.currentTime = 0.1;
+        } else {
+             captureFrame(); // For very short videos
+        }
+    };
+
+    video.addEventListener("loadeddata", onLoadedData);
     video.addEventListener("seeked", onSeeked);
 
     return () => {
-      video.removeEventListener("loadedmetadata", onLoadedMetadata);
+      video.removeEventListener("loadeddata", onLoadedData);
       video.removeEventListener("seeked", onSeeked);
     };
   }, [src]);
