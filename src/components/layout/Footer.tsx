@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -311,7 +312,6 @@ export function Footer() {
                   <Image
                     src="/images/eyes_Group127.svg"
                     alt="глаза"
-                    unoptimized
                     layout="fill"
                     objectFit="contain"
                   />
@@ -320,7 +320,6 @@ export function Footer() {
                     <Image
                       src="/images/eyes0.svg"
                       alt="глаза"
-                      unoptimized
                       layout="fill"
                       objectFit="contain"
                     />
@@ -339,7 +338,6 @@ export function Footer() {
                         <Image
                           src="/images/eyes1.svg"
                           alt="зрачки"
-                          unoptimized
                           layout="fill"
                           objectFit="contain"
                         />

@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -76,7 +77,6 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
               src="/images/svg_w_logo.svg"
               alt="Logo dark"
               fill
-              unoptimized={true}
               quality={100}
               className={`transition-opacity duration-500 object-contain ${isOpen ? "opacity-100" : "opacity-0"
                 }`}
@@ -85,7 +85,6 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
               src="/images/svg_logo.svg"
               alt="Logo light"
               fill
-              unoptimized={true}
               quality={100}
               className={`absolute top-0 left-0 transition-opacity duration-500 object-contain ${isOpen ? "opacity-0" : "opacity-100"
                 }`}

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -112,7 +113,6 @@ export function AboutSection() {
                 src={src}
                 alt={`About image ${index}`}
                 fill
-                unoptimized={true}
                 className={`object-cover absolute top-0 left-0 transition-opacity duration-1000 ease-in-out ${index === currentImage ? "opacity-100 z-10" : "opacity-0 z-0"
                   }`}
               />

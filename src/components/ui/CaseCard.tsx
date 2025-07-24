@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -43,7 +44,6 @@ export function CaseCard({
                 src={coverUrl}
                 alt={title}
                 fill
-                unoptimized
                 className={cn(
                   'absolute object-cover transition-opacity duration-500 ease-in-out',
                   isHovered && hoverImage ? 'opacity-0' : 'opacity-100'
@@ -55,7 +55,6 @@ export function CaseCard({
                   src={hoverImage}
                   alt={title}
                   fill
-                  unoptimized
                   className={cn(
                     'absolute object-cover transition-opacity duration-500 ease-in-out',
                     isHovered ? 'opacity-100' : 'opacity-0'

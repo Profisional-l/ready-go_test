@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -338,7 +339,6 @@ export function HeroSection() {
                   <Image
                     src={weSrc}
                     alt="мы"
-                    unoptimized={true}
                     quality={100}
                     priority
                     layout="fill"
@@ -363,7 +363,6 @@ export function HeroSection() {
                   <Image
                     src="/images/eyes_Group127.svg"
                     alt="глаза"
-                    unoptimized={true}
                     layout="fill"
                     objectFit="contain"
                   />
@@ -372,7 +371,7 @@ export function HeroSection() {
                     <Image
                       src="/images/eyes0.svg"
                       alt="глаза"
-                      unoptimized={true}
+                      priority
                       layout="fill"
                       objectFit="contain"
                     />
@@ -403,7 +402,7 @@ export function HeroSection() {
                         <Image
                           src="/images/eyes1.svg"
                           alt="зрачки"
-                          unoptimized={true}
+                          priority
                           layout="fill"
                           objectFit="contain"
                         />
@@ -429,7 +428,6 @@ export function HeroSection() {
                   <Image
                     src={rgSrc}
                     alt="глаза"
-                    unoptimized={true}
                     quality={100}
                     priority
                     loading="eager"
@@ -466,7 +464,6 @@ export function HeroSection() {
                     src={src}
                     alt={`слово ${i}`}
                     fill
-                    unoptimized
                     priority
                     loading="eager"
                     className="object-contain mt-2 md:mt-3 lg:-mt-1 xl:mt-0"
@@ -511,7 +508,6 @@ export function HeroSection() {
                 <Image
                   src={group[0].src}
                   alt={group[0].alt}
-                  unoptimized={true}
                   priority
                   loading="eager"
                   width={group[0].width}
@@ -557,7 +553,6 @@ export function HeroSection() {
                 <Image
                   src={group[1].src}
                   alt={group[1].alt}
-                  unoptimized
                   priority
                   loading="eager"
                   width={group[1].width}
