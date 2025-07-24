@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     "Digital agency focused on strategies, branding, and digital solutions.",
   viewport: "width=device-width, initial-scale=1",
-  creator: " ✿ sakura. — web agency ",
+  creator: " ✿ sakura. — web agency | tg: @sakura_global ",
 };
 
 export default function RootLayout({
@@ -21,7 +21,7 @@ export default function RootLayout({
     <>
       <html lang="ru">
         <head>
-          
+
           {/* 
             &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
             &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&

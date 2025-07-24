@@ -123,13 +123,28 @@
     "hoverImageUrl": "/uploads/hovers/1753185013633_371d2e12cd175a7de78f07f5c32ad5c348190c84.webp"
   },
   {
-    "media": [],
+    "media": [
+      {
+        "type": "image",
+        "url": "/uploads/cases/1753277855618_490742599412872738e8cd0d536afcd582e291aa.webp"
+      },
+      {
+        "type": "image",
+        "url": "/uploads/cases/1753277855622___.webp"
+      }
+    ],
     "id": "5",
     "title": "Coca-Cola — Promo",
-    "category": "Promo",
-    "type": "link",
+    "category": "COCA-COLA PROMO",
+    "type": "modal",
     "coverUrl": "/uploads/covers/1753185210931_490742599412872738e8cd0d536afcd582e291aa.webp",
-    "externalUrl": "https://coca-cola-promo.by/"
+    "externalUrl": "https://coca-cola-promo.by/",
+    "description": " ",
+    "fullDescription": "Придумали активность для спота Lillet на городском пикнике Vulitsa Ezha, сделали дизайн карт таро. ",
+    "tags": [
+      "creative idea",
+      "print card"
+    ]
   },
   {
     "media": [
