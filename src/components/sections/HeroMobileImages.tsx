@@ -25,7 +25,7 @@ export default function HeroMobileImages({ currentIndex }: HeroMobileImagesProps
                 <div
                     key={`mobile-image-${groupIndex}`}
                     className={cn(
-                        "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 w-[280px] h-[350px]",
+                        " hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 w-[280px] h-[350px]",
                         {
                             "opacity-100": currentIndex === groupIndex,
                             "opacity-0": currentIndex !== groupIndex,
