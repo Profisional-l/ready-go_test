@@ -6,123 +6,123 @@ import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-export function HeroSection() {
-  // Группируем изображения по 2 для каждого ключевого слова
-  const imageGroups = [
-    [
-      {
-        src: "/images/ForHeroSection/back-1.webp",
-        alt: "СТРАТЕГИЯМИ",
-        width: 305,
-        height: 352,
-        maxHeight: 352,
-      },
-      {
-        src: "/images/ForHeroSection/back-2.webp",
-        alt: "СТРАТЕГИЯМИ",
-        width: 308,
-        height: 388,
-        maxHeight: 378,
-      },
-    ],
-    [
-      {
-        src: "/images/ForHeroSection/back-3.webp",
-        alt: "SMM",
-        width: 288,
-        height: 360,
-        maxHeight: 360,
-      },
-      {
-        src: "/images/ForHeroSection/back-4.webp",
-        alt: "SMM",
-        width: 302,
-        height: 353,
-        maxHeight: 420,
-      },
-    ],
-    [
-      {
-        src: "/images/ForHeroSection/back-5.webp",
-        alt: "СТРАТЕГИЯМИ",
-        width: 254,
-        height: 351,
-        maxHeight: 351,
-      },
-      {
-        src: "/images/ForHeroSection/back-6.png",
-        alt: "СТРАТЕГИЯМИ",
-        width: 396,
-        height: 308,
-        maxHeight: 308,
-      },
-    ],
-    [
-      {
-        src: "/images/ForHeroSection/back-7.webp",
-        alt: "СТРАТЕГИЯМИ",
-        width: 290,
-        height: 364,
-        maxHeight: 364,
-      },
-      {
-        src: "/images/ForHeroSection/back-8.png",
-        alt: "СТРАТЕГИЯМИ",
-        width: 338,
-        height: 338,
-        maxHeight: 338,
-      },
-    ],
-    [
-      {
-        src: "/images/ForHeroSection/back-9.png",
-        alt: "СТРАТЕГИЯМИ",
-        width: 387,
-        height: 259,
-        maxHeight: 259,
-      },
-      {
-        src: "/images/ForHeroSection/back-10.png",
-        alt: "СТРАТЕГИЯМИ",
-        width: 311,
-        height: 311,
-        maxHeight: 311,
-      },
-    ],
-    [
-      {
-        src: "/images/ForHeroSection/back-11.webp",
-        alt: "СТРАТЕГИЯМИ",
-        width: 290,
-        height: 371,
-        maxHeight: 371,
-      },
-      {
-        src: "/images/ForHeroSection/Comp-12.gif",
-        alt: "СТРАТЕГИЯМИ",
-        width: 272,
-        height: 338,
-        maxHeight: 338,
-      },
-    ],
-    [
-      {
-        src: "/images/ForHeroSection/back-13.png",
-        alt: "СТРАТЕГИЯМИ",
-        width: 339,
-        height: 339,
-        maxHeight: 339,
-      },
-      {
-        src: "/images/ForHeroSection/back-14.webp",
-        alt: "СТРАТЕГИЯМИ",
-        width: 285,
-        height: 359,
-        maxHeight: 359,
-      },
-    ],
-  ];
+// Группируем изображения по 2 для каждого ключевого слова
+const allImageGroups = [
+  [
+    {
+      src: "/images/ForHeroSection/back-1.webp",
+      alt: "СТРАТЕГИЯМИ",
+      width: 305,
+      height: 352,
+      maxHeight: 352,
+    },
+    {
+      src: "/images/ForHeroSection/back-2.webp",
+      alt: "СТРАТЕГИЯМИ",
+      width: 308,
+      height: 388,
+      maxHeight: 378,
+    },
+  ],
+  [
+    {
+      src: "/images/ForHeroSection/back-3.webp",
+      alt: "SMM",
+      width: 288,
+      height: 360,
+      maxHeight: 360,
+    },
+    {
+      src: "/images/ForHeroSection/back-4.webp",
+      alt: "SMM",
+      width: 302,
+      height: 353,
+      maxHeight: 420,
+    },
+  ],
+  [
+    {
+      src: "/images/ForHeroSection/back-5.webp",
+      alt: "СТРАТЕГИЯМИ",
+      width: 254,
+      height: 351,
+      maxHeight: 351,
+    },
+    {
+      src: "/images/ForHeroSection/back-6.png",
+      alt: "СТРАТЕГИЯМИ",
+      width: 396,
+      height: 308,
+      maxHeight: 308,
+    },
+  ],
+  [
+    {
+      src: "/images/ForHeroSection/back-7.webp",
+      alt: "СТРАТЕГИЯМИ",
+      width: 290,
+      height: 364,
+      maxHeight: 364,
+    },
+    {
+      src: "/images/ForHeroSection/back-8.png",
+      alt: "СТРАТЕГИЯМИ",
+      width: 338,
+      height: 338,
+      maxHeight: 338,
+    },
+  ],
+  [
+    {
+      src: "/images/ForHeroSection/back-9.png",
+      alt: "СТРАТЕГИЯМИ",
+      width: 387,
+      height: 259,
+      maxHeight: 259,
+    },
+    {
+      src: "/images/ForHeroSection/back-10.png",
+      alt: "СТРАТЕГИЯМИ",
+      width: 311,
+      height: 311,
+      maxHeight: 311,
+    },
+  ],
+  [
+    {
+      src: "/images/ForHeroSection/back-11.webp",
+      alt: "СТРАТЕГИЯМИ",
+      width: 290,
+      height: 371,
+      maxHeight: 371,
+    },
+    {
+      src: "/images/ForHeroSection/Comp-12.gif",
+      alt: "СТРАТЕГИЯМИ",
+      width: 272,
+      height: 338,
+      maxHeight: 338,
+    },
+  ],
+  [
+    {
+      src: "/images/ForHeroSection/back-13.png",
+      alt: "СТРАТЕГИЯМИ",
+      width: 339,
+      height: 339,
+      maxHeight: 339,
+    },
+    {
+      src: "/images/ForHeroSection/back-14.webp",
+      alt: "СТРАТЕГИЯМИ",
+      width: 285,
+      height: 359,
+      maxHeight: 359,
+    },
+  ],
+];
 
+export function HeroSection() {
   const [index, setIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [imagePosition, setImagePosition] = useState(true);
@@ -138,6 +138,9 @@ export function HeroSection() {
   const eyesRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   const [isMid, setIsMid] = useState(false);
+
+  // Условная инициализация массива изображений
+  const imageGroups = isMobile ? [] : allImageGroups;
 
   const imgSizeIndex = 1.2;
 
@@ -247,42 +250,6 @@ export function HeroSection() {
     isMobile ? image.replace("/images/svgWords/", "/images/svgWords/m_") : image
   );
 
-  // Теперь keywordImages содержит пути с приставкой m_ для мобильных устройств
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const svgCache: Record<string, HTMLImageElement> = {};
-    const imagesToCache = [
-      "/images/svgWords/strategy.svg",
-      "/images/svgWords/smm.svg",
-      "/images/svgWords/web.svg",
-      "/images/svgWords/branding.svg",
-      "/images/svgWords/creative.svg",
-      "/images/svgWords/production.svg",
-      "/images/svgWords/merch.svg",
-    ];
-
-    imagesToCache.forEach((image) => {
-      const path = isMobile
-        ? image.replace("/images/svgWords/", "/images/svgWords/m_")
-        : image;
-
-      if (!svgCache[path]) {
-        const img = new window.Image();
-        img.src = path;
-        svgCache[path] = img;
-      }
-    });
-
-    // Если хочешь использовать потом: svgCacheRef.current = svgCache
-  }, [isMobile]);
-
-  const currentWord = keywordImages[index];
-  const nextWord = keywordImages[(index + 1) % keywordImages.length];
-  const currentImages = imageGroups[index % imageGroups.length];
-  const nextImages = imageGroups[(index + 1) % imageGroups.length];
-  // const svgWidth = whatWidth ? 910 : 240
   const rgSrc = isMobile ? "/images/svgWords/readygo.png" : "/images/svgWords/readygo.svg"
   const weSrc = isMobile ? "/images/svgWords/we.png" : "/images/svgWords/we.svg"
   return (
