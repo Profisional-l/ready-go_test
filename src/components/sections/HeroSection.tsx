@@ -455,8 +455,51 @@ export function HeroSection() {
             const imagePositionArray = [true, false, true, false, false, false, true]; 
             const isTopPosition = imagePositionArray[groupIndex]; 
             const image = group[1];
-            const imageSrc = (isMobile && image.mobileSrc) ? image.mobileSrc : image.src;
+            
+            // For the specific GIF, render conditionally
+            if (image.src.endsWith('.gif')) {
+              return (
+                <div
+                  key={`right-image-${groupIndex}`}
+                  className={cn(
+                    "absolute md:right-7 lg:right-12 z-100 transition-all duration-500 HeroRightImg",
+                    isTopPosition ? "top-24  RightHeroImgAdapt" : "top-[53%] HeroImgAdapt"
+                  )}
+                  style={{
+                    ...rightImageStyle,
+                    opacity: index === groupIndex ? imageOpacity : 0,
+                    pointerEvents: index === groupIndex ? "auto" : "none", 
+                    transition:
+                      "opacity 0.22s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
+                  }}
+                >
+                  <div
+                    className="relative overflow-hidden"
+                    style={{
+                      width: `${isMid ? image.width / imgSizeIndex : image.width}px`,
+                      height: `${isMid ? image.height / imgSizeIndex : image.height}px`,
+                    }}
+                  >
+                    <div className="w-full h-full rounded-[12px] overflow-hidden">
+                      {isMobile === false && ( // Render GIF only on desktop
+                        <Image
+                          src={image.src}
+                          alt={image.alt}
+                          priority
+                          width={image.width}
+                          height={image.height}
+                          sizes="30vw"
+                          unoptimized
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
 
+            // Render other images normally
             return (
               <div
                 key={`right-image-${groupIndex}`}
@@ -481,13 +524,12 @@ export function HeroSection() {
                 >
                   <div className="w-full h-full rounded-[12px] overflow-hidden">
                     <Image
-                      src={imageSrc}
+                      src={image.src}
                       alt={image.alt}
                       priority
                       width={image.width}
                       height={image.height}
                       sizes="30vw"
-                      unoptimized={imageSrc.endsWith('.gif')}
                       className="w-full h-full object-cover"
                     />
                   </div>
