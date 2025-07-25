@@ -8,6 +8,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import dynamic from 'next/dynamic';
 
 const HeroDesktopImages = dynamic(() => import('./HeroDesktopImages'), { ssr: false });
+const HeroMobileImages = dynamic(() => import('./HeroMobileImages'), { ssr: false });
+
 
 export function HeroSection() {
   const isMobile = useIsMobile();
@@ -55,6 +57,18 @@ export function HeroSection() {
     };
   }, []);
 
+  const keywordImagesData = [
+    { desktop: "/images/svgWords/strategy.svg", mobile: "/images/svgWords/m_strategy.svg" },
+    { desktop: "/images/svgWords/smm.svg", mobile: "/images/svgWords/m_smm.svg" },
+    { desktop: "/images/svgWords/web.svg", mobile: "/images/svgWords/m_web.svg" },
+    { desktop: "/images/svgWords/branding.svg", mobile: "/images/svgWords/m_branding.svg" },
+    { desktop: "/images/svgWords/creative.svg", mobile: "/images/svgWords/m_creative.svg" },
+    { desktop: "/images/svgWords/production.svg", mobile: "/images/svgWords/m_production.svg" },
+    { desktop: "/images/svgWords/merch.svg", mobile: "/images/svgWords/m_merch.svg" },
+  ];
+
+  const keywordImages = keywordImagesData.map(item => isMobile ? item.mobile : item.desktop);
+
   // Плавная смена слов
   useEffect(() => {
     const interval = setInterval(() => {
@@ -66,20 +80,8 @@ export function HeroSection() {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [keywordImages.length]);
 
-
-  const keywordImages = [
-    "/images/svgWords/strategy.svg",
-    "/images/svgWords/smm.svg",
-    "/images/svgWords/web.svg",
-    "/images/svgWords/branding.svg",
-    "/images/svgWords/creative.svg",
-    "/images/svgWords/production.svg",
-    "/images/svgWords/merch.svg",
-  ].map((image) =>
-    isMobile ? image.replace("/images/svgWords/", "/images/svgWords/m_") : image
-  );
 
   const rgSrc = isMobile ? "/images/svgWords/readygo.png" : "/images/svgWords/readygo.svg"
   const weSrc = isMobile ? "/images/svgWords/we.png" : "/images/svgWords/we.svg"
@@ -249,9 +251,9 @@ export function HeroSection() {
         </div>
       </div>
 
-      {!isMobile && <HeroDesktopImages currentIndex={index} />}
+      {isMobile === false && <HeroDesktopImages currentIndex={index} isAnimating={isAnimating} />}
+      {isMobile === true && <HeroMobileImages currentIndex={index} />}
       
     </section>
   );
 }
-

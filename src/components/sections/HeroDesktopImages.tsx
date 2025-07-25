@@ -108,10 +108,10 @@ const imageGroupsData = [
 
 interface HeroDesktopImagesProps {
     currentIndex: number;
+    isAnimating: boolean;
 }
 
-export default function HeroDesktopImages({ currentIndex }: HeroDesktopImagesProps) {
-    const [imageOpacity, setImageOpacity] = useState(1);
+export default function HeroDesktopImages({ currentIndex, isAnimating }: HeroDesktopImagesProps) {
     const [leftImageStyle, setLeftImageStyle] = useState<React.CSSProperties>({});
     const [rightImageStyle, setRightImageStyle] = useState<React.CSSProperties>({});
     const [isMid, setIsMid] = useState(false);
@@ -167,15 +167,7 @@ export default function HeroDesktopImages({ currentIndex }: HeroDesktopImagesPro
         };
     }, []);
 
-    // Анимация смены изображений
-    useEffect(() => {
-        setImageOpacity(0);
-        const timer = setTimeout(() => {
-            setImageOpacity(1);
-        }, 700);
-        return () => clearTimeout(timer);
-    }, [currentIndex]);
-
+    const imageOpacity = isAnimating ? 0 : 1;
 
     return (
         <>
@@ -195,7 +187,7 @@ export default function HeroDesktopImages({ currentIndex }: HeroDesktopImagesPro
                     ...leftImageStyle,
                     opacity: currentIndex === groupIndex ? imageOpacity : 0,
                     pointerEvents: currentIndex === groupIndex ? "auto" : "none",
-                    transition: "opacity 0.22s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
+                    transition: "opacity 0.7s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
                     }}
                 >
                     <div
@@ -238,7 +230,7 @@ export default function HeroDesktopImages({ currentIndex }: HeroDesktopImagesPro
                     ...rightImageStyle,
                     opacity: currentIndex === groupIndex ? imageOpacity : 0,
                     pointerEvents: currentIndex === groupIndex ? "auto" : "none", 
-                    transition: "opacity 0.22s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
+                    transition: "opacity 0.7s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
                     }}
                 >
                     <div
