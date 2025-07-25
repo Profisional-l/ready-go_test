@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 // Группируем изображения по 2 для каждого ключевого слова
-const allImageGroups = [
+const desktopImageGroups = [
   [
     {
       src: "/images/ForHeroSection/back-1.webp",
@@ -97,7 +97,7 @@ const allImageGroups = [
       maxHeight: 371,
     },
     {
-      src: "/images/ForHeroSection/back-8.png", // ЗАМЕНА GIF НА PNG
+      src: "/images/ForHeroSection/Comp-12.gif", // GIF для десктопа
       alt: "СТРАТЕГИЯМИ",
       width: 272,
       height: 338,
@@ -122,9 +122,18 @@ const allImageGroups = [
   ],
 ];
 
+const mobileImageGroups = desktopImageGroups.map(group =>
+  group.map(image =>
+    image.src.includes('Comp-12.gif')
+      ? { ...image, src: '/images/ForHeroSection/back-8.png' } // PNG для мобильных
+      : image
+  )
+);
+
+
 export function HeroSection() {
   const isMobile = useIsMobile();
-  const imageGroups = isMobile ? [] : allImageGroups;
+  const [imageGroups, setImageGroups] = useState(isMobile ? mobileImageGroups : desktopImageGroups);
 
   const [index, setIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -144,7 +153,12 @@ export function HeroSection() {
 
   const imgSizeIndex = 1.2;
 
-    useEffect(() => {
+  useEffect(() => {
+    // Устанавливаем правильный массив изображений на клиенте
+    setImageGroups(isMobile ? mobileImageGroups : desktopImageGroups);
+  }, [isMobile]);
+
+  useEffect(() => {
     const checkMid = () => {
       setIsMid(window.innerWidth < 1400);
     };
@@ -279,8 +293,8 @@ export function HeroSection() {
                     alt="мы"
                     quality={100}
                     priority
-                    layout="fill"
-                    objectFit="contain"
+                    fill
+                    className="object-contain"
                   />
                 </div>
               </span>
@@ -301,8 +315,8 @@ export function HeroSection() {
                   <Image
                     src="/images/eyes_Group127.svg"
                     alt="глаза"
-                    layout="fill"
-                    objectFit="contain"
+                    fill
+                    className="object-contain"
                     priority
                   />
                 ) : (
@@ -311,8 +325,8 @@ export function HeroSection() {
                       src="/images/eyes0.svg"
                       alt="глаза"
                       priority
-                      layout="fill"
-                      objectFit="contain"
+                      fill
+                      className="object-contain"
                     />
 
                     <div
@@ -342,8 +356,8 @@ export function HeroSection() {
                           src="/images/eyes1.svg"
                           alt="зрачки"
                           priority
-                          layout="fill"
-                          objectFit="contain"
+                          fill
+                          className="object-contain"
                         />
                       </div>
                     </div>
@@ -370,8 +384,8 @@ export function HeroSection() {
                     quality={100}
                     priority
                     loading="eager"
-                    layout="fill"
-                    objectFit="contain"
+                    fill
+                    className="object-contain"
                   />
                 </div>
               </span>
@@ -492,6 +506,7 @@ export function HeroSection() {
                       priority
                       width={group[1].width}
                       height={group[1].height}
+                      unoptimized={group[1].src.endsWith('.gif')}
                       className="w-full h-full object-cover"
                     />
                   </div>
