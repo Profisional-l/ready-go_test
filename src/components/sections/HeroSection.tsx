@@ -7,21 +7,19 @@ import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 // Группируем изображения по 2 для каждого ключевого слова
-const desktopImageGroups = [
+const imageGroupsData = [
   [
     {
       src: "/images/ForHeroSection/back-1.webp",
       alt: "СТРАТЕГИЯМИ",
       width: 305,
       height: 352,
-      maxHeight: 352,
     },
     {
       src: "/images/ForHeroSection/back-2.webp",
       alt: "СТРАТЕГИЯМИ",
       width: 308,
       height: 388,
-      maxHeight: 378,
     },
   ],
   [
@@ -30,14 +28,12 @@ const desktopImageGroups = [
       alt: "SMM",
       width: 288,
       height: 360,
-      maxHeight: 360,
     },
     {
       src: "/images/ForHeroSection/back-4.webp",
       alt: "SMM",
       width: 302,
       height: 353,
-      maxHeight: 420,
     },
   ],
   [
@@ -46,14 +42,12 @@ const desktopImageGroups = [
       alt: "СТРАТЕГИЯМИ",
       width: 254,
       height: 351,
-      maxHeight: 351,
     },
     {
       src: "/images/ForHeroSection/back-6.png",
       alt: "СТРАТЕГИЯМИ",
       width: 396,
       height: 308,
-      maxHeight: 308,
     },
   ],
   [
@@ -62,14 +56,12 @@ const desktopImageGroups = [
       alt: "СТРАТЕГИЯМИ",
       width: 290,
       height: 364,
-      maxHeight: 364,
     },
     {
       src: "/images/ForHeroSection/back-8.png",
       alt: "СТРАТЕГИЯМИ",
       width: 338,
       height: 338,
-      maxHeight: 338,
     },
   ],
   [
@@ -78,14 +70,12 @@ const desktopImageGroups = [
       alt: "СТРАТЕГИЯМИ",
       width: 387,
       height: 259,
-      maxHeight: 259,
     },
     {
       src: "/images/ForHeroSection/back-10.png",
       alt: "СТРАТЕГИЯМИ",
       width: 311,
       height: 311,
-      maxHeight: 311,
     },
   ],
   [
@@ -94,14 +84,13 @@ const desktopImageGroups = [
       alt: "СТРАТЕГИЯМИ",
       width: 290,
       height: 371,
-      maxHeight: 371,
     },
     {
       src: "/images/ForHeroSection/Comp-12.gif", // GIF для десктопа
+      mobileSrc: "/images/ForHeroSection/back-8.png", // PNG для мобильных
       alt: "СТРАТЕГИЯМИ",
       width: 272,
       height: 338,
-      maxHeight: 338,
     },
   ],
   [
@@ -110,31 +99,18 @@ const desktopImageGroups = [
       alt: "СТРАТЕГИЯМИ",
       width: 339,
       height: 339,
-      maxHeight: 339,
     },
     {
       src: "/images/ForHeroSection/back-14.webp",
       alt: "СТРАТЕГИЯМИ",
       width: 285,
       height: 359,
-      maxHeight: 359,
     },
   ],
 ];
 
-const mobileImageGroups = desktopImageGroups.map(group =>
-  group.map(image =>
-    image.src.includes('Comp-12.gif')
-      ? { ...image, src: '/images/ForHeroSection/back-8.png' } // PNG для мобильных
-      : image
-  )
-);
-
-
 export function HeroSection() {
   const isMobile = useIsMobile();
-  const [imageGroups, setImageGroups] = useState(isMobile ? mobileImageGroups : desktopImageGroups);
-
   const [index, setIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [imagePosition, setImagePosition] = useState(true);
@@ -152,11 +128,6 @@ export function HeroSection() {
 
 
   const imgSizeIndex = 1.2;
-
-  useEffect(() => {
-    // Устанавливаем правильный массив изображений на клиенте
-    setImageGroups(isMobile ? mobileImageGroups : desktopImageGroups);
-  }, [isMobile]);
 
   useEffect(() => {
     const checkMid = () => {
@@ -229,7 +200,7 @@ export function HeroSection() {
   // Плавная смена слов и изображений
   useEffect(() => {
     // Не запускаем анимацию на мобильных, если нет изображений
-    if (isMobile || imageGroups.length === 0) return;
+    if (isMobile) return;
 
     const interval = setInterval(() => {
       // Фаза 1: плавное исчезновение картинок
@@ -252,7 +223,7 @@ export function HeroSection() {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [isMobile, imageGroups.length]); // Добавляем isMobile в зависимости
+  }, [isMobile]);
 
 
   const keywordImages = [
@@ -437,7 +408,7 @@ export function HeroSection() {
       {!isMobile && (
         <>
           {/* Левая картинка с анимацией */}
-          {imageGroups.map((group, groupIndex) => {
+          {imageGroupsData.map((group, groupIndex) => {
             const leftImagePositionArray = [true, false, true, false, false, false, true]; 
             const isBottomPosition = leftImagePositionArray[groupIndex]; 
 
@@ -480,9 +451,11 @@ export function HeroSection() {
           })}
 
           {/* Правая картинка с анимацией */}
-          {imageGroups.map((group, groupIndex) => {
+          {imageGroupsData.map((group, groupIndex) => {
             const imagePositionArray = [true, false, true, false, false, false, true]; 
             const isTopPosition = imagePositionArray[groupIndex]; 
+            const image = group[1];
+            const imageSrc = (isMobile && image.mobileSrc) ? image.mobileSrc : image.src;
 
             return (
               <div
@@ -502,19 +475,19 @@ export function HeroSection() {
                 <div
                   className="relative overflow-hidden"
                   style={{
-                    width: `${isMid ? group[1].width / imgSizeIndex : group[1].width}px`,
-                    height: `${isMid ? group[1].height / imgSizeIndex : group[1].height}px`,
+                    width: `${isMid ? image.width / imgSizeIndex : image.width}px`,
+                    height: `${isMid ? image.height / imgSizeIndex : image.height}px`,
                   }}
                 >
                   <div className="w-full h-full rounded-[12px] overflow-hidden">
                     <Image
-                      src={group[1].src}
-                      alt={group[1].alt}
+                      src={imageSrc}
+                      alt={image.alt}
                       priority
-                      width={group[1].width}
-                      height={group[1].height}
+                      width={image.width}
+                      height={image.height}
                       sizes="30vw"
-                      unoptimized={group[1].src.endsWith('.gif')}
+                      unoptimized={imageSrc.endsWith('.gif')}
                       className="w-full h-full object-cover"
                     />
                   </div>
