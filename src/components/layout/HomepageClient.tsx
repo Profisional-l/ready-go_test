@@ -12,12 +12,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 // Lazy load non-critical components
 const CasesSection = dynamic(() => import('@/components/sections/CasesSection').then(mod => mod.CasesSection), { 
     loading: () => <Skeleton className="w-full h-[500px]" />,
-    ssr: false 
 });
-const ServiceBanner = dynamic(() => import('@/components/sections/ServiceBanner').then(mod => mod.ServiceBanner), { ssr: false });
-const AboutSection = dynamic(() => import('@/components/sections/AboutSection').then(mod => mod.AboutSection), { ssr: false });
-const ClientsSection = dynamic(() => import('@/components/sections/ClientsSection').then(mod => mod.ClientsSection), { ssr: false });
-const Footer = dynamic(() => import('@/components/layout/Footer').then(mod => mod.Footer), { ssr: false });
+const ServiceBanner = dynamic(() => import('@/components/sections/ServiceBanner').then(mod => mod.ServiceBanner));
+const AboutSection = dynamic(() => import('@/components/sections/AboutSection').then(mod => mod.AboutSection));
+const ClientsSection = dynamic(() => import('@/components/sections/ClientsSection').then(mod => mod.ClientsSection));
+const Footer = dynamic(() => import('@/components/layout/Footer').then(mod => mod.Footer));
 
 
 interface HomepageClientProps {
