@@ -97,7 +97,7 @@ const allImageGroups = [
       maxHeight: 371,
     },
     {
-      src: "/images/ForHeroSection/Comp-12.gif",
+      src: "/images/ForHeroSection/back-8.png", // ЗАМЕНА GIF НА PNG
       alt: "СТРАТЕГИЯМИ",
       width: 272,
       height: 338,
@@ -123,6 +123,9 @@ const allImageGroups = [
 ];
 
 export function HeroSection() {
+  const isMobile = useIsMobile();
+  const imageGroups = isMobile ? [] : allImageGroups;
+
   const [index, setIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [imagePosition, setImagePosition] = useState(true);
@@ -136,11 +139,8 @@ export function HeroSection() {
   const mouse = useRef({ x: 0, y: 0 });
   const animFrame = useRef<number | null>(null);
   const eyesRef = useRef<HTMLDivElement>(null);
-  const isMobile = useIsMobile();
   const [isMid, setIsMid] = useState(false);
 
-  // Условная инициализация массива изображений
-  const imageGroups = isMobile ? [] : allImageGroups;
 
   const imgSizeIndex = 1.2;
 
@@ -214,6 +214,9 @@ export function HeroSection() {
 
   // Плавная смена слов и изображений
   useEffect(() => {
+    // Не запускаем анимацию на мобильных, если нет изображений
+    if (isMobile || imageGroups.length === 0) return;
+
     const interval = setInterval(() => {
       // Фаза 1: плавное исчезновение картинок
       setImageOpacity(0);
@@ -235,7 +238,7 @@ export function HeroSection() {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isMobile, imageGroups.length]); // Добавляем isMobile в зависимости
 
 
   const keywordImages = [
@@ -501,5 +504,3 @@ export function HeroSection() {
     </section>
   );
 }
-
-    
