@@ -4,6 +4,7 @@
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function HeroSection() {
   // const keywords = [
@@ -146,21 +147,10 @@ export function HeroSection() {
   const mouse = useRef({ x: 0, y: 0 });
   const animFrame = useRef<number | null>(null);
   const eyesRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsMobile();
   const [isMid, setIsMid] = useState(false);
 
   const imgSizeIndex = 1.2;
-
-  // Определяем мобильное устройство
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
     useEffect(() => {
     const checkMid = () => {
@@ -184,20 +174,22 @@ export function HeroSection() {
       const { x, y } = mouse.current;
 
       // Движение фоновых изображений
-      const moveX1 = (x - centerX) * 0.01;
-      const moveY1 = (y - centerY) * 0.01;
-      const moveX2 = (centerX - x) * 0.015;
-      const moveY2 = (centerY - y) * 0.015;
+      if (!isMobile) {
+        const moveX1 = (x - centerX) * 0.01;
+        const moveY1 = (y - centerY) * 0.01;
+        const moveX2 = (centerX - x) * 0.015;
+        const moveY2 = (centerY - y) * 0.015;
 
-      setLeftImageStyle({
-        transform: `translate(${moveX1}px, ${moveY1}px)`,
-        transition: "transform 0.2s ease-out",
-      });
+        setLeftImageStyle({
+          transform: `translate(${moveX1}px, ${moveY1}px)`,
+          transition: "transform 0.2s ease-out",
+        });
 
-      setRightImageStyle({
-        transform: `translate(${moveX2}px, ${moveY2}px)`,
-        transition: "transform 0.2s ease-out",
-      });
+        setRightImageStyle({
+          transform: `translate(${moveX2}px, ${moveY2}px)`,
+          transition: "transform 0.2s ease-out",
+        });
+      }
 
       // Движение глаз
       if (eyesRef.current) {
@@ -226,7 +218,7 @@ export function HeroSection() {
       window.removeEventListener("mousemove", handleMouseMove);
       if (animFrame.current) cancelAnimationFrame(animFrame.current);
     };
-  }, []);
+  }, [isMobile]);
 
   // Плавная смена слов и изображений
   useEffect(() => {
@@ -254,7 +246,7 @@ export function HeroSection() {
   }, []);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || isMobile) return;
 
     const cache: Record<string, HTMLImageElement> = {};
     imageGroups.flat().forEach(({ src }) => {
@@ -265,7 +257,7 @@ export function HeroSection() {
       }
     });
     imageCache.current = cache;
-  }, []);
+  }, [isMobile]);
 
   const keywordImages = [
     "/images/svgWords/strategy.svg",
@@ -476,96 +468,95 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Левая картинка с анимацией */}
-      {/* Отрисовываем все изображения сразу, но показываем только нужные */}
-      {imageGroups.map((group, groupIndex) => {
-        // Допустим, у тебя есть массив для позиции левых картинок
-        const leftImagePositionArray = [true, false, true, false, false, false, true];
-        const isBottomPosition = leftImagePositionArray[groupIndex]; // true => bottom-56, false => top-10
+      {!isMobile && (
+        <>
+          {/* Левая картинка с анимацией */}
+          {imageGroups.map((group, groupIndex) => {
+            const leftImagePositionArray = [true, false, true, false, false, false, true];
+            const isBottomPosition = leftImagePositionArray[groupIndex]; 
 
-        return (
-          <div
-            key={`left-image-${groupIndex}`}
-            className={cn(
-              "absolute left-9 lg:left-10 z-100 transition-all duration-700 HeroLeftImg",
-              isBottomPosition ? "top-[53%] HeroImgAdapt" : "top-24"
-            )}
-            style={{
-              ...leftImageStyle,
-              opacity: index === groupIndex ? imageOpacity : 0,
-              pointerEvents: index === groupIndex ? "auto" : "none",
-              transition:
-                "opacity 0.22s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
-            }}
-          >
-            <div
-              className="relative overflow-hidden hidden md:block"
-              style={{
-                  width: `${isMid ? group[0].width / imgSizeIndex : group[0].width}px`,
-                  height: `${isMid ? group[0].height / imgSizeIndex : group[0].height}px`,
-              }}
-            >
-              <div className="w-full h-full rounded-[12px] overflow-hidden">
-                <Image
-                  src={group[0].src}
-                  alt={group[0].alt}
-                  priority
-                  loading="eager"
-                  width={group[0].width}
-                  height={group[0].height}
-                  className="w-full h-full object-cover"
-                  style={{ maxHeight: `${group[0].maxHeight}px` }}
-                />
+            return (
+              <div
+                key={`left-image-${groupIndex}`}
+                className={cn(
+                  "absolute left-9 lg:left-10 z-100 transition-all duration-700 HeroLeftImg",
+                  isBottomPosition ? "top-[53%] HeroImgAdapt" : "top-24"
+                )}
+                style={{
+                  ...leftImageStyle,
+                  opacity: index === groupIndex ? imageOpacity : 0,
+                  pointerEvents: index === groupIndex ? "auto" : "none",
+                  transition:
+                    "opacity 0.22s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
+                }}
+              >
+                <div
+                  className="relative overflow-hidden"
+                  style={{
+                      width: `${isMid ? group[0].width / imgSizeIndex : group[0].width}px`,
+                      height: `${isMid ? group[0].height / imgSizeIndex : group[0].height}px`,
+                  }}
+                >
+                  <div className="w-full h-full rounded-[12px] overflow-hidden">
+                    <Image
+                      src={group[0].src}
+                      alt={group[0].alt}
+                      priority
+                      width={group[0].width}
+                      height={group[0].height}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        );
-      })}
+            );
+          })}
 
-      {/* Правая картинка с анимацией */}
-      {imageGroups.map((group, groupIndex) => {
-        const imagePositionArray = [true, false, true, false, false, false, true]; // true — top-10, false — bottom-48
+          {/* Правая картинка с анимацией */}
+          {imageGroups.map((group, groupIndex) => {
+            const imagePositionArray = [true, false, true, false, false, false, true]; 
+            const isTopPosition = imagePositionArray[groupIndex]; 
 
-        // Условие для позиции: меняем top/bottom в зависимости от imagePosition или чего-то подобного, для каждого индекса
-        const isTopPosition = imagePositionArray[groupIndex]; // например, булевый массив с позициями для каждого индекса
-        return (
-          <div
-            key={`right-image-${groupIndex}`}
-            className={cn(
-              "absolute md:right-7 lg:right-12 z-100 transition-all duration-500 HeroRightImg",
-              isTopPosition ? "top-24  RightHeroImgAdapt" : "top-[53%] HeroImgAdapt"
-            )}
-            style={{
-              ...rightImageStyle,
-              opacity: index === groupIndex ? imageOpacity : 0,
-              pointerEvents: index === groupIndex ? "auto" : "none", // Чтобы скрытые не мешали кликам
-              transition:
-                "opacity 0.22s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
-            }}
-          >
-            <div
-              className="relative overflow-hidden hidden md:block"
-              style={{
-                width: `${isMid ? group[1].width / imgSizeIndex : group[1].width}px`,
-                height: `${isMid ? group[1].height / imgSizeIndex : group[1].height}px`,
-              }}
-            >
-              <div className="w-full h-full rounded-[12px] overflow-hidden">
-                <Image
-                  src={group[1].src}
-                  alt={group[1].alt}
-                  priority
-                  loading="eager"
-                  width={group[1].width}
-                  height={group[1].height}
-                  className="w-full h-full object-cover"
-                  style={{ maxHeight: `${group[1].maxHeight}px` }}
-                />
+            return (
+              <div
+                key={`right-image-${groupIndex}`}
+                className={cn(
+                  "absolute md:right-7 lg:right-12 z-100 transition-all duration-500 HeroRightImg",
+                  isTopPosition ? "top-24  RightHeroImgAdapt" : "top-[53%] HeroImgAdapt"
+                )}
+                style={{
+                  ...rightImageStyle,
+                  opacity: index === groupIndex ? imageOpacity : 0,
+                  pointerEvents: index === groupIndex ? "auto" : "none", 
+                  transition:
+                    "opacity 0.22s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
+                }}
+              >
+                <div
+                  className="relative overflow-hidden"
+                  style={{
+                    width: `${isMid ? group[1].width / imgSizeIndex : group[1].width}px`,
+                    height: `${isMid ? group[1].height / imgSizeIndex : group[1].height}px`,
+                  }}
+                >
+                  <div className="w-full h-full rounded-[12px] overflow-hidden">
+                    <Image
+                      src={group[1].src}
+                      alt={group[1].alt}
+                      priority
+                      width={group[1].width}
+                      height={group[1].height}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        );
-      })}
+            );
+          })}
+        </>
+      )}
     </section>
   );
 }
+
+    
