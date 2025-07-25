@@ -294,6 +294,7 @@ export function HeroSection() {
                     quality={100}
                     priority
                     fill
+                    sizes="(max-width: 768px) 150px, 300px"
                     className="object-contain"
                   />
                 </div>
@@ -318,6 +319,7 @@ export function HeroSection() {
                     fill
                     className="object-contain"
                     priority
+                    sizes="100px"
                   />
                 ) : (
                   <>
@@ -326,6 +328,7 @@ export function HeroSection() {
                       alt="глаза"
                       priority
                       fill
+                      sizes="100px"
                       className="object-contain"
                     />
 
@@ -357,6 +360,7 @@ export function HeroSection() {
                           alt="зрачки"
                           priority
                           fill
+                          sizes="50px"
                           className="object-contain"
                         />
                       </div>
@@ -385,6 +389,7 @@ export function HeroSection() {
                     priority
                     loading="eager"
                     fill
+                    sizes="(max-width: 768px) 200px, 400px"
                     className="object-contain"
                   />
                 </div>
@@ -419,6 +424,7 @@ export function HeroSection() {
                     fill
                     priority
                     loading="eager"
+                    sizes="(max-width: 768px) 90vw, 800px"
                     className="object-contain mt-2 md:mt-3 lg:-mt-1 xl:mt-0"
                   />
                 </div>
@@ -432,7 +438,7 @@ export function HeroSection() {
         <>
           {/* Левая картинка с анимацией */}
           {imageGroups.map((group, groupIndex) => {
-            const leftImagePositionArray = [true, false, true, false, false, false, true];
+            const leftImagePositionArray = [true, false, true, false, false, false, true]; 
             const isBottomPosition = leftImagePositionArray[groupIndex]; 
 
             return (
@@ -464,6 +470,7 @@ export function HeroSection() {
                       priority
                       width={group[0].width}
                       height={group[0].height}
+                      sizes="30vw"
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -506,6 +513,7 @@ export function HeroSection() {
                       priority
                       width={group[1].width}
                       height={group[1].height}
+                      sizes="30vw"
                       unoptimized={group[1].src.endsWith('.gif')}
                       className="w-full h-full object-cover"
                     />

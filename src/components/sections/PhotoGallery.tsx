@@ -41,6 +41,7 @@ const GalleryImageItem = ({ image }: { image: GalleryImage }) => (
       alt={image.alt}
       width={image.width}
       height={image.height}
+      sizes={`${image.width}px`}
       className="object-cover w-full h-full"
       data-ai-hint={image.aiHint}
     />
