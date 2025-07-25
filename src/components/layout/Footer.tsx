@@ -186,7 +186,6 @@ export function Footer() {
 
   return (
     <footer
-      id="contact"
       className="md:bg-[#0E0E0E] text-background m-3 rounded-xl footer-content-wrapper md:mt-52"
     >
       <div className="max-w-[1640px] px-8 md:mx-auto pt-5 bg-transparent grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
@@ -314,6 +313,7 @@ export function Footer() {
                     alt="глаза"
                     layout="fill"
                     objectFit="contain"
+                    priority
                   />
                 ) : (
                   <>
@@ -322,6 +322,7 @@ export function Footer() {
                       alt="глаза"
                       layout="fill"
                       objectFit="contain"
+                      priority
                     />
                     <div className="absolute top-1/2 left-1/2 w-full h-full transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
                       <div
@@ -340,6 +341,7 @@ export function Footer() {
                           alt="зрачки"
                           layout="fill"
                           objectFit="contain"
+                          priority
                         />
                       </div>
                     </div>

@@ -157,7 +157,6 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
             height={0}
             sizes="100vw"
             className="w-full h-auto rounded-[10px]"
-            unoptimized={item.url.endsWith('.gif')}
         />
       </div>
     ));

@@ -365,6 +365,7 @@ export function HeroSection() {
                     alt="глаза"
                     layout="fill"
                     objectFit="contain"
+                    priority
                   />
                 ) : (
                   <>
