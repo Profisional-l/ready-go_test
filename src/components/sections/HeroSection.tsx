@@ -7,16 +7,6 @@ import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export function HeroSection() {
-  // const keywords = [
-  //   "СТРАТЕГИЯМИ",
-  //   "SMM",
-  //   "ВЕБ-РАЗРАБОТКОЙ",
-  //   "БРЕНДИНГОМ",
-  //   "КРЕАТИВОМ",
-  //   "ПРОДАКШЕНОМ",
-  //   "МЕРЧОМ",
-  // ];
-
   // Группируем изображения по 2 для каждого ключевого слова
   const imageGroups = [
     [
@@ -137,7 +127,6 @@ export function HeroSection() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [imagePosition, setImagePosition] = useState(true);
   const [imageOpacity, setImageOpacity] = useState(1);
-  const imageCache = useRef<Record<string, HTMLImageElement>>({});
 
   const [leftImageStyle, setLeftImageStyle] = useState<React.CSSProperties>({});
   const [rightImageStyle, setRightImageStyle] = useState<React.CSSProperties>(
@@ -245,19 +234,6 @@ export function HeroSection() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    if (typeof window === "undefined" || isMobile) return;
-
-    const cache: Record<string, HTMLImageElement> = {};
-    imageGroups.flat().forEach(({ src }) => {
-      if (!cache[src]) {
-        const img = new window.Image();
-        img.src = src;
-        cache[src] = img;
-      }
-    });
-    imageCache.current = cache;
-  }, [isMobile]);
 
   const keywordImages = [
     "/images/svgWords/strategy.svg",
