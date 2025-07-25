@@ -98,7 +98,7 @@ export function HeroSection() {
         maxHeight: 371,
       },
       {
-        src: "/images/ForHeroSection/Comp-12.gif",
+        src: "/images/ForHeroSection/back-12.webp",
         alt: "СТРАТЕГИЯМИ",
         width: 272,
         height: 338,
