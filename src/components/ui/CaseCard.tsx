@@ -44,6 +44,7 @@ export function CaseCard({
                 src={coverUrl}
                 alt={title}
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className={cn(
                   'absolute object-cover transition-opacity duration-500 ease-in-out',
                   isHovered && hoverImage ? 'opacity-0' : 'opacity-100'
@@ -55,6 +56,7 @@ export function CaseCard({
                   src={hoverImage}
                   alt={title}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className={cn(
                     'absolute object-cover transition-opacity duration-500 ease-in-out',
                     isHovered ? 'opacity-100' : 'opacity-0'
@@ -82,10 +84,6 @@ export function CaseCard({
             alt="arrow"
             width={15}
             height={15}
-            className={cn(
-              'opacity-0 transition-opacity duration-300 mr-1',
-              type === 'link' && 'group-hover:opacity-100'
-            )}
           />
           <CardTitle className="text-[18px] md:text-[24px] tight-spacing-2 font-inter font-medium tracking-normal text-foreground">
             {title}
