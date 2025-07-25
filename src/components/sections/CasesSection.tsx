@@ -34,11 +34,11 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
     <div className="bg-[#F1F0F0] md:bg-background h-full w-full">
       <section className="max-w-[1640px] mx-auto w-full px-3 md:px-8 py-10 md:py-12 md:pb-24">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-0">
-          <h2 className="text-6xl md:text-[130px] font-mycustom text-foreground mt-4 mb-0">
+          <h2 className="text-6xl md:text-[130px] font-mycustom text-foreground mb-0">
             КЕЙСЫ
           </h2>
           {casesDataFromProps.length > casesToShow && (
-            <div className="hidden md:block text-center mt-[102px]">
+            <div className="hidden md:block text-center self-end">
               <Button
                 asChild
                 variant="outline"
@@ -49,7 +49,7 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
             </div>
           )}
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-2 mt-1">
           {casesToDisplay.map((caseItem) => (
             <CaseCard
               key={caseItem.id}
