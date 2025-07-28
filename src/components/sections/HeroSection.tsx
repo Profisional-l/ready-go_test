@@ -161,7 +161,7 @@ export function HeroSection() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     const checkMid = () => {
       setIsMid(window.innerWidth < 1400);
     };
@@ -314,18 +314,51 @@ export function HeroSection() {
   const currentImages = imageGroups[index % imageGroups.length];
   const nextImages = imageGroups[(index + 1) % imageGroups.length];
   // const svgWidth = whatWidth ? 910 : 240
-  const rgSrc = isMobile ? "/images/svgWords/readygo.png" : "/images/svgWords/readygo.svg"
-  const weSrc = isMobile ? "/images/svgWords/we.png" : "/images/svgWords/we.svg"
+  const rgSrc = isMobile
+    ? "/images/svgWords/readygo.png"
+    : "/images/svgWords/readygo.svg";
+  const weSrc = isMobile
+    ? "/images/svgWords/we.png"
+    : "/images/svgWords/we.svg";
   return (
     <section className="relative h-full w-full bg-background flex items-center justify-center">
-      {/* Центрированный контент */}
-      <div className="relative px-4 sm:px-8 md:mt-28 lg:mt-0">
-        <div className="text-[60px] md:text-[80px] lg:text-[100px] xl:text-[130px] font-black font-mycustom text-center leading-[1] mainScreenTextBlock max-w-[1000px] text-[#0E0E0E]">
-          <div className="whitespace-normal lg:-mb-3">
-            <span>
+      <div className="relative w-full max-w-[1800px] mx-auto">
+        {/* Центрированный контент */}
+        <div className="relative px-4 sm:px-8 md:mt-28 lg:mt-0">
+          <div className="text-[60px] md:text-[80px] lg:text-[100px] xl:text-[14vh] font-black font-mycustom text-center leading-[1] mainScreenTextBlock max-w-[1800px] mx-auto text-[#0E0E0E]">
+            <div className="whitespace-normal lg:-mb-3">
+              <span>
+                <span
+                  className="relative inline-block"
+                  style={{ height: ".83em", width: "calc(303/124 * 1em)" }}
+                  ref={eyesRef}
+                >
+                  <div
+                    style={{
+                      position: "relative",
+                      height: "100%",
+                      width: "100%",
+                    }}
+                  >
+                    <Image
+                      src={weSrc}
+                      alt="мы"
+                      unoptimized={true}
+                      quality={100}
+                      priority
+                      layout="fill"
+                      objectFit="contain"
+                    />
+                  </div>
+                </span>
+                DIGITAL
+              </span>
+            </div>
+            <div className="whitespace-normal ">
+              АГЕНТСТВО{" "}
               <span
                 className="relative inline-block"
-                style={{ height: ".83em", width: "calc(303/124 * 1em)" }}
+                style={{ height: ".83em", width: "calc(95/103 * 1em)" }}
                 ref={eyesRef}
               >
                 <div
@@ -335,241 +368,246 @@ export function HeroSection() {
                     width: "100%",
                   }}
                 >
-                  <Image
-                    src={weSrc}
-                    alt="мы"
-                    unoptimized={true}
-                    quality={100}
-                    priority
-                    layout="fill"
-                    objectFit="contain"
-                  />
-                </div>
-              </span>
-              DIGITAL
-            </span>
-          </div>
-          <div className="whitespace-normal ">
-            АГЕНТСТВО{" "}
-            <span
-              className="relative inline-block"
-              style={{ height: ".83em", width: "calc(95/103 * 1em)" }}
-              ref={eyesRef}
-            >
-              <div
-                style={{ position: "relative", height: "100%", width: "100%" }}
-              >
-                {isMobile ? (
-                  <Image
-                    src="/images/eyes_Group127.svg"
-                    alt="глаза"
-                    unoptimized={true}
-                    layout="fill"
-                    objectFit="contain"
-                  />
-                ) : (
-                  <>
+                  {isMobile ? (
                     <Image
-                      src="/images/eyes0.svg"
+                      src="/images/eyes_Group127.svg"
                       alt="глаза"
                       unoptimized={true}
                       layout="fill"
                       objectFit="contain"
                     />
+                  ) : (
+                    <>
+                      <Image
+                        src="/images/eyes0.svg"
+                        alt="глаза"
+                        unoptimized={true}
+                        layout="fill"
+                        objectFit="contain"
+                      />
 
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        width: "100%",
-                        height: "100%",
-                        transform: "translate(-50%, -50%)",
-                        pointerEvents: "none",
-                      }}
-                    >
                       <div
                         style={{
                           position: "absolute",
-                          top: "33%",
-                          left: "33%",
-                          width: "50%",
-                          height: "auto",
-                          aspectRatio: "59/35",
+                          top: "50%",
+                          left: "50%",
+                          width: "100%",
+                          height: "100%",
                           transform: "translate(-50%, -50%)",
-                          ...eyeStyle,
+                          pointerEvents: "none",
                         }}
                       >
-                        <Image
-                          src="/images/eyes1.svg"
-                          alt="зрачки"
-                          unoptimized={true}
-                          layout="fill"
-                          objectFit="contain"
-                        />
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "33%",
+                            left: "33%",
+                            width: "50%",
+                            height: "auto",
+                            aspectRatio: "59/35",
+                            transform: "translate(-50%, -50%)",
+                            ...eyeStyle,
+                          }}
+                        >
+                          <Image
+                            src="/images/eyes1.svg"
+                            alt="зрачки"
+                            unoptimized={true}
+                            layout="fill"
+                            objectFit="contain"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </span>{" "}
-            <span>
-              <span
-                className="relative inline-block"
-                style={{ height: ".83em", width: "calc(390/124 * 1em)" }}
-                ref={eyesRef}
-              >
-                <div
-                  style={{
-                    position: "relative",
-                    height: "100%",
-                    width: "100%",
-                  }}
-                >
-                  <Image
-                    src={rgSrc}
-                    alt="глаза"
-                    unoptimized={true}
-                    quality={100}
-                    priority
-                    loading="eager"
-                    layout="fill"
-                    objectFit="contain"
-                  />
-                </div>
-              </span>
-            </span>{" "}
-            <div className="lg:-mt-3">
-              <span>К НАМ ПРИХОДЯТ ЗА</span>
-            </div>
-          </div>
-
-          {/* Слова как SVG-изображения с той же анимацией */}
-          <div className="relative h-[160px] md:h-[220px] lg:h-[110px] xl:h-[145px] flex items-center justify-center overflow-y-hidden">
-            <div className="relative w-full max-w-[1550px] h-full min-h-[60px]">
-              {keywordImages.map((src, i) => (
-                <div
-                  key={`svg-word-${i}`}
-                  className={cn(
-                    "absolute inset-0 transition-all duration-1000 ease-[cubic-bezier(0.77,0,0.175,1)]",
-                    index === i && !isAnimating && "translate-y-0 opacity-100",
-                    index === i &&
-                    isAnimating &&
-                    "-translate-y-[140%] opacity-0",
-                    index !== i &&
-                    (i === (index + 1) % keywordImages.length && isAnimating
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-full opacity-0")
+                    </>
                   )}
-                >
-                  <Image
-                    src={src}
-                    alt={`слово ${i}`}
-                    fill
-                    unoptimized
-                    priority
-                    loading="eager"
-                    className="object-contain mt-2 md:mt-3 lg:-mt-1 xl:mt-0"
-                  />
                 </div>
-              ))}
+              </span>{" "}
+              <span>
+                <span
+                  className="relative inline-block"
+                  style={{ height: ".83em", width: "calc(390/124 * 1em)" }}
+                  ref={eyesRef}
+                >
+                  <div
+                    style={{
+                      position: "relative",
+                      height: "100%",
+                      width: "100%",
+                    }}
+                  >
+                    <Image
+                      src={rgSrc}
+                      alt="глаза"
+                      unoptimized={true}
+                      quality={100}
+                      priority
+                      loading="eager"
+                      layout="fill"
+                      objectFit="contain"
+                    />
+                  </div>
+                </span>
+              </span>{" "}
+              <div className="lg:-mt-3">
+                <span>К НАМ ПРИХОДЯТ ЗА</span>
+              </div>
+            </div>
+
+            {/* Слова как SVG-изображения с той же анимацией */}
+            <div className="relative h-[160px] md:h-[220px] lg:h-[110px] xl:h-[15vh] flex items-center justify-center overflow-y-hidden">
+              <div className="relative w-full max-w-[1550px] h-full min-h-[60px]">
+                {keywordImages.map((src, i) => (
+                  <div
+                    key={`svg-word-${i}`}
+                    className={cn(
+                      "absolute inset-0 transition-all duration-1000 ease-[cubic-bezier(0.77,0,0.175,1)]",
+                      index === i &&
+                        !isAnimating &&
+                        "translate-y-0 opacity-100",
+                      index === i &&
+                        isAnimating &&
+                        "-translate-y-[140%] opacity-0",
+                      index !== i &&
+                        (i === (index + 1) % keywordImages.length && isAnimating
+                          ? "translate-y-0 opacity-100"
+                          : "translate-y-full opacity-0")
+                    )}
+                  >
+                    <Image
+                      src={src}
+                      alt={`слово ${i}`}
+                      fill
+                      unoptimized
+                      priority
+                      loading="eager"
+                      className="object-contain mt-2 md:mt-3 lg:-mt-1 xl:mt-0"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Левая картинка с анимацией */}
+        {/* Отрисовываем все изображения сразу, но показываем только нужные */}
+        {imageGroups.map((group, groupIndex) => {
+          // Допустим, у тебя есть массив для позиции левых картинок
+          const leftImagePositionArray = [
+            true,
+            false,
+            true,
+            false,
+            false,
+            false,
+            true,
+          ];
+          const isBottomPosition = leftImagePositionArray[groupIndex]; // true => bottom-56, false => top-10
+
+          return (
+            <div
+              key={`left-image-${groupIndex}`}
+              className={cn(
+                "absolute left-[2%] 2xl:left-[10%] z-100 transition-all duration-700 HeroLeftImg",
+                isBottomPosition ? "top-[55%] sHeroImgAdapt" : "top-[-20%]"
+              )}
+              style={{
+                ...leftImageStyle,
+                opacity: index === groupIndex ? imageOpacity : 0,
+                pointerEvents: index === groupIndex ? "auto" : "none",
+                transition:
+                  "opacity 0.22s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
+              }}
+            >
+              <div
+                className="relative overflow-hidden hidden md:block"
+                style={{
+                  width: `${
+                    isMid ? group[0].width / imgSizeIndex : group[0].width
+                  }px`,
+                  height: `${
+                    isMid ? group[0].height / imgSizeIndex : group[0].height
+                  }px`,
+                }}
+              >
+                <div className="w-full h-full rounded-[12px] overflow-hidden">
+                  <Image
+                    src={group[0].src}
+                    alt={group[0].alt}
+                    unoptimized={true}
+                    priority
+                    loading="eager"
+                    width={group[0].width}
+                    height={group[0].height}
+                    className="w-full h-full object-cover"
+                    style={{ maxHeight: `${group[0].maxHeight}px` }}
+                  />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Правая картинка с анимацией */}
+        {imageGroups.map((group, groupIndex) => {
+          const imagePositionArray = [
+            true,
+            false,
+            true,
+            false,
+            false,
+            false,
+            true,
+          ]; // true — top-10, false — bottom-48
+
+          // Условие для позиции: меняем top/bottom в зависимости от imagePosition или чего-то подобного, для каждого индекса
+          const isTopPosition = imagePositionArray[groupIndex]; // например, булевый массив с позициями для каждого индекса
+          return (
+            <div
+              key={`right-image-${groupIndex}`}
+              className={cn(
+                "absolute right-[2%] 2xl:right-[10%] z-100 transition-all duration-500 HeroRightImg",
+                isTopPosition
+                  ? "top-[-20%]  sRightHeroImgAdapt"
+                  : "top-[53%] sHeroImgAdapt"
+              )}
+              style={{
+                ...rightImageStyle,
+                opacity: index === groupIndex ? imageOpacity : 0,
+                pointerEvents: index === groupIndex ? "auto" : "none", // Чтобы скрытые не мешали кликам
+                transition:
+                  "opacity 0.22s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
+              }}
+            >
+              <div
+                className="relative overflow-hidden hidden md:block"
+                style={{
+                  width: `${
+                    isMid ? group[1].width / imgSizeIndex : group[1].width
+                  }px`,
+                  height: `${
+                    isMid ? group[1].height / imgSizeIndex : group[1].height
+                  }px`,
+                }}
+              >
+                <div className="w-full h-full rounded-[12px] overflow-hidden">
+                  <Image
+                    src={group[1].src}
+                    alt={group[1].alt}
+                    unoptimized
+                    priority
+                    loading="eager"
+                    width={group[1].width}
+                    height={group[1].height}
+                    className="w-full h-full object-cover"
+                    style={{ maxHeight: `${group[1].maxHeight}px` }}
+                  />
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
-
-      {/* Левая картинка с анимацией */}
-      {/* Отрисовываем все изображения сразу, но показываем только нужные */}
-      {imageGroups.map((group, groupIndex) => {
-        // Допустим, у тебя есть массив для позиции левых картинок
-        const leftImagePositionArray = [true, false, true, false, false, false, true];
-        const isBottomPosition = leftImagePositionArray[groupIndex]; // true => bottom-56, false => top-10
-
-        return (
-          <div
-            key={`left-image-${groupIndex}`}
-            className={cn(
-              "absolute left-9 lg:left-10 z-100 transition-all duration-700 HeroLeftImg",
-              isBottomPosition ? "top-[53%] HeroImgAdapt" : "top-24"
-            )}
-            style={{
-              ...leftImageStyle,
-              opacity: index === groupIndex ? imageOpacity : 0,
-              pointerEvents: index === groupIndex ? "auto" : "none",
-              transition:
-                "opacity 0.22s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
-            }}
-          >
-            <div
-              className="relative overflow-hidden hidden md:block"
-              style={{
-                  width: `${isMid ? group[0].width / imgSizeIndex : group[0].width}px`,
-                  height: `${isMid ? group[0].height / imgSizeIndex : group[0].height}px`,
-              }}
-            >
-              <div className="w-full h-full rounded-[12px] overflow-hidden">
-                <Image
-                  src={group[0].src}
-                  alt={group[0].alt}
-                  unoptimized={true}
-                  priority
-                  loading="eager"
-                  width={group[0].width}
-                  height={group[0].height}
-                  className="w-full h-full object-cover"
-                  style={{ maxHeight: `${group[0].maxHeight}px` }}
-                />
-              </div>
-            </div>
-          </div>
-        );
-      })}
-
-      {/* Правая картинка с анимацией */}
-      {imageGroups.map((group, groupIndex) => {
-        const imagePositionArray = [true, false, true, false, false, false, true]; // true — top-10, false — bottom-48
-
-        // Условие для позиции: меняем top/bottom в зависимости от imagePosition или чего-то подобного, для каждого индекса
-        const isTopPosition = imagePositionArray[groupIndex]; // например, булевый массив с позициями для каждого индекса
-        return (
-          <div
-            key={`right-image-${groupIndex}`}
-            className={cn(
-              "absolute md:right-7 lg:right-12 z-100 transition-all duration-500 HeroRightImg",
-              isTopPosition ? "top-24  RightHeroImgAdapt" : "top-[53%] HeroImgAdapt"
-            )}
-            style={{
-              ...rightImageStyle,
-              opacity: index === groupIndex ? imageOpacity : 0,
-              pointerEvents: index === groupIndex ? "auto" : "none", // Чтобы скрытые не мешали кликам
-              transition:
-                "opacity 0.22s cubic-bezier(0.77,0,0.175,1), transform 0.2s ease-out",
-            }}
-          >
-            <div
-              className="relative overflow-hidden hidden md:block"
-              style={{
-                width: `${isMid ? group[1].width / imgSizeIndex : group[1].width}px`,
-                height: `${isMid ? group[1].height / imgSizeIndex : group[1].height}px`,
-              }}
-            >
-              <div className="w-full h-full rounded-[12px] overflow-hidden">
-                <Image
-                  src={group[1].src}
-                  alt={group[1].alt}
-                  unoptimized
-                  priority
-                  loading="eager"
-                  width={group[1].width}
-                  height={group[1].height}
-                  className="w-full h-full object-cover"
-                  style={{ maxHeight: `${group[1].maxHeight}px` }}
-                />
-              </div>
-            </div>
-          </div>
-        );
-      })}
     </section>
   );
 }

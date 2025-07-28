@@ -165,81 +165,73 @@ html.modal-open {
   }
 
   @media (min-width: 1650px) {
-    html {
+    .shtml {
       zoom: 1.21;
     }
 
-    .mainScreenTextBlock {
+    /* .mainScreenTextBlock {
       margin-top: -20%
     }
 
     .HeroImgAdapt {
       margin-top: -7%;
-    }
+    } */
   }
 
   @media (min-width: 1921px) {
-    html {
+    .shtml {
       zoom: 1.35;
-      /* Увеличит весь контент на 20% */
-      /* или transform: scale(1.2); */
     }
-
+/* 
     .mainScreenTextBlock {
       margin-top: -35%
     }
 
     .HeroImgAdapt {
       margin-top: -10%;
-    }
+    } */
   }
 
   @media (min-width: 2200px) {
-    html {
+    .shtml {
       zoom: 1.4;
-      /* Увеличит весь контент на 20% */
-      /* или transform: scale(1.2); */
     }
-
+/* 
     .mainScreenTextBlock {
       margin-top: -40%
     }
 
     .HeroImgAdapt {
       margin-top: -15%;
-    }
+    } */
   }
 
   @media (min-width: 2516px) {
-    html {
+    .shtml {
       zoom: 1.7;
-      /* Увеличит весь контент на 20% */
-      /* или transform: scale(1.2); */
     }
 
-    .mainScreenTextBlock {
+    /* .mainScreenTextBlock {
       margin-top: -56%
     }
 
     .HeroImgAdapt {
       margin-top: -20%;
-    }
+    } */
   }
 
   @media (min-width: 2770px) {
-    html {
+    .shtml {
       zoom: 1.88;
-      /* Увеличит весь контент на 20% */
-      /* или transform: scale(1.2); */
     }
 
-    .mainScreenTextBlock {
+    /* .mainScreenTextBlock {
       margin-top: -63%
     }
 
     .HeroImgAdapt {
       margin-top: -25%;
-    }
+    } */
   }
 
   h1,
