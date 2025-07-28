@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -18,8 +17,8 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
   const isMobile = useIsMobile();
 
   const openCase = (caseItem: Case) => {
-    if (caseItem.type === 'modal') {
-        setSelectedCase(caseItem);
+    if (caseItem.type === "modal") {
+      setSelectedCase(caseItem);
     }
   };
 
@@ -33,22 +32,23 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
   return (
     <div className="bg-[#F1F0F0] md:bg-background h-full w-full">
       <section className="max-w-[1640px] mx-auto w-full px-3 md:px-8 py-10 md:py-12 md:pb-24">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-0">
-          <h2 className="text-6xl md:text-[130px] font-mycustom text-foreground mb-0  self-end">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-8 md:mb-0">
+          <h2 className="text-6xl md:text-[130px] font-mycustom text-foreground mb-0">
             КЕЙСЫ
           </h2>
           {casesDataFromProps.length > casesToShow && (
-            <div className="hidden md:block text-center self-end">
+            <div className="hidden md:block text-center">
               <Button
                 asChild
                 variant="outline"
-                className="text-[20px] tracking-wider tight-spacing-2 opacity-55 hover:opacity-100 transition-opacity duration-300  border-solid border-[2px] border-[#101010] rounded-[54px] bg-transparent hover:bg-transparent p-[25.5px] px-[30.13px]"
+                className="text-[20px] tracking-wider tight-spacing-2 opacity-55 hover:opacity-100 transition-opacity duration-300 border-solid border-[2px] border-[#101010] rounded-[54px] bg-transparent hover:bg-transparent p-[25.5px] px-[30.13px]"
               >
                 <Link href="/cases">Показать все</Link>
               </Button>
             </div>
           )}
         </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-2 mt-1">
           {casesToDisplay.map((caseItem) => (
             <CaseCard
@@ -72,10 +72,7 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
         )}
 
         {selectedCase && (
-            <CaseViewer 
-                caseData={selectedCase}
-                onClose={closeCase}
-            />
+          <CaseViewer caseData={selectedCase} onClose={closeCase} />
         )}
       </section>
     </div>
