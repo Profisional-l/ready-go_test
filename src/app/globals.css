@@ -259,7 +259,10 @@ html.modal-open {
     display: inline-block;
   }
 }
-
+  .safari-fix {
+    transform: translateY(22px); /* подбери пиксели под твой шрифт */
+    display: inline-block;
+  }
   .footerText {
     font-size: clamp(3rem, 7.5vw, 6rem);
     line-height: 1.1;
