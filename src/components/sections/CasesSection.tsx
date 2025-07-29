@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import type { Case } from "@/types";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { CaseViewer } from "@/components/ui/CaseViewer";
-import { useSafariOrIOS } from '@/hooks/isSafari';
+import { useIsMac } from '@/hooks/isSafari';
 
 interface CasesSectionProps {
   casesDataFromProps: Case[];
@@ -29,7 +29,7 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
 
   const casesToShow = isMobile ? 3 : 6;
   const casesToDisplay = casesDataFromProps.slice(0, casesToShow);
-  const isSafariOrIOS = useSafariOrIOS();
+  const isSafariOrIOS = useIsMac();
 
   return (
     <div className="bg-[#F1F0F0] md:bg-background h-full w-full">

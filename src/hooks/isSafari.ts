@@ -1,23 +1,19 @@
 import { useEffect, useState } from 'react';
 
-export function useSafariOrIOS() {
-  const [isSafariOrIOS, setIsSafariOrIOS] = useState(false);
+export function useIsMac() {
+  const [isMac, setIsMac] = useState(false);
 
   useEffect(() => {
-    const userAgent = window.navigator.userAgent;
+    const userAgent = window.navigator.userAgent.toLowerCase();
     
-    // Проверка на Safari (включая desktop Safari)
-    const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent);
+    // Проверяем Mac (включая Safari, Chrome, Firefox и другие браузеры на macOS)
+    const isMacOS = /macintosh|macintel|mac os x/.test(userAgent);
     
-    // Проверка на iOS (iPhone, iPad, iPod)
-    const isIOS = /iPad|iPhone|iPod/.test(userAgent) || 
-                 (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    // Дополнительная проверка для iPad на macOS (если важно)
+    const isMacLike = isMacOS || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     
-    // Проверка на Safari в iOS 13+ (где user agent похож на desktop)
-    const isIOS13Safari = isIOS && /Version\/[\d.]+.*Safari/.test(userAgent);
-    
-    setIsSafariOrIOS(isSafari || isIOS || isIOS13Safari);
+    setIsMac(isMacLike);
   }, []);
 
-  return isSafariOrIOS;
+  return isMac;
 }

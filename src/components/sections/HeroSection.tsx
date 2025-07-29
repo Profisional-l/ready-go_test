@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
-import { useSafariOrIOS } from '@/hooks/isSafari';
+import { useIsMac } from '@/hooks/isSafari';
 
 export function HeroSection() {
   // const keywords = [
@@ -148,7 +148,7 @@ export function HeroSection() {
   const eyesRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [isMid, setIsMid] = useState(false);
-  const isSafariOrIOS = useSafariOrIOS();
+  const isSafariOrIOS = useIsMac();
 
   const imgSizeIndex = 1.2;
 
