@@ -423,7 +423,7 @@ export function HeroSection() {
                     </>
                   )}
                 </div>
-              </span>{" "}
+              </span>
               <span>
                 <span
                   className="relative inline-block"

@@ -28,7 +28,7 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
             </div>
         </section>
 
-        <section id="cases" className="mt-[10%]">
+        <section id="cases" className="mt-[7%]">
             <CasesSection casesDataFromProps={casesData} />
         </section>
 

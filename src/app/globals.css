@@ -270,7 +270,7 @@ html.modal-open {
   }
 
   .safari-fix-up {
-    transform: translateY(12px); 
+    transform: translateY(-12px); 
     display: inline-block;
   }
 
@@ -371,7 +371,7 @@ html.modal-open {
   }
 
   /* Main wrapper for mobile footer */
-  #contact, header .footer-content-wrapper {
+  #contact .footer-content-wrapper {
     background-color: transparent;
     border-radius: 0;
     margin: 0;
