@@ -13,6 +13,7 @@ export function useIsMac() {
     const isMacLike = isMacOS || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     
     setIsMac(isMacLike);
+    console.log(isMac)
   }, []);
 
   return isMac;

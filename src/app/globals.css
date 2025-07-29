@@ -265,13 +265,20 @@ html.modal-open {
 
 
   .safari-fix {
-    transform: translateY(24px); /* подбери пиксели под твой шрифт */
+    transform: translateY(24px); 
     display: inline-block;
   }
 
   .safari-fix-up {
-    transform: translateY(-24px); /* подбери пиксели под твой шрифт */
+    transform: translateY(12px); 
     display: inline-block;
+  }
+
+    @media (min-width: 1024px) {
+    .safari-fix-up {
+      transform: translateY(-28px); 
+      display: inline-block;
+  }
   }
 
   .footerText {
@@ -388,7 +395,7 @@ html.modal-open {
     border-radius: 10px;
   }
 
-  #contact, header section {
+  #contact section {
     display: none;
   }
 
