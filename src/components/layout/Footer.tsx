@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { sendMessage } from "@/actions/sendMessage";
-import { useSafariOrIOS } from '@/hooks/isSafari';
+import { useIsMac } from '@/hooks/isSafari';
 
 const validateName = (value: string) =>
   value.trim().length < 2 ? "Введите корректное имя" : null;
@@ -184,7 +184,7 @@ export function Footer() {
     setFieldValidity({ name: false, email: false, task: false });
   };
 
-    const isSafariOrIOS = useSafariOrIOS();
+    const isSafariOrIOS = useIsMac();
 
 
   return (
