@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { useSafariOrIOS } from '@/hooks/isSafari';
 
 export function HeroSection() {
   // const keywords = [
@@ -147,6 +148,7 @@ export function HeroSection() {
   const eyesRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [isMid, setIsMid] = useState(false);
+  const isSafariOrIOS = useSafariOrIOS();
 
   const imgSizeIndex = 1.2;
 
@@ -322,7 +324,7 @@ export function HeroSection() {
     : "/images/svgWords/we.svg";
   return (
     <section className="relative h-full w-full bg-background flex items-center justify-center">
-      <div className="relative w-full max-w-[1800px] mx-auto">
+      <div className="relative w-full max-w-[2296px] mx-auto">
         {/* Центрированный контент */}
         <div className="relative px-4 sm:px-8 md:mt-28 lg:mt-0">
           <div className="text-[60px] md:text-[80px] lg:text-[100px] xl:text-[14vh] font-black font-mycustom text-center leading-[1] mainScreenTextBlock max-w-[1800px] mx-auto text-[#0E0E0E]">
@@ -454,7 +456,7 @@ export function HeroSection() {
             </div>
 
             {/* Слова как SVG-изображения с той же анимацией */}
-            <div className="relative h-[160px] md:h-[220px] lg:h-[110px] xl:h-[15vh] flex items-center justify-center overflow-y-hidden">
+            <div className={`relative h-[160px] md:h-[220px] lg:h-[110px] xl:h-[15vh] flex items-center justify-center overflow-y-hidden ${isSafariOrIOS ? 'safari-fix-up' : ''}`}>
               <div className="relative w-full max-w-[1550px] h-full min-h-[60px]">
                 {keywordImages.map((src, i) => (
                   <div
@@ -508,7 +510,7 @@ export function HeroSection() {
             <div
               key={`left-image-${groupIndex}`}
               className={cn(
-                "absolute left-[2%] 2xl:left-[10%] z-100 transition-all duration-700 HeroLeftImg",
+                "absolute left-[2.44%] 2xl:left-[2.44%] z-100 transition-all duration-700 HeroLeftImg",
                 isBottomPosition ? "top-[55%] sHeroImgAdapt" : "top-[-20%]"
               )}
               style={{
@@ -566,7 +568,7 @@ export function HeroSection() {
             <div
               key={`right-image-${groupIndex}`}
               className={cn(
-                "absolute right-[2%] 2xl:right-[10%] z-100 transition-all duration-500 HeroRightImg",
+                "absolute right-[2.44%] 2xl:right-[2.44%] z-100 transition-all duration-500 HeroRightImg",
                 isTopPosition
                   ? "top-[-20%]  sRightHeroImgAdapt"
                   : "top-[53%] sHeroImgAdapt"

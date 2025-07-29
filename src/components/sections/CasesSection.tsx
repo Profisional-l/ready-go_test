@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import type { Case } from "@/types";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { CaseViewer } from "@/components/ui/CaseViewer";
+import { useSafariOrIOS } from '@/hooks/isSafari';
 
 interface CasesSectionProps {
   casesDataFromProps: Case[];
@@ -28,12 +29,13 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
 
   const casesToShow = isMobile ? 3 : 6;
   const casesToDisplay = casesDataFromProps.slice(0, casesToShow);
+  const isSafariOrIOS = useSafariOrIOS();
 
   return (
     <div className="bg-[#F1F0F0] md:bg-background h-full w-full">
       <section className="max-w-[1640px] mx-auto w-full px-3 md:px-8 py-10 md:py-12 md:pb-24">
         <div className="relative flex flex-col md:flex-row justify-between mb-8 md:mb-0">
-          <h2 className="text-6xl md:text-[130px] font-mycustom text-foreground mb-0 leading-none safari-fix">
+          <h2 className={`text-6xl md:text-[130px] font-mycustom text-foreground mb-0 leading-none ${isSafariOrIOS ? 'safari-fix' : ''}`}>
             КЕЙСЫ
           </h2>
 

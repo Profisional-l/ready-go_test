@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { sendMessage } from "@/actions/sendMessage";
+import { useSafariOrIOS } from '@/hooks/isSafari';
 
 const validateName = (value: string) =>
   value.trim().length < 2 ? "Введите корректное имя" : null;
@@ -183,6 +184,9 @@ export function Footer() {
     setFieldValidity({ name: false, email: false, task: false });
   };
 
+    const isSafariOrIOS = useSafariOrIOS();
+
+
   return (
     <footer
       id="contact"
@@ -287,16 +291,16 @@ export function Footer() {
       <section className="text-center pt-20 md:pt-[170px] overflow-hidden">
         <div className="w-full max-w-[1600px] mx-auto px-0">
           <h2
-            className="font-mycustom mb-4 font-extrabold uppercase text-white whitespace-nowrap w-full footer-lable"
+            className={`font-mycustom mb-4 font-extrabold uppercase text-white whitespace-nowrap w-full footer-lable ${isSafariOrIOS ? 'safari-fix' : ''}`}
             style={
               isBig
-                ? { fontSize: "6.2vw", lineHeight: 1.1 }
+                ? { fontSize: "5.2vw", lineHeight: 1.1 }
                 : isSoBig
-                ? { fontSize: "5.6vw", lineHeight: 1.1 }
+                ? { fontSize: "4.13vw", lineHeight: 1.1 }
                 : isExtraBig
-                ? { fontSize: "5vw", lineHeight: 1.1 }
+                ? { fontSize: "3.85vw", lineHeight: 1.1 }
                 : isXExtraBig
-                ? { fontSize: "4.42vw", lineHeight: 1.1 }
+                ? { fontSize: "3.85vw", lineHeight: 1.1 }
                 : { fontSize: "7.6vw", lineHeight: 1.1 }
             }
           >

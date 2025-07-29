@@ -20,7 +20,7 @@ export function HomepageClient({ casesData }: HomepageClientProps) {
 
   return (
     <main>
-        <Header />
+        <Header/>
         
         <section id="home" className="h-screen flex flex-col">
             <div className="flex-grow">

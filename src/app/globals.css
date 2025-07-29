@@ -165,7 +165,7 @@ html.modal-open {
   }
 
   @media (min-width: 1650px) {
-    .shtml {
+    #cases, #about, #contact, header {
       zoom: 1.21;
     }
 
@@ -179,7 +179,7 @@ html.modal-open {
   }
 
   @media (min-width: 1921px) {
-    .shtml {
+    #cases, #about, #contact, header {
       zoom: 1.35;
     }
 /* 
@@ -193,7 +193,7 @@ html.modal-open {
   }
 
   @media (min-width: 2200px) {
-    .shtml {
+    #cases, #about, #contact, header {
       zoom: 1.4;
     }
 /* 
@@ -207,8 +207,8 @@ html.modal-open {
   }
 
   @media (min-width: 2516px) {
-    .shtml {
-      zoom: 1.7;
+    #cases, #about, #contact, header {
+      zoom: 1.4;
     }
 
     /* .mainScreenTextBlock {
@@ -221,8 +221,8 @@ html.modal-open {
   }
 
   @media (min-width: 2770px) {
-    .shtml {
-      zoom: 1.88;
+    #cases, #about, #contact, header {
+      zoom: 1.4;
     }
 
     /* .mainScreenTextBlock {
@@ -253,16 +253,27 @@ html.modal-open {
     }
   }
 
-  @supports (-webkit-touch-callout: none) {
-  .safari-fix {
-    transform: translateY(22px); /* подбери пиксели под твой шрифт */
-    display: inline-block;
-  }
-}
+  /* @media (min-width: 2296px) {
+    .HeroLeftImg {
+      left: 2.44%
+    }
+
+    .RightTopHeroImgAdapt {
+      margin-top: -30px;
+    }
+  } */
+
+
   .safari-fix {
     transform: translateY(24px); /* подбери пиксели под твой шрифт */
     display: inline-block;
   }
+
+  .safari-fix-up {
+    transform: translateY(-12px); /* подбери пиксели под твой шрифт */
+    display: inline-block;
+  }
+
   .footerText {
     font-size: clamp(3rem, 7.5vw, 6rem);
     line-height: 1.1;
@@ -353,7 +364,7 @@ html.modal-open {
   }
 
   /* Main wrapper for mobile footer */
-  #contact .footer-content-wrapper {
+  #contact, header .footer-content-wrapper {
     background-color: transparent;
     border-radius: 0;
     margin: 0;
@@ -377,7 +388,7 @@ html.modal-open {
     border-radius: 10px;
   }
 
-  #contact section {
+  #contact, header section {
     display: none;
   }
 
