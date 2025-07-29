@@ -270,7 +270,7 @@ html.modal-open {
   }
 
   .safari-fix-up {
-    transform: translateY(-12px); /* подбери пиксели под твой шрифт */
+    transform: translateY(-24px); /* подбери пиксели под твой шрифт */
     display: inline-block;
   }
 
