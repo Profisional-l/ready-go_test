@@ -467,6 +467,14 @@ html.modal-open {
   }
 }
 
+.footer-array{
+  height: 30px;
+}
+
+#cases-pb{
+  padding-bottom: 65px;
+}
+
 header nav {
   z-index: 10;
 }

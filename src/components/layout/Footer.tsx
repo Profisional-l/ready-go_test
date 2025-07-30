@@ -118,7 +118,7 @@ export function Footer() {
     return () => window.removeEventListener("resize", checkExtraBig);
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     const checkXExtraBig = () => {
       setIsXExtraBig(window.innerWidth > 2516);
     };
@@ -184,7 +184,7 @@ export function Footer() {
     setFieldValidity({ name: false, email: false, task: false });
   };
 
-    const isSafariOrIOS = useIsMac();
+  const isSafariOrIOS = useIsMac();
 
 
   return (
@@ -192,7 +192,7 @@ export function Footer() {
       id="contact"
       className="md:bg-[#0E0E0E] text-background m-3 rounded-xl footer-content-wrapper md:mt-52"
     >
-      <div className="max-w-[1640px] px-8 md:mx-auto pt-5 bg-transparent grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
+      <div className="max-w-[1640px] px-[23px] md:mx-auto pt-5 bg-transparent grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
         <div className="md:pt-1 md:mb-0 links-container">
           <p className="text-foreground md:text-white text-[20px] pb-[55px] font-semibold tight-spacing-1 footer-adapt-subtitle">
             &copy; READYGO 2025
@@ -200,13 +200,13 @@ export function Footer() {
           <nav className="m-0 space-y-3">
             <Link
               href="https://www.instagram.com/ready.go.agency/"
-              className="text-foreground md:text-white text-[24px] block underline hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
+              className="text-foreground md:text-white text-[24px] block hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
             >
               Instagram
             </Link>
             <Link
               href="mailto:go@rg.by"
-              className="text-foreground md:text-white text-[24px] underline block hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
+              className="text-foreground md:text-white text-[24px] block hover:text-accent transition-colors tight-spacing-1 footer-adapt-title"
             >
               Email
             </Link>
@@ -296,12 +296,12 @@ export function Footer() {
               isBig
                 ? { fontSize: "5.2vw", lineHeight: 1.1 }
                 : isSoBig
-                ? { fontSize: "4.13vw", lineHeight: 1.1 }
-                : isExtraBig
-                ? { fontSize: "3.85vw", lineHeight: 1.1 }
-                : isXExtraBig
-                ? { fontSize: "3.85vw", lineHeight: 1.1 }
-                : { fontSize: "7.6vw", lineHeight: 1.1 }
+                  ? { fontSize: "4.13vw", lineHeight: 1.1 }
+                  : isExtraBig
+                    ? { fontSize: "3.85vw", lineHeight: 1.1 }
+                    : isXExtraBig
+                      ? { fontSize: "3.85vw", lineHeight: 1.1 }
+                      : { fontSize: "7.6vw", lineHeight: 1.1 }
             }
           >
             ВЫ <span className="textToBorderBlack">READY</span> РАБОТАТЬ С НАМИ?
