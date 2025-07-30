@@ -111,7 +111,7 @@ export function Footer() {
 
   useEffect(() => {
     const checkExtraBig = () => {
-      setIsExtraBig(window.innerWidth > 2200 && window.innerWidth < 2516);
+      setIsExtraBig(window.innerWidth > 2200 && window.innerWidth < 2320);
     };
     checkExtraBig();
     window.addEventListener("resize", checkExtraBig);
@@ -120,7 +120,7 @@ export function Footer() {
 
   useEffect(() => {
     const checkXExtraBig = () => {
-      setIsXExtraBig(window.innerWidth > 2516);
+      setIsXExtraBig(window.innerWidth > 2320);
     };
     checkXExtraBig();
     window.addEventListener("resize", checkXExtraBig);
@@ -190,7 +190,7 @@ export function Footer() {
   return (
     <footer
       id="contact"
-      className="md:bg-[#0E0E0E] text-background m-3 rounded-xl footer-content-wrapper md:mt-52"
+      className="md:bg-[#0E0E0E] text-background m-3 rounded-xl footer-content-wrapper"
     >
       <div className="max-w-[1640px] px-[23px] md:mx-auto pt-5 bg-transparent grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 items-start footer-groop">
         <div className="md:pt-1 md:mb-0 links-container">
@@ -303,13 +303,13 @@ export function Footer() {
             className={`font-mycustom mb-4 font-extrabold uppercase text-white whitespace-nowrap w-full footer-lable ${isSafariOrIOS ? 'safari-fix' : ''}`}
             style={
               isBig
-                ? { fontSize: "5.2vw", lineHeight: 1.1 }
+                ? { fontSize: "5.4vw", lineHeight: 1.1 }
                 : isSoBig
-                  ? { fontSize: "4.13vw", lineHeight: 1.1 }
+                  ? { fontSize: "5.43vw", lineHeight: 1.1 }
                   : isExtraBig
-                    ? { fontSize: "3.85vw", lineHeight: 1.1 }
+                    ? { fontSize: "5.45vw", lineHeight: 1.1 }
                     : isXExtraBig
-                      ? { fontSize: "3.85vw", lineHeight: 1.1 }
+                      ? { fontSize: "126px", lineHeight: 1.1 }
                       : { fontSize: "7.6vw", lineHeight: 1.1 }
             }
           >

@@ -193,7 +193,7 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
         >
           <div
             ref={contentRef}
-            className="relative w-full h-full bg-[#F0EFEE] overflow-y-auto sm:rounded-[35px] sm:my-[14px] sm:w-[calc(100%-24px)]"
+            className="relative w-full h-full bg-[#F0EFEE] overflow-y-auto sm:rounded-[35px] sm:my-[14px] sm:w-[calc(100%-24px)] sm:h-[calc(100%-24px)] "
           >
              <motion.div
                 initial={{ scale: 0.95, y: 20 }}

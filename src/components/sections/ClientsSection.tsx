@@ -19,7 +19,7 @@ export function ClientsSection() {
   const logosLoop = [...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos];
 
   return (
-    <section className="bg-transparent overflow-hidden">
+    <section className="bg-transparent overflow-hidden my-32">
       <div className="flex w-max animate-scroll">
         {logosLoop.map((logo, idx) => (
           <div

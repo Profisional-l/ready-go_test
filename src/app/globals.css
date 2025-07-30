@@ -152,7 +152,7 @@ html.modal-open {
   button:hover,
   a:hover,
   .caseCard:hover {
-    cursor: url("../components/assets/CURSOR_01.png"), auto;
+    cursor: url("../components/assets/pointing.svg"), auto;
   }
 
   body {
@@ -165,8 +165,12 @@ html.modal-open {
   }
 
   @media (min-width: 1650px) {
-    #cases, #about, #contact, header {
+    #cases, #about, header {
       zoom: 1.21;
+    }
+
+     #contact {
+      zoom: 1.177;
     }
 
     /* .mainScreenTextBlock {
@@ -179,7 +183,7 @@ html.modal-open {
   }
 
   @media (min-width: 1921px) {
-    #cases, #about, #contact, header {
+    #cases, #about, header {
       zoom: 1.35;
     }
 /* 
@@ -193,7 +197,7 @@ html.modal-open {
   }
 
   @media (min-width: 2200px) {
-    #cases, #about, #contact, header {
+    #cases, #about, header {
       zoom: 1.4;
     }
 /* 
@@ -207,7 +211,7 @@ html.modal-open {
   }
 
   @media (min-width: 2516px) {
-    #cases, #about, #contact, header {
+    #cases, #about, header {
       zoom: 1.4;
     }
 
@@ -221,7 +225,7 @@ html.modal-open {
   }
 
   @media (min-width: 2770px) {
-    #cases, #about, #contact, header {
+    #cases, #about, header {
       zoom: 1.4;
     }
 

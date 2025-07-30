@@ -3,9 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export function Header({ showNav = true }: { showNav?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
 
   // Блокировка прокрутки body при открытом меню
   useEffect(() => {
@@ -21,16 +24,42 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
   }, [isOpen]);
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const targetElement = document.querySelector(href);
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: 'smooth'
-      });
+    if (isHomePage) {
+      e.preventDefault();
+      const targetElement = document.querySelector(href);
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }
     }
     setIsOpen(false);
   };
 
+  const renderLink = (id: string, text: string) => {
+    if (isHomePage) {
+      return (
+        <a
+          href={id}
+          onClick={(e) => handleLinkClick(e, id)}
+          className="relative group text-[20px] font-medium text-[#0E0E0E]"
+        >
+          {text}
+          <span className="absolute left-0 bottom-[0px] h-[2px] w-0 bg-[#0E0E0E] transition-all duration-300 group-hover:w-full" />
+        </a>
+      );
+    } else {
+      return (
+        <Link
+          href={`/${id}`}
+          className="relative group text-[20px] font-medium text-[#0E0E0E]"
+        >
+          {text}
+          <span className="absolute left-0 bottom-[0px] h-[2px] w-0 bg-[#0E0E0E] transition-all duration-300 group-hover:w-full" />
+        </Link>
+      );
+    }
+  };
 
   return (
     <>
@@ -48,20 +77,34 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
               }`}
             style={{ willChange: "transform" }}
           >
-            {["#cases", "#about", "#contact"].map((id, i) => (
-              <a
-                key={id}
-                className={`h-[75px] opacity-0 animate-fade-in-up delay-[${i * 100
-                  }ms]`}
-                href={id}
-                onClick={(e) => handleLinkClick(e, id)}
-              >
-                {id === "#cases"
-                  ? "Кейсы"
-                  : id === "#about"
-                    ? "О нас"
-                    : "Контакты"}
-              </a>
+            {["cases", "about", "contact"].map((id, i) => (
+              isHomePage ? (
+                <a
+                  key={id}
+                  className={`h-[75px] animate-fade-in-up delay-[${i * 100}ms]`}
+                  href={`#${id}`}
+                  onClick={(e) => handleLinkClick(e, `#${id}`)}
+                >
+                  {id === "cases"
+                    ? "Кейсы"
+                    : id === "about"
+                      ? "О нас"
+                      : "Контакты"}
+                </a>
+              ) : (
+                <Link
+                  key={id}
+                  href={`/#${id}`}
+                  className={`h-[75px] animate-fade-in-up delay-[${i * 100}ms]`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {id === "cases"
+                    ? "Кейсы"
+                    : id === "about"
+                      ? "О нас"
+                      : "Контакты"}
+                </Link>
+              )
             ))}
           </div>
         </>
@@ -98,20 +141,17 @@ export function Header({ showNav = true }: { showNav?: boolean }) {
             {/* Десктоп навигация */}
             <nav className="hidden md:block absolute left-1/2 transform -translate-x-1/2  z-40">
               <div className="flex space-x-10">
-                {["cases", "about", "contact"].map((id, i) => (
-                  <a
-                    key={i}
-                    href={`#${id}`}
-                    onClick={(e) => handleLinkClick(e, `#${id}`)}
-                    className="relative group text-[20px] font-medium text-[#0E0E0E]"
-                  >
-                    {id === "cases"
-                      ? "Кейсы"
-                      : id === "about"
-                        ? "О нас"
-                        : "Контакты"}
-                    <span className="absolute left-0 bottom-[0px] h-[2px] w-0 bg-[#0E0E0E] transition-all duration-300 group-hover:w-full" />
-                  </a>
+                {["cases", "about", "contact"].map((id) => (
+                  <div key={id}>
+                    {renderLink(
+                      `#${id}`,
+                      id === "cases"
+                        ? "Кейсы"
+                        : id === "about"
+                          ? "О нас"
+                          : "Контакты"
+                    )}
+                  </div>
                 ))}
               </div>
             </nav>
