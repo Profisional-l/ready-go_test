@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { Check } from "lucide-react"; // Убран импорт ArrowRight
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -50,7 +50,7 @@ function ValidatedInput({
   };
 
   return (
-    <div>
+    <div className="relative">
       <input
         type={type}
         name={name}
@@ -66,7 +66,7 @@ function ValidatedInput({
           className
         )}
       />
-      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+      {error && <p className="text-red-500 text-sm mt-2 absolute bottom-[-1.5em] left-0">{error}</p>} {/* Изменены стили */}
     </div>
   );
 }
@@ -241,7 +241,7 @@ export function Footer() {
                 placeholder="Email"
                 className="text-[18px] md:text-[24px] footer-input"
                 validate={(val) =>
-                  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)
+                  /^[^s@]+@[^s@]+.[^s@]+$/.test(val)
                     ? null
                     : "Введите корректный email"
                 }
@@ -249,16 +249,22 @@ export function Footer() {
               />
             </div>
             <div className="relative task-adapt">
-              <ValidatedInput
-                type="text"
-                name="task"
-                placeholder="Задача"
-                className="text-[18px] md:text-[24px] pr-10 footer-input footer-input-text"
-                validate={(val) =>
-                  val.trim().length < 5 ? "Опишите задачу подробнее" : null
-                }
-                onValidate={handleFieldValidate}
-              />
+              {/* Обертка для поля ввода и сообщения об ошибке */}
+              <div className="relative">
+                <ValidatedInput
+                  type="text"
+                  name="task"
+                  placeholder="Задача"
+                  className="text-[18px] md:text-[24px] pr-10 footer-input footer-input-text"
+                  validate={(val) =>
+                    val.trim().length < 5 ? "Опишите задачу подробнее" : null
+                  }
+                  onValidate={handleFieldValidate}
+                />
+                {fieldValidity.task === false && (fieldValidity.name || fieldValidity.email) && ( // Проверяем, было ли поле затронуто и есть ли ошибка
+                  <p className="text-red-500 text-sm mt-2 absolute bottom-[-1.5em] left-0">Опишите задачу подробнее</p>
+                )}
+              </div>
               <Button
                 type="submit"
                 variant="ghost"
@@ -266,12 +272,15 @@ export function Footer() {
                 className="absolute right-0 top-1/2 transform -translate-y-1/2 text-muted-foreground/70 hover:text-accent h-auto p-1 focus:ring-0 focus:ring-offset-0 ft-button"
                 aria-label="Отправить"
               >
-                {isMobile ? (
-                  <ArrowRight size={22} />
-                ) : showSuccessModal ? (
+                {showSuccessModal ? (
                   <Check size={22} color="#04D6E3" />
                 ) : (
-                  <ArrowRight size={22} />
+                  <Image
+                    src="/images/ArrowRight.svg"
+                    alt="Стрелка"
+                    width={22}
+                    height={22}
+                  />
                 )}
               </Button>
             </div>
