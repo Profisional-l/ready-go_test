@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
-import { useIsMac } from '@/hooks/isSafari';
+import { useIsMac } from "@/hooks/isSafari";
 
 export function HeroSection() {
   // const keywords = [
@@ -148,9 +148,11 @@ export function HeroSection() {
   const eyesRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [isMid, setIsMid] = useState(false);
+  const [isBig, setIsBig] = useState(false);
+
   const isSafariOrIOS = useIsMac();
 
-  const imgSizeIndex = 1.2;
+  const imgSizeIndex = isMid ? 1.2 : isBig ? 0.7 : 1;
 
   // Определяем мобильное устройство
   useEffect(() => {
@@ -171,6 +173,16 @@ export function HeroSection() {
     checkMid();
     window.addEventListener("resize", checkMid);
     return () => window.removeEventListener("resize", checkMid);
+  }, []);
+
+  useEffect(() => {
+    const checkBig = () => {
+      setIsBig(window.innerWidth > 1921);
+    };
+
+    checkBig();
+    window.addEventListener("resize", checkBig);
+    return () => window.removeEventListener("resize", checkBig);
   }, []);
 
   // Плавное движение изображений и глаз
@@ -456,7 +468,11 @@ export function HeroSection() {
             </div>
 
             {/* Слова как SVG-изображения с той же анимацией */}
-            <div className={`relative h-[160px] md:h-[220px] lg:h-[110px] xl:h-[15vh] flex items-center justify-center overflow-y-hidden ${isSafariOrIOS ? 'safari-fix-up' : ''}`}>
+            <div
+              className={`relative h-[160px] md:h-[220px] lg:h-[110px] xl:h-[15vh] flex items-center justify-center overflow-y-hidden ${
+                isSafariOrIOS ? "safari-fix-up" : ""
+              }`}
+            >
               <div className="relative w-full max-w-[1550px] h-full min-h-[60px]">
                 {keywordImages.map((src, i) => (
                   <div
@@ -524,12 +540,8 @@ export function HeroSection() {
               <div
                 className="relative overflow-hidden hidden md:block"
                 style={{
-                  width: `${
-                    isMid ? group[0].width / imgSizeIndex : group[0].width
-                  }px`,
-                  height: `${
-                    isMid ? group[0].height / imgSizeIndex : group[0].height
-                  }px`,
+                  width: `${group[0].width / imgSizeIndex}px`,
+                  height: `${group[0].height / imgSizeIndex}px`,
                 }}
               >
                 <div className="w-full h-full rounded-[12px] overflow-hidden">
@@ -542,7 +554,7 @@ export function HeroSection() {
                     width={group[0].width}
                     height={group[0].height}
                     className="w-full h-full object-cover"
-                    style={{ maxHeight: `${group[0].maxHeight}px` }}
+                    style={{ maxHeight: `${group[0].maxHeight / imgSizeIndex}px` }}
                   />
                 </div>
               </div>
@@ -584,12 +596,8 @@ export function HeroSection() {
               <div
                 className="relative overflow-hidden hidden md:block"
                 style={{
-                  width: `${
-                    isMid ? group[1].width / imgSizeIndex : group[1].width
-                  }px`,
-                  height: `${
-                    isMid ? group[1].height / imgSizeIndex : group[1].height
-                  }px`,
+                  width: `${group[1].width / imgSizeIndex}px`,
+                  height: `${group[1].height / imgSizeIndex}px`,
                 }}
               >
                 <div className="w-full h-full rounded-[12px] overflow-hidden">
@@ -602,7 +610,7 @@ export function HeroSection() {
                     width={group[1].width}
                     height={group[1].height}
                     className="w-full h-full object-cover"
-                    style={{ maxHeight: `${group[1].maxHeight}px` }}
+                    style={{ maxHeight: `${group[1].maxHeight / imgSizeIndex}px` }}
                   />
                 </div>
               </div>
