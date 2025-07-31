@@ -300,6 +300,10 @@ html.modal-open {
     border-bottom-width: 2px;
   }
 
+  .about-block-adapt{
+    margin-bottom: 90px;
+  }
+
   .check-mark {
     color: #04D6E3;
   }

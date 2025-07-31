@@ -81,7 +81,7 @@ export function AboutSection() {
           {/* Текстовый блок */}
           <div
             ref={textBlockRef}
-            className="md:w-4/6 flex flex-col"
+            className="md:w-4/6 about-block-adapt flex flex-col"
           >
             <h2 className="text-6xl md:text-[130px] font-mycustom mb-10">
               О НАС
@@ -90,14 +90,14 @@ export function AboutSection() {
               Новое и креативное — наша стихия.
             </p>
             <p className="leading-[1.21em] mb-[15px] text-[18px] md:text-[33px] font-medium tight-spacing-3">
-              Однажды мы женили людей в KFC, делали <br /> витрину для ТЦ в
-              Витебске и запускали <br /> шестиметровый дирижабль в центре
+              Однажды мы женили людей в KFC, делали <br className="hidden xl:inline" /> витрину для ТЦ в
+              Витебске и запускали <br className="hidden xl:inline" /> шестиметровый дирижабль в центре
               Минска.
             </p>
             <p className="leading-[1.21em] text-[18px] md:text-[33px] font-medium tight-spacing-3">
-              Мы любим и умеем работать с крупными <br />
-              брендами. Наша команда из Минска была <br /> частью Red Graphic —
-              агентства с 30-летней <br /> историей.
+              Мы любим и умеем работать с крупными <br className="hidden xl:inline" />
+              брендами. Наша команда из Минска была <br className="hidden xl:inline" /> частью Red Graphic —
+              агентства с 30-летней <br className="hidden xl:inline" /> историей.
             </p>
           </div>
 
