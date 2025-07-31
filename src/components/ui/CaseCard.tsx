@@ -71,10 +71,10 @@ export function CaseCard({
         </div>
       </CardContent>
 
-      <CardFooter className="p-0 pt-3">
+      <CardFooter className="p-0 pt-3 caseName">
         <div
           className={cn(
-            'flex items-center -ml-4 transition-all duration-300',
+            'flex items-center -ml-4 transition-all duration-300 ',
             type === 'link' && 'group-hover:ml-0'
           )}
         >
@@ -113,7 +113,7 @@ export function CaseCard({
 
   return (
     <Card
-      className="group overflow-hidden transition-all duration-300 cursor-pointer rounded-lg w-full bg-[#F1F0F0] md:bg-background text-card-foreground border-0 caseCard h-full"
+      className="group overflow-hidden transition-all duration-300 rounded-lg w-full bg-[#F1F0F0] md:bg-background text-card-foreground border-0 caseCard h-full"
       onClick={onClick}
       role="button"
       tabIndex={0}

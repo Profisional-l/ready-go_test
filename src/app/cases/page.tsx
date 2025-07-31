@@ -40,9 +40,9 @@ export default function AllCasesPage() {
       <div className="max-w-[1640px] mx-auto px-3 md:px-8">
         <Header showNav={true} />
       </div>
-      <main className="bg-[#F1F0F0] md:bg-background text-foreground pb-[68px] casePageMain">
+      <main className="bg-[#F1F0F0] md:bg-transparent text-foreground pb-[68px] casePageMain">
         <div id='cases-pb' className="max-w-[1640px] mx-auto px-4 md:px-9 py-16 md:py-24">
-          <h1 className={`text-6xl md:text-[130px] font-mycustom text-foreground mt-16 mb:mt-0 mb-8 md:mb-1 uppercase ${isSafariOrIOS ? 'safair-fix' : ''}`}>
+          <h1 className={`text-6xl md:text-[130px] font-mycustom text-foreground mt-14 mb:mt-0 mb-8 md:mb-1 uppercase  ${isSafariOrIOS ? 'translate-y-6' : ''}`}>
             кейсы
           </h1>
           

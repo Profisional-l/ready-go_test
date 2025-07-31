@@ -151,7 +151,8 @@ html.modal-open {
 
   button:hover,
   a:hover,
-  .caseCard:hover {
+  .caseCard img:hover,
+  .caseName:hover {
     cursor: url("../components/assets/pointing.svg"), auto;
   }
 
@@ -272,6 +273,10 @@ html.modal-open {
     transform: translateY(24px); 
     display: inline-block;
   }
+
+    .safari-fix-c {
+      
+    } 
 
   .safari-fix-up {
     transform: translateY(-12px); 
