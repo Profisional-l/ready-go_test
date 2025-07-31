@@ -165,7 +165,7 @@ html.modal-open {
   }
 
   @media (min-width: 1650px) {
-    #cases, #about, header {
+    #cases, #about, header, .casePageMain {
       zoom: 1.21;
     }
 
@@ -183,7 +183,7 @@ html.modal-open {
   }
 
   @media (min-width: 1921px) {
-    #cases, #about, header {
+    #cases, #about, header, .casePageMain {
       zoom: 1.35;
     }
 /* 
@@ -197,7 +197,7 @@ html.modal-open {
   }
 
   @media (min-width: 2200px) {
-    #cases, #about, header {
+    #cases, #about, header, .casePageMain {
       zoom: 1.4;
     }
 /* 
@@ -211,7 +211,7 @@ html.modal-open {
   }
 
   @media (min-width: 2516px) {
-    #cases, #about, header {
+    #cases, #about, header, .casePageMain {
       zoom: 1.4;
     }
 
@@ -225,7 +225,7 @@ html.modal-open {
   }
 
   @media (min-width: 2770px) {
-    #cases, #about, header {
+    #cases, #about, header, .casePageMain {
       zoom: 1.4;
     }
 
