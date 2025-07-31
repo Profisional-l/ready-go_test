@@ -19,7 +19,7 @@ export function ServiceBanner() {
   const imageHeight = isMobile ? 99 : 190;
 
   const BannerItem = () => (
-    <div className="flex items-center justify-center h-[99px] md:h-[190px] px-4">
+    <div className="flex items-center justify-center h-[99px] md:h-[190px]">
       <div className="relative" style={{ height: `${imageHeight}px` }}>
         <Image
           src={imageSrc}
