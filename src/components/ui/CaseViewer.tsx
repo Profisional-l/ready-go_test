@@ -23,43 +23,43 @@ function VideoWithPreview({ src }: { src: string }) {
   useEffect(() => {
     const video = videoRef.current;
     if (!video || posterGenerated.current) return;
-    
+
     // Reset state for new src
     posterGenerated.current = false;
     setPoster(undefined);
 
     const captureFrame = () => {
-        if (!video.videoWidth || !video.videoHeight || video.readyState < 2 || posterGenerated.current) return;
-        
-        const canvas = document.createElement("canvas");
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return;
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        
-        try {
-            const dataUrl = canvas.toDataURL("image/png");
-            setPoster(dataUrl);
-            posterGenerated.current = true; // Mark as generated
-        } catch (e) {
-            console.error("Error generating poster:", e);
-        }
+      if (!video.videoWidth || !video.videoHeight || video.readyState < 2 || posterGenerated.current) return;
+
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      try {
+        const dataUrl = canvas.toDataURL("image/png");
+        setPoster(dataUrl);
+        posterGenerated.current = true; // Mark as generated
+      } catch (e) {
+        console.error("Error generating poster:", e);
+      }
     };
-    
+
     const onSeeked = () => {
-        captureFrame();
-        // We MUST remove the listener to prevent it from firing again on user interaction
-        video.removeEventListener("seeked", onSeeked); 
+      captureFrame();
+      // We MUST remove the listener to prevent it from firing again on user interaction
+      video.removeEventListener("seeked", onSeeked);
     };
 
     const onLoadedData = () => {
-        // Seek to a specific time to capture a frame. 0.1s is usually safe.
-        if (video.duration > 0.1) {
-            video.currentTime = 0.1;
-        } else {
-             captureFrame(); // For very short videos
-        }
+      // Seek to a specific time to capture a frame. 0.1s is usually safe.
+      if (video.duration > 0.1) {
+        video.currentTime = 0.1;
+      } else {
+        captureFrame(); // For very short videos
+      }
     };
 
     video.addEventListener("loadeddata", onLoadedData);
@@ -115,7 +115,7 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Only close if the click is on the backdrop itself, not on its children
     if (contentRef.current && !contentRef.current.contains(e.target as Node)) {
-        onClose();
+      onClose();
     }
   }
 
@@ -125,22 +125,22 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
     const chunkSize = 3;
     const rows = [];
     for (let i = 0; i < items.length; i += chunkSize) {
-        rows.push(items.slice(i, i + chunkSize));
+      rows.push(items.slice(i, i + chunkSize));
     }
 
     return rows.map((rowItems, rowIndex) => (
       <div key={rowIndex} className="flex flex-col md:flex-row md:space-x-3 space-y-3 md:space-y-0">
-          {rowItems.map((item, itemIndex) => {
-              const rowItemCount = rowItems.length;
-              const itemWidthClass = rowItemCount === 1 ? 'md:w-full' :
-                                   rowItemCount === 2 ? 'md:w-1/2' : 'md:w-1/3';
-              
-              return (
-                  <div key={`${item.type}-${rowIndex}-${itemIndex}`} className={`relative w-full ${itemWidthClass}`}>
-                     <VideoWithPreview src={item.url} />
-                  </div>
-              );
-          })}
+        {rowItems.map((item, itemIndex) => {
+          const rowItemCount = rowItems.length;
+          const itemWidthClass = rowItemCount === 1 ? 'md:w-full' :
+            rowItemCount === 2 ? 'md:w-1/2' : 'md:w-1/3';
+
+          return (
+            <div key={`${item.type}-${rowIndex}-${itemIndex}`} className={`relative w-full ${itemWidthClass}`}>
+              <VideoWithPreview src={item.url} />
+            </div>
+          );
+        })}
       </div>
     ));
   };
@@ -195,12 +195,12 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
             ref={contentRef}
             className="relative w-full h-full bg-[#F0EFEE] overflow-y-auto sm:rounded-[35px] sm:my-[14px] sm:w-[calc(100%-24px)] sm:h-[calc(100%-24px)] "
           >
-             <motion.div
-                initial={{ scale: 0.95, y: 20 }}
-                animate={{ scale: 1, y: 0 }}
-                exit={{ scale: 0.95, y: 20, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="w-full"
+            <motion.div
+              initial={{ scale: 0.95, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 20, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="w-full"
             >
               <button
                 onClick={onClose}
@@ -230,11 +230,10 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
                   <div className="md:text-center mt-4 md:mb-7">
                     <Link href={caseData.externalUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-flex items-center text-[20px] font-medium text-foreground">
                       <span>Перейти на&nbsp;</span>
-                      <div className="inline-flex items-center">
+                      <div className="inline-flex items-center cases-underline-link">
                         <span className="text-accent">сайт</span>
-                         <ArrowUpRight className="ml-1 h-5 w-5 text-accent" />
+                        <ArrowUpRight className="ml-1 h-5 w-5 text-accent" />
                       </div>
-                      <span className="absolute bottom-[-2px] left-0 h-[2px] w-full origin-left scale-x-0 transform bg-gradient-to-r from-foreground from-65% to-accent to-65% transition-transform duration-300 ease-out group-hover:scale-x-100 rounded-lg"></span>
                     </Link>
                   </div>
                 )}

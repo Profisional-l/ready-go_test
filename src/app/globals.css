@@ -474,6 +474,12 @@ html.modal-open {
 .footer-array{
   height: 30px;
 }
+.cases-underline-link{
+  line-height: 23px;
+}
+.cases-underline-link:hover{
+  border-bottom: 2px solid #04D6E3;
+}
 
 #cases-pb{
   padding-bottom: 65px;
