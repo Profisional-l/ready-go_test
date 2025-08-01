@@ -80,34 +80,33 @@ export function AboutSection() {
   return (
     <section className="py-16 md:py-24 mt-[45px] mb-[30px]">
       <div className="m-0 max-w-[100%]">
-        <div className="flex flex-col lg:flex-row md:items-center md:space-x-16">
+        <div className="flex flex-col lg:flex-row md:items-center">
           {/* Текстовый блок */}
           <div
             ref={textBlockRef}
             className="md:w-4/6 about-block-adapt flex flex-col max-w-[330px] md:max-w-none"
           >
             <h2
-              className={`text-[60px] md:text-[70px] lg:text-[90px] xl:text-[12vh] 2xl:text-[9.5vh] font-mycustom mb-7 ${
-                isSafariOrIOS ? "safari-fix" : ""
-              }`}
+              className={`text-[60px] md:text-[70px] lg:text-[90px] xl:text-[12vh] 2xl:text-[9.5vh] font-mycustom mb-7 ${isSafariOrIOS ? "safari-fix" : ""
+                }`}
             >
               О НАС
             </h2>
             <p className="leading-[1.21em] mb-[15px] text-[18px] md:text-[33px] font-medium tight-spacing-3">
-              Новое и креативное — наша <br className="sm:hidden"/> стихия.
+              Новое и креативное — наша  стихия.
             </p>
             <p className="leading-[1.21em] mb-[15px] text-[18px] md:text-[33px] font-medium tight-spacing-3">
               Однажды мы женили людей в KFC, делали{" "}
-              <br className="hidden xl:inline" /> витрину для ТЦ в Витебске <br className="sm:hidden"/> и
-              запускали <br className="hidden xl:inline" /> шестиметровый <br className="sm:hidden"/>
+              <br className="hidden xl:inline" /> витрину для ТЦ в Витебске  и
+              запускали <br className="hidden xl:inline" /> шестиметровый
               дирижабль в центре Минска.
             </p>
             <p className="leading-[1.21em] text-[18px] md:text-[33px] font-medium tight-spacing-3">
-              Мы любим и умеем работать <br className="sm:hidden"/> с крупными{" "}
+              Мы любим и умеем работать  с крупными{" "}
               <br className="hidden xl:inline" />
-              брендами. Наша <br className="sm:hidden"/> команда из Минска была{" "}
-              <br className="hidden xl:inline" /> частью <br className="sm:hidden"/> Red Graphic — агентства
-              с 30-<br className="sm:hidden"/>летней <br className="hidden xl:inline" /> историей.
+              брендами. Наша  команда из Минска была{" "}
+              <br className="hidden xl:inline" /> частью  Red Graphic — агентства
+              с 30-летней <br className="hidden xl:inline" /> историей.
             </p>
           </div>
 
@@ -123,9 +122,8 @@ export function AboutSection() {
                 alt={`About image ${index}`}
                 fill
                 unoptimized={true}
-                className={`object-cover absolute top-0 left-0 transition-opacity duration-1000 ease-in-out ${
-                  index === currentImage ? "opacity-100 z-10" : "opacity-0 z-0"
-                }`}
+                className={`object-cover absolute top-0 left-0 transition-opacity duration-1000 ease-in-out ${index === currentImage ? "opacity-100 z-10" : "opacity-0 z-0"
+                  }`}
               />
             ))}
           </div>

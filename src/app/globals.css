@@ -19,6 +19,7 @@
   }
   .form-adapt-error{
     border-color: #FF4141;
+    color: #FF4141;
     opacity: 1;
   }
   .form-adapt-ok{
