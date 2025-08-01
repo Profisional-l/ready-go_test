@@ -58,10 +58,11 @@ function ValidatedInput({
         placeholder={placeholder}
         onBlur={handleBlur}
         onChange={handleChange}
+        id="form-adapt"
         className={cn(
           "w-full bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-none",
           error
-            ? "border-red-500 focus:border-red-500"
+            ? "form-adapt-error border-red-500 focus:border-red-500"
             : "[&:not(:placeholder-shown)]:border-white border-white/40 focus:border-white",
           className
         )}
