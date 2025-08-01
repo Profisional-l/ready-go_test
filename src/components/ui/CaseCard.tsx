@@ -113,7 +113,7 @@ export function CaseCard({
 
   return (
     <Card
-      className="group overflow-hidden transition-all duration-300 rounded-lg w-full bg-[#F1F0F0] md:bg-background text-card-foreground border-0 caseCard h-full"
+      className="group overflow-hidden transition-all duration-300 rounded-lg w-full bg-[#F1F0F0] md:bg-background text-card-foreground border-0 caseCard cursor-default h-full"
       onClick={onClick}
       role="button"
       tabIndex={0}

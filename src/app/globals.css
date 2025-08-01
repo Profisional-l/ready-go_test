@@ -246,6 +246,7 @@ html.modal-open {
   h5,
   h6 {
     @apply font-headline;
+    cursor: default;
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {

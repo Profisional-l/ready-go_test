@@ -35,7 +35,7 @@ export function CasesSection({ casesDataFromProps }: CasesSectionProps) {
     <div className="bg-[#F1F0F0] md:bg-background h-full w-full">
       <section className="max-w-[1640px] mx-auto w-full px-3 md:px-8 py-[70px] md:py-12 md:pb-24">
         <div className="relative flex flex-col md:flex-row justify-between mb-8 md:mb-0">
-          <h2 className={`text-6xl md:text-[130px] font-mycustom text-foreground mb-0 leading-none ${isSafariOrIOS ? 'safari-fix' : ''}`}>
+          <h2 className={`text-[50px] md:text-[70px] lg:text-[90px] xl:text-[12vh] 2xl:text-[9.5vh] font-mycustom text-foreground mb-0 leading-none ${isSafariOrIOS ? 'safari-fix' : ''}`}>
             КЕЙСЫ
           </h2>
 

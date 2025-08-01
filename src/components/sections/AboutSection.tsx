@@ -77,13 +77,13 @@ export function AboutSection() {
   return (
     <section className="py-16 md:py-24 mt-[45px] mb-[30px]">
       <div className="m-0 max-w-[100%]">
-        <div className="flex flex-col md:flex-row md:items-center md:space-x-16">
+        <div className="flex flex-col lg:flex-row md:items-center md:space-x-16">
           {/* Текстовый блок */}
           <div
             ref={textBlockRef}
             className="md:w-4/6 about-block-adapt flex flex-col"
           >
-            <h2 className="text-6xl md:text-[130px] font-mycustom mb-10">
+            <h2 className="text-[50px] md:text-[70px] lg:text-[90px] xl:text-[12vh] 2xl:text-[9.5vh] font-mycustom mb-10">
               О НАС
             </h2>
             <p className="leading-[1.21em] mb-[15px] text-[18px] md:text-[33px] font-medium tight-spacing-3">
