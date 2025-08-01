@@ -271,13 +271,9 @@ html.modal-open {
 
 
   .safari-fix {
-    transform: translateY(24px); 
+    transform: translateY(18px); 
     display: inline-block;
   }
-
-    .safari-fix-c {
-      
-    } 
 
   .safari-fix-up {
     transform: translateY(-12px); 
@@ -285,6 +281,11 @@ html.modal-open {
   }
 
     @media (min-width: 1024px) {
+    .safari-fix {
+    transform: translateY(24px); 
+    display: inline-block;
+  }
+  
     .safari-fix-up {
       transform: translateY(-28px); 
       display: inline-block;
