@@ -12,12 +12,17 @@
     margin-top: 5px;
   }
   .footer-form {
-    border: 1px solid white;
+    border: 2px solid #FFFDFB;
+    border-color: #343434;
     padding: 12.5px 15px;
     min-height: 46px;
   }
   .form-adapt-error{
     border-color: #FF4141;
+    opacity: 1;
+  }
+  .form-adapt-ok{
+    opacity: 1;
   }
 }
 
