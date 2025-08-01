@@ -339,7 +339,7 @@ export function HeroSection() {
       <div className="relative w-full max-w-[2296px] mx-auto">
         {/* Центрированный контент */}
         <div className="relative px-4 sm:px-8 md:mt-28 lg:mt-0">
-          <div className="text-[60px] md:text-[80px] lg:text-[100px] xl:text-[14vh] font-black font-mycustom text-center leading-[1] mainScreenTextBlock max-w-[1800px] mx-auto text-[#0E0E0E] mt-20">
+          <div className="text-[60px] md:text-[80px] lg:text-[100px] xl:text-[14vh] font-black font-mycustom text-center leading-[1] mainScreenTextBlock max-w-[1800px] mx-auto text-[#0E0E0E] mt-[85px] md:mt-0">
             <div className="whitespace-normal lg:-mb-3">
               <span>
                 <span

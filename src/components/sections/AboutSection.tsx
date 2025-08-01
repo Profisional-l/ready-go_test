@@ -84,36 +84,36 @@ export function AboutSection() {
           {/* Текстовый блок */}
           <div
             ref={textBlockRef}
-            className="md:w-4/6 about-block-adapt flex flex-col pr-12 md:pr-0"
+            className="md:w-4/6 about-block-adapt flex flex-col max-w-[330px] md:max-w-none"
           >
             <h2
-              className={`text-[50px] md:text-[70px] lg:text-[90px] xl:text-[12vh] 2xl:text-[9.5vh] font-mycustom mb-7 ${
+              className={`text-[60px] md:text-[70px] lg:text-[90px] xl:text-[12vh] 2xl:text-[9.5vh] font-mycustom mb-7 ${
                 isSafariOrIOS ? "safari-fix" : ""
               }`}
             >
               О НАС
             </h2>
             <p className="leading-[1.21em] mb-[15px] text-[18px] md:text-[33px] font-medium tight-spacing-3">
-              Новое и креативное — наша стихия.
+              Новое и креативное — наша <br className="sm:hidden"/> стихия.
             </p>
             <p className="leading-[1.21em] mb-[15px] text-[18px] md:text-[33px] font-medium tight-spacing-3">
               Однажды мы женили людей в KFC, делали{" "}
-              <br className="hidden xl:inline" /> витрину для ТЦ в Витебске и
-              запускали <br className="hidden xl:inline" /> шестиметровый
+              <br className="hidden xl:inline" /> витрину для ТЦ в Витебске <br className="sm:hidden"/> и
+              запускали <br className="hidden xl:inline" /> шестиметровый <br className="sm:hidden"/>
               дирижабль в центре Минска.
             </p>
             <p className="leading-[1.21em] text-[18px] md:text-[33px] font-medium tight-spacing-3">
-              Мы любим и умеем работать с крупными{" "}
+              Мы любим и умеем работать <br className="sm:hidden"/> с крупными{" "}
               <br className="hidden xl:inline" />
-              брендами. Наша команда из Минска была{" "}
-              <br className="hidden xl:inline" /> частью Red Graphic — агентства
-              с 30-летней <br className="hidden xl:inline" /> историей.
+              брендами. Наша <br className="sm:hidden"/> команда из Минска была{" "}
+              <br className="hidden xl:inline" /> частью <br className="sm:hidden"/> Red Graphic — агентства
+              с 30-<br className="sm:hidden"/>летней <br className="hidden xl:inline" /> историей.
             </p>
           </div>
 
           {/* Блок с картинкой */}
           <div
-            className="m-0 mt-10 md:mt-[0px] md:w-3/6 w-full aspect-square relative overflow-hidden rounded-xl"
+            className="m-0 -mt-8 md:mt-[0px] md:w-3/6 w-full aspect-square relative overflow-hidden rounded-xl"
             style={{ ...hoverStyle, maxWidth: "578px" }} // Добавлено maxWidth
           >
             {images.map((src, index) => (
