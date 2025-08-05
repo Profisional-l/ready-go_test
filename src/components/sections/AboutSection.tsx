@@ -80,11 +80,11 @@ export function AboutSection() {
   return (
     <section className="py-16 md:py-24 mt-[45px] mb-[30px]">
       <div className="m-0 max-w-[100%]">
-        <div className="flex flex-col lg:flex-row md:items-center">
+        <div className="flex flex-col lg:flex-row md:items-center gap-8">
           {/* Текстовый блок */}
           <div
             ref={textBlockRef}
-            className="md:w-4/6 about-block-adapt flex flex-col max-w-[330px] md:max-w-none"
+            className="md:w-4/6 about-block-adapt flex flex-col"
           >
             <h2
               className={`text-[60px] md:text-[70px] lg:text-[90px] xl:text-[12vh] 2xl:text-[9.5vh] font-mycustom mb-7 ${isSafariOrIOS ? "safari-fix" : ""
@@ -112,7 +112,7 @@ export function AboutSection() {
 
           {/* Блок с картинкой */}
           <div
-            className="m-0 -mt-8 md:mt-[0px] md:w-3/6 w-full aspect-square relative overflow-hidden rounded-xl"
+            className="m-0 -mt-8 md:mt-[0px] md:w-3/6 w-full aspect-square relative overflow-hidden rounded-xl about-image-adapt"
             style={{ ...hoverStyle, maxWidth: "578px" }} // Добавлено maxWidth
           >
             {images.map((src, index) => (
