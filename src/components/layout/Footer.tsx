@@ -78,7 +78,7 @@ function ValidatedInput({
         id={`form-adapt-${name}`}
         rows={type === 'textarea' ? 1 : undefined}
         className={cn(
-          "w-full bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-none",
+          "w-full bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none",
           error
             ? "form-adapt-error border-red-500 focus:border-red-500"
             : "form-adapt-ok [&:not(:placeholder-shown)]:border-white border-white/40 focus:border-white",
@@ -422,5 +422,3 @@ export function Footer() {
     </footer>
   );
 }
-
-    
