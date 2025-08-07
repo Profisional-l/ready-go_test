@@ -59,7 +59,7 @@ export function HeroSection() {
         maxHeight: 351,
       },
       {
-        src: "/images/ForHeroSection/back-6.png",
+        src: "/images/ForHeroSection/back-6.webp",
         alt: "СТРАТЕГИЯМИ",
         width: 396,
         height: 308,
@@ -75,7 +75,7 @@ export function HeroSection() {
         maxHeight: 364,
       },
       {
-        src: "/images/ForHeroSection/back-8.png",
+        src: "/images/ForHeroSection/back-8.webp",
         alt: "СТРАТЕГИЯМИ",
         width: 338,
         height: 338,
@@ -84,14 +84,14 @@ export function HeroSection() {
     ],
     [
       {
-        src: "/images/ForHeroSection/back-9.png",
+        src: "/images/ForHeroSection/back-9.webp",
         alt: "СТРАТЕГИЯМИ",
         width: 387,
         height: 259,
         maxHeight: 259,
       },
       {
-        src: "/images/ForHeroSection/back-10.png",
+        src: "/images/ForHeroSection/back-10.webp",
         alt: "СТРАТЕГИЯМИ",
         width: 311,
         height: 311,
@@ -116,7 +116,7 @@ export function HeroSection() {
     ],
     [
       {
-        src: "/images/ForHeroSection/back-13.png",
+        src: "/images/ForHeroSection/back-13.webp",
         alt: "СТРАТЕГИЯМИ",
         width: 339,
         height: 339,
