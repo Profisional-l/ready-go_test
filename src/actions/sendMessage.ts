@@ -1,3 +1,4 @@
+
 "use server";
 
 import nodemailer from "nodemailer";
@@ -6,37 +7,41 @@ export async function sendMessage(formData: FormData) {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const task = formData.get("task") as string;
+  
+  const userEmail = "go@rg.by";
 
-  // Создаем transporter с настройками
+  // Создаем transporter с настройками OAuth2 для Gmail
   const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_SERVER,    // smtp.yourdomain.com
-    port: Number(process.env.EMAIL_PORT), // 465 или 587
-    secure: process.env.EMAIL_PORT === "465", // true для порта 465
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // true для порта 465
     auth: {
-      user: process.env.EMAIL_USER,   // go@rg.by
-      pass: process.env.EMAIL_PASSWORD, // ваш пароль
+      type: "OAuth2",
+      user: userEmail,
+      clientId: process.env.OAUTH_CLIENT_ID,
+      clientSecret: process.env.OAUTH_CLIENT_SECRET,
+      refreshToken: process.env.OAUTH_REFRESH_TOKEN,
     },
-    tls: {
-      rejectUnauthorized: false // ⚠️ Только для тестирования!
-    }
   });
 
   try {
     await transporter.sendMail({
-      from: `"Форма с сайта" <${process.env.EMAIL_USER}>`,
-      to: "go@rg.by",
-      subject: `Новая заявка от ${name}`,
+      from: `"${name}" <${userEmail}>`, // Имя отправителя из формы, email - ваш
+      to: userEmail, // Отправляем на ваш email
+      replyTo: email, // Устанавливаем поле Reply-To на email пользователя
+      subject: `Новая заявка с сайта от ${name}`,
       text: `Имя: ${name}\nEmail: ${email}\nЗадача: ${task}`,
       html: `
-        <h1>Новая заявка</h1>
+        <h1>Новая заявка с сайта</h1>
         <p><strong>Имя:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Задача:</strong> ${task}</p>
+        <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+        <p><strong>Задача:</strong></p>
+        <p>${task}</p>
       `,
     });
-    return { success: true };
+    return { success: true, message: "Сообщение успешно отправлено!" };
   } catch (error) {
-    console.error("Ошибка отправки:", error);
-    return { success: false, error: "Ошибка сервера" };
+    console.error("Ошибка отправки Nodemailer:", error);
+    return { success: false, message: "Ошибка сервера при отправке сообщения." };
   }
 }

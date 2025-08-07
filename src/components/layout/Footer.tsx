@@ -1,7 +1,8 @@
+
 "use client";
 
 import Link from "next/link";
-import { Check } from "lucide-react"; // Убран импорт ArrowRight
+import { Check } from "lucide-react"; 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -9,71 +10,9 @@ import { useState, useEffect, useRef } from "react";
 import { sendMessage } from "@/actions/sendMessage";
 import { useIsMac } from '@/hooks/isSafari';
 
-const validateName = (value: string) =>
-  value.trim().length < 2 ? "Введите корректное имя" : null;
-
-function ValidatedInput({
-  type,
-  name,
-  placeholder,
-  validate,
-  className,
-  onValidate,
-}: {
-  type: string;
-  name: string;
-  placeholder: string;
-  validate: (value: string) => string | null;
-  className?: string;
-  onValidate?: (name: string, isValid: boolean) => void;
-}) {
-  const [value, setValue] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [touched, setTouched] = useState(false);
-
-  const handleBlur = () => {
-    setTouched(true);
-    const validationError = validate(value);
-    setError(validationError);
-    onValidate?.(name, !validationError);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setValue(newValue);
-
-    if (touched) {
-      const validationError = validate(newValue);
-      setError(validationError);
-      onValidate?.(name, !validationError);
-    }
-  };
-
-  return (
-    <div className="relative">
-      <input
-        type={type}
-        name={name}
-        value={value}
-        placeholder={placeholder}
-        onBlur={handleBlur}
-        onChange={handleChange}
-        id="form-adapt"
-        className={cn(
-          "w-full white/50 focus:white/50 bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-none",
-          error
-            ? "form-adapt-error border-red-500 focus:border-red-500"
-            : "form-adapt-ok [&:not(:placeholder-shown)]:border-white border-white/40 focus:border-white",
-          className
-        )}
-      />
-      {error && <p className="text-red-500 text-sm mt-2 absolute bottom-[-1.5em] left-0">{error}</p>} {/* Изменены стили */}
-    </div>
-  );
-}
-
 export function Footer() {
   const eyesRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [isBig, setIsBig] = useState(false);
   const [isSoBig, setIsSoBig] = useState(false);
@@ -82,6 +21,7 @@ export function Footer() {
 
   const [eyeStyle, setEyeStyle] = useState<React.CSSProperties>({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -158,35 +98,23 @@ export function Footer() {
       if (animFrame) cancelAnimationFrame(animFrame);
     };
   }, []);
-
-  const [fieldValidity, setFieldValidity] = useState({
-    name: false,
-    email: false,
-    task: false,
-  });
-
-  const isFormValid = Object.values(fieldValidity).every(Boolean);
-
-  const handleFieldValidate = (name: string, isValid: boolean) => {
-    setFieldValidity((prev) => ({ ...prev, [name]: isValid }));
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!isFormValid) return;
-
-    setShowSuccessModal(true);
-    setTimeout(() => setShowSuccessModal(false), 3000);
-
-    const form = event.currentTarget;
-    (form.elements.namedItem("name") as HTMLInputElement).value = "";
-    (form.elements.namedItem("email") as HTMLInputElement).value = "";
-    (form.elements.namedItem("task") as HTMLInputElement).value = "";
-    setFieldValidity({ name: false, email: false, task: false });
-  };
-
+  
   const isSafariOrIOS = useIsMac();
+  
+  const handleFormSubmit = async (formData: FormData) => {
+      setIsSubmitting(true);
+      const result = await sendMessage(formData);
+      setIsSubmitting(false);
 
+      if (result.success) {
+          setShowSuccessModal(true);
+          formRef.current?.reset();
+          setTimeout(() => setShowSuccessModal(false), 3000);
+      } else {
+          // Здесь можно показать ошибку, например, через toast
+          alert(result.message || 'Произошла ошибка.');
+      }
+  };
 
   return (
     <footer
@@ -214,7 +142,7 @@ export function Footer() {
           </nav>
         </div>
 
-        <form onSubmit={handleSubmit} className="w-full form-container">
+        <form ref={formRef} action={handleFormSubmit} className="w-full form-container">
           <div className="mb-8">
             <h4 className="text-[16px] md:text-[20px] font-semibold uppercase tracking-wider pb-[42px] tight-spacing-1 text-white">
               ГОУ ЗНАКОМИТЬСЯ
@@ -228,53 +156,51 @@ export function Footer() {
 
           <div className="mt-10 space-y-6 max-w-[555px]">
             <div className="grid sm:grid-cols-2 gap-x-8 gap-y-5">
-              <ValidatedInput
+              <input
                 type="text"
                 name="name"
                 placeholder="Имя"
-                className="text-[18px] md:text-[24px] footer-input"
-                validate={validateName}
-                onValidate={handleFieldValidate}
+                required
+                className={cn(
+                  "w-full white/50 focus:white/50 bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-none text-[18px] md:text-[24px] footer-input",
+                  "[&:not(:placeholder-shown)]:border-white border-white/40 focus:border-white"
+                )}
+                id="form-adapt-name"
               />
-              <ValidatedInput
-                type="text"
+              <input
+                type="email"
                 name="email"
                 placeholder="Email"
-                className="text-[18px] md:text-[24px] footer-input"
-                validate={(val) =>
-                  /^[^s@]+@[^s@]+.[^s@]+$/.test(val)
-                    ? null
-                    : "Введите корректный email"
-                }
-                onValidate={handleFieldValidate}
+                required
+                className={cn(
+                  "w-full white/50 focus:white/50 bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-none text-[18px] md:text-[24px] footer-input",
+                   "[&:not(:placeholder-shown)]:border-white border-white/40 focus:border-white"
+                )}
+                id="form-adapt-email"
               />
             </div>
             <div className="relative task-adapt">
-              {/* Обертка для поля ввода и сообщения об ошибке */}
-              <div className="relative">
-                <ValidatedInput
-                  type="text"
-                  name="task"
-                  placeholder="Задача"
-                  className="text-[18px] md:text-[24px] pr-10 footer-input footer-input-text"
-                  validate={(val) =>
-                    val.trim().length < 5 ? "Опишите задачу подробнее" : null
-                  }
-                  onValidate={handleFieldValidate}
-                />
-                {fieldValidity.task === false && (fieldValidity.name || fieldValidity.email) && ( // Проверяем, было ли поле затронуто и есть ли ошибка
-                  <p className="text-red-500 text-sm mt-2 absolute bottom-[-1.5em] left-0">Опишите задачу подробнее</p>
+              <textarea
+                name="task"
+                placeholder="Задача"
+                required
+                rows={1}
+                className={cn(
+                  "w-full white/50 focus:white/50 bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-none text-[18px] md:text-[24px] pr-10 footer-input footer-input-text",
+                   "[&:not(:placeholder-shown)]:border-white border-white/40 focus:border-white"
                 )}
-              </div>
+                id="form-adapt-task"
+              />
               <Button
                 type="submit"
                 variant="ghost"
                 size="icon"
                 className="absolute right-0 top-1/2 transform -translate-y-1/2 text-muted-foreground/70 hover:text-accent h-auto p-1 focus:ring-0 focus:ring-offset-0 ft-button"
                 aria-label="Отправить"
+                disabled={isSubmitting}
               >
-                {showSuccessModal ? (
-                  <Check size={22} color="#04D6E3" />
+                {isSubmitting ? (
+                  <div className="w-5 h-5 border-2 border-white/50 border-t-white rounded-full animate-spin" />
                 ) : (
                   <Image
                     src="/images/ArrowRight.svg"
@@ -292,8 +218,9 @@ export function Footer() {
             variant="ghost"
             className="footer-button"
             aria-label="Отправить"
+            disabled={isSubmitting}
           >
-            Отправить
+             {isSubmitting ? 'Отправка...' : 'Отправить'}
           </Button>
         </form>
       </div>
