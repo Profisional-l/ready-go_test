@@ -2,13 +2,93 @@
 "use client";
 
 import Link from "next/link";
-import { Check } from "lucide-react"; 
+import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type FormEvent, type ChangeEvent } from "react";
 import { sendMessage } from "@/actions/sendMessage";
 import { useIsMac } from '@/hooks/isSafari';
+
+const validateName = (value: string) => value.trim().length >= 2 ? null : "Имя слишком короткое";
+const validateEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? null : "Введите корректный email";
+const validateTask = (value: string) => value.trim().length >= 5 ? null : "Опишите задачу подробнее";
+
+function ValidatedInput({
+  type,
+  name,
+  placeholder,
+  validate,
+  onValidate,
+  className,
+  isSubmitting,
+  reset,
+}: {
+  type: string;
+  name: string;
+  placeholder: string;
+  validate: (value: string) => string | null;
+  onValidate: (name: string, isValid: boolean) => void;
+  className?: string;
+  isSubmitting: boolean;
+  reset: boolean;
+}) {
+  const [value, setValue] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [touched, setTouched] = useState(false);
+  
+  useEffect(() => {
+    if (reset) {
+      setValue("");
+      setError(null);
+      setTouched(false);
+    }
+  }, [reset]);
+
+  const handleBlur = () => {
+    setTouched(true);
+    const validationError = validate(value);
+    setError(validationError);
+    onValidate(name, !validationError);
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const newValue = e.target.value;
+    setValue(newValue);
+    if (touched) {
+      const validationError = validate(newValue);
+      setError(validationError);
+      onValidate(name, !validationError);
+    }
+  };
+
+  const InputComponent = type === 'textarea' ? 'textarea' : 'input';
+
+  return (
+    <div className="relative h-full">
+      <InputComponent
+        type={type}
+        name={name}
+        value={value}
+        placeholder={placeholder}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        required
+        disabled={isSubmitting}
+        id={`form-adapt-${name}`}
+        rows={type === 'textarea' ? 1 : undefined}
+        className={cn(
+          "w-full bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-none",
+          error
+            ? "form-adapt-error border-red-500 focus:border-red-500"
+            : "form-adapt-ok [&:not(:placeholder-shown)]:border-white border-white/40 focus:border-white",
+          className
+        )}
+      />
+      {error && <p className="text-red-500 text-sm mt-1 absolute -bottom-5 left-0">{error}</p>}
+    </div>
+  );
+}
 
 export function Footer() {
   const eyesRef = useRef<HTMLDivElement>(null);
@@ -22,47 +102,46 @@ export function Footer() {
   const [eyeStyle, setEyeStyle] = useState<React.CSSProperties>({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [resetFields, setResetFields] = useState(false);
+  const [fieldValidity, setFieldValidity] = useState({
+    name: false,
+    email: false,
+    task: false,
+  });
 
+  const isFormValid = Object.values(fieldValidity).every(Boolean);
+
+  // --- Start of Effects ---
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   useEffect(() => {
-    const checkBig = () => {
-      setIsBig(window.innerWidth > 1650 && window.innerWidth < 1921);
-    };
+    const checkBig = () => setIsBig(window.innerWidth > 1650 && window.innerWidth < 1921);
     checkBig();
     window.addEventListener("resize", checkBig);
     return () => window.removeEventListener("resize", checkBig);
   }, []);
 
   useEffect(() => {
-    const checkSoBig = () => {
-      setIsSoBig(window.innerWidth > 1921 && window.innerWidth < 2200);
-    };
+    const checkSoBig = () => setIsSoBig(window.innerWidth > 1921 && window.innerWidth < 2200);
     checkSoBig();
     window.addEventListener("resize", checkSoBig);
     return () => window.removeEventListener("resize", checkSoBig);
   }, []);
 
   useEffect(() => {
-    const checkExtraBig = () => {
-      setIsExtraBig(window.innerWidth > 2200 && window.innerWidth < 2320);
-    };
+    const checkExtraBig = () => setIsExtraBig(window.innerWidth > 2200 && window.innerWidth < 2320);
     checkExtraBig();
     window.addEventListener("resize", checkExtraBig);
     return () => window.removeEventListener("resize", checkExtraBig);
   }, []);
 
   useEffect(() => {
-    const checkXExtraBig = () => {
-      setIsXExtraBig(window.innerWidth > 2320);
-    };
+    const checkXExtraBig = () => setIsXExtraBig(window.innerWidth > 2320);
     checkXExtraBig();
     window.addEventListener("resize", checkXExtraBig);
     return () => window.removeEventListener("resize", checkXExtraBig);
@@ -98,21 +177,45 @@ export function Footer() {
       if (animFrame) cancelAnimationFrame(animFrame);
     };
   }, []);
+  // --- End of Effects ---
+
+  const handleFieldValidate = (name: string, isValid: boolean) => {
+    setFieldValidity((prev) => ({ ...prev, [name]: isValid }));
+  };
   
   const isSafariOrIOS = useIsMac();
   
-  const handleFormSubmit = async (formData: FormData) => {
+  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+
+      // Trigger blur on all fields to show errors if not touched
+      Array.from(formRef.current!.elements).forEach(el => {
+          if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+              el.focus();
+              el.blur();
+          }
+      });
+      
+      // Check validity after triggering validation
+      if (!isFormValid) {
+          return;
+      }
+
       setIsSubmitting(true);
+      setResetFields(false);
+
+      const formData = new FormData(event.currentTarget);
       const result = await sendMessage(formData);
+      
       setIsSubmitting(false);
 
       if (result.success) {
           setShowSuccessModal(true);
-          formRef.current?.reset();
+          setResetFields(true); // Signal to child components to reset
+          setFieldValidity({ name: false, email: false, task: false });
           setTimeout(() => setShowSuccessModal(false), 3000);
       } else {
-          // Здесь можно показать ошибку, например, через toast
-          alert(result.message || 'Произошла ошибка.');
+          alert(result.message || 'Произошла ошибка при отправке.');
       }
   };
 
@@ -142,7 +245,7 @@ export function Footer() {
           </nav>
         </div>
 
-        <form ref={formRef} action={handleFormSubmit} className="w-full form-container">
+        <form ref={formRef} onSubmit={handleFormSubmit} className="w-full form-container" noValidate>
           <div className="mb-8">
             <h4 className="text-[16px] md:text-[20px] font-semibold uppercase tracking-wider pb-[42px] tight-spacing-1 text-white">
               ГОУ ЗНАКОМИТЬСЯ
@@ -154,43 +257,40 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="mt-10 space-y-6 max-w-[555px]">
-            <div className="grid sm:grid-cols-2 gap-x-8 gap-y-5">
-              <input
+          <div className="mt-10 space-y-8 max-w-[555px]">
+            <div className="grid sm:grid-cols-2 gap-x-8 gap-y-8">
+              <ValidatedInput
                 type="text"
                 name="name"
                 placeholder="Имя"
-                required
-                className={cn(
-                  "w-full white/50 focus:white/50 bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-none text-[18px] md:text-[24px] footer-input",
-                  "[&:not(:placeholder-shown)]:border-white border-white/40 focus:border-white"
-                )}
-                id="form-adapt-name"
+                className="text-[18px] md:text-[24px] footer-input"
+                validate={validateName}
+                onValidate={handleFieldValidate}
+                isSubmitting={isSubmitting}
+                reset={resetFields}
               />
-              <input
+              <ValidatedInput
                 type="email"
                 name="email"
                 placeholder="Email"
-                required
-                className={cn(
-                  "w-full white/50 focus:white/50 bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-none text-[18px] md:text-[24px] footer-input",
-                   "[&:not(:placeholder-shown)]:border-white border-white/40 focus:border-white"
-                )}
-                id="form-adapt-email"
+                className="text-[18px] md:text-[24px] footer-input"
+                validate={validateEmail}
+                onValidate={handleFieldValidate}
+                isSubmitting={isSubmitting}
+                reset={resetFields}
               />
             </div>
             <div className="relative task-adapt">
-              <textarea
-                name="task"
-                placeholder="Задача"
-                required
-                rows={1}
-                className={cn(
-                  "w-full white/50 focus:white/50 bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-none text-[18px] md:text-[24px] pr-10 footer-input footer-input-text",
-                   "[&:not(:placeholder-shown)]:border-white border-white/40 focus:border-white"
-                )}
-                id="form-adapt-task"
-              />
+              <ValidatedInput
+                  type="textarea"
+                  name="task"
+                  placeholder="Задача"
+                  className="text-[18px] md:text-[24px] pr-10 footer-input footer-input-text"
+                  validate={validateTask}
+                  onValidate={handleFieldValidate}
+                  isSubmitting={isSubmitting}
+                  reset={resetFields}
+                />
               <Button
                 type="submit"
                 variant="ghost"
@@ -218,7 +318,7 @@ export function Footer() {
             variant="ghost"
             className="footer-button"
             aria-label="Отправить"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !isFormValid}
           >
              {isSubmitting ? 'Отправка...' : 'Отправить'}
           </Button>
@@ -322,3 +422,5 @@ export function Footer() {
     </footer>
   );
 }
+
+    
