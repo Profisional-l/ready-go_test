@@ -7,7 +7,7 @@
 }
 
 @media (max-width: 768px){
-  #form-adapt-name, #form-adapt-email, #form-adapt-task {
+  #form-adapt{
     border-radius: 10px;
     margin-top: 5px;
   }
@@ -267,7 +267,7 @@ html.modal-open {
   h4,
   h5,
   h6 {
-    @apply font-mycustom;
+    @apply font-headline;
     cursor: default;
   }
 
@@ -478,12 +478,6 @@ html.modal-open {
     text-align: center;
     width: 100%;
     transition: all .33s;
-  }
-
-  .footer-button:disabled {
-    background-color: #FFFDFB;
-    opacity: 1; /* Keep it fully opaque */
-    color: #0E0E0E;
   }
 
   .footer-button:active {
