@@ -78,7 +78,7 @@ function ValidatedInput({
         id={`form-adapt-${name}`}
         rows={type === 'textarea' ? 1 : undefined}
         className={cn(
-          "w-full bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-none",
+          "w-full bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-xl md:rounded-none",
           error
             ? "form-adapt-error border-red-500 focus:border-red-500"
             : "form-adapt-ok [&:not(:placeholder-shown)]:border-white border-white/40 focus:border-white",
@@ -285,7 +285,7 @@ export function Footer() {
                   type="textarea"
                   name="task"
                   placeholder="Задача"
-                  className="text-[18px] md:text-[24px] pr-10 footer-input footer-input-text"
+                  className="text-[18px] md:text-[24px] pr-10 footer-input footer-input-text resize-none"
                   validate={validateTask}
                   onValidate={handleFieldValidate}
                   isSubmitting={isSubmitting}
