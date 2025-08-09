@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -6,13 +5,22 @@ import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { useState, useEffect, useRef, type FormEvent, type ChangeEvent } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  type FormEvent,
+  type ChangeEvent,
+} from "react";
 import { sendMessage } from "@/actions/sendMessage";
-import { useIsMac } from '@/hooks/isSafari';
+import { useIsMac } from "@/hooks/isSafari";
 
-const validateName = (value: string) => value.trim().length >= 2 ? null : "Имя слишком короткое";
-const validateEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? null : "Введите корректный email";
-const validateTask = (value: string) => value.trim().length >= 5 ? null : "Опишите задачу подробнее";
+const validateName = (value: string) =>
+  value.trim().length >= 2 ? null : "Имя слишком короткое";
+const validateEmail = (value: string) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? null : "Введите корректный email";
+const validateTask = (value: string) =>
+  value.trim().length >= 5 ? null : "Опишите задачу подробнее";
 
 function ValidatedInput({
   type,
@@ -36,7 +44,7 @@ function ValidatedInput({
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [touched, setTouched] = useState(false);
-  
+
   useEffect(() => {
     if (reset) {
       setValue("");
@@ -52,7 +60,9 @@ function ValidatedInput({
     onValidate(name, !validationError);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const newValue = e.target.value;
     setValue(newValue);
     if (touched) {
@@ -62,7 +72,7 @@ function ValidatedInput({
     }
   };
 
-  const InputComponent = type === 'textarea' ? 'textarea' : 'input';
+  const InputComponent = type === "textarea" ? "textarea" : "input";
 
   return (
     <div className="relative h-full">
@@ -76,7 +86,7 @@ function ValidatedInput({
         required
         disabled={isSubmitting}
         id={`form-adapt-${name}`}
-        rows={type === 'textarea' ? 1 : undefined}
+        rows={type === "textarea" ? 1 : undefined}
         className={cn(
           "w-full bg-transparent footer-form text-white placeholder:text-white/50 focus:outline-none transition-all duration-300 py-1 appearance-none rounded-xl md:rounded-none",
           error
@@ -85,7 +95,11 @@ function ValidatedInput({
           className
         )}
       />
-      {error && <p className="text-red-500 text-sm mt-1 absolute -bottom-5 left-0">{error}</p>}
+      {error && (
+        <p className="text-red-500 text-sm mt-1 absolute -bottom-5 left-0">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
@@ -120,21 +134,24 @@ export function Footer() {
   }, []);
 
   useEffect(() => {
-    const checkBig = () => setIsBig(window.innerWidth > 1650 && window.innerWidth < 1921);
+    const checkBig = () =>
+      setIsBig(window.innerWidth > 1650 && window.innerWidth < 1921);
     checkBig();
     window.addEventListener("resize", checkBig);
     return () => window.removeEventListener("resize", checkBig);
   }, []);
 
   useEffect(() => {
-    const checkSoBig = () => setIsSoBig(window.innerWidth > 1921 && window.innerWidth < 2200);
+    const checkSoBig = () =>
+      setIsSoBig(window.innerWidth > 1921 && window.innerWidth < 2200);
     checkSoBig();
     window.addEventListener("resize", checkSoBig);
     return () => window.removeEventListener("resize", checkSoBig);
   }, []);
 
   useEffect(() => {
-    const checkExtraBig = () => setIsExtraBig(window.innerWidth > 2200 && window.innerWidth < 2320);
+    const checkExtraBig = () =>
+      setIsExtraBig(window.innerWidth > 2200 && window.innerWidth < 2320);
     checkExtraBig();
     window.addEventListener("resize", checkExtraBig);
     return () => window.removeEventListener("resize", checkExtraBig);
@@ -182,41 +199,41 @@ export function Footer() {
   const handleFieldValidate = (name: string, isValid: boolean) => {
     setFieldValidity((prev) => ({ ...prev, [name]: isValid }));
   };
-  
+
   const isSafariOrIOS = useIsMac();
-  
+
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
+    event.preventDefault();
 
-      // Trigger blur on all fields to show errors if not touched
-      Array.from(formRef.current!.elements).forEach(el => {
-          if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
-              el.focus();
-              el.blur();
-          }
-      });
-      
-      // Check validity after triggering validation
-      if (!isFormValid) {
-          return;
+    // Trigger blur on all fields to show errors if not touched
+    Array.from(formRef.current!.elements).forEach((el) => {
+      if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+        el.focus();
+        el.blur();
       }
+    });
 
-      setIsSubmitting(true);
-      setResetFields(false);
+    // Check validity after triggering validation
+    if (!isFormValid) {
+      return;
+    }
 
-      const formData = new FormData(event.currentTarget);
-      const result = await sendMessage(formData);
-      
-      setIsSubmitting(false);
+    setIsSubmitting(true);
+    setResetFields(false);
 
-      if (result.success) {
-          setShowSuccessModal(true);
-          setResetFields(true); // Signal to child components to reset
-          setFieldValidity({ name: false, email: false, task: false });
-          setTimeout(() => setShowSuccessModal(false), 3000);
-      } else {
-          alert(result.message || 'Произошла ошибка при отправке.');
-      }
+    const formData = new FormData(event.currentTarget);
+    const result = await sendMessage(formData);
+
+    setIsSubmitting(false);
+
+    if (result.success) {
+      setShowSuccessModal(true);
+      setResetFields(true); // Signal to child components to reset
+      setFieldValidity({ name: false, email: false, task: false });
+      setTimeout(() => setShowSuccessModal(false), 3000);
+    } else {
+      alert(result.message || "Произошла ошибка при отправке.");
+    }
   };
 
   return (
@@ -245,7 +262,12 @@ export function Footer() {
           </nav>
         </div>
 
-        <form ref={formRef} onSubmit={handleFormSubmit} className="w-full form-container" noValidate>
+        <form
+          ref={formRef}
+          onSubmit={handleFormSubmit}
+          className="w-full form-container"
+          noValidate
+        >
           <div className="mb-8">
             <h4 className="text-[16px] md:text-[20px] font-semibold uppercase tracking-wider pb-[42px] tight-spacing-1 text-white">
               ГОУ ЗНАКОМИТЬСЯ
@@ -282,15 +304,15 @@ export function Footer() {
             </div>
             <div className="relative task-adapt">
               <ValidatedInput
-                  type="textarea"
-                  name="task"
-                  placeholder="Задача"
-                  className="text-[18px] md:text-[24px] pr-10 footer-input footer-input-text resize-none"
-                  validate={validateTask}
-                  onValidate={handleFieldValidate}
-                  isSubmitting={isSubmitting}
-                  reset={resetFields}
-                />
+                type="textarea"
+                name="task"
+                placeholder="Задача"
+                className="text-[18px] md:text-[24px] pr-10 footer-input footer-input-text resize-none"
+                validate={validateTask}
+                onValidate={handleFieldValidate}
+                isSubmitting={isSubmitting}
+                reset={resetFields}
+              />
               <Button
                 type="submit"
                 variant="ghost"
@@ -299,7 +321,9 @@ export function Footer() {
                 aria-label="Отправить"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? (
+                {showSuccessModal ? (
+                  <Check size={22} color="#04D6E3" />
+                ) : isSubmitting ? (
                   <div className="w-5 h-5 border-2 border-white/50 border-t-white rounded-full animate-spin" />
                 ) : (
                   <Image
@@ -320,7 +344,7 @@ export function Footer() {
             aria-label="Отправить"
             disabled={isSubmitting || !isFormValid}
           >
-             {isSubmitting ? 'Отправка...' : 'Отправить'}
+            {isSubmitting ? "Отправка..." : "Отправить"}
           </Button>
         </form>
       </div>
@@ -328,17 +352,19 @@ export function Footer() {
       <section className="text-center pt-20 md:pt-[170px] overflow-hidden">
         <div className="w-full max-w-[1600px] mx-auto px-0">
           <h2
-            className={`font-mycustom mb-4 font-extrabold uppercase text-white whitespace-nowrap w-full footer-lable ${isSafariOrIOS ? 'safari-fix' : ''}`}
+            className={`font-mycustom mb-4 font-extrabold uppercase text-white whitespace-nowrap w-full footer-lable ${
+              isSafariOrIOS ? "safari-fix" : ""
+            }`}
             style={
               isBig
                 ? { fontSize: "5.4vw", lineHeight: 1.1 }
                 : isSoBig
-                  ? { fontSize: "5.43vw", lineHeight: 1.1 }
-                  : isExtraBig
-                    ? { fontSize: "5.45vw", lineHeight: 1.1 }
-                    : isXExtraBig
-                      ? { fontSize: "126px", lineHeight: 1.1 }
-                      : { fontSize: "7.6vw", lineHeight: 1.1 }
+                ? { fontSize: "5.43vw", lineHeight: 1.1 }
+                : isExtraBig
+                ? { fontSize: "5.45vw", lineHeight: 1.1 }
+                : isXExtraBig
+                ? { fontSize: "126px", lineHeight: 1.1 }
+                : { fontSize: "7.6vw", lineHeight: 1.1 }
             }
           >
             ВЫ <span className="textToBorderBlack">READY</span> РАБОТАТЬ С НАМИ?
@@ -422,5 +448,3 @@ export function Footer() {
     </footer>
   );
 }
-
-    
