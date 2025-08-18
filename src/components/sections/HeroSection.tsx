@@ -220,7 +220,7 @@ export function HeroSection() {
 
         const angle = Math.atan2(y - eyesCenterY, x - eyesCenterX);
         const distance = 8;
-        const eyeX = Math.cos(angle) * distance;
+        const eyeX = Math.cos(angle) * distance * 1.5;
         const eyeY = Math.sin(angle) * distance * 1.7;
 
         setEyeStyle({
