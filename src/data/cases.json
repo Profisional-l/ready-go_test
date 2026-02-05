@@ -14,14 +14,14 @@
     "title": "МТБанк — Манички",
     "category": "Манички",
     "type": "modal",
-    "description": "Интерфейс для приложения.",
-    "fullDescription": "Разработка интуитивно понятного интерфейса для мобильного приложения, сфокусированного на пользовательском опыте и легкости использования.",
+    "description": "Брендинг программы приятностей",
+    "fullDescription": "Манички — это программа приятностей от МТБанка. А еще это веселые герои, которые живут в мобильном приложении, помогают экономить с удовольствием и повышают финансовую грамотность. \r\nПридумали концепт, нейминг и лого в игривом стиле, чтобы собирать бонусы было легко и приятно! Для запуска программы разработали дизайн промо-сайта.\r\n",
     "tags": [
-      "visual identity",
-      "landing",
-      "key visual",
+      "idea",
+      "design",
       "naming",
-      "slogan"
+      "web design",
+      "layout"
     ],
     "coverUrl": "/uploads/covers/1753184852434_e7486be2a5aa6c28e8c63f9774179b3e0e750250.webp",
     "hoverImageUrl": "/uploads/hovers/1753184852453_353cf3feb02bfcb3fdc4e1977c9515c4cde8ce93.webp"
@@ -47,11 +47,12 @@
     "type": "modal",
     "externalUrl": "https://goloddesign.by/",
     "coverUrl": "/uploads/covers/1753191870057____2_3_.webp",
-    "description": " ",
-    "fullDescription": "Придумали активность для спота Lillet на городском пикнике Vulitsa Ezha, сделали дизайн карт таро.",
+    "description": " Сайт для студии дизайна интерьера",
+    "fullDescription": "Сайт студии Golod Design с характером, активной типографикой и контрастами. Он про пространство, архитектурности и отсылки к чертежам. \r\nНа главной можно выбрать палитру просмотра — все, как в реальном общении с клиентом перед началом работы над интерьером.",
     "tags": [
+      "web design",
       "creative idea",
-      "print card"
+      "copywriting"
     ],
     "hoverImageUrl": "/uploads/hovers/1753191244017_Free_MacBook_Pro_silver_simple_mockup_scene_7__1__1.webp"
   },
@@ -63,18 +64,18 @@
       }
     ],
     "id": "3",
-    "title": "Optimizing Technologies — Буклет",
+    "title": "Optimitech — Pitch Deck",
     "category": "Буклет",
     "type": "modal",
-    "description": "Постер для мероприятия.",
-    "fullDescription": "Создание яркого и привлекающего внимание рекламного постера для музыкального мероприятия NEMGO.",
+    "description": "Pitch Deck для международной выставки",
+    "fullDescription": "Нырнули в мир проектирования электроники и сделали питчдек для Optimizing Technologies в двух языковых версиях. Подчеркнули технологичность компании в цвете, движении линий и форме блоков. \r\nПрогрессивный дизайн для прогрессивного клиента.",
     "tags": [
-      "Graphic Design",
-      "Poster",
-      "Event"
+      "graphic design",
+      "creative idea",
+      "copywriting",
+      "print"
     ],
-    "coverUrl": "/uploads/covers/1750997211868_back-7__1_.webp",
-    "externalUrl": ""
+    "coverUrl": "/uploads/covers/1750997211868_back-7__1_.webp"
   },
   {
     "media": [
@@ -88,15 +89,16 @@
       }
     ],
     "id": "6",
-    "title": "МТБанк — NEMBO",
+    "title": "МТБанк – NEMBO ",
     "category": "NEMBO",
     "type": "modal",
-    "description": "Фирменный стиль.",
-    "fullDescription": "Разработка фирменного стиля и брендбука для технологической компании Optimising Technologies.",
+    "description": "Рекламная кампания",
+    "fullDescription": "Рекламная кампания «Останови на самом интересном курсе!» рассказывает про фишки онлайн-обменника NEMBO от МТБанка. Слоган, ключевой визуал, продакшн рекламных роликов.\r\nP.S. Присмотритесь, шагающие люди останавливаются в форме буквы N.",
     "tags": [
-      "Branding",
-      "Identity",
-      "Tech"
+      "creative idea",
+      "key visual",
+      "slogan",
+      "production"
     ],
     "coverUrl": "/uploads/covers/1753185445216_Free_outdoor_billboard_mockup_on_a_black_grid__1__1.webp",
     "hoverImageUrl": "/uploads/hovers/1753185445218_image_2025-06-25_12-42-49.webp"
@@ -109,15 +111,16 @@
       }
     ],
     "id": "4",
-    "title": "ARARAT — Контент-съемка",
+    "title": "ARARAT — Съемка",
     "category": "ARARAT",
     "type": "modal",
-    "description": "Промо-материалы.",
-    "fullDescription": "Разработка серии промо-материалов для бренда ARARAT, подчеркивающих премиальность и традиции.",
+    "description": "Стайлинг и съемка",
+    "fullDescription": "ARARAT Flavors — это современное прочтение классики. Подача ARARAT Apricot, Honey, Cherry и Coffee в чистом виде — про премиальность, хороший вкус и Dolce Vita.",
     "tags": [
-      "Marketing",
-      "Branding",
-      "Campaign"
+      "photoshoot",
+      "set design",
+      "creative idea",
+      "SMM"
     ],
     "coverUrl": "/uploads/covers/1750845079806_back-11.webp",
     "hoverImageUrl": "/uploads/hovers/1753185013633_371d2e12cd175a7de78f07f5c32ad5c348190c84.webp"
@@ -139,11 +142,11 @@
     "type": "modal",
     "coverUrl": "/uploads/covers/1753185210931_490742599412872738e8cd0d536afcd582e291aa.webp",
     "externalUrl": "https://coca-cola-promo.by/",
-    "description": " ",
-    "fullDescription": "Придумали активность для спота Lillet на городском пикнике Vulitsa Ezha, сделали дизайн карт таро. ",
+    "description": " Сайт для рекламной игры",
+    "fullDescription": "Веб-дизайн, верстка и техническая поддержка рекламной игры Coca-Cola и сети гипермаркетов Корона.",
     "tags": [
-      "creative idea",
-      "print card"
+      "web design",
+      "layout"
     ]
   },
   {
@@ -154,18 +157,19 @@
       }
     ],
     "id": "1749287912830",
-    "title": "Sportmaster",
+    "title": "Спортмастер  — SMM ",
     "category": "Sportmaster",
     "type": "modal",
-    "description": "SMM for Sportmaster ",
-    "fullDescription": "SMM for Sportmaster in Instagram.",
+    "description": "Стратегия и ведение Instagram-аккаунта",
+    "fullDescription": "Ведение аккаунта Спортмастер Беларусь в Instagram: от SMM стратегии до реализации. Коллаборации с инфлюенсерами и брендами, продакшн контента, идеи спецпроектов, медиапродвижение. ",
     "tags": [
-      "Graphic Design",
-      "Poster",
-      "Event"
+      "SMM-strategy",
+      "influence-management",
+      "copywriting",
+      "production",
+      "moderation"
     ],
-    "coverUrl": "/uploads/covers/1750845314193_1749287967756_Frame_39700.png",
-    "externalUrl": ""
+    "coverUrl": "/uploads/covers/1750845314193_1749287967756_Frame_39700.png"
   },
   {
     "media": [
@@ -175,14 +179,18 @@
       }
     ],
     "id": "1750842400092",
-    "title": "LILLET Vulitsa Ezha",
+    "title": "LILLET – интерактив для Vulitsa Ezha",
     "category": "LILLET",
     "type": "modal",
-    "description": " ",
-    "fullDescription": "Придумали активность для спота Lillet на городском пикнике Vulitsa Ezha, сделали дизайн карт таро",
+    "description": " Идея, дизайн иллюстраций, сопровождение активности",
+    "fullDescription": "На городском пикнике Vulitsa Ezha бренды развлекают, как только могут.\r\nФранцузскому аперитиву Lillet мы придумали интерактив, который попал и в аудиторию, и в тренды, и главное — в ценности бренда.\r\n\r\nОтрисовали сочные летние иллюстрации и сделали колоду метафорических карт от Lillet. Пригласили практикующих психологов и, вуаля, —  очередь из желающих тянуть карту!",
     "tags": [
       "creative idea",
-      "print card"
+      "illustrations",
+      "print",
+      "design",
+      "copywriting",
+      "event"
     ],
     "coverUrl": "/uploads/covers/1751004106505_9e5476dac3291dabfbb959bcce8da8c2af78524e.webp"
   },
@@ -194,38 +202,20 @@
       }
     ],
     "id": "1750843017191",
-    "title": "Зараз",
+    "title": "МТБанк — ЗАРАЗ",
     "category": "ЗАРАЗ",
     "type": "modal",
-    "description": " ",
-    "fullDescription": " ",
+    "description": " Ребрендинг B2B продукта",
+    "fullDescription": "Сделали ребрендинг B2B-рассрочки «Молоток»: нейминг, лого, ключевой визуал. В распакованном продукте важно было отразить скорость решения, выгодность для обеих сторон и, по возможности, локальность. Мы собрали флеш-рояль и отразили все эти УТП в слове «зараз». ",
     "tags": [
-      "Key visual",
-      "Motion design"
+      "creative idea",
+      "key visual",
+      "logo",
+      "naming",
+      "web-design",
+      "motion design"
     ],
-    "coverUrl": "/uploads/covers/1750844714234_3d9c119c1885f190a85727b078bf2eeed1473abd.png",
-    "externalUrl": ""
-  },
-  {
-    "media": [
-      {
-        "type": "image",
-        "url": "/uploads/cases/1753976977406_wqgf432.webp"
-      }
-    ],
-    "id": "1753254891694",
-    "title": "Optimitech",
-    "category": " optimitech",
-    "coverUrl": "/uploads/covers/1753254891685_7eeef5c11e0687446adae8f9955a597406bcae2f.webp",
-    "hoverImageUrl": "/uploads/hovers/1753254891687_ab77cb40e2612ee496c88484899e860be406cf02.webp",
-    "type": "modal",
-    "description": " ",
-    "fullDescription": " ",
-    "tags": [
-      "Copywriting",
-      "Editorial design",
-      "Print"
-    ]
+    "coverUrl": "/uploads/covers/1750844714234_3d9c119c1885f190a85727b078bf2eeed1473abd.png"
   },
   {
     "media": [
@@ -239,17 +229,17 @@
       }
     ],
     "id": "1750844840648",
-    "title": "Moby",
+    "title": "МТБанк — Moby",
     "category": "MOBY",
     "coverUrl": "/uploads/covers/1750844840545_Group_39597.png",
     "type": "modal",
-    "description": " ",
-    "fullDescription": "Для клиентов МТБанка",
+    "description": " Брендинг мобильного приложения",
+    "fullDescription": "Moby – приложение для пользователей МТБанка. Полная упаковка продукта: от нейминга до первого и второго флайта рекламной кампании.",
     "tags": [
-      "landing",
-      "visual identity",
+      "creative idea",
+      "branding",
       "production",
-      "key visual"
+      "motion design"
     ]
   },
   {
@@ -276,15 +266,17 @@
       }
     ],
     "id": "1750998285826",
-    "title": "BONAQUA",
+    "title": "BonAqua — рекламная кампания ",
     "category": "BONAQUA",
     "coverUrl": "/uploads/covers/1753342488470_e2.webp",
     "type": "modal",
-    "description": " ",
-    "fullDescription": " ",
+    "description": " «Действуй, потом BonAqua!» ",
+    "fullDescription": " «Действуй, потом BonAqua!» – это адаптация рекламной кампании на локальном рынке и заявление о новом позиционировании бренда. Мы продвигали кампанию в digital, работали с инфлюенсерами, которые подходят под новый, более дерзкий, тон BonAqua.",
     "tags": [
-      "Creative idea",
-      "Prodaction"
+      "creative idea",
+      "production",
+      "SMM",
+      "influence management"
     ]
   },
   {
@@ -295,15 +287,16 @@
       }
     ],
     "id": "1750998838044",
-    "title": "G.H.MUMM photoshooting",
+    "title": "G.H. Mumm  — Съемка",
     "category": "G.H.MUMM",
     "coverUrl": "/uploads/covers/1750998838032_a33b7bb51267b884331c2731e367a7c5d580691d.webp",
     "type": "modal",
-    "description": " ",
-    "fullDescription": " ",
+    "description": "Роскошь и эстетика",
+    "fullDescription": "Съёмка для бренда премиального шампанского G.H. Mumm.\r\nПросто полюбуйтесь на этот жемчужный и цветочный сет-стайлинг и пузырьки в бокале. ",
     "tags": [
-      "SMM",
-      "Prodaction"
+      "creative idea",
+      "photoshoot",
+      "set design"
     ]
   }
 ]

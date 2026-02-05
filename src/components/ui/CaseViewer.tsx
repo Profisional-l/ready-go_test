@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -6,8 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import type { Case, MediaItem } from "@/types";
 import { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
 
 interface CaseViewerProps {
@@ -29,7 +28,13 @@ function VideoWithPreview({ src }: { src: string }) {
     setPoster(undefined);
 
     const captureFrame = () => {
-      if (!video.videoWidth || !video.videoHeight || video.readyState < 2 || posterGenerated.current) return;
+      if (
+        !video.videoWidth ||
+        !video.videoHeight ||
+        video.readyState < 2 ||
+        posterGenerated.current
+      )
+        return;
 
       const canvas = document.createElement("canvas");
       canvas.width = video.videoWidth;
@@ -87,29 +92,28 @@ function VideoWithPreview({ src }: { src: string }) {
   );
 }
 
-
 export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         onClose();
       }
     };
 
     if (caseData) {
-      document.documentElement.classList.add('modal-open');
+      document.documentElement.classList.add("modal-open");
     } else {
-      document.documentElement.classList.remove('modal-open');
+      document.documentElement.classList.remove("modal-open");
     }
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.documentElement.classList.remove('modal-open');
-      window.removeEventListener('keydown', handleKeyDown);
-    }
+      document.documentElement.classList.remove("modal-open");
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [caseData, onClose]);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -117,7 +121,7 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
     if (contentRef.current && !contentRef.current.contains(e.target as Node)) {
       onClose();
     }
-  }
+  };
 
   const renderVideoRows = (items: MediaItem[]) => {
     if (!items || items.length === 0) return null;
@@ -129,14 +133,24 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
     }
 
     return rows.map((rowItems, rowIndex) => (
-      <div key={rowIndex} className="flex flex-col md:flex-row md:space-x-3 space-y-3 md:space-y-0">
+      <div
+        key={rowIndex}
+        className="flex flex-col md:flex-row md:space-x-3 space-y-3 md:space-y-0"
+      >
         {rowItems.map((item, itemIndex) => {
           const rowItemCount = rowItems.length;
-          const itemWidthClass = rowItemCount === 1 ? 'md:w-full' :
-            rowItemCount === 2 ? 'md:w-1/2' : 'md:w-1/3';
+          const itemWidthClass =
+            rowItemCount === 1
+              ? "md:w-full"
+              : rowItemCount === 2
+                ? "md:w-1/2"
+                : "md:w-1/3";
 
           return (
-            <div key={`${item.type}-${rowIndex}-${itemIndex}`} className={`relative w-full ${itemWidthClass}`}>
+            <div
+              key={`${item.type}-${rowIndex}-${itemIndex}`}
+              className={`relative w-full ${itemWidthClass}`}
+            >
               <VideoWithPreview src={item.url} />
             </div>
           );
@@ -151,24 +165,23 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
     return items.map((item, index) => (
       <div key={`image-row-${index}`} className="relative w-full">
         <Image
-            src={item.url}
-            alt={`${caseData?.title} - Media ${index + 1}`}
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-full h-auto rounded-[30px]"
-            unoptimized={item.url.endsWith('.gif')}
+          src={item.url}
+          alt={`${caseData?.title} - Media ${index + 1}`}
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-full h-auto rounded-[30px]"
+          unoptimized={item.url.endsWith(".gif")}
         />
       </div>
     ));
-  }
-
+  };
 
   const renderMediaGrid = () => {
     if (!caseData?.media || caseData.media.length === 0) return null;
 
-    const videos = caseData.media.filter(item => item.type === 'video');
-    const images = caseData.media.filter(item => item.type === 'image');
+    const videos = caseData.media.filter((item) => item.type === "video");
+    const images = caseData.media.filter((item) => item.type === "image");
 
     return (
       <div className="mt-6 space-y-3 px-3 md:px-48 pb-10">
@@ -178,7 +191,6 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
       </div>
     );
   };
-
 
   return (
     <AnimatePresence>
@@ -221,14 +233,19 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
                 </h2>
 
                 {caseData.fullDescription && (
-                  <p className="text-[20px] font-medium  text-left md:text-center text-foreground max-w-[550px] mx-auto ">
+                  <p className="text-[20px] font-medium text-left md:text-center text-foreground max-w-[550px] mx-auto whitespace-pre-line">
                     {caseData.fullDescription}
                   </p>
                 )}
 
                 {caseData.externalUrl && (
                   <div className="md:text-center mt-4 md:mb-7">
-                    <Link href={caseData.externalUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-flex items-center text-[20px] font-medium text-foreground">
+                    <Link
+                      href={caseData.externalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative inline-flex items-center text-[20px] font-medium text-foreground"
+                    >
                       <span>Перейти на&nbsp;</span>
                       <div className="inline-flex items-center cases-underline-link">
                         <span className="text-accent">сайт</span>
@@ -237,7 +254,6 @@ export function CaseViewer({ caseData, onClose }: CaseViewerProps) {
                     </Link>
                   </div>
                 )}
-
 
                 {caseData.tags && caseData.tags.length > 0 && (
                   <div className="flex flex-wrap justify-center gap-2 mb-6 mt-8">
