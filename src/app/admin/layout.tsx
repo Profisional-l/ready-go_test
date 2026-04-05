@@ -5,6 +5,7 @@ import LoginForm from '@/components/auth/LoginForm';
 import { Button } from '@/components/ui/button'; // For logout button if needed in layout
 import { logoutAction } from '@/app/admin/actions'; // For logout button
 import Link from 'next/link';
+import AdminNav from './_components/AdminNav';
 
 
 export default async function AdminLayout({ children }: PropsWithChildren) {
@@ -17,13 +18,18 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
   return (
     <div className="min-h-screen bg-muted/40">
       <header className="bg-card shadow-sm">
-        <div className="container mx-auto p-4 flex justify-between items-center">
-          <Link href="/admin" className="text-xl font-semibold text-foreground">
-            Панель Администратора
-          </Link>
-          <form action={logoutAction}>
-            <Button type="submit" variant="outline">Выйти</Button>
-          </form>
+        <div className="container mx-auto p-4 border-b">
+          <div className="flex justify-between items-center mb-4">
+            <Link href="/admin" className="text-xl font-semibold text-foreground">
+              Панель Администратора
+            </Link>
+            <form action={logoutAction}>
+              <Button type="submit" variant="outline">Выйти</Button>
+            </form>
+          </div>
+
+          {/* Navigation Tabs */}
+          <AdminNav />
         </div>
       </header>
       <main className="container mx-auto p-4 md:p-8">
@@ -36,4 +42,3 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
   );
 }
 
-    

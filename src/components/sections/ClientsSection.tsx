@@ -1,22 +1,40 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
-const clientLogos = [
-  { id: "1", name: "CocaCola", src: "/images/companies/cocacola.svg" },
-  { id: "2", name: "KFC", src: "/images/companies/kfc.svg" },
-  { id: "3", name: "MTBank", src: "/images/companies/mtbank.svg" },
-  { id: "4", name: "ARARAT", src: "/images/companies/ararat.svg" },
-  { id: "5", name: "Nivea", src: "/images/companies/nivea.svg" },
-  { id: "6", name: "BonAqua", src: "/images/companies/bonaqua.svg" },
-  { id: "7", name: "Sportmaster", src: "/images/companies/sportmaster.svg" },
-  { id: "8", name: "Aps", src: "/images/companies/aps.svg" },
-  { id: "9", name: "Glenlivent", src: "/images/companies/glenlivent.svg" },
-];
+interface Client {
+  id: string;
+  name: string;
+  src: string;
+  order: number;
+}
 
 export function ClientsSection() {
+  const [clientLogos, setClientLogos] = useState<Client[]>([]);
+
+  useEffect(() => {
+    async function loadClients() {
+      try {
+        const response = await fetch('/api/clients');
+        if (response.ok) {
+          const data = await response.json();
+          setClientLogos(data);
+        }
+      } catch (error) {
+        console.error('Error loading clients:', error);
+      }
+    }
+
+    loadClients();
+  }, []);
+
+  if (clientLogos.length === 0) {
+    return null;
+  }
+
   // Дублируем массив, чтобы получить бесшовный цикл
-  const logosLoop = [...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos];
+  const logosLoop = Array(10).fill(null).flatMap(() => clientLogos);
 
   return (
     <section className="bg-transparent overflow-hidden my-32">

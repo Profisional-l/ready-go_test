@@ -12,8 +12,10 @@ const UPLOADS_BASE_DIR_RELATIVE = 'uploads';
 const COVERS_SUBDIR = 'covers';
 const HOVERS_SUBDIR = 'hovers';
 const CASES_SUBDIR = 'cases';
+const CLIENTS_SUBDIR = 'clients';
 const UPLOADS_DIR_ABSOLUTE = path.join(process.cwd(), 'public', UPLOADS_BASE_DIR_RELATIVE);
 const casesFilePath = path.join(process.cwd(), 'src', 'data', 'cases.json');
+const clientsFilePath = path.join(process.cwd(), 'src', 'data', 'clients.json');
 
 const AUTH_COOKIE_NAME = 'admin-auth-readygo-cases';
 
@@ -97,17 +99,17 @@ export async function getCase(id: string): Promise<Case | undefined> {
 // --- File Operations ---
 
 async function saveUploadedFile(file: File, subfolder: string): Promise<string> {
-    const uploadDir = path.join(UPLOADS_DIR_ABSOLUTE, subfolder);
-    await fs.mkdir(uploadDir, { recursive: true });
+  const uploadDir = path.join(UPLOADS_DIR_ABSOLUTE, subfolder);
+  await fs.mkdir(uploadDir, { recursive: true });
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const originalFilename = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const uniqueFilename = `${Date.now()}_${originalFilename}`;
-    const filePath = path.join(uploadDir, uniqueFilename);
-    await fs.writeFile(filePath, buffer);
-    
-    return `/${UPLOADS_BASE_DIR_RELATIVE}/${subfolder}/${uniqueFilename}`;
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+  const originalFilename = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+  const uniqueFilename = `${Date.now()}_${originalFilename}`;
+  const filePath = path.join(uploadDir, uniqueFilename);
+  await fs.writeFile(filePath, buffer);
+
+  return `/${UPLOADS_BASE_DIR_RELATIVE}/${subfolder}/${uniqueFilename}`;
 }
 
 async function saveUploadedMedia(formData: FormData): Promise<MediaItem[]> {
@@ -133,8 +135,8 @@ async function deleteFileByUrl(url: string | undefined | null) {
     const absolutePath = path.join(process.cwd(), 'public', relativePath);
     await fs.unlink(absolutePath);
   } catch (err) {
-      if (err && typeof err === 'object' && 'code' in err && err.code !== 'ENOENT') {
-        console.error(`Error deleting file ${url}:`, err);
+    if (err && typeof err === 'object' && 'code' in err && err.code !== 'ENOENT') {
+      console.error(`Error deleting file ${url}:`, err);
     }
   }
 }
@@ -145,25 +147,25 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
     const type = formData.get('type') as 'modal' | 'link';
     const title = formData.get('title') as string;
     const category = formData.get('category') as string;
-    
+
     if (!title || !category) {
       return { success: false, error: 'Название и категория обязательны.' };
     }
 
     const coverFile = formData.get('coverImage') as File;
     if (!coverFile || coverFile.size === 0) {
-        return { success: false, error: 'Обложка обязательна.' };
+      return { success: false, error: 'Обложка обязательна.' };
     }
     const coverUrl = await saveUploadedFile(coverFile, COVERS_SUBDIR);
 
     const hoverFile = formData.get('hoverImage') as File;
     let hoverImageUrl: string | undefined = undefined;
     if (hoverFile && hoverFile.size > 0) {
-        hoverImageUrl = await saveUploadedFile(hoverFile, HOVERS_SUBDIR);
+      hoverImageUrl = await saveUploadedFile(hoverFile, HOVERS_SUBDIR);
     }
-    
+
     const uploadedMedia = await saveUploadedMedia(formData);
-    
+
     let newCase: Case;
 
     if (type === 'modal') {
@@ -208,11 +210,11 @@ export async function addCaseAction(formData: FormData): Promise<{ success: bool
 
     const existingCases = await readCasesFile();
     await writeCasesFile([...existingCases, newCase]);
-    
+
     revalidatePath('/');
     revalidatePath('/cases');
     revalidatePath('/admin');
-    
+
     return { success: true, case: newCase };
   } catch (error: unknown) {
     console.error('Error in addCaseAction:', error);
@@ -236,7 +238,7 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
     if (!title || !category) {
       return { success: false, error: 'Название и категория обязательны.' };
     }
-    
+
     // Handle cover update
     let finalCoverUrl = existingCase.coverUrl;
     const newCoverFile = formData.get('coverImage') as File;
@@ -249,8 +251,8 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
     let finalHoverImageUrl = existingCase.hoverImageUrl;
     const newHoverFile = formData.get('hoverImage') as File;
     if (newHoverFile && newHoverFile.size > 0) {
-        await deleteFileByUrl(existingCase.hoverImageUrl);
-        finalHoverImageUrl = await saveUploadedFile(newHoverFile, HOVERS_SUBDIR);
+      await deleteFileByUrl(existingCase.hoverImageUrl);
+      finalHoverImageUrl = await saveUploadedFile(newHoverFile, HOVERS_SUBDIR);
     }
 
 
@@ -323,7 +325,7 @@ export async function updateCaseAction(caseId: string, formData: FormData): Prom
     revalidatePath('/cases');
     revalidatePath('/admin');
     revalidatePath(`/admin/edit-case/${caseId}`);
-    
+
     return { success: true, case: fullUpdatedCase };
   } catch (error: unknown) {
     console.error('Error in updateCaseAction:', error);
@@ -363,7 +365,7 @@ export async function updateCasesOrderAction(orderedCases: Case[]): Promise<{ su
   try {
     // Basic validation
     if (!Array.isArray(orderedCases)) {
-        return { success: false, error: 'Неверный формат данных.' };
+      return { success: false, error: 'Неверный формат данных.' };
     }
 
     // Overwrite the file with the new order
@@ -378,5 +380,136 @@ export async function updateCasesOrderAction(orderedCases: Case[]): Promise<{ su
   } catch (error: unknown) {
     console.error('Error in updateCasesOrderAction:', error);
     return { success: false, error: 'Произошла ошибка на сервере при сохранении порядка.' };
+  }
+}
+
+// --- CLIENT/LOGOS Data Access ---
+interface Client {
+  id: string;
+  name: string;
+  src: string;
+  order: number;
+}
+
+async function readClientsFile(): Promise<Client[]> {
+  try {
+    await fs.mkdir(path.dirname(clientsFilePath), { recursive: true });
+    const jsonData = await fs.readFile(clientsFilePath, 'utf-8');
+    return JSON.parse(jsonData) as Client[];
+  } catch (error) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
+      await writeClientsFile([]);
+      return [];
+    }
+    console.error('Error reading clients.json:', error);
+    throw new Error(`Failed to read clients.json: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+async function writeClientsFile(clients: Client[]): Promise<void> {
+  try {
+    const jsonData = JSON.stringify(clients, null, 2);
+    await fs.writeFile(clientsFilePath, jsonData, 'utf-8');
+  } catch (error) {
+    console.error('Error writing clients.json:', error);
+    throw new Error(`Failed to write clients.json: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+export async function getClients(): Promise<Client[]> {
+  const clients = await readClientsFile();
+  return clients.sort((a, b) => a.order - b.order);
+}
+
+export async function addClientAction(formData: FormData): Promise<{ success: boolean; client?: Client; error?: string }> {
+  try {
+    const name = formData.get('name') as string;
+    const imageFile = formData.get('logoImage') as File;
+    const imagePath = formData.get('imagePath') as string;
+
+    if (!name) {
+      return { success: false, error: 'Название обязательно.' };
+    }
+
+    // Determine which image source to use
+    let finalImagePath: string;
+
+    if (imageFile && imageFile.size > 0) {
+      // New uploaded file
+      const uploadUrl = await saveUploadedFile(imageFile, CLIENTS_SUBDIR);
+      finalImagePath = uploadUrl;
+    } else if (imagePath) {
+      // Existing image from dropdown
+      finalImagePath = imagePath;
+    } else {
+      return { success: false, error: 'Выберите или загрузите изображение логотипа.' };
+    }
+
+    const clients = await readClientsFile();
+    const maxOrder = clients.length > 0 ? Math.max(...clients.map(c => c.order)) : 0;
+
+    const newClient: Client = {
+      id: Date.now().toString(),
+      name,
+      src: finalImagePath,
+      order: maxOrder + 1,
+    };
+
+    clients.push(newClient);
+    await writeClientsFile(clients.sort((a, b) => a.order - b.order));
+
+    revalidatePath('/');
+    revalidatePath('/admin/clients');
+
+    return { success: true, client: newClient };
+  } catch (error: unknown) {
+    console.error('Error in addClientAction:', error);
+    return { success: false, error: 'Произошла ошибка при добавлении логотипа.' };
+  }
+}
+
+export async function deleteClientAction(clientId: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    let clients = await readClientsFile();
+    const clientToDelete = clients.find(c => c.id === clientId);
+
+    if (!clientToDelete) {
+      return { success: false, error: 'Логотип не найден.' };
+    }
+
+    clients = clients.filter(c => c.id !== clientId);
+    await writeClientsFile(clients);
+
+    revalidatePath('/');
+    revalidatePath('/admin/clients');
+
+    return { success: true };
+  } catch (error: unknown) {
+    console.error('Error in deleteClientAction:', error);
+    return { success: false, error: 'Произошла ошибка при удалении логотипа.' };
+  }
+}
+
+export async function updateClientsOrderAction(orderedClients: Client[]): Promise<{ success: boolean; error?: string }> {
+  try {
+    if (!Array.isArray(orderedClients)) {
+      return { success: false, error: 'Неверный формат данных.' };
+    }
+
+    // Update order numbers based on array position
+    const updatedClients = orderedClients.map((client, index) => ({
+      ...client,
+      order: index + 1,
+    }));
+
+    await writeClientsFile(updatedClients);
+
+    revalidatePath('/');
+    revalidatePath('/admin/clients');
+
+    return { success: true };
+  } catch (error: unknown) {
+    console.error('Error in updateClientsOrderAction:', error);
+    return { success: false, error: 'Произошла ошибка при сохранении порядка логотипов.' };
   }
 }

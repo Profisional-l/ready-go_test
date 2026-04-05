@@ -8,8 +8,12 @@ export const metadata: Metadata = {
   title: "READY GO",
   description:
     "Digital agency focused on strategies, branding, and digital solutions.",
-  viewport: "width=device-width, initial-scale=1",
   creator: " ✿ sakura. — web agency | tg: @sakura_global ",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

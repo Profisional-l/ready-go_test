@@ -1,0 +1,56 @@
+[
+    {
+        "id": "1",
+        "name": "CocaCola",
+        "src": "/images/companies/cocacola.svg",
+        "order": 1
+    },
+    {
+        "id": "2",
+        "name": "KFC",
+        "src": "/images/companies/kfc.svg",
+        "order": 2
+    },
+    {
+        "id": "3",
+        "name": "MTBank",
+        "src": "/images/companies/mtbank.svg",
+        "order": 3
+    },
+    {
+        "id": "4",
+        "name": "ARARAT",
+        "src": "/images/companies/ararat.svg",
+        "order": 4
+    },
+    {
+        "id": "5",
+        "name": "Nivea",
+        "src": "/images/companies/nivea.svg",
+        "order": 5
+    },
+    {
+        "id": "6",
+        "name": "BonAqua",
+        "src": "/images/companies/bonaqua.svg",
+        "order": 6
+    },
+    {
+        "id": "7",
+        "name": "Sportmaster",
+        "src": "/images/companies/sportmaster.svg",
+        "order": 7
+    },
+    {
+        "id": "8",
+        "name": "Aps",
+        "src": "/images/companies/aps.svg",
+        "order": 8
+    },
+    {
+        "id": "9",
+        "name": "Glenlivent",
+        "src": "/images/companies/glenlivent.svg",
+        "order": 9
+    }
+]
