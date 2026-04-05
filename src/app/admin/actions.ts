@@ -21,7 +21,7 @@ const AUTH_COOKIE_NAME = 'admin-auth-readygo-cases';
 
 // --- Authentication ---
 export async function isAuthenticated(): Promise<boolean> {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   return cookieStore.get(AUTH_COOKIE_NAME)?.value === 'true';
 }
 
@@ -35,7 +35,8 @@ export async function verifyPasswordAction(formData: FormData): Promise<{ succes
   }
 
   if (password === adminPassword) {
-    cookies().set(AUTH_COOKIE_NAME, 'true', {
+    const cookieStore = await cookies();
+    cookieStore.set(AUTH_COOKIE_NAME, 'true', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       path: '/',
@@ -49,7 +50,8 @@ export async function verifyPasswordAction(formData: FormData): Promise<{ succes
 }
 
 export async function logoutAction(): Promise<void> {
-  cookies().set(AUTH_COOKIE_NAME, '', {
+  const cookieStore = await cookies();
+  cookieStore.set(AUTH_COOKIE_NAME, '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
@@ -65,7 +67,7 @@ async function readCasesFile(): Promise<Case[]> {
     await fs.mkdir(path.dirname(casesFilePath), { recursive: true });
     const jsonData = await fs.readFile(casesFilePath, 'utf-8');
     // Ensure all cases have a media property
-    const cases = (JSON.parse(jsonData) as Case[]).map(c => ({ media: [], ...c }));
+    const cases = (JSON.parse(jsonData) as Case[]).map(c => ({ ...c, media: c.media ?? [] }));
     return cases;
   } catch (error) {
     if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
