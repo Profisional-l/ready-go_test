@@ -351,12 +351,12 @@ export default function AdminClientsContent({ initialClients }: AdminClientsCont
                                     </TableCell>
                                     <TableCell className="font-medium">{client.name}</TableCell>
                                     <TableCell>
-                                        <div className="flex gap-1">
+                                        <div className="flex w-fit gap-1">
                                             <Button
                                                 size="sm"
                                                 variant="outline"
                                                 onClick={() => handleMove(index, 'up')}
-                                                disabled={index === 0 || isOrderChanged === false}
+                                                disabled={index === 0}
                                             >
                                                 <ArrowUp className="h-4 w-4" />
                                             </Button>
@@ -364,7 +364,7 @@ export default function AdminClientsContent({ initialClients }: AdminClientsCont
                                                 size="sm"
                                                 variant="outline"
                                                 onClick={() => handleMove(index, 'down')}
-                                                disabled={index === clients.length - 1 || isOrderChanged === false}
+                                                disabled={index === clients.length - 1}
                                             >
                                                 <ArrowDown className="h-4 w-4" />
                                             </Button>
